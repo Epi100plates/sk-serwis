@@ -8,9 +8,53 @@
     <link rel="cms-config-url" type="text/yaml" href="config.yml" />
     <style>
       body { margin: 0; font-family: system-ui, sans-serif; }
+      .publish-note {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        z-index: 9999;
+        max-width: 360px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: #0e100f;
+        color: #e8eae9;
+        font: 13px/1.45 system-ui, sans-serif;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+      }
+      .publish-note strong { color: #fff; }
+      .publish-note code {
+        padding: 1px 5px;
+        border-radius: 4px;
+        background: #2a2f2d;
+        font-family: ui-monospace, monospace;
+      }
+      .publish-note[hidden] { display: none; }
     </style>
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
+    <aside class="publish-note" id="publish-note" hidden>
+      <strong>Zapisano na serwerze.</strong> Strona zaktualizuje się po
+      <code>pnpm deploy</code> na komputerze z projektem (build jest lokalny).
+      <a href="#" id="publish-note-close" style="color:#9fd4b8;margin-left:6px">ukryj</a>
+    </aside>
+    <script>
+      // Decap nie daje hooka „po zapisie”, więc pokazujemy notkę po powrocie
+      // z edycji (hash z /collections/... lub /entries/...).
+      (function () {
+        var note = document.getElementById('publish-note');
+        var close = document.getElementById('publish-note-close');
+        if (!note) return;
+        if (location.hash.indexOf('/entries/') !== -1 || location.hash.indexOf('/collections/') !== -1) {
+          note.hidden = false;
+        }
+        if (close) {
+          close.addEventListener('click', function (e) {
+            e.preventDefault();
+            note.hidden = true;
+          });
+        }
+      })();
+    </script>
   </body>
 </html>
