@@ -39,13 +39,32 @@
       <a href="#" id="publish-note-close" style="color:#9fd4b8;margin-left:6px">ukryj</a>
     </aside>
     <script>
+      // Backend proxy nie ma sesji: Decap pokazuje ekran „Zaloguj się”, który
+      // o nic nie pyta (tożsamość ustala basic auth nginx). Klikamy go za
+      // użytkownika, żeby nie logował się dwa razy.
+      (function () {
+        var tries = 0;
+        var timer = setInterval(function () {
+          tries += 1;
+          var btn = Array.prototype.find.call(document.querySelectorAll('button'), function (b) {
+            return (b.textContent || '').trim() === 'Zaloguj się';
+          });
+          if (btn) {
+            clearInterval(timer);
+            btn.click();
+            return;
+          }
+          if (tries > 40) clearInterval(timer);
+        }, 400);
+      })();
+
       // Decap nie daje hooka „po zapisie”, więc pokazujemy notkę po powrocie
-      // z edycji (hash z /collections/... lub /entries/...).
+      // z edycji (hash z /collections/...).
       (function () {
         var note = document.getElementById('publish-note');
         var close = document.getElementById('publish-note-close');
         if (!note) return;
-        if (location.hash.indexOf('/entries/') !== -1 || location.hash.indexOf('/collections/') !== -1) {
+        if (location.hash.indexOf('/collections/') !== -1) {
           note.hidden = false;
         }
         if (close) {
