@@ -79,6 +79,10 @@ Wszystkie usługi są `enabled` — startują automatycznie po restarcie VPS.
 
 ## Publikacja (z laptopa)
 
+Wymagania na laptopie: Node.js 20+, pnpm 9+ i zainstalowane zależności (`pnpm install`).
+Bez `node_modules` build lokalny się nie wykona.
+
+
 ```powershell
 pnpm pull      # jeśli treść była zmieniana w panelu
 pnpm deploy    # commit lokalnych zmian → push → pull z panelu → build → wgranie dist/
