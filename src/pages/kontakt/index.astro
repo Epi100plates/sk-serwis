@@ -1,0 +1,261 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import MapCard from '../../components/MapCard.astro';
+import RepairForm from '../../components/RepairForm.astro';
+import Icon from '../../components/Icon.astro';
+import site from '../../data/site.json';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const schema = [
+  breadcrumbSchema([
+    { label: 'Start', path: '/' },
+    { label: 'Kontakt', path: '/kontakt/' },
+  ]),
+];
+---
+
+<Base
+  title="Kontakt — serwis laptopów Wrocław, Kotlarska 14 | Studio-Komp"
+  description="Kontakt z serwisem laptopów Studio-Komp: Kotlarska 14, 50-150 Wrocław. Telefon 500 613 500. Poniedziałek–piątek 7:00–15:00. Bez umawiania."
+  canonicalPath="/kontakt/"
+  schema={schema}
+>
+  <PageHero
+    h1="Kontakt i dojazd"
+    lead="Serwis znajduje się na Kotlarskiej 14 we Wrocławiu. Zadzwoń albo po prostu przyjdź w godzinach pracy — nie musisz się umawiać."
+    crumbs={[{ label: 'Kontakt' }]}
+    showActions={false}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="contact-page">
+        <div class="contact-page__info">
+          <div class="contact-page__block">
+            <p class="mono contact-page__label">Telefon</p>
+            <a
+              class="contact-page__phone"
+              href={`tel:${site.phoneTel}`}
+              data-track="call"
+              data-location="kontakt-strona"
+            >
+              {site.phoneDisplay}
+            </a>
+            <p class="contact-page__hint">
+              Najszybszy kontakt. Często przez telefon da się ocenić, co się
+              dzieje ze sprzętem i czy warto go przywozić.
+            </p>
+          </div>
+
+          <div class="contact-page__block">
+            <p class="mono contact-page__label">Adres</p>
+            <p class="contact-page__address">
+              {site.address.street}<br />
+              {site.address.postalCode} {site.address.city}
+            </p>
+            <a
+              class="btn btn--outline"
+              href={site.directionsUrl}
+              target="_blank"
+              rel="noopener"
+              data-track="directions"
+              data-location="kontakt-strona"
+            >
+              <Icon name="pin" size={17} /> Wyznacz trasę w Google Maps
+            </a>
+          </div>
+
+          <div class="contact-page__block">
+            <p class="mono contact-page__label">Godziny pracy</p>
+            <table class="hours-table">
+              <tbody>
+                {
+                  site.hours.map((h) => (
+                    <tr class:list={[!h.open && 'is-closed']}>
+                      <th scope="row">{h.label}</th>
+                      <td>{h.value}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+            <p class="contact-page__hint">
+              Nie musisz się umawiać. Przyjdź w godzinach pracy i zostaw sprzęt.
+            </p>
+          </div>
+        </div>
+
+        <div class="contact-page__map">
+          <MapCard />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" id="zgloszenie">
+    <div class="container">
+      <div class="form-layout">
+        <div class="form-layout__intro">
+          <h2>Zgłoś naprawę</h2>
+          <p class="lead form-layout__lead">
+            Wolisz napisać niż dzwonić? Zostaw zgłoszenie — oddzwonimy
+            w godzinach pracy serwisu. Jeśli sprawa jest pilna, zadzwoń od razu.
+          </p>
+          <ul class="form-layout__list">
+            <li><Icon name="check" size={15} strokeWidth={2} /> Diagnoza bezpłatna przy zlecenej naprawie</li>
+            <li><Icon name="check" size={15} strokeWidth={2} /> Naprawy zwykle z dnia na dzień</li>
+            <li><Icon name="check" size={15} strokeWidth={2} /> Możliwość naprawy ekspresowej</li>
+          </ul>
+          <a class="link-arrow" href={`tel:${site.phoneTel}`} data-track="call" data-location="formularz-intro">
+            <Icon name="phone" size={16} /> {site.phoneDisplay}
+          </a>
+        </div>
+
+        <div class="form-layout__form">
+          <RepairForm />
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-page {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: stretch;
+  }
+
+  .contact-page__info {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .contact-page__block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .contact-page__block:first-child {
+    border-top: 1px solid var(--ink);
+  }
+
+  .contact-page__label {
+    color: var(--muted-2);
+    font-size: 10px;
+  }
+
+  .contact-page__phone {
+    font-size: clamp(38px, 4.4vw, 56px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .contact-page__phone:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    text-decoration-color: var(--yellow);
+  }
+
+  .contact-page__address {
+    font-size: 19px;
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .contact-page__hint {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 40ch;
+  }
+
+  .contact-page__map {
+    min-height: 480px;
+  }
+
+  .hours-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  .hours-table th,
+  .hours-table td {
+    text-align: left;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--line);
+    font-weight: 400;
+  }
+
+  .hours-table td {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hours-table tr.is-closed th,
+  .hours-table tr.is-closed td {
+    color: var(--muted-2);
+  }
+
+  .form-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .form-layout__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-layout__intro h2 {
+    font-size: clamp(28px, 3vw, 42px);
+  }
+
+  .form-layout__lead {
+    max-width: 40ch;
+  }
+
+  .form-layout__list {
+    list-style: none;
+    display: grid;
+    gap: 9px;
+    margin: 4px 0;
+  }
+
+  .form-layout__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .form-layout__list svg {
+    margin-top: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .contact-page,
+    .form-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-page__map {
+      min-height: 340px;
+    }
+  }
+</style>

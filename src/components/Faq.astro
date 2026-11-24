@@ -1,0 +1,117 @@
+---
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+
+interface Props {
+  items: { q: string; a: string }[];
+  title?: string;
+  intro?: string;
+  id?: string;
+}
+const { items, title = 'Częste pytania', intro, id = 'faq' } = Astro.props;
+---
+
+<section class="section faq-section" aria-labelledby={`${id}-title`} id={id}>
+  <div class="container faq-layout">
+    <div class="faq-head">
+      <h2 id={`${id}-title`}>{title}</h2>
+      {
+        intro && (
+          <p class="faq-intro">
+            {intro} Jeśli nie ma tu Twojego pytania — zadzwoń, odpowiemy od razu.
+          </p>
+        )
+      }
+      <a
+        class="faq-phone"
+        href={`tel:${site.phoneTel}`}
+        data-track="call"
+        data-location="faq"
+      >
+        <span class="faq-phone__icon"><Icon name="phone" size={18} /></span>
+        <span class="faq-phone__number">{site.phoneDisplay}</span>
+      </a>
+    </div>
+
+    <div class="faq">
+      {
+        items.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <div class="faq__answer">
+              <p>{item.a}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-layout {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.7fr) 1.4fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .faq-head {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .faq-intro {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 34ch;
+  }
+
+  .faq-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .faq-phone__icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    background: var(--yellow);
+    color: var(--ink);
+  }
+
+  .faq-phone__number {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .faq-phone:hover .faq-phone__number {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  .faq summary {
+    font-size: clamp(16.5px, 1.3vw, 18px);
+  }
+
+  @media (max-width: 860px) {
+    .faq-layout {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .faq-head {
+      position: static;
+    }
+  }
+</style>

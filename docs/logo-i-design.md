@@ -1,0 +1,89 @@
+# Identyfikacja wizualna i system designu
+
+## Kierunek: „precyzja”
+
+Nowa strona Studio-Komp wygląda jak dokumentacja precyzyjnego warsztatu, a nie jak typowa strona serwisu komputerowego. Zamiast niebieskich gradientów, ikon laptopów i stockowych zdjęć używamy: bieli, grafitu, cienkich linii technicznych i jednego charakterystycznego elementu — **zgłoszenia serwisowego** w kolorze sygnałowego żółtego.
+
+Założenia:
+
+- **Minimalizm premium** — dużo światła, mocna typografia, cienkie linie zamiast cieni i zaokrągleń.
+- **Jeden mocny obiekt na stronę** — na stronie głównej jest nim żółte „zgłoszenie serwisowe” z pieczątką „EKSPRES”. Reszta pozostaje spokojna.
+- **Zero stocku** — zdjęcia są zastąpione autorskimi ilustracjami technicznymi (generowane SVG), które można podmienić na prawdziwe zdjęcia w panelu CMS.
+- **Mobile first** — projektowany najpierw na 390 px; duże przyciski, czytelne nagłówki, stały pasek „Zadzwoń | Dojazd”.
+
+## Logo
+
+Znak to monogram „S” wycięty z kwadratu — geometryczny, oparty na kącie prostym, z żółtym punktem-padem w prawym dolnym rogu (skojarzenie z płytą drukowaną i punktem lutowniczym). Wordmark „studio-komp” pisany małymi literami, ciasno, w Schibsted Grotesk 600. Pod nim techniczny dopisek „serwis laptopów · wrocław” w IBM Plex Mono.
+
+Pliki:
+
+| Plik | Zastosowanie |
+| --- | --- |
+| `public/brand/studio-komp-logo.svg` | wersja wektorowa na jasne tło |
+| `public/brand/studio-komp-logo-light.svg` | wersja wektorowa na ciemne tło |
+| `public/brand/studio-komp-logo-dark@3x.png` | PNG 3x do reklam i materiałów |
+| `public/brand/studio-komp-logo-light@3x.png` | PNG 3x na ciemne tło |
+| `public/brand/studio-komp-mark.svg` / `mark-light.svg` | sam znak (avatar, favicon, pieczątka) |
+| `public/brand/studio-komp-mark@3x.png` | znak PNG 3x |
+| `public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png`, `public/icon-192.png`, `public/icon-512.png` | favicon i ikony PWA |
+
+Zasady:
+
+- Minimalna szerokość logo w wersji poziomej: 120 px (ekran) / 30 mm (print).
+- Pole ochronne: wysokość znaku z każdej strony.
+- Na żółtym tle używaj samego znaku w wersji ciemnej (czarny kwadrat + biały monogram).
+- Nie rozciągaj, nie obracaj, nie dodawaj cieni ani gradientów.
+
+## Kolory
+
+| Token | Wartość | Rola |
+| --- | --- | --- |
+| `--ink` | `#0E100F` | tekst, tła ciemnych sekcji |
+| `--graphite` | `#1A1D1B` | sekcje premium (opinie, kontakt) |
+| `--paper` | `#FFFFFF` | tło bazowe |
+| `--surface` | `#F3F4F1` | delikatne sekcje |
+| `--line` | `#DCDFD9` | cienkie linie i obramowania |
+| `--muted` | `#5F645E` | tekst drugorzędny |
+| `--yellow` | `#FFD400` | akcent marki: CTA, pieczątka, wyróżnienia |
+| `--yellow-soft` | `#FFF4B8` | tło wyróżnień w treści |
+
+Żółty jest akcentem, nie tłem strony. Występuje maksymalnie w 2–3 miejscach na ekran i zawsze z czarnym tekstem (kontrast 13:1).
+
+## Typografia
+
+- **Nagłówki i tekst:** `Schibsted Grotesk Variable` (400–900), ciasny tracking w nagłówkach (-0,035 do -0,045 em), interlinia 0,95–1,05 w dużych rozmiarach.
+- **Etykiety techniczne, ceny, numery:** `IBM Plex Mono` 400/500, wielkie litery, letter-spacing 0,06–0,12 em.
+- Skala: H1 `clamp(40px, 6,2vw, 88px)`, H2 `clamp(31px, 4,4vw, 62px)`, body 16–17 px, lead 17–21 px.
+
+Skala odstępów: sekcje `clamp(64px, 8vw, 124px)`, wewnętrzne odstępy 8/12/16/20/24/32/48/64.
+
+## Komponenty
+
+- **ServiceDocket** — żółte zgłoszenie serwisowe (hero). Jedyne miejsce z obrotem i animacją wejścia.
+- **PageHero** — nagłówek podstron z breadcrumbem, chipami (cena, czas, przyjęcie) i dwoma CTA.
+- **PriceTable** — cennik jak karta katalogowa: nazwa + cena mono po prawej, notka pod nazwą.
+- **Reviews** — ciemna sekcja z oceną 4,9 i cytatami z Google.
+- **CaseGrid** — realizacje z ilustracjami technicznymi, pierwsza karta szeroka.
+- **Faq** — akordeon `details/summary`, lewa kolumna przyklejona.
+- **ContactBlock** — ciemna sekcja z telefonem, adresem i mapą ładowaną po kliknięciu.
+- **MobileBar** — stały dolny pasek „Zadzwoń | Dojazd” do 899 px.
+
+## Ruch
+
+Jedna animacja wejścia (żółte zgłoszenie + pieczątka), delikatne przejścia hover. Wszystkie animacje wyłączone przy `prefers-reduced-motion: reduce`. Brak animacji przy scrollu, brak autoplay wideo.
+
+## Dostępność
+
+- Kontrast tekstu min. 4,5:1 (żółty tylko z czarnym tekstem).
+- Widoczny focus (`:focus-visible`, 2 px outline).
+- Przyciski min. 54 px wysokości, na mobile 58 px.
+- `aria-*` w nawigacji, akordeonach, formularzu; skip link.
+- Formularz: etykiety widoczne, błędy przy polach, poprawna semantyka.
+
+## Materiały do podmiany
+
+Ilustracje realizacji (`public/images/realizacje/*.svg`) i grafiki sekcji można zastąpić zdjęciami:
+
+1. Wgraj zdjęcie w CMS (Realizacje → dane realizacji → Zdjęcie) lub wrzuć plik do `public/images/uploads/`.
+2. Uzupełnij pole `image` w `src/data/realizacje.json` (np. `/images/uploads/moje-zdjecie.jpg`).
+3. Jeśli `image` jest puste, strona użyje grafiki technicznej.

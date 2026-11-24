@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" fill="none" role="img">
+<defs>
+  <pattern id="grid-1021" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M40 0H0V40" fill="none" stroke="#272c27" stroke-width="1"/>
+  </pattern>
+  <radialGradient id="vig-1021" cx="50%" cy="45%" r="70%">
+    <stop offset="60%" stop-color="#000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0.55"/>
+  </radialGradient>
+</defs>
+<rect width="800" height="600" fill="#151816"/>
+<rect width="800" height="600" fill="url(#grid-1021)"/><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M80 300h140l40-70 60 140 50-70h130" stroke="#3b423a" stroke-width="1.6"/>
+      <path d="M500 300h100l30-50 34 100 26-50h90" stroke="#ffd400" stroke-width="2.2"/></g>
+      <rect x="180" y="420" width="440" height="10" fill="#272c27"/>
+      <rect x="180" y="420" width="300" height="10" fill="#ffd400" opacity="0.9"/>
+      <g>
+    <rect x="320" y="150" width="160" height="90" fill="#1d211d" stroke="#3b423a" stroke-width="1.6"/>
+    <path d="M328 142v8M328 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M342 142v8M342 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M356 142v8M356 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M370 142v8M370 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M384 142v8M384 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M398 142v8M398 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M412 142v8M412 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M426 142v8M426 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M440 142v8M440 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M454 142v8M454 240v8" stroke="#3b423a" stroke-width="1.6"/><path d="M468 142v8M468 240v8" stroke="#3b423a" stroke-width="1.6"/>
+    <rect x="334" y="164" width="132" height="62" fill="none" stroke="#272c27" stroke-width="1"/>
+    
+  </g>
+      <path d="M400 150v-40M400 240v40" stroke="#3b423a" stroke-width="1.4"/>
+      <circle cx="620" cy="140" r="34" fill="none" stroke="#ffd400" stroke-width="2"/>
+      <path d="M620 120v24l14 10" stroke="#ffd400" stroke-width="2"/><rect width="800" height="600" fill="url(#vig-1021)"/>
+</svg>

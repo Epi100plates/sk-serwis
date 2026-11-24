@@ -1,0 +1,152 @@
+---
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+
+const items = [
+  {
+    title: 'Z dnia na dzień',
+    desc: '99% napraw kończymy następnego dnia. Nie trzymamy sprzętu tygodniami „na części”.',
+    icon: 'speed' as const,
+  },
+  {
+    title: 'Diagnoza 0 zł przy naprawie',
+    desc: 'Jeśli naprawiasz u nas — diagnostyka nic nie kosztuje. Jeśli nie, płacisz tylko za diagnozę. Zawsze mówimy o tym z góry.',
+    icon: 'info' as const,
+  },
+  {
+    title: 'Bez umawiania',
+    desc: 'Nie musisz rezerwować terminu. Przyjeżdżasz w godzinach pracy i zostawiasz sprzęt. Telefon nie jest wymagany.',
+    icon: 'pin' as const,
+  },
+  {
+    title: 'Elektronika, nie tylko wymiana',
+    desc: 'Naprawiamy płyty główne, układy zasilania, uszkodzenia po zalaniu i zwarciu — nie tylko wymieniamy podzespoły.',
+    icon: 'chip' as const,
+  },
+  {
+    title: `Od ${site.founded} roku`,
+    desc: 'Ponad dekada napraw we Wrocławiu, ponad 550 opinii Google i klienci, którzy wracają z kolejnymi laptopami.',
+    icon: 'shield' as const,
+  },
+  {
+    title: 'Po ludzku',
+    desc: 'Tłumaczymy bez żargonu, mówimy wprost, co się opłaca, a co nie. Bez straszenia i bez naciągania na droższe naprawy.',
+    icon: 'tool' as const,
+  },
+];
+---
+
+<section class="section section--dark why" aria-labelledby="why-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="why-title">Dlaczego Studio-Komp</h2>
+      <div class="section-head__aside">
+        <p>
+          Nie jesteśmy największym serwisem we Wrocławiu. Jesteśmy tym, do
+          którego wracają znajomi naszych klientów.
+        </p>
+      </div>
+    </div>
+
+    <ul class="why__grid">
+      {
+        items.map((item) => (
+          <li class="why__item">
+            <span class="why__icon" aria-hidden="true">
+              <Icon name={item.icon} size={22} strokeWidth={1.4} />
+            </span>
+            <h3 class="why__title">{item.title}</h3>
+            <p class="why__desc">{item.desc}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .why__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--dark-line);
+  }
+
+  .why__item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 28px 32px 32px 0;
+    border-bottom: 1px solid var(--dark-line);
+    border-right: 1px solid var(--dark-line);
+  }
+
+  .why__item:nth-child(3n) {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .why__item:not(:nth-child(3n + 1)) {
+    padding-left: 32px;
+  }
+
+  .why__icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--dark-line);
+    color: var(--yellow);
+  }
+
+  .why__title {
+    font-size: clamp(19px, 1.6vw, 22px);
+    letter-spacing: -0.025em;
+    margin-top: 2px;
+    color: var(--on-dark);
+  }
+
+  .why__desc {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--on-dark-muted);
+    max-width: 36ch;
+  }
+
+  @media (max-width: 900px) {
+    .why__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .why__item:nth-child(3n) {
+      border-right: 1px solid var(--dark-line);
+      padding-right: 32px;
+    }
+
+    .why__item:nth-child(2n) {
+      border-right: 0;
+      padding-right: 0;
+    }
+
+    .why__item:nth-child(n) {
+      padding-left: 0;
+    }
+
+    .why__item:nth-child(2n) {
+      padding-left: 24px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .why__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .why__item,
+    .why__item:nth-child(2n),
+    .why__item:nth-child(3n) {
+      border-right: 0;
+      padding: 24px 0;
+    }
+  }
+</style>

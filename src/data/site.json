@@ -1,0 +1,59 @@
+{
+  "name": "Studio-Komp",
+  "claim": "Serwis laptopów we Wrocławiu",
+  "phoneDisplay": "500 613 500",
+  "phoneTel": "+48500613500",
+  "address": {
+    "street": "Kotlarska 14",
+    "postalCode": "50-150",
+    "city": "Wrocław",
+    "district": "Stare Miasto",
+    "country": "PL",
+    "lat": 51.1109745,
+    "lng": 17.0360445
+  },
+  "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJFSWHiHXCD0cRi3pxOkFdqFE",
+  "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=51.1109745,17.0360445&destination_place_id=ChIJFSWHiHXCD0cRi3pxOkFdqFE",
+  "hours": [
+    { "label": "Poniedziałek – piątek", "value": "7:00 – 15:00", "open": true },
+    { "label": "Sobota", "value": "nieczynne", "open": false },
+    { "label": "Niedziela", "value": "nieczynne", "open": false }
+  ],
+  "hoursSchema": [
+    { "day": "Monday", "opens": "07:00", "closes": "15:00" },
+    { "day": "Tuesday", "opens": "07:00", "closes": "15:00" },
+    { "day": "Wednesday", "opens": "07:00", "closes": "15:00" },
+    { "day": "Thursday", "opens": "07:00", "closes": "15:00" },
+    { "day": "Friday", "opens": "07:00", "closes": "15:00" }
+  ],
+  "founded": 2013,
+  "reviews": {
+    "rating": 4.9,
+    "count": 550,
+    "countLabel": "550+",
+    "placeId": "ChIJFSWHiHXCD0cRi3pxOkFdqFE",
+    "url": "https://search.google.com/local/reviews?placeid=ChIJFSWHiHXCD0cRi3pxOkFdqFE",
+    "writeUrl": "https://search.google.com/local/writereview?placeid=ChIJFSWHiHXCD0cRi3pxOkFdqFE",
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJFSWHiHXCD0cRi3pxOkFdqFE"
+  },
+  "express": {
+    "surcharge": 150
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/StudioKomp.SerwisLaptopow/"
+  },
+  "analytics": {
+    "gtm": "",
+    "ga4": "",
+    "adsConversionSendTo": ""
+  },
+  "form": {
+    "provider": "web3forms",
+    "endpoint": "",
+    "accessKey": ""
+  },
+  "seo": {
+    "defaultOgImage": "/images/og-default.jpg",
+    "titleTemplate": "%s | Studio-Komp Wrocław"
+  }
+}

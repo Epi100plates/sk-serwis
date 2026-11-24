@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import site from '../../data/site.json';
+import { withBase } from '../../lib/url';
+---
+
+<Base
+  title="Dziękujemy za zgłoszenie | Studio-Komp"
+  description="Zgłoszenie zostało wysłane. Skontaktujemy się w godzinach pracy serwisu."
+  canonicalPath="/dziekujemy/"
+  noindex={true}
+>
+  <section class="section thanks">
+    <div class="container container--narrow">
+      <p class="mono thanks__label">Zgłoszenie przyjęte</p>
+      <h1>Dziękujemy. Odezwiemy się w godzinach pracy serwisu.</h1>
+      <p class="lead thanks__lead">
+        Jeśli sprawa jest pilna, nie czekaj na telefon — zadzwoń. Najszybciej
+        zajmiemy się laptopem, gdy od razu porozmawiamy o objawach.
+      </p>
+      <div class="thanks__actions">
+        <a
+          class="btn btn--primary btn--lg"
+          href={`tel:${site.phoneTel}`}
+          data-track="call"
+          data-location="dziekujemy"
+        >
+          <Icon name="phone" size={18} /> {site.phoneDisplay}
+        </a>
+        <a class="btn btn--outline btn--lg" href={withBase('/')}>
+          Wróć na stronę główną
+        </a>
+      </div>
+      <p class="thanks__hours">
+        Serwis działa poniedziałek–piątek 7:00–15:00, {site.address.street},{' '}
+        {site.address.city}.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks {
+    min-height: 56vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .thanks__label {
+    color: var(--muted-2);
+  }
+
+  .thanks h1 {
+    margin-top: 14px;
+    font-size: clamp(32px, 4.4vw, 58px);
+    max-width: 24ch;
+  }
+
+  .thanks__lead {
+    margin-top: 22px;
+    max-width: 52ch;
+  }
+
+  .thanks__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .thanks__hours {
+    margin-top: 28px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+</style>

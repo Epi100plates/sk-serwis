@@ -1,0 +1,107 @@
+{
+  "_note": "Cennik do samodzielnej edycji. Ceny nieznane zostaw jako '… zł' — na stronie pokażą się bez wymyślania kwoty. 'od' oznacza cenę minimalną.",
+  "lead": "Każdą usterkę wyceniamy indywidualnie po diagnozie. Poniżej ceny najczęstszych napraw — dokładną kwotę podajemy przed rozpoczęciem pracy, bez zaskoczeń na koniec.",
+  "expressSurcharge": 150,
+  "groups": [
+    {
+      "title": "Diagnostyka",
+      "items": [
+        {
+          "name": "Diagnostyka przy zleconej naprawie",
+          "price": "0 zł",
+          "note": "Bezpłatna, jeśli zdecydujesz się naprawić sprzęt w naszym serwisie."
+        },
+        {
+          "name": "Diagnostyka bez naprawy",
+          "price": "… zł",
+          "note": "Płatna, jeśli nie zlecasz naprawy. Kwotę podajemy przed rozpoczęciem diagnostyki."
+        }
+      ]
+    },
+    {
+      "title": "Czyszczenie i konserwacja",
+      "items": [
+        {
+          "name": "Czyszczenie i konserwacja laptopa",
+          "price": "od 200 zł",
+          "note": "Rozbiórka, czyszczenie chłodzenia, wymiana pasty termoprzewodzącej, testy temperatur."
+        },
+        {
+          "name": "Czyszczenie komputera stacjonarnego",
+          "price": "… zł",
+          "note": "Cena zależy od obudowy i układu chłodzenia."
+        }
+      ]
+    },
+    {
+      "title": "System i dane",
+      "items": [
+        {
+          "name": "Instalacja systemu Windows / macOS / Linux",
+          "price": "250–500 zł",
+          "note": "Z kierownikami, aktualizacjami i podstawową konfiguracją. Zależy od systemu i licencji."
+        },
+        {
+          "name": "Odzyskiwanie danych",
+          "price": "300–800 zł",
+          "note": "Zależy od nośnika i stopnia uszkodzenia. Wyceniamy po sprawdzeniu dysku."
+        },
+        {
+          "name": "Modernizacja: SSD, RAM, klonowanie systemu",
+          "price": "… zł",
+          "note": "Dobór podzespołów i przeniesienie systemu bez utraty danych."
+        }
+      ]
+    },
+    {
+      "title": "Naprawy podzespołów",
+      "items": [
+        {
+          "name": "Naprawa laptopa po zalaniu",
+          "price": "450–800 zł",
+          "note": "Cena zależy od cieczy, zakresu uszkodzeń i koniecznych części."
+        },
+        {
+          "name": "Naprawa płyty głównej po zwarciu",
+          "price": "600–800 zł",
+          "note": "Diagnostyka z pomiarami i naprawa na poziomie elementów."
+        },
+        {
+          "name": "Wymiana gniazda zasilania",
+          "price": "350 zł",
+          "note": "Z nowym gniazdem i testem ładowania."
+        },
+        {
+          "name": "Wymiana matrycy",
+          "price": "… zł",
+          "note": "Cena matrycy zależy od modelu, przekątnej i typu panelu — podajemy przed zamówieniem."
+        },
+        {
+          "name": "Wymiana klawiatury",
+          "price": "… zł",
+          "note": "Część dobierana do konkretnego modelu laptopa."
+        },
+        {
+          "name": "Naprawa zawiasów i obudowy",
+          "price": "… zł",
+          "note": "Zależy od konstrukcji zawiasów i stopnia uszkodzenia plastiku."
+        },
+        {
+          "name": "Wymiana portów USB / HDMI / audio",
+          "price": "… zł",
+          "note": "Wycena po sprawdzeniu płyty głównej."
+        }
+      ]
+    },
+    {
+      "title": "Usługa ekspresowa",
+      "items": [
+        {
+          "name": "Naprawa tego samego dnia",
+          "price": "+150 zł",
+          "note": "Dopłata do naprawy wykonywanej poza kolejnością. Dostępność zależy od usterki i części na magazynie."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+---
+const brands = [
+  'Lenovo',
+  'Dell',
+  'HP',
+  'ASUS',
+  'Acer',
+  'MSI',
+  'Apple',
+  'Samsung',
+  'Toshiba',
+  'Microsoft',
+];
+---
+
+<div class="brands">
+  <p class="brands__label">Naprawiamy wszystkie marki laptopów i komputerów</p>
+  <ul class="brands__list" aria-label="Obsługiwane marki">
+    {brands.map((b) => <li>{b}</li>)}
+    <li class="brands__more">i inne</li>
+  </ul>
+</div>
+
+<style>
+  .brands {
+    display: flex;
+    align-items: baseline;
+    gap: 14px 36px;
+    flex-wrap: wrap;
+    padding-block: 22px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brands__label {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: -0.005em;
+  }
+
+  .brands__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 26px;
+    list-style: none;
+    margin-left: auto;
+  }
+
+  .brands__list li {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--muted);
+    transition: color var(--fast) var(--ease-out);
+  }
+
+  .brands__list li:hover {
+    color: var(--ink);
+  }
+
+  .brands__more {
+    font-weight: 400 !important;
+    font-family: var(--font-mono);
+    font-size: 11px !important;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .brands {
+      display: block;
+    }
+
+    .brands__label {
+      margin-bottom: 12px;
+    }
+
+    .brands__list {
+      margin-left: 0;
+      gap: 8px 20px;
+    }
+
+    .brands__list li {
+      font-size: 14px;
+    }
+  }
+</style>

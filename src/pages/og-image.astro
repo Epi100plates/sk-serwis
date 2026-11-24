@@ -1,0 +1,214 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/schibsted-grotesk';
+import '@fontsource/ibm-plex-mono/500.css';
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OG image</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #0e100f;
+      }
+
+      .og {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        padding: 56px 64px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #0e100f;
+        background-image:
+          linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+        color: #f5f6f3;
+        font-family: 'Schibsted Grotesk Variable', sans-serif;
+        box-sizing: border-box;
+      }
+
+      .og__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .og__brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .og__brand-name {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+
+      .og__brand-sub {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #a7aca5;
+        margin-top: 3px;
+      }
+
+      .og__badge {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #0e100f;
+        background: #ffd400;
+        padding: 8px 12px;
+      }
+
+      .og__middle {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 40px;
+      }
+
+      .og__title {
+        font-size: 80px;
+        font-weight: 600;
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+        margin: 0;
+        max-width: 780px;
+      }
+
+      .og__title-sub {
+        display: block;
+        margin-top: 16px;
+        font-size: 40px;
+        font-weight: 500;
+        letter-spacing: -0.035em;
+        line-height: 1.1;
+        color: #a7aca5;
+      }
+
+      .og__sub {
+        margin-top: 24px;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        color: #a7aca5;
+      }
+
+      .og__ticket {
+        flex: none;
+        width: 270px;
+        background: #ffd400;
+        color: #0e100f;
+        padding: 20px 22px;
+        transform: rotate(-1.6deg);
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .og__ticket-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 9px 0;
+        border-bottom: 1px solid rgba(14, 16, 15, 0.2);
+      }
+
+      .og__ticket-row:last-child {
+        border-bottom: 0;
+      }
+
+      .og__ticket-row b {
+        font-family: 'Schibsted Grotesk Variable', sans-serif;
+        font-size: 14px;
+        letter-spacing: -0.02em;
+        text-transform: none;
+      }
+
+      .og__bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding-top: 24px;
+        border-top: 1px solid #30352f;
+      }
+
+      .og__phone {
+        font-size: 44px;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+
+      .og__phone-label {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #a7aca5;
+        margin-bottom: 8px;
+      }
+
+      .og__url {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 14px;
+        letter-spacing: 0.06em;
+        color: #a7aca5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="og">
+      <div class="og__top">
+        <div class="og__brand">
+          <svg width="44" height="44" viewBox="0 0 36 36" aria-hidden="true">
+            <rect width="36" height="36" fill="#f5f6f3"></rect>
+            <path d="M25.5 10.5H13.5V17.5H23V26H11.5" fill="none" stroke="#0e100f" stroke-width="4.2"></path>
+            <rect x="24.5" y="24.5" width="6" height="6" fill="#ffd400"></rect>
+          </svg>
+          <div>
+            <div class="og__brand-name">studio-komp</div>
+            <div class="og__brand-sub">serwis laptopów · wrocław</div>
+          </div>
+        </div>
+        <div class="og__badge">od 2013 roku</div>
+      </div>
+
+      <div class="og__middle">
+        <div>
+          <h1 class="og__title">Serwis laptopów<br />we Wrocławiu.<br /><span class="og__title-sub">Naprawiamy z dnia na dzień.</span></h1>
+          <p class="og__sub">Diagnoza 0 zł przy naprawie · bez umawiania · Kotlarska 14</p>
+        </div>
+        <div class="og__ticket">
+          <div class="og__ticket-row"><span>Przyjęcie</span><b>Dziś</b></div>
+          <div class="og__ticket-row"><span>Naprawa</span><b>Jutro</b></div>
+          <div class="og__ticket-row"><span>Ekspres</span><b>+150 zł</b></div>
+        </div>
+      </div>
+
+      <div class="og__bottom">
+        <div>
+          <div class="og__phone-label">Zadzwoń</div>
+          <div class="og__phone">500 613 500</div>
+        </div>
+        <div class="og__url">studio-komp.pl</div>
+      </div>
+    </div>
+  </body>
+</html>

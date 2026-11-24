@@ -1,0 +1,11 @@
+{
+  "_note": "Dodaj film z YouTube: uzupełnij youtubeId (np. 'dQw4w9WgXcQ'), title i opcjonalnie poster (ścieżka do pliku w /public/images). Sekcja pojawi się automatycznie.",
+  "items": [
+    { "title": "Czyszczenie układu chłodzenia", "youtubeId": "", "poster": "", "duration": "" },
+    { "title": "Naprawa płyty głównej", "youtubeId": "", "poster": "", "duration": "" },
+    { "title": "Wymiana matrycy", "youtubeId": "", "poster": "", "duration": "" },
+    { "title": "Praca przy mikroskopie", "youtubeId": "", "poster": "", "duration": "" },
+    { "title": "Przed i po naprawie", "youtubeId": "", "poster": "", "duration": "" },
+    { "title": "Stanowisko pracy", "youtubeId": "", "poster": "", "duration": "" }
+  ]
+}

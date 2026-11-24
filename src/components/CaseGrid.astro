@@ -1,0 +1,176 @@
+---
+import Icon from './Icon.astro';
+import { withBase } from '../lib/url';
+
+interface CaseItem {
+  title: string;
+  category: string;
+  device: string;
+  summary: string;
+  art?: string;
+  image?: string;
+  hours?: string;
+}
+
+interface Props {
+  items: CaseItem[];
+  limit?: number;
+  showLink?: boolean;
+}
+const { items, limit, showLink = false } = Astro.props;
+const list = limit ? items.slice(0, limit) : items;
+---
+
+<ul class:list={['cases', showLink && 'cases--page']}>
+  {
+    list.map((item, i) => (
+      <li class:list={['case', i === 0 && 'case--lead']}>
+        <div class="case__media">
+          {item.image ? (
+            <img
+              src={withBase(item.image)}
+              alt={item.title}
+              width="800"
+              height="600"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          ) : (
+            <img
+              src={withBase(`/images/realizacje/${item.art ?? 'case-board'}.svg`)}
+              alt=""
+              width="800"
+              height="600"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          )}
+          <span class="case__category mono">{item.category}</span>
+        </div>
+        <div class="case__body">
+          <h3 class="case__title">{item.title}</h3>
+          <p class="case__summary">{item.summary}</p>
+          <div class="case__meta mono">
+            <span>{item.device}</span>
+            {item.hours && (
+              <span class="case__time">
+                <Icon name="clock" size={13} /> {item.hours}
+              </span>
+            )}
+          </div>
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .cases {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 40px);
+  }
+
+  .case {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .case--lead {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: clamp(20px, 3vw, 40px);
+    align-items: end;
+  }
+
+  .case__media {
+    position: relative;
+    overflow: hidden;
+    background: #151816;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--line);
+  }
+
+  .case--lead .case__media {
+    aspect-ratio: 16 / 9;
+  }
+
+  .case__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 700ms var(--ease-out);
+  }
+
+  .case:hover .case__media img {
+    transform: scale(1.025);
+  }
+
+  .case__category {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    padding: 6px 10px;
+    background: var(--yellow);
+    color: var(--ink);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .case__body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .case__title {
+    font-size: clamp(19px, 1.7vw, 24px);
+    letter-spacing: -0.025em;
+  }
+
+  .case__summary {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+
+  .case__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 18px;
+    color: var(--muted-2);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .case__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--ink);
+  }
+
+  @media (max-width: 860px) {
+    .case--lead {
+      grid-template-columns: 1fr;
+    }
+
+    .case--lead .case__media {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cases {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

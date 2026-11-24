@@ -1,0 +1,533 @@
+?---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../lib/url';
+
+const uslugi = (await getCollection('uslugi', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const groups = ['Konserwacja', 'Naprawy', 'Elektronika', 'System i dane'] as const;
+const byGroup = groups.map((g) => ({
+  name: g,
+  items: uslugi.filter((s) => s.data.group === g).slice(0, 6),
+}));
+
+const mainNav = [
+  { href: '/cennik/', label: 'Cennik' },
+  { href: '/opinie/', label: 'Opinie' },
+  { href: '/realizacje/', label: 'Realizacje' },
+  { href: '/poradnik/', label: 'Poradnik' },
+  { href: '/kontakt/', label: 'Kontakt' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <Logo size={32} />
+
+    <nav class="nav" aria-label="Nawigacja główna" data-nav>
+      <div class="nav__group">
+        <button
+          class="nav__link nav__link--toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="services-panel"
+          data-nav-toggle
+        >
+          Usługi
+          <Icon name="chevron-down" size={16} />
+        </button>
+        <div class="services-panel" id="services-panel" data-nav-panel hidden>
+          <div class="container services-panel__inner">
+            <div class="services-panel__cols">
+              {
+                byGroup.map((group) => (
+                  <div class="services-panel__col">
+                    <p class="mono services-panel__label">{group.name}</p>
+                    <ul>
+                      {group.items.map((s) => (
+                        <li>
+                          <a href={withBase(`/${s.id}/`)}>{s.data.navLabel}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))
+              }
+            </div>
+            <div class="services-panel__aside">
+              <p class="mono">Ekspres</p>
+              <p class="services-panel__promo">
+                Naprawa tego samego dnia — dopłata 150 zł
+              </p>
+              <a class="link-arrow" href={withBase('/uslugi/')}>
+                Wszystkie usługi
+                <Icon name="arrow" size={16} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {
+        mainNav.map((item) => (
+          <a class="nav__link" href={withBase(item.href)}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="header-call" href="tel:+48500613500" data-track="call" data-location="header">
+        <span class="header-call__icon"><Icon name="phone" size={17} /></span>
+        <span class="header-call__text">
+          <span class="header-call__label">Zadzwoń</span>
+          <span class="header-call__number">500 613 500</span>
+        </span>
+      </a>
+      <button
+        class="burger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Otwórz menu"
+        data-burger
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+    <div class="mobile-menu__inner">
+      <p class="mono mobile-menu__label">Usługi</p>
+      <ul class="mobile-menu__services">
+        {
+          uslugi.slice(0, 8).map((s) => (
+            <li>
+              <a href={withBase(`/${s.id}/`)}>{s.data.navLabel}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="mobile-menu__all link-arrow" href={withBase('/uslugi/')}>
+        Wszystkie usługi <Icon name="arrow" size={16} />
+      </a>
+      <hr class="hairline" />
+      <nav class="mobile-menu__nav" aria-label="Nawigacja mobilna">
+        {
+          mainNav.map((item) => (
+            <a href={withBase(item.href)}>{item.label}</a>
+          ))
+        }
+        <a href={withBase('/o-serwisie/')}>O serwisie</a>
+      </nav>
+      <a class="btn btn--primary btn--lg btn--block" href="tel:+48500613500" data-track="call" data-location="mobile-menu">
+        <Icon name="phone" size={18} /> Zadzwoń: 500 613 500
+      </a>
+      <p class="mobile-menu__hours mono">Pon–pt 7:00–15:00 · Kotlarska 14, Wrocław</p>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const mobileMenu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const navToggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const navPanel = document.querySelector<HTMLElement>('[data-nav-panel]');
+
+  function closeMobile() {
+    if (!burger || !mobileMenu) return;
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Otwórz menu');
+    mobileMenu.hidden = true;
+    document.documentElement.classList.remove('menu-open');
+  }
+
+  burger?.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') === 'true';
+    if (open) {
+      closeMobile();
+    } else {
+      burger.setAttribute('aria-expanded', 'true');
+      burger.setAttribute('aria-label', 'Zamknij menu');
+      if (mobileMenu) mobileMenu.hidden = false;
+      document.documentElement.classList.add('menu-open');
+      closeNav();
+    }
+  });
+
+  function closeNav() {
+    if (!navToggle || !navPanel) return;
+    navToggle.setAttribute('aria-expanded', 'false');
+    navPanel.hidden = true;
+  }
+
+  navToggle?.addEventListener('click', () => {
+    if (!navPanel) return;
+    const open = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', String(!open));
+    navPanel.hidden = open;
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMobile();
+      closeNav();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as Node;
+    if (navPanel && navToggle && !navPanel.contains(target) && !navToggle.contains(target)) {
+      closeNav();
+    }
+  });
+
+  mobileMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMobile));
+
+  let lastY = 0;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!header) return;
+      const y = window.scrollY;
+      header.classList.toggle('is-scrolled', y > 8);
+      lastY = y;
+    },
+    { passive: true }
+  );
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--fast) var(--ease-out);
+  }
+
+  .site-header.is-scrolled {
+    border-bottom-color: var(--line);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: var(--header-h);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .nav__group {
+    position: static;
+  }
+
+  .nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 12px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    border-radius: 1px;
+    transition: background var(--fast) var(--ease-out);
+  }
+
+  .nav__link:hover {
+    background: var(--surface);
+  }
+
+  .nav__link--toggle[aria-expanded='true'] {
+    background: var(--surface);
+  }
+
+  .nav__link--toggle svg {
+    transition: transform var(--fast) var(--ease-out);
+  }
+
+  .nav__link--toggle[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+
+  .services-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 24px 40px -32px rgba(14, 16, 15, 0.35);
+  }
+
+  .services-panel__inner {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 48px;
+    padding-block: 32px 38px;
+  }
+
+  .services-panel__cols {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+  }
+
+  .services-panel__label {
+    color: var(--muted-2);
+    margin-bottom: 12px;
+  }
+
+  .services-panel__col ul {
+    list-style: none;
+    display: grid;
+    gap: 2px;
+  }
+
+  .services-panel__col a {
+    display: block;
+    padding: 6px 8px;
+    margin-left: -8px;
+    font-size: 14.5px;
+    line-height: 1.35;
+    border-radius: 1px;
+  }
+
+  .services-panel__col a:hover {
+    background: var(--surface);
+  }
+
+  .services-panel__aside {
+    border-left: 1px solid var(--line);
+    padding-left: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .services-panel__aside .mono {
+    color: var(--muted-2);
+  }
+
+  .services-panel__promo {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    max-width: 18ch;
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 8px;
+  }
+
+  .header-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .header-call__icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    background: var(--surface);
+    border-radius: 50%;
+    transition: background var(--fast) var(--ease-out);
+  }
+
+  .header-call:hover .header-call__icon {
+    background: var(--yellow);
+  }
+
+  .header-call__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .header-call__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .header-call__number {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .header-cta {
+    min-height: 44px;
+    padding-inline: 20px;
+    font-size: 14px;
+  }
+
+  .burger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-right: -8px;
+  }
+
+  .burger span {
+    display: block;
+    width: 20px;
+    height: 1.6px;
+    background: var(--ink);
+    transition: transform var(--fast) var(--ease-out), opacity var(--fast) var(--ease-out);
+  }
+
+  .burger[aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(6.6px) rotate(45deg);
+  }
+
+  .burger[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger[aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-6.6px) rotate(-45deg);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: var(--header-h) 0 0;
+    background: var(--paper);
+    z-index: 89;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-menu__inner {
+    padding: 24px var(--gutter) 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .mobile-menu__label {
+    color: var(--muted-2);
+  }
+
+  .mobile-menu__services {
+    list-style: none;
+    display: grid;
+    gap: 2px;
+    margin-top: -10px;
+  }
+
+  .mobile-menu__services a {
+    display: block;
+    padding: 12px 0;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-menu__all {
+    font-size: 15px;
+  }
+
+  .mobile-menu__nav {
+    display: grid;
+    gap: 2px;
+  }
+
+  .mobile-menu__nav a {
+    padding: 12px 0;
+    font-size: 17px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-menu__hours {
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 1120px) {
+    .nav__link {
+      padding-inline: 9px;
+      font-size: 14px;
+    }
+
+    .header-call__text {
+      display: none;
+    }
+
+    .header-cta {
+      display: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .nav {
+      display: none;
+    }
+
+    .services-panel {
+      display: none;
+    }
+
+    .burger {
+      display: flex;
+    }
+
+    .site-header__inner {
+      justify-content: space-between;
+    }
+
+    .header-call {
+      margin-left: auto;
+    }
+  }
+
+  @media (min-width: 961px) {
+    .mobile-menu {
+      display: none !important;
+      visibility: hidden;
+    }
+  }
+
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+
+  /* backdrop-filter tworzy containing block dla position: fixed — wyłączamy go,
+     gdy otwarte jest menu mobilne, żeby panel pozycjonował się względem okna. */
+  :global(html.menu-open) .site-header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+</style>
+

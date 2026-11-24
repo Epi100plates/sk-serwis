@@ -1,0 +1,175 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/schibsted-grotesk';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import Logo from '../components/Logo.astro';
+import Seo from '../components/Seo.astro';
+import MobileBar from '../components/MobileBar.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import Analytics from '../components/Analytics.astro';
+import Icon from '../components/Icon.astro';
+import site from '../data/site.json';
+import { withBase } from '../lib/url';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  noindex?: boolean;
+}
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0e100f" />
+    <Seo {...props} />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <meta name="format-detection" content="telephone=no" />
+  </head>
+  <body class="lp-body">
+    <a class="skip-link" href="#main">Przejdź do treści</a>
+
+    <header class="lp-header">
+      <div class="container lp-header__inner">
+        <Logo size={30} />
+        <div class="lp-header__right">
+          <span class="lp-header__hours mono">pon–pt 7:00–15:00</span>
+          <a
+            class="lp-header__phone"
+            href={`tel:${site.phoneTel}`}
+            data-track="call"
+            data-location="lp-header"
+          >
+            <Icon name="phone" size={17} />
+            {site.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="lp-footer">
+      <div class="container lp-footer__inner">
+        <div class="lp-footer__brand">
+          <Logo size={26} variant="light" showWordmark={false} />
+          <p>
+            Studio-Komp — serwis laptopów we Wrocławiu.<br />
+            {site.address.street}, {site.address.postalCode} {site.address.city}
+          </p>
+        </div>
+        <div class="lp-footer__links">
+          <a href={`tel:${site.phoneTel}`} data-track="call" data-location="lp-footer">{site.phoneDisplay}</a>
+          <a href={site.directionsUrl} target="_blank" rel="noopener" data-track="directions" data-location="lp-footer">Trasa</a>
+          <a href={withBase('/polityka-prywatnosci/')}>Prywatność</a>
+          <span>© {new Date().getFullYear()} Studio-Komp</span>
+        </div>
+      </div>
+    </footer>
+
+    <MobileBar />
+    <CookieConsent />
+    <Analytics />
+  </body>
+</html>
+
+<style>
+  .lp-body {
+    background: var(--paper);
+  }
+
+  .lp-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lp-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    height: 64px;
+  }
+
+  .lp-header__right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .lp-header__hours {
+    color: var(--muted);
+    font-size: 10.5px;
+  }
+
+  .lp-header__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .lp-header__phone:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--yellow);
+    text-decoration-thickness: 2px;
+  }
+
+  .lp-footer {
+    background: var(--ink);
+    color: var(--on-dark-muted);
+    padding-block: 32px;
+    font-size: 13px;
+  }
+
+  .lp-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px 40px;
+  }
+
+  .lp-footer__brand {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.6;
+  }
+
+  .lp-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 24px;
+  }
+
+  .lp-footer__links a {
+    color: var(--on-dark);
+  }
+
+  .lp-footer__links a:hover {
+    color: var(--yellow);
+  }
+
+  @media (max-width: 560px) {
+    .lp-header__hours {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,215 @@
+---
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+import reviews from '../data/opinie.json';
+
+const rating = site.reviews.rating.toLocaleString('pl-PL', {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
+const stars = [1, 2, 3, 4, 5];
+---
+
+<section class="section section--dark reviews" id="opinie" aria-labelledby="reviews-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="reviews-title">Opinie, które możesz sprawdzić</h2>
+      <div class="section-head__aside">
+        <p>
+          Nie zbieramy opinii na własnej stronie. Wszystkie pochodzą z naszej
+          wizytówki Google — możesz przeczytać je w całości, razem z tymi mniej
+          przychylnymi.
+        </p>
+        <a
+          class="link-arrow"
+          href={site.reviews.url}
+          target="_blank"
+          rel="noopener"
+        >
+          Zobacz wszystkie w Google
+          <Icon name="arrow-up-right" size={15} />
+        </a>
+      </div>
+    </div>
+
+    <div class="reviews__grid">
+      <div class="reviews__score">
+        <p class="reviews__rating">
+          {rating}<span class="reviews__rating-max">/5</span>
+        </p>
+        <div class="reviews__stars" role="img" aria-label={`Ocena ${rating} na 5`}>
+          {stars.map(() => <Icon name="star" size={17} />)}
+        </div>
+        <p class="reviews__count">
+          Ponad <strong>{site.reviews.countLabel}</strong> opinii Google,
+          zbieranych od {site.founded} roku.
+        </p>
+        <a
+          class="btn btn--primary reviews__cta"
+          href={site.reviews.url}
+          target="_blank"
+          rel="noopener"
+          data-track="cta"
+          data-location="opinie"
+        >
+          <Icon name="google" size={17} />
+          Opinie w Google
+        </a>
+      </div>
+
+      <ul class="reviews__list">
+        {
+          reviews.items.map((r) => (
+            <li class="review">
+              <div class="review__top">
+                <span class="review__stars" aria-hidden="true">
+                  {stars.map(() => (
+                    <Icon name="star" size={12} />
+                  ))}
+                </span>
+                <span class="review__source">
+                  <Icon name="google" size={13} /> Google
+                </span>
+              </div>
+              <blockquote class="review__text">{r.text}</blockquote>
+              {r.highlight && <p class="review__highlight">{r.highlight}</p>}
+              <p class="review__author">{r.name}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews__grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.85fr) 1.9fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .reviews__score {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .reviews__rating {
+    font-size: clamp(64px, 7vw, 96px);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    color: var(--yellow);
+  }
+
+  .reviews__rating-max {
+    font-size: 0.28em;
+    letter-spacing: -0.02em;
+    color: var(--on-dark-muted);
+    margin-left: 6px;
+  }
+
+  .reviews__stars {
+    display: flex;
+    gap: 3px;
+    color: var(--yellow);
+  }
+
+  .reviews__count {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--on-dark-muted);
+    max-width: 30ch;
+  }
+
+  .reviews__count strong {
+    color: var(--on-dark);
+    font-weight: 600;
+  }
+
+  .reviews__cta {
+    margin-top: 6px;
+  }
+
+  .reviews__list {
+    list-style: none;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--dark-line);
+  }
+
+  .review {
+    padding: 26px 0;
+    border-bottom: 1px solid var(--dark-line);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .review__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .review__stars {
+    display: flex;
+    gap: 2px;
+    color: var(--yellow);
+  }
+
+  .review__source {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8d938b;
+  }
+
+  .review__text {
+    margin: 0;
+    font-size: clamp(16px, 1.3vw, 18px);
+    line-height: 1.55;
+    letter-spacing: -0.008em;
+    color: #e4e7e2;
+    max-width: 62ch;
+  }
+
+  .review__highlight {
+    font-size: 14px;
+    color: var(--yellow);
+    line-height: 1.5;
+    max-width: 60ch;
+  }
+
+  .review__author {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9aa099;
+  }
+
+  @media (max-width: 900px) {
+    .reviews__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .reviews__score {
+      position: static;
+    }
+
+    .reviews__rating {
+      font-size: 72px;
+    }
+  }
+</style>

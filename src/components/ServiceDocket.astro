@@ -1,0 +1,247 @@
+---
+import Icon from './Icon.astro';
+---
+
+<aside class="docket" aria-label="Tak wygląda przyjęcie laptopa do serwisu">
+  <div class="docket__head">
+    <span class="docket__title">Zgłoszenie serwisowe</span>
+    <span class="docket__no">№ 11 / 2026</span>
+  </div>
+
+  <div class="docket__perf" aria-hidden="true"></div>
+
+  <dl class="docket__rows">
+    <div class="docket__row">
+      <dt>Przyjęcie</dt>
+      <dd>Dziś, bez umawiania</dd>
+    </div>
+    <div class="docket__row">
+      <dt>Diagnoza</dt>
+      <dd>0 zł przy naprawie</dd>
+    </div>
+    <div class="docket__row">
+      <dt>Naprawa</dt>
+      <dd>Zwykle następnego dnia</dd>
+    </div>
+    <div class="docket__row">
+      <dt>Odbiór</dt>
+      <dd>Gotowy do pracy</dd>
+    </div>
+  </dl>
+
+  <div class="docket__stamp" aria-hidden="true">
+    <span class="docket__stamp-main">Ekspres</span>
+    <span class="docket__stamp-sub">ten sam dzień · +150 zł</span>
+  </div>
+
+  <div class="docket__foot">
+    <svg class="docket__barcode" viewBox="0 0 180 28" aria-hidden="true" focusable="false">
+      <g fill="var(--ink)">
+        <rect x="0" y="0" width="3" height="28" /><rect x="6" y="0" width="1.5" height="28" />
+        <rect x="10" y="0" width="4" height="28" /><rect x="17" y="0" width="2" height="28" />
+        <rect x="22" y="0" width="1" height="28" /><rect x="26" y="0" width="5" height="28" />
+        <rect x="34" y="0" width="2" height="28" /><rect x="39" y="0" width="3" height="28" />
+        <rect x="45" y="0" width="1" height="28" /><rect x="49" y="0" width="4" height="28" />
+        <rect x="56" y="0" width="2" height="28" /><rect x="61" y="0" width="1.5" height="28" />
+        <rect x="66" y="0" width="5" height="28" /><rect x="74" y="0" width="2" height="28" />
+        <rect x="79" y="0" width="1" height="28" /><rect x="83" y="0" width="4" height="28" />
+        <rect x="90" y="0" width="2" height="28" /><rect x="95" y="0" width="3" height="28" />
+        <rect x="101" y="0" width="1" height="28" /><rect x="105" y="0" width="5" height="28" />
+        <rect x="113" y="0" width="2" height="28" /><rect x="118" y="0" width="1.5" height="28" />
+        <rect x="123" y="0" width="4" height="28" /><rect x="130" y="0" width="2" height="28" />
+        <rect x="135" y="0" width="1" height="28" /><rect x="139" y="0" width="5" height="28" />
+        <rect x="147" y="0" width="2" height="28" /><rect x="152" y="0" width="3" height="28" />
+        <rect x="158" y="0" width="1" height="28" /><rect x="162" y="0" width="4" height="28" />
+        <rect x="169" y="0" width="2" height="28" /><rect x="174" y="0" width="1.5" height="28" />
+      </g>
+    </svg>
+    <span class="docket__foot-text">Kotlarska 14 · Wrocław</span>
+  </div>
+</aside>
+
+<style>
+  .docket {
+    position: relative;
+    width: min(430px, 100%);
+    margin-left: auto;
+    background: var(--yellow);
+    color: var(--ink);
+    padding: 26px 28px 22px;
+    border: 1px solid rgba(14, 16, 15, 0.18);
+    transform: rotate(-1.4deg);
+    animation: docket-in 900ms var(--ease-out) 120ms both;
+    will-change: transform;
+  }
+
+  @keyframes docket-in {
+    from {
+      opacity: 0;
+      transform: translateY(26px) rotate(-4.5deg);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) rotate(-1.4deg);
+    }
+  }
+
+  .docket__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .docket__title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .docket__no {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+  }
+
+  .docket__perf {
+    height: 1px;
+    margin: 16px 0 4px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      currentColor 0 5px,
+      transparent 5px 10px
+    );
+    opacity: 0.35;
+  }
+
+  .docket__rows {
+    margin: 0;
+    display: grid;
+  }
+
+  .docket__row {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(14, 16, 15, 0.14);
+  }
+
+  .docket__row:last-child {
+    border-bottom: 0;
+  }
+
+  .docket__row dt {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.62;
+  }
+
+  .docket__row dd {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .docket__stamp {
+    position: absolute;
+    right: -24px;
+    bottom: 78px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 7px 12px 6px;
+    border: 1.5px solid var(--ink);
+    background: color-mix(in srgb, var(--yellow) 88%, transparent);
+    transform: rotate(-7deg);
+    animation: stamp-in 520ms var(--ease-out) 720ms both;
+  }
+
+  @keyframes stamp-in {
+    from {
+      opacity: 0;
+      transform: rotate(-7deg) scale(1.25);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(-7deg) scale(1);
+    }
+  }
+
+  .docket__stamp-main {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .docket__stamp-sub {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    line-height: 1.4;
+  }
+
+  .docket__foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(14, 16, 15, 0.18);
+  }
+
+  .docket__barcode {
+    width: 140px;
+    height: 24px;
+    opacity: 0.85;
+  }
+
+  .docket__foot-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+    text-align: right;
+  }
+
+  @media (max-width: 520px) {
+    .docket {
+      padding: 22px 20px 18px;
+      transform: rotate(-1deg);
+    }
+
+    .docket__row {
+      grid-template-columns: 80px 1fr;
+      padding: 10px 0;
+    }
+
+    .docket__row dd {
+      font-size: 15.5px;
+    }
+
+    .docket__stamp {
+      right: -8px;
+      bottom: 70px;
+    }
+
+    .docket__barcode {
+      width: 110px;
+    }
+  }
+</style>
+

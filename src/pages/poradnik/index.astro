@@ -1,0 +1,208 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import Icon from '../../components/Icon.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+import { withBase } from '../../lib/url';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const [lead, ...rest] = posts;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const words = (body?: string) => (body ? body.trim().split(/\s+/).length : 0);
+const minutes = (body?: string) => Math.max(3, Math.round(words(body) / 200));
+
+const schema = [
+  breadcrumbSchema([
+    { label: 'Start', path: '/' },
+    { label: 'Poradnik', path: '/poradnik/' },
+  ]),
+];
+---
+
+<Base
+  title="Poradnik: naprawa i konserwacja laptopa | Studio-Komp Wrocław"
+  description="Praktyczne poradniki o naprawie laptopów: przegrzewanie, zalanie, wolna praca, wymiana matrycy, bateria, SSD i RAM. Wiedza od serwisu Studio-Komp z Wrocławia."
+  canonicalPath="/poradnik/"
+  schema={schema}
+>
+  <PageHero
+    h1="Poradnik: co zrobić z laptopem"
+    lead="Konkretne odpowiedzi na pytania, z którymi klienci przychodzą do serwisu. Bez straszenia i bez sprzedażowego lania wody — z rzeczami, które możesz sprawdzić sam, i tymi, które lepiej zostawić technikowi."
+    crumbs={[{ label: 'Poradnik' }]}
+    showActions={false}
+    chips={[
+      { label: 'Artykułów', value: String(posts.length) },
+      { label: 'Tematy', value: 'Naprawa, konserwacja, wydajność' },
+      { label: 'Autor', value: 'Serwis Studio-Komp' },
+    ]}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      {
+        lead && (
+          <a class="post-lead" href={withBase(`/poradnik/${lead.id}/`)}>
+            <div class="post-lead__body">
+              <span class="post-lead__meta mono">
+                {lead.data.category} · {fmt(lead.data.pubDate)} · {minutes(lead.body)} min
+              </span>
+              <h2 class="post-lead__title">{lead.data.title}</h2>
+              <p class="post-lead__desc">{lead.data.description}</p>
+              <span class="post-lead__more">
+                Czytaj artykuł <Icon name="arrow" size={17} />
+              </span>
+            </div>
+          </a>
+        )
+      }
+
+      <ul class="post-list">
+        {
+          rest.map((post) => (
+            <li>
+              <a class="post-row" href={withBase(`/poradnik/${post.id}/`)}>
+                <span class="post-row__meta mono">
+                  {post.data.category} · {fmt(post.data.pubDate)}
+                </span>
+                <span class="post-row__title">{post.data.title}</span>
+                <span class="post-row__desc">{post.data.description}</span>
+                <span class="post-row__time mono">{minutes(post.body)} min czytania</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <ContactBlock
+    title="Wolisz zapytać niż czytać?"
+    text="Zadzwoń i opisz, co się dzieje z laptopem. Często już przez telefon da się ocenić, czy problema da się rozwiązać samemu, czy trzeba przywieźć sprzęt."
+  />
+</Base>
+
+<style>
+  .post-lead {
+    display: block;
+    border-top: 1px solid var(--ink);
+    padding: 28px 0 36px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-lead__body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 62ch;
+  }
+
+  .post-lead__meta {
+    color: var(--muted);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .post-lead__title {
+    font-size: clamp(28px, 3.6vw, 48px);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .post-lead__desc {
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 56ch;
+  }
+
+  .post-lead__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .post-lead:hover .post-lead__title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    text-decoration-color: var(--yellow);
+  }
+
+  .post-lead:hover .post-lead__more svg {
+    transform: translateX(3px);
+  }
+
+  .post-lead__more svg {
+    transition: transform var(--fast) var(--ease-out);
+  }
+
+  .post-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+
+  .post-row {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+    height: 100%;
+  }
+
+  .post-row__meta {
+    color: var(--muted-2);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .post-row__title {
+    font-size: clamp(18px, 1.6vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .post-row__desc {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .post-row__time {
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 10px;
+    color: var(--muted-2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .post-row:hover .post-row__title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+    text-decoration-color: var(--yellow);
+  }
+
+  @media (max-width: 760px) {
+    .post-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

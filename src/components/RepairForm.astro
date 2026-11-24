@@ -1,0 +1,212 @@
+---
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+
+interface Props {
+  netlify?: boolean;
+}
+const { netlify = true } = Astro.props;
+const hasKey = Boolean(site.form.accessKey);
+---
+
+<form
+  class="repair-form"
+  name="zgloszenie-naprawy"
+  method="POST"
+  action={netlify ? '/dziekujemy/' : site.form.endpoint}
+  data-netlify={netlify ? 'true' : undefined}
+  netlify-honeypot="bot-field"
+  data-repair-form
+  data-access-key={site.form.accessKey}
+>
+  {
+    netlify && !hasKey && (
+      <input type="hidden" name="form-name" value="zgloszenie-naprawy" />
+    )
+  }
+  <p class="repair-form__honeypot" aria-hidden="true">
+    <label>Nie wypełniaj tego pola <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="repair-form__row">
+    <div class="field">
+      <label for="rf-name">Imię</label>
+      <input id="rf-name" name="imie" type="text" autocomplete="given-name" required />
+    </div>
+    <div class="field">
+      <label for="rf-phone">Telefon</label>
+      <input
+        id="rf-phone"
+        name="telefon"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="np. 600 000 000"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="rf-device">Model laptopa lub komputera</label>
+    <input id="rf-device" name="sprzet" type="text" placeholder="np. Lenovo IdeaPad 5" />
+  </div>
+
+  <div class="field">
+    <label for="rf-problem">Co się dzieje ze sprzętem?</label>
+    <textarea
+      id="rf-problem"
+      name="usterka"
+      rows="4"
+      placeholder="Opisz objawy: kiedy się zaczęły, czy laptop był zalany lub upuszczony."
+      required
+    ></textarea>
+  </div>
+
+  <div class="field field--check">
+    <label class="check">
+      <input type="checkbox" name="zgoda" required />
+      <span>
+        Zgadzam się na kontakt w sprawie zgłoszenia i przetwarzanie danych
+        w tym celu. Szczegóły w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
+      </span>
+    </label>
+  </div>
+
+  <div class="repair-form__submit">
+    <button class="btn btn--primary btn--lg" type="submit">
+      Wyślij zgłoszenie <Icon name="arrow" size={17} class="icon-arrow" />
+    </button>
+    <p class="repair-form__alt">
+      Wolisz porozmawiać? <a href={`tel:${site.phoneTel}`} data-track="call" data-location="formularz">Zadzwoń: {site.phoneDisplay}</a>
+    </p>
+  </div>
+
+  <p class="form-status" data-form-status role="status" hidden></p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-repair-form]');
+  const statusEl = form?.querySelector<HTMLElement>('[data-form-status]');
+
+  function showStatus(message: string, state: 'ok' | 'error') {
+    if (!statusEl) return;
+    statusEl.hidden = false;
+    statusEl.dataset.state = state;
+    statusEl.textContent = message;
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    window.skTrack?.('form_submit', { form: 'zgloszenie-naprawy' });
+    const accessKey = form.dataset.accessKey;
+    if (!accessKey) return; // Netlify Forms (albo wysyłka natywna)
+
+    event.preventDefault();
+    const data = new FormData(form);
+    data.append('access_key', accessKey);
+    data.append('subject', 'Nowe zgłoszenie naprawy — studio-komp.pl');
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (btn) btn.disabled = true;
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data,
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      form.reset();
+      showStatus(
+        'Dziękujemy. Odezwiemy się w godzinach pracy serwisu. Jeśli sprawa jest pilna — zadzwoń: 500 613 500.',
+        'ok'
+      );
+      window.skTrack?.('generate_lead', { form: 'zgloszenie-naprawy' });
+    } catch {
+      showStatus(
+        'Nie udało się wysłać formularza. Zadzwoń pod 500 613 500 — szybciej zajmiemy się zgłoszeniem.',
+        'error'
+      );
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .repair-form {
+    display: grid;
+    gap: 18px;
+    max-width: 640px;
+  }
+
+  .repair-form__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .repair-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .field--check {
+    margin-top: 2px;
+  }
+
+  .check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .check input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex: none;
+    accent-color: var(--ink);
+  }
+
+  .check a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .repair-form__submit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+    margin-top: 4px;
+  }
+
+  .repair-form__alt {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .repair-form__alt a {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .repair-form__row {
+      grid-template-columns: 1fr;
+    }
+
+    .repair-form__submit .btn {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,485 @@
+---
+import type { GetStaticPaths } from 'astro';
+import LandingLayout from '../../layouts/LandingLayout.astro';
+import RepairForm from '../../components/RepairForm.astro';
+import Icon from '../../components/Icon.astro';
+import landing from '../../data/landing.json';
+import faq from '../../data/faq.json';
+import reviews from '../../data/opinie.json';
+import site from '../../data/site.json';
+import { faqSchema, serviceSchema } from '../../lib/schema';
+import { withBase } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  return landing.items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}) satisfies GetStaticPaths;
+
+const { item } = Astro.props;
+
+const lpFaq = faq.items
+  .filter((f) =>
+    ['Czy muszę się umawiać na naprawę?', 'Ile trwa naprawa laptopa?', 'Czy diagnostyka jest bezpłatna?'].includes(f.q)
+  )
+  .slice(0, 3);
+
+const schema = [
+  serviceSchema({
+    name: item.h1,
+    description: item.metaDescription,
+    path: `/lp/${item.slug}/`,
+    serviceType: item.h1,
+  }),
+  faqSchema(lpFaq),
+];
+
+const steps = [
+  { title: 'Przyjeżdżasz', desc: 'Bez umawiania, pon–pt 7:00–15:00. Kotlarska 14 we Wrocławiu.' },
+  { title: 'Diagnozujemy', desc: 'Sprawdzamy usterkę i podajemy cenę przed naprawą.' },
+  { title: 'Naprawiamy', desc: '99% napraw kończymy z dnia na dzień. Ekspres — tego samego dnia.' },
+];
+---
+
+<LandingLayout
+  title={item.metaTitle}
+  description={item.metaDescription}
+  canonicalPath={`/lp/${item.slug}/`}
+  schema={schema}
+  noindex={true}
+>
+  <section class="lp-hero">
+    <div class="container lp-hero__grid">
+      <div class="lp-hero__copy">
+        <p class="lp-hero__badge mono">Studio-Komp · Wrocław · od {site.founded}</p>
+        <h1>{item.h1}</h1>
+        <p class="lead lp-hero__lead">{item.lead}</p>
+
+        <div class="lp-hero__price">
+          <span class="mono lp-hero__price-label">Cena</span>
+          <span class="lp-hero__price-value">{item.price}</span>
+        </div>
+
+        <div class="lp-hero__actions">
+          <a
+            class="btn btn--primary btn--lg"
+            href={`tel:${site.phoneTel}`}
+            data-track="call"
+            data-location="lp-hero"
+          >
+            <Icon name="phone" size={18} /> Zadzwoń: {site.phoneDisplay}
+          </a>
+          <a class="btn btn--outline btn--lg lp-hero__anchor" href="#zgloszenie" data-track="cta" data-location="lp-hero">
+            Zostaw zgłoszenie
+          </a>
+        </div>
+
+        <ul class="lp-hero__bullets">
+          {item.bullets.map((b) => (
+            <li>
+              <Icon name="check" size={15} strokeWidth={2} />
+              {b}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="lp-hero__form" id="zgloszenie">
+        <div class="lp-form-card">
+          <p class="mono lp-form-card__label">Zgłoszenie naprawy</p>
+          <p class="lp-form-card__title">Napisz, co się dzieje — oddzwonimy</p>
+          <RepairForm />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-steps">
+    <div class="container">
+      <ol>
+        {steps.map((s, i) => (
+          <li>
+            <span class="mono lp-steps__num">0{i + 1}</span>
+            <strong>{s.title}</strong>
+            <span>{s.desc}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="lp-reviews">
+    <div class="container">
+      <div class="lp-reviews__head">
+        <p class="lp-reviews__score">
+          {site.reviews.rating.toLocaleString('pl-PL', { minimumFractionDigits: 1 })}
+          <span>/5</span>
+        </p>
+        <p class="lp-reviews__count">
+          Ponad <strong>{site.reviews.countLabel}</strong> opinii Google
+        </p>
+        <div class="lp-reviews__stars" aria-hidden="true">
+          {Array.from({ length: 5 }).map(() => <Icon name="star" size={16} />)}
+        </div>
+      </div>
+      <ul class="lp-reviews__list">
+        {reviews.items.slice(0, 3).map((r) => (
+          <li>
+            <p class="lp-reviews__text">„{r.text}”</p>
+            <p class="lp-reviews__author mono">{r.name} · Google</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="lp-faq">
+    <div class="container container--narrow">
+      <h2>Pytania, które słyszymy najczęściej</h2>
+      <div class="faq">
+        {lpFaq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <div class="faq__answer">
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-final">
+    <div class="container lp-final__inner">
+      <div>
+        <h2>Przyjdź bez umawiania</h2>
+        <p>
+          {site.address.street}, {site.address.postalCode} {site.address.city}
+          <br />
+          poniedziałek–piątek 7:00–15:00
+        </p>
+      </div>
+      <div class="lp-final__actions">
+        <a
+          class="btn btn--primary btn--lg"
+          href={`tel:${site.phoneTel}`}
+          data-track="call"
+          data-location="lp-final"
+        >
+          <Icon name="phone" size={18} /> {site.phoneDisplay}
+        </a>
+        <a
+          class="btn btn--outline btn--lg"
+          href={site.directionsUrl}
+          target="_blank"
+          rel="noopener"
+          data-track="directions"
+          data-location="lp-final"
+        >
+          <Icon name="pin" size={18} /> Wyznacz trasę
+        </a>
+      </div>
+    </div>
+  </section>
+</LandingLayout>
+
+<style>
+  .lp-hero {
+    padding-block: clamp(36px, 5vw, 72px) clamp(40px, 5vw, 72px);
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(255, 212, 0, 0.14), transparent 70%),
+      var(--paper);
+  }
+
+  .lp-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+  }
+
+  .lp-hero__badge {
+    display: inline-block;
+    color: var(--muted);
+    font-size: 10.5px;
+    padding: 6px 10px;
+    border: 1px solid var(--line-strong);
+  }
+
+  .lp-hero h1 {
+    margin-top: 20px;
+    font-size: clamp(38px, 5.4vw, 72px);
+    letter-spacing: -0.045em;
+    max-width: 18ch;
+  }
+
+  .lp-hero__lead {
+    margin-top: 20px;
+    max-width: 48ch;
+  }
+
+  .lp-hero__price {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    max-width: 420px;
+  }
+
+  .lp-hero__price-label {
+    color: var(--muted-2);
+    font-size: 10px;
+  }
+
+  .lp-hero__price-value {
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .lp-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .lp-hero__bullets {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .lp-hero__bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: #2a2e2b;
+  }
+
+  .lp-hero__bullets svg {
+    margin-top: 2px;
+    color: var(--ink);
+  }
+
+  .lp-form-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: clamp(22px, 2.6vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lp-form-card__label {
+    color: var(--muted-2);
+    font-size: 10px;
+  }
+
+  .lp-form-card__title {
+    font-size: clamp(19px, 1.7vw, 23px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .lp-steps {
+    border-block: 1px solid var(--line);
+    background: var(--surface);
+    padding-block: 30px;
+  }
+
+  .lp-steps ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .lp-steps li {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 20px;
+    border-right: 1px solid var(--line-strong);
+  }
+
+  .lp-steps li:last-child {
+    border-right: 0;
+  }
+
+  .lp-steps__num {
+    color: var(--muted-2);
+    font-size: 10px;
+  }
+
+  .lp-steps strong {
+    font-size: 17px;
+    letter-spacing: -0.02em;
+  }
+
+  .lp-steps span:last-child {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .lp-reviews {
+    padding-block: clamp(44px, 5vw, 72px);
+  }
+
+  .lp-reviews__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .lp-reviews__score {
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .lp-reviews__score span {
+    font-size: 0.35em;
+    color: var(--muted-2);
+  }
+
+  .lp-reviews__count {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .lp-reviews__stars {
+    display: flex;
+    gap: 3px;
+    margin-left: auto;
+  }
+
+  .lp-reviews__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-top: 0;
+  }
+
+  .lp-reviews__list li {
+    background: var(--paper);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .lp-reviews__text {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: #2a2e2b;
+  }
+
+  .lp-reviews__author {
+    margin-top: auto;
+    font-size: 10px;
+    color: var(--muted-2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .lp-faq {
+    padding-block: clamp(32px, 4vw, 56px) clamp(44px, 5vw, 72px);
+    border-top: 1px solid var(--line);
+  }
+
+  .lp-faq h2 {
+    font-size: clamp(26px, 3vw, 40px);
+    margin-bottom: 24px;
+  }
+
+  .lp-final {
+    background: var(--graphite);
+    color: var(--on-dark);
+    padding-block: clamp(40px, 5vw, 64px);
+  }
+
+  .lp-final__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px 40px;
+  }
+
+  .lp-final h2 {
+    font-size: clamp(28px, 3.4vw, 44px);
+  }
+
+  .lp-final p {
+    margin-top: 12px;
+    color: var(--on-dark-muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .lp-final__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .lp-final .btn--outline {
+    --btn-fg: var(--on-dark);
+    --btn-border: #3a3f3a;
+  }
+
+  .lp-final .btn--outline:hover {
+    --btn-bg: var(--yellow);
+    --btn-fg: var(--ink);
+    --btn-border: var(--yellow);
+  }
+
+  @media (max-width: 960px) {
+    .lp-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lp-steps ol {
+      grid-template-columns: 1fr;
+    }
+
+    .lp-steps li {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-strong);
+      padding: 0 0 16px;
+    }
+
+    .lp-steps li:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .lp-reviews__list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .lp-hero__actions .btn {
+      flex: 1 1 100%;
+    }
+
+    .lp-final__actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>

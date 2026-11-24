@@ -1,0 +1,95 @@
+{
+  "_note": "Landing page pod kampanie Google Ads. Każda pozycja to osobny adres /lp/<slug>/. Uzupełniaj treść i link do usługi.",
+  "items": [
+    {
+      "slug": "naprawa-laptopow",
+      "metaTitle": "Naprawa laptopów Wrocław — z dnia na dzień | Studio-Komp",
+      "metaDescription": "Naprawa laptopów we Wrocławiu: diagnostyka, wycena przed naprawą, 99% napraw z dnia na dzień. Bez umawiania, Kotlarska 14. Zadzwoń: 500 613 500.",
+      "h1": "Naprawa laptopów we Wrocławiu",
+      "lead": "Diagnoza, cena i naprawa w jednym miejscu. Większość laptopów oddajemy następnego dnia. Bez umawiania — przyjdź z sprzętem na Kotlarską 14.",
+      "price": "Wycena po diagnozie",
+      "bullets": [
+        "99% napraw z dnia na dzień",
+        "Diagnoza bezpłatna przy zlecenej naprawie",
+        "Bez umawiania — przyjdź w godzinach pracy",
+        "Ponad 550 opinii Google, działamy od 2013 roku"
+      ],
+      "service": "naprawa-laptopow-wroclaw"
+    },
+    {
+      "slug": "czyszczenie-laptopow",
+      "metaTitle": "Czyszczenie laptopa Wrocław — od 200 zł | Studio-Komp",
+      "metaDescription": "Czyszczenie laptopa we Wrocławiu: rozbiórka, czyszczenie chłodzenia, nowa pasta termoprzewodząca, testy temperatur. Od 200 zł, zwykle jeden dzień.",
+      "h1": "Czyszczenie laptopa we Wrocławiu",
+      "lead": "Laptop głośny, gorący i wolniejszy niż rok temu? Czyścimy układ chłodzenia razem z wymianą pasty i testami temperatur. Od 200 zł.",
+      "price": "od 200 zł",
+      "bullets": [
+        "Czyszczenie radiatora i wentylatora",
+        "Nowa pasta termoprzewodząca",
+        "Testy temperatur po złożeniu",
+        "Zwykle gotowe następnego dnia"
+      ],
+      "service": "czyszczenie-laptopa-wroclaw"
+    },
+    {
+      "slug": "przyspieszanie-laptopow",
+      "metaTitle": "Przyspieszanie laptopa Wrocław | Studio-Komp",
+      "metaDescription": "Wolny laptop? Diagnostyka, SSD, RAM, czyszczenie i konfiguracja systemu. Serwis laptopów we Wrocławiu, Kotlarska 14. Bez umawiania.",
+      "h1": "Przyspieszanie laptopów we Wrocławiu",
+      "lead": "Zanim kupisz nowego laptopa — sprawdźmy, co go spowalnia. Często wystarczy SSD, pamięć RAM i czyszczenie chłodzenia.",
+      "price": "Wycena po diagnozie",
+      "bullets": [
+        "Diagnostyka wąskiego gardła",
+        "Dobór SSD i pamięci RAM",
+        "Klonowanie systemu bez utraty danych",
+        "Czyszczenie i konfiguracja systemu"
+      ],
+      "service": "przyspieszanie-laptopa-wroclaw"
+    },
+    {
+      "slug": "wymiana-matrycy",
+      "metaTitle": "Wymiana matrycy w laptopie Wrocław | Studio-Komp",
+      "metaDescription": "Pęknięta matryca w laptopie? Wymiana ekranu we Wrocławiu: dobór panelu do modelu, montaż, testy obrazu. Kotlarska 14, bez umawiania.",
+      "h1": "Wymiana matrycy w laptopie",
+      "lead": "Pęknięty ekran, czarne plamy albo pasy? Dobierzemy matrycę dopasowaną do Twojego modelu i wymienimy ją w serwisie.",
+      "price": "Cena po doborze matrycy",
+      "bullets": [
+        "Dobór matrycy do modelu i złącza",
+        "Demontaż i montaż panelu",
+        "Testy obrazu i podświetlenia",
+        "Sprawdzenie taśmy i zawiasów"
+      ],
+      "service": "wymiana-matrycy-wroclaw"
+    },
+    {
+      "slug": "naprawa-po-zalaniu",
+      "metaTitle": "Naprawa laptopa po zalaniu Wrocław | Studio-Komp",
+      "metaDescription": "Zalany laptop? Naprawa po zalaniu we Wrocławiu: mycie płyty, usuwanie korozji, naprawa podzespołów. 450–800 zł. Kotlarska 14.",
+      "h1": "Naprawa laptopa po zalaniu",
+      "lead": "Kawa, herbata, woda? Im szybciej laptop trafi do serwisu, tym większa szansa na uratowanie płyty i danych. Diagnozujemy i naprawiamy.",
+      "price": "450–800 zł",
+      "bullets": [
+        "Rozbiórka i ocena szkód",
+        "Mycie płyty głównej",
+        "Usuwanie elektrokorozji",
+        "Naprawa uszkodzonych elementów i testy"
+      ],
+      "service": "naprawa-laptopa-po-zalaniu"
+    },
+    {
+      "slug": "naprawa-ekspresowa",
+      "metaTitle": "Naprawa laptopa tego samego dnia Wrocław | Studio-Komp",
+      "metaDescription": "Naprawa ekspresowa laptopa we Wrocławiu — tego samego dnia, dopłata 150 zł. Zależy od usterki i dostępności części. Kotlarska 14.",
+      "h1": "Naprawa laptopa tego samego dnia",
+      "lead": "Nie możesz czekać? Naprawa ekspresowa oznacza, że zajmujemy się laptopem poza kolejnością — tego samego dnia. Dopłata 150 zł.",
+      "price": "+150 zł do naprawy",
+      "bullets": [
+        "Naprawa poza standardową kolejką",
+        "Diagnoza i wycena od razu na miejscu",
+        "Dostępność zależy od usterki i części",
+        "Sprawdzamy możliwość ekspresu od razu przy przyjęciu"
+      ],
+      "service": "naprawa-laptopow-wroclaw"
+    }
+  ]
+}

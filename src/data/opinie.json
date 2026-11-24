@@ -1,0 +1,21 @@
+{
+  "_note": "Opinie pochodzą z wizytówki Google Studio-Komp. Nowe opinie dodawaj ręcznie w tym pliku — sekcja na stronie aktualizuje się przy kolejnym wdrożeniu.",
+  "items": [
+    {
+      "name": "Jakub M.",
+      "rating": 5,
+      "text": "Panowie zrobili z moim sprzętem coś pomiędzy chirurgią plastyczną a wskrzeszeniem Łazarza — szybko, profesjonalnie, a przy okazji tak sympatycznie, że miałem ochotę zostawić im ciasto. Odpowiedzieli na każde pytanie (nawet te głupie) i dorzucili porady na przyszłość.",
+      "highlight": "Laptop był trupem. Teraz robi więcej niż ja po trzech kawach."
+    },
+    {
+      "name": "Michaelo S.",
+      "rating": 5,
+      "text": "Gamingowy laptop wyczyszczony, chodzi o niebo lepiej, usługa wykonana w mniej niż 2 godziny. Do tego wymieniona pasta. Po drugiej wizycie i reinstalacji Windows 11 gry, które nie działały, teraz działają bez zarzutu."
+    },
+    {
+      "name": "Александр П.",
+      "rating": 5,
+      "text": "Bardzo mili i pomocni ludzie — wszystko zrobili szybko, dokładnie i profesjonalnie. Kontakt z nimi był przyjemny, można swobodnie porozmawiać i wszystko jasno wyjaśniają."
+    }
+  ]
+}

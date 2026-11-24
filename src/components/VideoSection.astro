@@ -1,0 +1,176 @@
+---
+import Icon from './Icon.astro';
+import videos from '../data/wideo.json';
+
+const items = videos.items.filter((v) => v.youtubeId);
+---
+
+{
+  items.length > 0 && (
+    <section class="section video" aria-labelledby="video-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="video-title">Wideo z warsztatu</h2>
+          <div class="section-head__aside">
+            <p>
+              Krótkie nagrania z napraw — czyszczenie, płyty główne, matryce.
+              Filmy ładują się dopiero po kliknięciu, więc nie spowalniają
+              strony.
+            </p>
+          </div>
+        </div>
+
+        <ul class="video__grid">
+          {items.map((video) => (
+            <li class="video__item" data-video-id={video.youtubeId}>
+              <button class="video__facade" type="button" aria-label={`Odtwórz film: ${video.title}`}>
+                {video.poster ? (
+                  <img
+                    src={video.poster}
+                    alt=""
+                    width="640"
+                    height="360"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span class="video__placeholder" aria-hidden="true"></span>
+                )}
+                <span class="video__play" aria-hidden="true">
+                  <Icon name="play" size={20} />
+                </span>
+                {video.duration && <span class="video__duration mono">{video.duration}</span>}
+                <span class="video__title">{video.title}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-video-id]').forEach((item) => {
+    const id = item.dataset.videoId;
+    const btn = item.querySelector<HTMLButtonElement>('.video__facade');
+    btn?.addEventListener('click', () => {
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = item.querySelector('.video__title')?.textContent ?? 'Film z warsztatu';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.className = 'video__iframe';
+      item.replaceChildren(iframe);
+    });
+  });
+</script>
+
+<style>
+  .video__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px);
+  }
+
+  .video__item {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #151816;
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .video__facade {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    text-align: left;
+    color: var(--on-dark);
+  }
+
+  .video__facade img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity var(--fast) var(--ease-out), transform 600ms var(--ease-out);
+  }
+
+  .video__facade:hover img {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+
+  .video__placeholder {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 70% 30%, rgba(255, 212, 0, 0.18), transparent 55%),
+      #151816;
+  }
+
+  .video__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: var(--ink);
+    transition: transform var(--fast) var(--ease-out);
+  }
+
+  .video__facade:hover .video__play {
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+
+  .video__title {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .video__duration {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    padding: 4px 7px;
+    background: rgba(14, 16, 15, 0.75);
+    color: var(--on-dark);
+    font-size: 9.5px;
+  }
+
+  .video__iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @media (max-width: 900px) {
+    .video__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .video__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

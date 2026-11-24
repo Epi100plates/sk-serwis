@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CaseGrid from '../../components/CaseGrid.astro';
+import VideoSection from '../../components/VideoSection.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import realizacje from '../../data/realizacje.json';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const schema = [
+  breadcrumbSchema([
+    { label: 'Start', path: '/' },
+    { label: 'Realizacje', path: '/realizacje/' },
+  ]),
+];
+---
+
+<Base
+  title="Realizacje serwisu laptopów Wrocław | Studio-Komp"
+  description="Przykładowe naprawy z serwisu Studio-Komp we Wrocławiu: zalania, płyty główne, matryce, gniazda zasilania, czyszczenie chłodzenia. Zobacz, z czym pracujemy."
+  canonicalPath="/realizacje/"
+  schema={schema}
+>
+  <PageHero
+    h1="Realizacje: co trafia do serwisu"
+    lead="Zalane laptopy, płyty główne po zwarciu, pęknięte matryce, wyrwane gniazda zasilania i zapchane chłodzenia. Poniżej typowe przypadki, z którymi mamy do czynienia na co dzień."
+    crumbs={[{ label: 'Realizacje' }]}
+    showActions={false}
+    chips={[
+      { label: 'Zakres', value: 'Laptopy, komputery, elektronika' },
+      { label: 'Diagnostyka', value: '0 zł przy naprawie' },
+    ]}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      <CaseGrid items={realizacje.items} showLink />
+      <p class="cases-note">
+        Ilustracje przedstawiają typowe rodzaje napraw. Zdjęcia z realnych
+        napraw dodajemy na bieżąco — wkrótce w tym miejscu pojawią się także
+        zdjęcia przed i po konserwacji.
+      </p>
+    </div>
+  </section>
+
+  <VideoSection />
+  <ContactBlock title="Twój laptop wygląda jak z naszej galerii?" text="Nie diagnozuj przez internet — przywieź sprzęt. Sprawdzimy, co dokładnie jest zepsute, i podamy koszt naprawy przed jej rozpoczęciem." />
+</Base>
+
+<style>
+  .cases-note {
+    margin-top: 28px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 62ch;
+  }
+</style>

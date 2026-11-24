@@ -1,0 +1,37 @@
+{
+  "_note": "Najczęstsze pytania klientów. Każde pytanie generuje też dane FAQPage w schema.org.",
+  "items": [
+    {
+      "q": "Czy muszę się umawiać na naprawę?",
+      "a": "Nie. Możesz po prostu przyjść do serwisu na Kotlarską 14 w godzinach pracy: poniedziałek–piątek 7:00–15:00. Jeśli wolisz najpierw porozmawiać, zadzwoń pod 500 613 500 — ale telefon nie jest konieczny."
+    },
+    {
+      "q": "Ile trwa naprawa laptopa?",
+      "a": "99% napraw wykonujemy z dnia na dzień. Jeśli zależy Ci na czasie, dostępna jest usługa ekspresowa — naprawa tego samego dnia za dopłatą 150 zł. Ekspres nie zawsze jest możliwy: zależy od usterki i dostępności części, dlatego ustalamy to od razu przy przyjęciu sprzętu."
+    },
+    {
+      "q": "Czy diagnostyka jest bezpłatna?",
+      "a": "Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Jeżeli po diagnozie nie zdecydujesz się naprawiać, diagnostyka jest płatna. Zawsze mówimy o tym przed rozpoczęciem pracy."
+    },
+    {
+      "q": "Ile kosztuje naprawa laptopa?",
+      "a": "Cena zależy od usterki i części. Czyszczenie i konserwacja to 200–250 zł, wymiana gniazda zasilania 350 zł, naprawa po zalaniu 450–800 zł, naprawa płyty głównej po zwarciu 600–800 zł. Dokładną kwotę podajemy po diagnozie, przed rozpoczęciem naprawy."
+    },
+    {
+      "q": "Czy odbierzesz laptopa tego samego dnia, jeśli przyjdę rano?",
+      "a": "W wielu przypadkach tak — to właśnie usługa ekspresowa (+150 zł). Przy przyjęciu sprawdzamy, czy dana naprawa jest możliwa do wykonania tego samego dnia i czy część jest dostępna."
+    },
+    {
+      "q": "Naprawiacie laptopy po zalaniu?",
+      "a": "Tak, to jedna z naszych specjalności. Płytę główną czyścimy, usuwamy elektrokorozję, naprawiamy uszkodzone elementy i testujemy urządzenie. Im szybciej trafi do nas zalany laptop, tym większa szansa na uratowanie danych i podzespołów."
+    },
+    {
+      "q": "Czy naprawiacie komputery stacjonarne?",
+      "a": "Tak. Naprawiamy komputery PC, czyścimy układy chłodzenia, modernizujemy podzespoły, instalujemy systemy i konfigurujemy sprzęt dla firm i osób prywatnych."
+    },
+    {
+      "q": "Jakie marki laptopów obsługujecie?",
+      "a": "Wszystkie popularne marki: Lenovo, Dell, HP, Asus, Acer, MSI, Samsung, Apple, Toshiba oraz sprzęt gamingowy i premium. Jeśli nie masz pewności, czy zajmiemy się Twoim modelem — zadzwoń, zapytamy o model i powiemy od razu."
+    }
+  ]
+}

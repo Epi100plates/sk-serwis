@@ -1,0 +1,129 @@
+---
+import Base from '../../layouts/Base.astro';
+import site from '../../data/site.json';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const schema = [
+  breadcrumbSchema([
+    { label: 'Start', path: '/' },
+    { label: 'Polityka prywatności', path: '/polityka-prywatnosci/' },
+  ]),
+];
+
+const updated = '24 listopada 2026';
+---
+
+<Base
+  title="Polityka prywatności | Studio-Komp"
+  description="Zasady przetwarzania danych osobowych i wykorzystywania plików cookies w serwisie studio-komp.pl."
+  canonicalPath="/polityka-prywatnosci/"
+  noindex={true}
+  schema={schema}
+>
+  <section class="section">
+    <div class="container container--narrow prose">
+      <h1>Polityka prywatności</h1>
+      <p class="mono privacy-date">Ostatnia aktualizacja: {updated}</p>
+
+      <h2>1. Administrator danych</h2>
+      <p>
+        Administratorem danych osobowych zbieranych za pośrednictwem strony
+        studio-komp.pl jest Studio-Komp, Kotlarska 14, 50-150 Wrocław, telefon
+        500 613 500 (dalej: „Serwis”).
+      </p>
+
+      <h2>2. Jakie dane zbieramy</h2>
+      <ul>
+        <li>dane podane w formularzu zgłoszenia naprawy: imię, numer telefonu, model sprzętu, opis usterki;</li>
+        <li>dane techniczne związane z korzystaniem ze strony: adres IP, typ urządzenia i przeglądarki, odwiedzone podstrony, źródło wejścia — w zakresie wynikającym z narzędzi analitycznych;</li>
+        <li>dane zapisywane w plikach cookies i podobnych technologiach.</li>
+      </ul>
+
+      <h2>3. Cele i podstawy przetwarzania</h2>
+      <ul>
+        <li>kontakt w sprawie zgłoszenia naprawy i przygotowanie wyceny — art. 6 ust. 1 lit. b RODO (czynności niezbędne do zawarcia umowy);</li>
+        <li>obsługa naprawy i rozliczenie — art. 6 ust. 1 lit. b i c RODO;</li>
+        <li>analityka ruchu i poprawa działania strony — art. 6 ust. 1 lit. f RODO (uzasadniony interes), a w przypadku reklam i narzędzi wymagających zgody — art. 6 ust. 1 lit. a RODO;</li>
+        <li>dochodzenie lub obrona przed roszczeniami — art. 6 ust. 1 lit. f RODO.</li>
+      </ul>
+
+      <h2>4. Odbiorcy danych</h2>
+      <p>
+        Dane mogą być przekazywane podmiotom obsługującym stronę i jej
+        infrastrukturę: dostawcy hostingu, dostawcom narzędzi analitycznych
+        i reklamowych (Google Ireland Limited — Google Analytics, Google Ads,
+        Google Search Console), dostawcy usługi obsługi formularza
+        kontaktowego oraz podmiotom świadczącym usługi księgowe i prawne.
+        Przekazywanie danych poza EOG odbywa się na podstawie standardowych
+        klauzul umownych.
+      </p>
+
+      <h2>5. Okres przechowywania</h2>
+      <p>
+        Dane ze zgłoszeń przechowujemy przez czas potrzebny do obsługi
+        zapytania, a następnie do przedawnienia ewentualnych roszczeń. Dane
+        analityczne — zgodnie z konfiguracją narzędzi (zwykle do 26 miesięcy).
+        Dane rozliczeniowe — przez okres wymagany przepisami podatkowymi.
+      </p>
+
+      <h2>6. Twoje prawa</h2>
+      <p>
+        Masz prawo dostępu do danych, ich sprostowania, usunięcia,
+        ograniczenia przetwarzania, przenoszenia, wniesienia sprzeciwu oraz
+        wycofania zgody w dowolnym momencie (bez wpływu na zgodność
+        z prawem wcześniejszego przetwarzania). Możesz też złożyć skargę do
+        Prezesa Urzędu Ochrony Danych Osobowych. W sprawach dotyczących danych
+        skontaktuj się telefonicznie pod numerem 500 613 500 lub osobiście
+        w siedzibie serwisu.
+      </p>
+
+      <h2>7. Pliki cookies</h2>
+      <p>
+        Strona korzysta z niezbędnych plików cookies (zapewniających
+        działanie strony i zapamiętanie decyzji o zgodzie) oraz — po Twojej
+        zgodzie — z plików cookies analitycznych i reklamowych Google.
+        Zgodę możesz w każdej chwili zmienić, korzystając z przycisku
+        „Ustawienia cookies” w stopce strony.
+      </p>
+      <p>
+        Narzędzia analityczne uruchamiamy dopiero po wyrażeniu zgody.
+        W trybie domyślnym Google Consent Mode ustawia wszystkie kategorie
+        zgód na „denied”.
+      </p>
+
+      <h2>8. Bezpieczeństwo</h2>
+      <p>
+        Strona działa w protokole HTTPS. Dostęp do danych ze zgłoszeń mają
+        wyłącznie osoby obsługujące serwis. Stosujemy środki techniczne
+        i organizacyjne odpowiednie do charakteru przetwarzanych danych.
+      </p>
+
+      <h2>9. Postanowienia końcowe</h2>
+      <p>
+        Polityka może być aktualizowana — data ostatniej zmiany znajduje się
+        na początku dokumentu. Zmiany nie ograniczają praw przysługujących
+        użytkownikom na podstawie RODO.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .privacy-date {
+    margin-top: 16px;
+    color: var(--muted-2);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .prose h1 {
+    font-size: clamp(34px, 4vw, 52px);
+    letter-spacing: -0.04em;
+  }
+
+  .prose h2 {
+    font-size: clamp(21px, 2vw, 26px);
+    margin-top: 2.2em;
+  }
+</style>

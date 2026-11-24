@@ -1,0 +1,208 @@
+?---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import Icon from '../../components/Icon.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+import { withBase } from '../../lib/url';
+
+const services = (await getCollection('uslugi', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const groups = [
+  {
+    name: 'Konserwacja',
+    desc: 'Czyszczenie, przeglądy i utrzymanie sprzętu w dobrej formie.',
+  },
+  {
+    name: 'Naprawy',
+    desc: 'Usterki mechaniczne i podzespoły, które przestały działać.',
+  },
+  {
+    name: 'Elektronika',
+    desc: 'Płyty główne, zasilanie, zalania i zwarcia — naprawy na poziomie elementów.',
+  },
+  {
+    name: 'System i dane',
+    desc: 'System, dane i modernizacja, gdy sprzęt jest sprawny, ale za wolny.',
+  },
+] as const;
+
+const schema = [
+  breadcrumbSchema([
+    { label: 'Start', path: '/' },
+    { label: 'Usługi', path: '/uslugi/' },
+  ]),
+];
+---
+
+<Base
+  title="Usługi serwisu laptopów we Wrocławiu | Studio-Komp"
+  description="Czyszczenie laptopów, naprawa płyt głównych, wymiana matryc, naprawy po zalaniu, przyspieszanie sprzętu i odzyskiwanie danych. Serwis laptopów we Wrocławiu."
+  canonicalPath="/uslugi/"
+  schema={schema}
+>
+  <PageHero
+    h1="Usługi serwisu laptopów we Wrocławiu"
+    lead="Naprawiamy laptopy i komputery wszystkich marek — od prostych usterek po naprawy elektroniki. Wybierz usługę albo po prostu przywieź sprzęt: sprawdzimy, co jest zepsute."
+    crumbs={[{ label: 'Usługi' }]}
+    chips={[
+      { label: 'Lokalizacja', value: 'Kotlarska 14, Wrocław' },
+      { label: 'Godziny', value: 'pon–pt 7:00–15:00' },
+      { label: 'Diagnostyka', value: '0 zł przy naprawie' },
+    ]}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      {
+        groups.map((group) => {
+          const items = services.filter((s) => s.data.group === group.name);
+          if (items.length === 0) return null;
+          return (
+            <div class="service-group">
+              <div class="service-group__head">
+                <h2>{group.name}</h2>
+                <p>{group.desc}</p>
+              </div>
+              <ul class="service-group__list">
+                {items.map((s) => (
+                  <li>
+                    <a class="service-card" href={withBase(`/${s.id}/`)}>
+                      <span class="service-card__body">
+                        <span class="service-card__title">{s.data.navLabel}</span>
+                        <span class="service-card__teaser">{s.data.teaser}</span>
+                      </span>
+                      <span class="service-card__aside">
+                        {s.data.priceFrom && (
+                          <span class="mono service-card__price">{s.data.priceFrom}</span>
+                        )}
+                        <Icon name="arrow" size={18} />
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <ContactBlock
+    title="Nie wiesz, co jest zepsute?"
+    text="Przywieź laptopa — sprawdzimy go na miejscu i powiemy, co jest do zrobienia. Jeśli naprawa nie będzie się opłacać, też to powiemy."
+  />
+</Base>
+
+<style>
+  .service-group {
+    margin-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .service-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .service-group__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 32px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .service-group__head h2 {
+    font-size: clamp(24px, 2.4vw, 34px);
+    letter-spacing: -0.032em;
+  }
+
+  .service-group__head p {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 46ch;
+    line-height: 1.5;
+  }
+
+  .service-group__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(28px, 4vw, 64px);
+  }
+
+  .service-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .service-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .service-card__title {
+    font-size: clamp(18px, 1.5vw, 21px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .service-card__teaser {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 42ch;
+  }
+
+  .service-card__aside {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: none;
+    padding-top: 2px;
+  }
+
+  .service-card__price {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .service-card__aside svg {
+    transition: transform var(--fast) var(--ease-out);
+  }
+
+  .service-card:hover .service-card__aside svg {
+    transform: translateX(4px);
+  }
+
+  .service-card:hover .service-card__title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+    text-decoration-color: var(--yellow);
+  }
+
+  @media (max-width: 760px) {
+    .service-group__list {
+      grid-template-columns: 1fr;
+    }
+
+    .service-card__price {
+      display: none;
+    }
+  }
+</style>
+

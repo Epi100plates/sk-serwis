@@ -1,0 +1,186 @@
+---
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+---
+
+<section class="section express" aria-labelledby="express-title">
+  <div class="container">
+    <div class="express__grid">
+      <div class="express__copy">
+        <h2 id="express-title">Nie możesz czekać na laptopa?</h2>
+        <p class="lead express__lead">
+          Większość napraw kończymy już następnego dnia. Jeśli zależy Ci na
+          czasie, możesz zamówić naprawę ekspresową — tego samego dnia.
+        </p>
+
+        <div class="express__price">
+          <span class="express__price-value">+{site.express.surcharge} zł</span>
+          <span class="express__price-label">dopłata za usługę ekspresową</span>
+        </div>
+
+        <div class="express__actions">
+          <a
+            class="btn btn--primary btn--lg"
+            href={`tel:${site.phoneTel}`}
+            data-track="call"
+            data-location="express"
+          >
+            <Icon name="phone" size={18} /> Zapytaj o ekspres
+          </a>
+        </div>
+
+        <p class="express__note">
+          Ekspres nie zawsze jest możliwy — zależy od rodzaju usterki
+          i dostępności części. Sprawdzamy to od razu przy przyjęciu sprzętu
+          i mówimy wprost, czy zdążymy tego samego dnia.
+        </p>
+      </div>
+
+      <div class="express__timeline">
+        <ol>
+          <li class="express__step">
+            <span class="express__step-label">Dziś, przy przyjęciu</span>
+            <strong class="express__step-title">Diagnoza i wycena</strong>
+            <span class="express__step-desc"
+              >Sprawdzamy usterkę, dostępność części i od razu podajemy koszt.</span
+            >
+          </li>
+          <li class="express__step">
+            <span class="express__step-label">Ten sam dzień</span>
+            <strong class="express__step-title">Naprawa poza kolejnością</strong>
+            <span class="express__step-desc"
+              >Sprzęt trafia do naprawy natychmiast, z pominięciem standardowej
+              kolejki.</span
+            >
+          </li>
+          <li class="express__step">
+            <span class="express__step-label">Odbiór</span>
+            <strong class="express__step-title">Gotowy do pracy</strong>
+            <span class="express__step-desc"
+              >Dzwonimy, gdy laptop jest sprawdzony i gotowy do odbioru.</span
+            >
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .express {
+    background: var(--surface);
+    border-block: 1px solid var(--line);
+  }
+
+  .express__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(36px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .express__lead {
+    margin-top: 20px;
+    max-width: 46ch;
+  }
+
+  .express__price {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .express__price-value {
+    font-size: clamp(30px, 3vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .express__price-label {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 20ch;
+    line-height: 1.35;
+  }
+
+  .express__actions {
+    margin-top: 26px;
+  }
+
+  .express__note {
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 46ch;
+  }
+
+  .express__timeline ol {
+    list-style: none;
+    counter-reset: express;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .express__step {
+    position: relative;
+    counter-increment: express;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 22px 0 22px 34px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .express__step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 12px;
+    height: 12px;
+    background: var(--yellow);
+    border: 1px solid var(--ink);
+  }
+
+  .express__step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 5.5px;
+    top: 44px;
+    bottom: -1px;
+    width: 1px;
+    background: var(--line-strong);
+  }
+
+  .express__step-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .express__step-title {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.022em;
+  }
+
+  .express__step-desc {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 36ch;
+  }
+
+  @media (max-width: 900px) {
+    .express__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

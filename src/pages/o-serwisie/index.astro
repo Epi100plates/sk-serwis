@@ -1,0 +1,326 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import BrandStrip from '../../components/BrandStrip.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import Icon from '../../components/Icon.astro';
+import site from '../../data/site.json';
+import { breadcrumbSchema } from '../../lib/schema';
+import { withBase } from '../../lib/url';
+
+const stats = [
+  { value: String(site.founded), label: 'rok, w którym zaczęliśmy' },
+  { value: site.reviews.countLabel, label: 'opinii w Google' },
+  { value: '99%', label: 'napraw z dnia na dzień' },
+  { value: '1', label: 'miejsce: Kotlarska 14, Wrocław' },
+];
+
+const schema = [
+  breadcrumbSchema([
+    { label: 'Start', path: '/' },
+    { label: 'O serwisie', path: '/o-serwisie/' },
+  ]),
+];
+---
+
+<Base
+  title="O serwisie laptopów Studio-Komp we Wrocławiu"
+  description="Serwis laptopów i komputerów przy Kotlarskiej 14 we Wrocławiu. Działamy od 2013 roku, mamy ponad 550 opinii Google i naprawiamy z dnia na dzień."
+  canonicalPath="/o-serwisie/"
+  schema={schema}
+>
+  <PageHero
+    h1="Serwis, który zna laptopy od środka"
+    lead="Studio-Komp działa we Wrocławiu od 2013 roku. Naprawiamy laptopy i komputery — od prostych usterek po elektronikę: płyty główne, układy zasilania, skutki zalania i zwarcia."
+    crumbs={[{ label: 'O serwisie' }]}
+    showActions={false}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      <dl class="about-stats">
+        {
+          stats.map((s) => (
+            <div class="about-stat">
+              <dt>{s.value}</dt>
+              <dd>{s.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <div class="about-layout">
+        <div class="about-copy">
+          <h2>Zaczęliśmy w 2013 roku i nadal robimy to samo — tylko lepiej</h2>
+          <p>
+            Przez ponad dekadę przez serwis przy Kotlarskiej 14 przeszły tysiące
+            laptopów: studenckich, firmowych, gamingowych i tych, które ktoś
+            przyniósł w reklamówce po kawie. Z czasem wyrobiliśmy sobie sposób
+            pracy, który sprawdza się najlepiej: najpierw dokładnie sprawdzić,
+            potem jasno powiedzieć, co się dzieje, i dopiero wtedy naprawiać.
+          </p>
+          <p>
+            Nie obiecujemy, że każdą usterkę da się naprawić. Nie mówimy też, że
+            każde uszkodzenie wymaga wymiany połowy podzespołów. Część problemów
+            rozwiązuje czyszczenie i nowa pasta, część wymiana gniazda za 350 zł,
+            a część naprawa płyty głównej, która i tak wychodzi taniej niż nowy
+            laptop.
+          </p>
+
+          <h2>Diagnoza, cena, naprawa — w tej kolejności</h2>
+          <p>
+            Każdy laptop przechodzi diagnostykę, zanim cokolwiek przy nim
+            zrobimy. Dzięki temu wiesz, za co płacisz. Diagnostyka jest
+            bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Jeśli
+            nie — jest płatna, a o kwocie informujemy przed jej rozpoczęciem.
+          </p>
+          <p>
+            Cena naprawy zawsze jest podana przed pracą. Jeśli w trakcie okaże
+            się, że problem jest większy, niż wynikało to z oględzin,
+            kontaktujemy się z Tobą i pytamy, czy kontynuować.
+          </p>
+
+          <h2>Dlaczego naprawiamy szybko</h2>
+          <p>
+            99% napraw kończymy z dnia na dzień. To efekt codziennej pracy przy
+            laptopach i tego, że typowe części mamy na miejscu. Nie oznacza to,
+            że zawsze jest błyskawicznie — czasem trzeba zamówić matrycę albo
+            konkretny element płyty. Wtedy mówimy, ile trzeba poczekać.
+          </p>
+          <p>
+            Jeśli zależy Ci na czasie, jest usługa ekspresowa: dopłata{' '}
+            {site.express.surcharge} zł i naprawa tego samego dnia. Ekspres nie
+            zawsze jest możliwy — zależy od usterki i dostępności części.
+          </p>
+
+          <h2>Bez umawiania i bez korporacyjnego języka</h2>
+          <p>
+            Do serwisu można po prostu przyjść w godzinach pracy:
+            poniedziałek–piątek, 7:00–15:00. Nie musisz rezerwować terminu przez
+            formularz ani czekać na potwierdzenie. Wystarczy, że przywieziesz
+            sprzęt.
+          </p>
+          <p>
+            Na miejscu rozmawiamy normalnie. Jeśli nie znasz się na komputerach,
+            nie musisz udawać, że znasz — wystarczy opisać, co się dzieje.
+            Powiemy, co jest zepsute i jakie masz opcje. Bez straszenia i bez
+            wciskania droższych napraw.
+          </p>
+        </div>
+
+        <aside class="about-aside">
+          <div class="about-box">
+            <p class="mono about-box__label">Specjalizacja</p>
+            <ul class="about-box__list">
+              <li><Icon name="drop" size={17} /> Naprawy po zalaniu</li>
+              <li><Icon name="bolt" size={17} /> Naprawy po zwarciu</li>
+              <li><Icon name="chip" size={17} /> Płyty główne i układy zasilania</li>
+              <li><Icon name="screen" size={17} /> Matryce, klawiatury, gniazda</li>
+              <li><Icon name="fan" size={17} /> Czyszczenie i konserwacja</li>
+            </ul>
+          </div>
+
+          <div class="about-box about-box--dark">
+            <p class="mono about-box__label">Znajdziesz nas tutaj</p>
+            <p class="about-box__address">
+              {site.address.street}<br />
+              {site.address.postalCode} {site.address.city}
+            </p>
+            <p class="about-box__hours">pon–pt 7:00–15:00</p>
+            <a
+              class="btn btn--primary btn--block"
+              href={`tel:${site.phoneTel}`}
+              data-track="call"
+              data-location="o-serwisie"
+            >
+              <Icon name="phone" size={17} /> {site.phoneDisplay}
+            </a>
+            <a
+              class="btn btn--outline btn--block"
+              href={site.directionsUrl}
+              target="_blank"
+              rel="noopener"
+              data-track="directions"
+              data-location="o-serwisie"
+            >
+              <Icon name="pin" size={17} /> Jak dojechać
+            </a>
+          </div>
+
+          <div class="about-box">
+            <p class="mono about-box__label">W skrócie</p>
+            <p class="about-box__text">
+              Działamy od {site.founded} roku. Obsługujemy osoby prywatne,
+              studentów, firmy i użytkowników sprzętu gamingowego oraz premium.
+              Wszystkie popularne marki laptopów i komputerów.
+            </p>
+            <a class="link-arrow" href={withBase('/uslugi/')}>
+              Zobacz wszystkie usługi <Icon name="arrow" size={16} />
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <BrandStrip />
+    </div>
+  </section>
+
+  <ContactBlock />
+</Base>
+
+<style>
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0 0 clamp(36px, 5vw, 64px);
+    border-top: 1px solid var(--ink);
+  }
+
+  .about-stat {
+    padding: 18px 20px 0 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .about-stat:last-child {
+    border-right: 0;
+  }
+
+  .about-stat dt {
+    font-size: clamp(30px, 3.6vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .about-stat dd {
+    margin: 8px 0 0;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--muted);
+    max-width: 20ch;
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .about-copy {
+    max-width: 66ch;
+  }
+
+  .about-copy h2 {
+    font-size: clamp(24px, 2.5vw, 34px);
+    letter-spacing: -0.03em;
+    margin-top: 44px;
+    margin-bottom: 16px;
+  }
+
+  .about-copy h2:first-child {
+    margin-top: 0;
+  }
+
+  .about-copy p {
+    font-size: clamp(15.5px, 1.15vw, 17px);
+    line-height: 1.65;
+    color: #2a2e2b;
+    margin-bottom: 14px;
+  }
+
+  .about-aside {
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .about-box {
+    border: 1px solid var(--line);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .about-box--dark {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--on-dark);
+  }
+
+  .about-box__label {
+    color: var(--muted-2);
+    font-size: 10px;
+  }
+
+  .about-box--dark .about-box__label {
+    color: var(--on-dark-muted);
+  }
+
+  .about-box__list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .about-box__list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .about-box__list svg {
+    color: var(--muted);
+  }
+
+  .about-box__address {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+  }
+
+  .about-box__hours {
+    font-size: 13px;
+    color: var(--on-dark-muted);
+  }
+
+  .about-box__text {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .about-box--dark .btn--outline {
+    --btn-fg: var(--on-dark);
+    --btn-border: #3a3f3a;
+  }
+
+  @media (max-width: 900px) {
+    .about-stats {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .about-stat {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 16px;
+    }
+
+    .about-stat:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .about-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .about-aside {
+      position: static;
+    }
+  }
+</style>

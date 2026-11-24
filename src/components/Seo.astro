@@ -1,0 +1,141 @@
+---
+import site from '../data/site.json';
+import { absoluteUrl, SITE_ORIGIN } from '../lib/url';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  image?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  schema?: Record<string, unknown>[];
+  publishedTime?: string;
+  modifiedTime?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  image = site.seo.defaultOgImage,
+  noindex = false,
+  type = 'website',
+  schema = [],
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+
+const cleanPath = (canonicalPath ?? Astro.url.pathname.replace(new RegExp(`^${import.meta.env.BASE_URL}`), '/'))
+  .replace(/\/index\.html$/, '/')
+  .replace(/\/{2,}/g, '/');
+
+const isPreview = import.meta.env.BASE_URL !== '/';
+const shouldNoindex = noindex || isPreview;
+
+const canonical = absoluteUrl(cleanPath);
+const imageUrl = image.startsWith('http') ? image : absoluteUrl(image);
+
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'ProfessionalService'],
+  '@id': `${SITE_ORIGIN}/#serwis`,
+  name: 'Studio-Komp',
+  alternateName: 'Studio-Komp Serwis Laptopów',
+  description:
+    'Serwis laptopów i komputerów we Wrocławiu. Naprawa laptopów, czyszczenie układu chłodzenia, wymiana matryc, naprawa płyt głównych i naprawy po zalaniu. Od 2013 roku.',
+  url: `${SITE_ORIGIN}/`,
+  telephone: site.phoneTel,
+  image: imageUrl,
+  priceRange: '200–800 zł',
+  currenciesAccepted: 'PLN',
+  paymentAccepted: 'Gotówka, karta płatnicza, przelew',
+  foundingDate: String(site.founded),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    postalCode: site.address.postalCode,
+    addressLocality: site.address.city,
+    addressRegion: 'Dolnośląskie',
+    addressCountry: 'PL',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: site.address.lat,
+    longitude: site.address.lng,
+  },
+  openingHoursSpecification: site.hoursSchema.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: `https://schema.org/${h.day}`,
+    opens: h.opens,
+    closes: h.closes,
+  })),
+  areaServed: [
+    { '@type': 'City', name: 'Wrocław' },
+    { '@type': 'AdministrativeArea', name: 'Dolny Śląsk' },
+  ],
+  hasMap: site.mapsUrl,
+  sameAs: [site.social.facebook],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: site.reviews.rating,
+    reviewCount: site.reviews.count,
+    bestRating: 5,
+    worstRating: 1,
+  },
+  makesOffer: [
+    'Naprawa laptopów Wrocław',
+    'Czyszczenie układu chłodzenia',
+    'Wymiana matrycy w laptopie',
+    'Naprawa płyt głównych',
+    'Naprawa laptopa po zalaniu',
+    'Przyspieszanie laptopów i komputerów',
+  ].map((name) => ({
+    '@type': 'Offer',
+    itemOffered: { '@type': 'Service', name },
+  })),
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_ORIGIN}/#website`,
+  url: `${SITE_ORIGIN}/`,
+  name: 'Studio-Komp — serwis laptopów Wrocław',
+  inLanguage: 'pl-PL',
+  publisher: { '@id': `${SITE_ORIGIN}/#serwis` },
+};
+
+const graph = [localBusiness, website, ...schema];
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, follow" />}
+{!noindex && !isPreview && <meta name="robots" content="index, follow, max-image-preview:large" />}
+{isPreview && <meta name="robots" content="noindex, nofollow" />}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="Studio-Komp" />
+<meta property="og:locale" content="pl_PL" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<meta name="geo.region" content="PL-DS" />
+<meta name="geo.placename" content="Wrocław" />
+<meta name="geo.position" content={`${site.address.lat};${site.address.lng}`} />
+<meta name="ICBM" content={`${site.address.lat}, ${site.address.lng}`} />
+
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

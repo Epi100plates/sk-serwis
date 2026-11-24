@@ -1,0 +1,99 @@
+---
+type IconName =
+  | 'phone'
+  | 'arrow'
+  | 'arrow-up-right'
+  | 'pin'
+  | 'clock'
+  | 'check'
+  | 'chevron-down'
+  | 'play'
+  | 'shield'
+  | 'thermometer'
+  | 'fan'
+  | 'screen'
+  | 'keyboard'
+  | 'battery'
+  | 'drop'
+  | 'chip'
+  | 'tool'
+  | 'speed'
+  | 'star'
+  | 'google'
+  | 'menu'
+  | 'close'
+  | 'mail'
+  | 'external'
+  | 'bolt'
+  | 'info'
+  | 'quote';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  strokeWidth?: number;
+  filled?: boolean;
+}
+
+const { name, size = 20, class: klass = '', strokeWidth = 1.6, filled } = Astro.props;
+
+const paths: Record<IconName, string> = {
+  phone:
+    'M5.5 3.5h3l1.4 3.6-1.9 1.4a12.4 12.4 0 0 0 5.5 5.5l1.4-1.9 3.6 1.4v3a2 2 0 0 1-2.2 2A17.6 17.6 0 0 1 3.5 5.7a2 2 0 0 1 2-2.2Z',
+  arrow: 'M4 12h15M13 6l6 6-6 6',
+  'arrow-up-right': 'M7 17 17 7M8 7h9v9',
+  pin: 'M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z M12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z',
+  clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 7.5V12l3 2',
+  check: 'M4.5 12.5 9.5 17.5 19.5 6.5',
+  'chevron-down': 'M6 9.5 12 15.5 18 9.5',
+  play: 'M8 5.5v13l10-6.5-10-6.5Z',
+  shield: 'M12 3.2 5 6v5.5c0 4.5 3 7.6 7 9.3 4-1.7 7-4.8 7-9.3V6l-7-2.8Z',
+  thermometer: 'M10 14.8V5a2 2 0 1 1 4 0v9.8a4.5 4.5 0 1 1-4 0Z',
+  fan: 'M12 12c0-4.4 1.4-7.5 4.2-7.5 2.1 0 3.3 1.8 2.1 3.9-.9 1.6-3.1 2.6-6.3 3.6ZM12 12c3.8-2.2 7-2.8 8.4-.4 1 1.8-.2 3.7-2.6 3.6-1.8-.1-3.7-1.3-5.8-3.2ZM12 12c3.2 3.1 4.6 6 2.7 8-1.5 1.5-3.7.9-4.3-1.3-.5-1.7-.1-3.9.6-6.7ZM12 12c-4.4 0-7.5-1.4-7.5-4.2 0-2.1 1.8-3.3 3.9-2.1 1.6.9 2.6 3.1 3.6 6.3ZM12 12c-2.2 3.8-2.8 7-.4 8.4 1.8 1 3.7-.2 3.6-2.6-.1-1.8-1.3-3.7-3.2-5.8Z',
+  screen: 'M3.5 5.5h17v11h-17v-11Z M9 20.5h6M12 16.5v4',
+  keyboard: 'M3 7.5h18v9H3v-9Z M6.5 11h1M9.5 11h1M12.5 11h1M15.5 11h1M6.5 13.5h1M9.5 13.5h1M12.5 13.5h1M15.5 13.5h1M8 16.5h8',
+  battery: 'M3.5 8h14v8h-14V8Z M20.5 11v2 M7 11v2',
+  drop: 'M12 3.5s6 6.4 6 10.4a6 6 0 1 1-12 0c0-4 6-10.4 6-10.4Z',
+  chip: 'M7 7h10v10H7V7Z M10 3.5V7M14 3.5V7M10 17v3.5M14 17v3.5M3.5 10H7M3.5 14H7M17 10h3.5M17 14h3.5',
+  tool: 'M14.5 6.5a4 4 0 0 0 5.2 5.2l-9 9a2.6 2.6 0 0 1-3.7-3.7l9-9a4 4 0 0 0-1.5-1.5Z',
+  speed: 'M4 18h16 M6 18a6 6 0 0 1 12 0 M12 18l4-5',
+  star: 'M12 3.6l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L3.5 9.8l5.9-.9L12 3.6Z',
+  google: 'M21.5 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.8 3-4.4 3-7.4Z M12 21.5c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.7-5.6-4.1H3.1v2.6A9.6 9.6 0 0 0 12 21.5Z M6.4 13.5a5.8 5.8 0 0 1 0-3.6V7.3H3.1a9.6 9.6 0 0 0 0 8.6l3.3-2.4Z M12 5.8c1.5 0 2.8.5 3.8 1.5l2.9-2.9A9.6 9.6 0 0 0 12 2.5a9.6 9.6 0 0 0-8.9 4.8l3.3 2.6c.8-2.4 3-4.1 5.6-4.1Z',
+  menu: 'M3.5 7h17M3.5 12h17M3.5 17h17',
+  close: 'M6 6l12 12M18 6 6 18',
+  mail: 'M3.5 6h17v12h-17V6Z M3.5 7l8.5 6 8.5-6',
+  external: 'M14 4h6v6M20 4l-9 9M18 14v6H4V6h6',
+  bolt: 'M13.5 2.5 5 13.5h5.5L9.5 21.5 18 10.5h-5.5l1-8Z',
+  info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 10.5V16M12 7.6v.1',
+  quote: 'M9.5 6.5c-3 1.4-4.5 3.8-4.5 7.2V18h5.5v-5.5H7.8c.1-1.6.8-2.8 2.4-3.6l-.7-2.4ZM19.5 6.5c-3 1.4-4.5 3.8-4.5 7.2V18h5.5v-5.5h-2.7c.1-1.6.8-2.8 2.4-3.6l-.7-2.4Z',
+};
+
+const fillIcons: IconName[] = ['play', 'star', 'quote', 'bolt', 'google'];
+const isFilled = filled ?? fillIcons.includes(name);
+---
+
+<svg
+  class:list={['icon', `icon--${name}`, klass]}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill={isFilled ? 'currentColor' : 'none'}
+  stroke={isFilled ? 'none' : 'currentColor'}
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  part="icon"
+>
+  <path d={paths[name]} />
+</svg>
+
+<style>
+  .icon {
+    flex: none;
+    display: inline-block;
+    vertical-align: middle;
+  }
+</style>

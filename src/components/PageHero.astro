@@ -1,0 +1,153 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Chip {
+  label: string;
+  value: string;
+}
+interface Props {
+  h1: string;
+  lead: string;
+  crumbs?: Crumb[];
+  chips?: Chip[];
+  showActions?: boolean;
+  narrow?: boolean;
+  children?: unknown;
+}
+const { h1, lead, crumbs = [], chips = [], showActions = true, narrow = false } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class:list={['container', narrow && 'container--narrow']}>
+    {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
+    <h1 class="page-hero__title">{h1}</h1>
+    <p class="lead page-hero__lead">{lead}</p>
+
+    {
+      chips.length > 0 && (
+        <dl class="page-hero__chips">
+          {chips.map((chip) => (
+            <div class="page-hero__chip">
+              <dt class="mono">{chip.label}</dt>
+              <dd>{chip.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+
+    {
+      showActions && (
+        <div class="page-hero__actions">
+          <a
+            class="btn btn--primary btn--lg"
+            href={`tel:${site.phoneTel}`}
+            data-track="call"
+            data-location="hero-podstrona"
+          >
+            <Icon name="phone" size={18} /> {site.phoneDisplay}
+          </a>
+          <a
+            class="btn btn--outline btn--lg"
+            href={site.directionsUrl}
+            target="_blank"
+            rel="noopener"
+            data-track="directions"
+            data-location="hero-podstrona"
+          >
+            <Icon name="pin" size={18} /> Jak dojechać
+          </a>
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding-block: clamp(28px, 4vw, 52px) clamp(40px, 6vw, 80px);
+  }
+
+  .page-hero__title {
+    margin-top: 26px;
+    max-width: 22ch;
+    font-size: clamp(36px, 5.2vw, 76px);
+  }
+
+  .page-hero__lead {
+    margin-top: 22px;
+    max-width: 56ch;
+  }
+
+  .page-hero__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 34px 0 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .page-hero__chip {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 32px 16px 0;
+    margin-right: 32px;
+    border-right: 1px solid var(--line);
+  }
+
+  .page-hero__chip:last-child {
+    border-right: 0;
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .page-hero__chip dt {
+    color: var(--muted-2);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+  }
+
+  .page-hero__chip dd {
+    margin: 0;
+    font-size: 15.5px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .page-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  @media (max-width: 640px) {
+    .page-hero__chips {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .page-hero__chip {
+      border-right: 0;
+      padding: 12px 16px 12px 0;
+      margin-right: 0;
+    }
+
+    .page-hero__chip:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .page-hero__actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>

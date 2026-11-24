@@ -1,0 +1,246 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../lib/url';
+import site from '../data/site.json';
+
+const uslugi = (await getCollection('uslugi', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const footerServices = uslugi.slice(0, 8);
+const year = new Date().getFullYear();
+
+const infoLinks = [
+  { href: '/uslugi/', label: 'Wszystkie usługi' },
+  { href: '/cennik/', label: 'Cennik' },
+  { href: '/opinie/', label: 'Opinie klientów' },
+  { href: '/realizacje/', label: 'Realizacje' },
+  { href: '/poradnik/', label: 'Poradnik' },
+  { href: '/o-serwisie/', label: 'O serwisie' },
+  { href: '/kontakt/', label: 'Kontakt' },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <Logo size={32} variant="light" />
+        <p class="site-footer__desc">
+          Serwis laptopów i komputerów we Wrocławiu. Od 2013 roku naprawiamy
+          sprzęt prywatny i firmowy — zwykle z dnia na dzień.
+        </p>
+        <a
+          class="site-footer__phone"
+          href={`tel:${site.phoneTel}`}
+          data-track="call"
+          data-location="footer"
+        >
+          {site.phoneDisplay}
+        </a>
+        <a
+          class="btn btn--primary site-footer__cta"
+          href={`tel:${site.phoneTel}`}
+          data-track="call"
+          data-location="footer-cta"
+        >
+          <Icon name="phone" size={17} /> Zadzwoń teraz
+        </a>
+      </div>
+
+      <nav class="site-footer__col" aria-label="Usługi">
+        <p class="mono site-footer__label">Usługi</p>
+        <ul>
+          {footerServices.map((s) => (
+            <li><a href={withBase(`/${s.id}/`)}>{s.data.navLabel}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="site-footer__col" aria-label="Informacje">
+        <p class="mono site-footer__label">Informacje</p>
+        <ul>
+          {infoLinks.map((l) => (
+            <li><a href={withBase(l.href)}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="site-footer__col site-footer__col--contact">
+        <p class="mono site-footer__label">Serwis</p>
+        <address>
+          <span>{site.address.street}</span>
+          <span>{site.address.postalCode} {site.address.city}</span>
+        </address>
+        <p class="site-footer__hours">{site.hours[0].label}: {site.hours[0].value}</p>
+        <p class="site-footer__hours">Sobota i niedziela: nieczynne</p>
+        <a
+          class="link-arrow site-footer__dir"
+          href={site.directionsUrl}
+          target="_blank"
+          rel="noopener"
+          data-track="directions"
+          data-location="footer"
+        >
+          Wyznacz trasę <Icon name="arrow-up-right" size={15} />
+        </a>
+        <a
+          class="link-arrow site-footer__dir"
+          href={site.social.facebook}
+          target="_blank"
+          rel="noopener"
+        >
+          Facebook <Icon name="arrow-up-right" size={15} />
+        </a>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {year} Studio-Komp. Serwis laptopów we Wrocławiu.</p>
+      <nav class="site-footer__legal" aria-label="Dokumenty">
+        <a href={withBase('/polityka-prywatnosci/')}>Polityka prywatności</a>
+        <button type="button" data-cookie-settings>Ustawienia cookies</button>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--on-dark);
+    padding-block: clamp(52px, 6vw, 84px) 28px;
+    font-size: 15px;
+  }
+
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.1fr;
+    gap: clamp(28px, 4vw, 64px);
+  }
+
+  .site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    max-width: 34ch;
+  }
+
+  .site-footer__desc {
+    color: var(--on-dark-muted);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .site-footer__phone {
+    font-size: clamp(24px, 2.4vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .site-footer__phone:hover {
+    color: var(--yellow);
+  }
+
+  .site-footer__cta {
+    margin-top: 4px;
+  }
+
+  .site-footer__label {
+    color: #8d938b;
+    margin-bottom: 16px;
+  }
+
+  .site-footer__col ul {
+    list-style: none;
+    display: grid;
+    gap: 9px;
+  }
+
+  .site-footer__col a {
+    color: #d7dad5;
+    font-size: 14.5px;
+    line-height: 1.35;
+  }
+
+  .site-footer__col a:hover {
+    color: var(--yellow);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .site-footer__col address {
+    font-style: normal;
+    color: #d7dad5;
+    font-size: 14.5px;
+    line-height: 1.5;
+    display: grid;
+    margin-bottom: 12px;
+  }
+
+  .site-footer__hours {
+    color: var(--on-dark-muted);
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  .site-footer__dir {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--on-dark);
+    width: fit-content;
+  }
+
+  .site-footer__dir:hover {
+    color: var(--yellow);
+  }
+
+  .site-footer__bottom {
+    margin-top: clamp(40px, 5vw, 64px);
+    padding-top: 20px;
+    border-top: 1px solid #272b28;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px 24px;
+    color: #8d938b;
+    font-size: 13px;
+  }
+
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .site-footer__legal a,
+  .site-footer__legal button {
+    color: #a7aca5;
+    font-size: 13px;
+    padding: 0;
+  }
+
+  .site-footer__legal a:hover,
+  .site-footer__legal button:hover {
+    color: var(--on-dark);
+  }
+
+  @media (max-width: 900px) {
+    .site-footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .site-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .site-footer__top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

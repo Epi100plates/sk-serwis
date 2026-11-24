@@ -1,0 +1,136 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import { withBase } from '../lib/url';
+
+const services = (await getCollection('uslugi', ({ data }) => !data.draft))
+  .filter((s) => s.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 8);
+---
+
+<section class="section services-list" aria-labelledby="services-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="services-title">Co naprawiamy najczęściej</h2>
+      <div class="section-head__aside">
+        <p>
+          Od czyszczenia chłodzenia po naprawy płyt głównych. Jeśli nie wiesz,
+          co dokładnie jest zepsute — przywieź sprzęt, sprawdzimy.
+        </p>
+        <a class="link-arrow" href={withBase('/uslugi/')}>
+          Wszystkie usługi <Icon name="arrow" size={16} />
+        </a>
+      </div>
+    </div>
+
+    <ul class="services-list__grid">
+      {
+        services.map((s) => (
+          <li>
+            <a class="service-row" href={withBase(`/${s.id}/`)}>
+              <span class="service-row__body">
+                <span class="service-row__title">{s.data.navLabel}</span>
+                <span class="service-row__teaser">{s.data.teaser}</span>
+              </span>
+              <span class="service-row__meta">
+                {s.data.priceFrom && (
+                  <span class="service-row__price mono">{s.data.priceFrom}</span>
+                )}
+                <Icon name="arrow" size={18} />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services-list__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(28px, 4vw, 64px);
+    border-top: 1px solid var(--ink);
+  }
+
+  .service-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    transition: color var(--fast) var(--ease-out);
+  }
+
+  .service-row:hover {
+    color: var(--ink);
+  }
+
+  .service-row__body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .service-row__title {
+    font-size: clamp(18px, 1.55vw, 21px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .service-row__teaser {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 40ch;
+  }
+
+  .service-row__meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: none;
+    padding-top: 2px;
+  }
+
+  .service-row__price {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .service-row__meta svg {
+    transition: transform var(--fast) var(--ease-out);
+  }
+
+  .service-row:hover .service-row__meta svg {
+    transform: translateX(4px);
+  }
+
+  .service-row:hover .service-row__title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+    text-decoration-color: var(--yellow);
+  }
+
+  @media (max-width: 760px) {
+    .services-list__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .service-row {
+      padding: 20px 0;
+    }
+
+    .service-row__price {
+      display: none;
+    }
+  }
+</style>

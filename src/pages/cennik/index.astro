@@ -1,0 +1,202 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import PriceTable from '../../components/PriceTable.astro';
+import Faq from '../../components/Faq.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import Icon from '../../components/Icon.astro';
+import cennik from '../../data/cennik.json';
+import site from '../../data/site.json';
+import { breadcrumbSchema, faqSchema } from '../../lib/schema';
+
+const faq = [
+  {
+    q: 'Dlaczego nie ma jednej ceny za naprawę laptopa?',
+    a: 'Bo ta sama usterka w dwóch różnych modelach może wymagać innych części i innego nakładu pracy. Cena zależy od tego, co jest zepsute i jaki to model. Dlatego wyceniamy po diagnozie — i zawsze przed rozpoczęciem naprawy.',
+  },
+  {
+    q: 'Czy cena z cennika jest ostateczna?',
+    a: 'Widełki oznaczają typowy zakres dla danej usługi. Ostateczną kwotę podajemy po sprawdzeniu sprzętu. Jeśli w trakcie naprawy okaże się, że problem jest większy, niż wyglądał, kontaktujemy się z Tobą przed wykonaniem dodatkowej pracy.',
+  },
+  {
+    q: 'Czy diagnostyka jest płatna?',
+    a: 'Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Jeśli nie zdecydujesz się naprawiać, diagnostyka jest płatna — o kwocie informujemy przed jej rozpoczęciem.',
+  },
+  {
+    q: 'Ile kosztuje usługa ekspresowa?',
+    a: `Dopłata wynosi ${site.express.surcharge} zł do standardowej ceny naprawy. Ekspres oznacza naprawę tego samego dnia, ale nie zawsze jest możliwy — zależy od rodzaju usterki i dostępności części. Sprawdzamy to przy przyjęciu sprzętu.`,
+  },
+];
+
+const schema = [
+  breadcrumbSchema([
+    { label: 'Start', path: '/' },
+    { label: 'Cennik', path: '/cennik/' },
+  ]),
+  faqSchema(faq),
+];
+---
+
+<Base
+  title="Cennik napraw laptopów Wrocław | Studio-Komp"
+  description="Cennik serwisu laptopów we Wrocławiu: czyszczenie od 200 zł, wymiana gniazda zasilania 350 zł, naprawa po zalaniu 450–800 zł, ekspres +150 zł. Wycena przed naprawą."
+  canonicalPath="/cennik/"
+  schema={schema}
+>
+  <PageHero
+    h1="Cennik napraw laptopów"
+    lead={cennik.lead}
+    crumbs={[{ label: 'Cennik' }]}
+    chips={[
+      { label: 'Wycena', value: 'Przed naprawą' },
+      { label: 'Ekspres', value: `+${site.express.surcharge} zł` },
+      { label: 'Diagnostyka', value: '0 zł przy naprawie' },
+    ]}
+    showActions={false}
+  >
+    <div class="cennik-hero-actions">
+      <a class="btn btn--primary btn--lg" href={`tel:${site.phoneTel}`} data-track="call" data-location="cennik-hero">
+        <Icon name="phone" size={18} /> Zapytaj o wycenę
+      </a>
+      <a class="btn btn--outline btn--lg" href={site.directionsUrl} target="_blank" rel="noopener" data-track="directions" data-location="cennik-hero">
+        <Icon name="pin" size={18} /> Jak dojechać
+      </a>
+    </div>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="cennik-layout">
+        <div class="cennik-table">
+          <PriceTable groups={cennik.groups} />
+        </div>
+
+        <aside class="cennik-aside">
+          <div class="cennik-box cennik-box--yellow">
+            <p class="mono cennik-box__label">Zasada diagnostyki</p>
+            <p class="cennik-box__title">
+              Diagnoza 0 zł, jeśli naprawiasz u nas.
+            </p>
+            <p class="cennik-box__text">
+              Jeżeli po diagnozie nie zdecydujesz się na naprawę, diagnostyka
+              jest płatna. Mówimy o tym zawsze przed rozpoczęciem pracy.
+            </p>
+          </div>
+
+          <div class="cennik-box">
+            <p class="mono cennik-box__label">Ekspres</p>
+            <p class="cennik-box__title">Naprawa tego samego dnia</p>
+            <p class="cennik-box__text">
+              Dopłata {site.express.surcharge} zł. Dostępność zależy od usterki
+              i części na magazynie — sprawdzamy przy przyjęciu.
+            </p>
+          </div>
+
+          <div class="cennik-box">
+            <p class="mono cennik-box__label">Płatność</p>
+            <p class="cennik-box__text">
+              Gotówka, karta płatnicza lub przelew. Płatność przy odbiorze
+              sprzętu.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faq} title="Pytania o ceny" intro="Najczęstsze wątpliwości dotyczące wyceny napraw." />
+  <ContactBlock />
+</Base>
+
+<style>
+  .cennik-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .cennik-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(270px, 0.7fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .cennik-aside {
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cennik-box {
+    border: 1px solid var(--line);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cennik-box--yellow {
+    background: var(--yellow);
+    border-color: var(--yellow);
+  }
+
+  .cennik-box__label {
+    color: var(--muted-2);
+    font-size: 10px;
+  }
+
+  .cennik-box--yellow .cennik-box__label {
+    color: rgba(14, 16, 15, 0.72);
+  }
+
+  .cennik-box__title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+
+  .cennik-box__text {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .cennik-box--yellow .cennik-box__text {
+    color: rgba(14, 16, 15, 0.72);
+  }
+
+  @media (max-width: 900px) {
+    .cennik-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .cennik-aside {
+      position: static;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .cennik-box--yellow {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .cennik-aside {
+      grid-template-columns: 1fr;
+    }
+
+    .cennik-box--yellow {
+      grid-column: auto;
+    }
+
+    .cennik-hero-actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>

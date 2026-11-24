@@ -1,0 +1,108 @@
+---
+import site from '../data/site.json';
+const cfg = site.analytics;
+const hasAnalytics = Boolean(cfg.gtm || cfg.ga4);
+---
+
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500,
+  });
+  gtag('js', new Date());
+
+  window.skTrack = function (name, params) {
+    var payload = Object.assign({ event: name }, params || {});
+    window.dataLayer.push(payload);
+    if (window.__skAdsSendTo && name === 'generate_lead') {
+      gtag('event', 'conversion', { send_to: window.__skAdsSendTo });
+    }
+  };
+
+  document.addEventListener('click', function (event) {
+    var el = event.target && event.target.closest ? event.target.closest('[data-track]') : null;
+    if (!el) return;
+    var kind = el.getAttribute('data-track');
+    var location = el.getAttribute('data-location') || 'strona';
+    if (kind === 'call') {
+      window.skTrack('call_click', { location: location });
+    } else if (kind === 'directions') {
+      window.skTrack('directions_click', { location: location });
+    } else if (kind === 'cta') {
+      window.skTrack('cta_click', {
+        location: location,
+        label: (el.textContent || '').trim().slice(0, 80),
+      });
+    }
+  });
+</script>
+
+{
+  hasAnalytics && (
+    <script is:inline define:vars={{ cfg }}>
+      (function () {
+        window.__skAdsSendTo = cfg.adsConversionSendTo || '';
+        function loadConsent() {
+          try {
+            return localStorage.getItem('sk_consent');
+          } catch (e) {
+            return null;
+          }
+        }
+        function applyConsent() {
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            analytics_storage: 'granted',
+          });
+        }
+        function loadTags() {
+          var loaded = false;
+          if (cfg.gtm) {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(cfg.gtm);
+            document.head.appendChild(s);
+            window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            loaded = true;
+          }
+          if (!cfg.gtm && cfg.ga4) {
+            var g = document.createElement('script');
+            g.async = true;
+            g.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(cfg.ga4);
+            document.head.appendChild(g);
+            gtag('config', cfg.ga4, { anonymize_ip: true });
+            loaded = true;
+          }
+          if (cfg.adsConversionSendTo) {
+            gtag('config', cfg.adsConversionSendTo.split('/')[1], { anonymize_ip: true });
+          }
+          return loaded;
+        }
+        function boot() {
+          if (loadConsent() !== 'granted') return;
+          if (window.__skAnalyticsLoaded) return;
+          applyConsent();
+          window.__skAnalyticsLoaded = loadTags();
+        }
+        boot();
+        window.addEventListener('sk-consent-changed', function () {
+          if (loadConsent() === 'granted') boot();
+        });
+        window.addEventListener('storage', function (e) {
+          if (e.key === 'sk_consent') boot();
+        });
+      })();
+    </script>
+  )
+}

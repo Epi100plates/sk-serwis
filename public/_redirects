@@ -1,0 +1,28 @@
+# Przekierowania 301 ze starej strony (Netlify / Cloudflare Pages)
+# Format: źródło  cel  status
+
+# Strony główne
+/o-firmie.html              /o-serwisie/            301
+/oferta/                    /uslugi/                301
+/cennik.html                /cennik/                301
+/galeria.html               /realizacje/            301
+/kontakt.html               /kontakt/               301
+/aktualnosci/               /poradnik/              301
+/aktualnosci/index.html     /poradnik/              301
+/googleads                  /lp/naprawa-laptopow/   301
+/googleads/                 /lp/naprawa-laptopow/   301
+/mapa                       /kontakt/               301
+/mapa/                      /kontakt/               301
+
+# Pojedyncze usługi ze starej oferty
+/oferta/czyszczenie-i-konserwacja-ukladu-chlodzenia.html  /czyszczenie-laptopa-wroclaw/  301
+
+# Stare artykuły
+/aktualnosci/dlaczego-warto-nas-wybrac.html  /o-serwisie/  301
+/aktualnosci/zalany-laptop-–-co-robic,-zanim-bedzie-za-pozno.html  /poradnik/zalany-laptop-czego-nie-robic/  301
+/aktualnosci/️-laptop-sie-grzeje-oto-dlaczego-czyszczenie-ukladu-chlodzenia-jest-wazne.html  /poradnik/laptop-sie-przegrzewa-przyczyny/  301
+/aktualnosci/strona-w-przebudowie.html  /poradnik/  301
+
+# Reguła awaryjna: nieznane adresy starej strony
+/aktualnosci/*              /poradnik/              301
+/oferta/*                   /uslugi/                301

@@ -1,0 +1,426 @@
+---
+import Base from '../layouts/Base.astro';
+import ServiceDocket from '../components/ServiceDocket.astro';
+import BrandStrip from '../components/BrandStrip.astro';
+import Reviews from '../components/Reviews.astro';
+import ExpressBand from '../components/ExpressBand.astro';
+import ServicesList from '../components/ServicesList.astro';
+import WhyGrid from '../components/WhyGrid.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import PriceTable from '../components/PriceTable.astro';
+import CaseGrid from '../components/CaseGrid.astro';
+import Faq from '../components/Faq.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import Icon from '../components/Icon.astro';
+import site from '../data/site.json';
+import cennik from '../data/cennik.json';
+import faq from '../data/faq.json';
+import realizacje from '../data/realizacje.json';
+import { faqSchema } from '../lib/schema';
+import { withBase, SITE_ORIGIN } from '../lib/url';
+
+const heroFacts = [
+  { value: '99%', label: 'napraw z dnia na dzień' },
+  { value: site.reviews.countLabel, label: 'opinii w Google' },
+  { value: String(site.founded), label: 'działamy od roku' },
+  { value: '0 zł', label: 'diagnoza przy naprawie' },
+];
+
+const featuredPrices = [
+  'Czyszczenie i konserwacja laptopa',
+  'Wymiana gniazda zasilania',
+  'Naprawa laptopa po zalaniu',
+  'Naprawa płyty głównej po zwarciu',
+  'Instalacja systemu Windows / macOS / Linux',
+  'Odzyskiwanie danych',
+];
+
+const schema = [
+  faqSchema(faq.items),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${SITE_ORIGIN}/#webpage`,
+    url: `${SITE_ORIGIN}/`,
+    name: 'Serwis laptopów Wrocław — Studio-Komp',
+    description:
+      'Serwis laptopów we Wrocławiu. Naprawy z dnia na dzień, bezpłatna diagnoza przy naprawie, ponad 550 opinii Google.',
+    inLanguage: 'pl-PL',
+    isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
+    about: { '@id': `${SITE_ORIGIN}/#serwis` },
+  },
+];
+---
+
+<Base
+  title="Serwis laptopów Wrocław — naprawa laptopów i komputerów | Studio-Komp"
+  description="Serwis laptopów we Wrocławiu, Kotlarska 14. Naprawy z dnia na dzień, darmowa diagnoza przy naprawie i ponad 550 opinii Google. Bez umawiania — zadzwoń: 500 613 500."
+  canonicalPath="/"
+  schema={schema}
+>
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <h1 class="hero__title">
+          <span>Serwis laptopów</span>
+          <span>we Wrocławiu.</span>
+          <span class="hero__title-sub">Naprawiamy z dnia na dzień.</span>
+        </h1>
+
+        <p class="lead hero__lead">
+          Zostawiasz laptopa na Kotlarskiej 14, odbierasz gotowy — najczęściej
+          następnego dnia. Bez umawiania, bez tygodni bez sprzętu i z ceną
+          ustaloną przed naprawą.
+        </p>
+
+        <div class="hero__actions">
+          <a
+            class="btn btn--primary btn--lg"
+            href={`tel:${site.phoneTel}`}
+            data-track="call"
+            data-location="hero"
+          >
+            <Icon name="phone" size={18} />
+            {site.phoneDisplay}
+          </a>
+          <a
+            class="btn btn--outline btn--lg"
+            href={withBase('/uslugi/')}
+            data-track="cta"
+            data-location="hero"
+          >
+            Sprawdź usługi
+            <Icon name="arrow" size={17} class="icon-arrow" />
+          </a>
+        </div>
+
+        <a
+          class="hero__where"
+          href={site.directionsUrl}
+          target="_blank"
+          rel="noopener"
+          data-track="directions"
+          data-location="hero"
+        >
+          <Icon name="pin" size={15} />
+          <span>Kotlarska 14, Wrocław</span>
+          <span class="hero__where-sep">·</span>
+          <span>pon–pt 7:00–15:00</span>
+          <Icon name="arrow-up-right" size={13} />
+        </a>
+
+        <dl class="hero__facts">
+          {
+            heroFacts.map((fact) => (
+              <div class="hero__fact">
+                <dt>{fact.value}</dt>
+                <dd>{fact.label}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <div class="hero__object">
+        <div class="hero__board" aria-hidden="true"></div>
+        <ServiceDocket />
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <BrandStrip />
+  </div>
+
+  <Reviews />
+  <ExpressBand />
+  <ServicesList />
+  <WhyGrid />
+  <ProcessSteps />
+
+  <section class="section section--surface pricing-teaser" aria-labelledby="pricing-title">
+    <div class="container">
+      <div class="pricing-teaser__grid">
+        <div class="pricing-teaser__main">
+          <div class="section-head pricing-teaser__head">
+            <h2 id="pricing-title">Wiesz, ile zapłacisz, zanim zaczniemy</h2>
+          </div>
+          <PriceTable groups={cennik.groups} compactNames={featuredPrices} showNotes={false} />
+          <div class="pricing-teaser__more">
+            <a class="btn btn--outline" href={withBase('/cennik/')}>
+              Pełny cennik <Icon name="arrow" size={16} class="icon-arrow" />
+            </a>
+          </div>
+        </div>
+
+        <aside class="pricing-teaser__note">
+          <p class="mono pricing-teaser__note-label">Zasada, którą warto znać</p>
+          <h3>Diagnostyka jest bezpłatna, jeśli naprawiasz u nas.</h3>
+          <p>
+            Jeśli po diagnozie nie zdecydujesz się na naprawę, diagnostyka jest
+            płatna — zawsze mówimy o tym przed rozpoczęciem pracy. Żadnych
+            ukrytych kosztów na koniec.
+          </p>
+          <p class="pricing-teaser__express">
+            <Icon name="bolt" size={16} />
+            Naprawa ekspresowa: <strong>+150 zł</strong> — tego samego dnia.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cases-home" aria-labelledby="cases-title">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="cases-title">Realizacje z warsztatu</h2>
+        <div class="section-head__aside">
+          <p>
+            Zalania, płyty główne, matryce, gniazda zasilania. Każda naprawa to
+            inny problem i inne rozwiązanie.
+          </p>
+          <a class="link-arrow" href={withBase('/realizacje/')}>
+            Wszystkie realizacje <Icon name="arrow" size={16} />
+          </a>
+        </div>
+      </div>
+      <CaseGrid items={realizacje.items} limit={5} />
+    </div>
+  </section>
+
+  <Faq items={faq.items} intro="Najczęstsze pytania, które słyszymy przy przyjęciu sprzętu." />
+
+  <ContactBlock />
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(28px, 4vw, 56px) clamp(48px, 6vw, 84px);
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+    gap: clamp(40px, 5vw, 72px);
+    align-items: center;
+  }
+
+  .hero__title {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(40px, 6.2vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .hero__title-sub {
+    margin-top: clamp(18px, 2.4vw, 30px);
+    font-size: clamp(19px, 2vw, 27px);
+    font-weight: 500;
+    letter-spacing: -0.028em;
+    line-height: 1.2;
+    color: var(--muted);
+    max-width: 22ch;
+  }
+
+  .hero__lead {
+    margin-top: clamp(20px, 2.6vw, 30px);
+    max-width: 46ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: clamp(24px, 3vw, 34px);
+  }
+
+  .hero__where {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--muted);
+    transition: color var(--fast) var(--ease-out);
+  }
+
+  .hero__where:hover {
+    color: var(--ink);
+  }
+
+  .hero__where-sep {
+    color: var(--line-strong);
+  }
+
+  .hero__facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: clamp(30px, 4vw, 48px) 0 0;
+    border-top: 1px solid var(--ink);
+  }
+
+  .hero__fact {
+    padding: 16px 18px 0 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .hero__fact:last-child {
+    border-right: 0;
+  }
+
+  .hero__fact dt {
+    font-size: clamp(24px, 2.4vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .hero__fact dd {
+    margin: 8px 0 0;
+    font-size: 11.5px;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+    max-width: 15ch;
+  }
+
+  .hero__object {
+    position: relative;
+    padding: 8px 0 14px 10px;
+    animation: rise 800ms var(--ease-out) both;
+  }
+
+  .hero__board {
+    position: absolute;
+    inset: 22px 22px 0 0;
+    background-color: var(--graphite);
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .hero__board::after {
+    content: '';
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    width: 10px;
+    height: 10px;
+    background: var(--yellow);
+  }
+
+  .pricing-teaser__grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+  }
+
+  .pricing-teaser__head {
+    margin-bottom: 34px;
+  }
+
+  .pricing-teaser__head h2 {
+    max-width: 20ch;
+  }
+
+  .pricing-teaser__more {
+    margin-top: 28px;
+  }
+
+  .pricing-teaser__note {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    background: var(--ink);
+    color: var(--on-dark);
+    padding: clamp(24px, 2.6vw, 34px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .pricing-teaser__note h3 {
+    font-size: clamp(21px, 2vw, 26px);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    max-width: 22ch;
+  }
+
+  .pricing-teaser__note-label {
+    color: var(--on-dark-muted);
+    font-size: 10.5px;
+  }
+
+  .pricing-teaser__note p:not(.pricing-teaser__note-label) {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--on-dark-muted);
+  }
+
+  .pricing-teaser__express {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    padding-top: 16px;
+    border-top: 1px solid var(--dark-line);
+    width: 100%;
+    color: var(--on-dark) !important;
+  }
+
+  .pricing-teaser__express strong {
+    color: var(--yellow);
+  }
+
+  @media (max-width: 1000px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .hero__object {
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .pricing-teaser__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pricing-teaser__note {
+      position: static;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero__facts {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hero__fact {
+      padding: 14px 14px 14px 0;
+    }
+
+    .hero__fact:nth-child(2n) {
+      border-right: 0;
+      padding-left: 14px;
+    }
+
+    .hero__fact:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
+
+    .hero__actions .btn {
+      flex: 1 1 100%;
+    }
+
+    .hero__where {
+      flex-wrap: wrap;
+    }
+  }
+</style>

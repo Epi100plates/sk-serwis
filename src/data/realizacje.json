@@ -1,0 +1,61 @@
+{
+  "_note": "Realizacje to przykładowe opisy typów napraw. Podmień zdjęcia i opisy na własne materiały — struktura pozostaje ta sama.",
+  "items": [
+    {
+      "title": "Laptop po zalaniu kawą",
+      "category": "Po zalaniu",
+      "device": "Lenovo IdeaPad",
+      "summary": "Płytka po kawie wymagała mycia ultradźwiękowego, usunięcia elektrokorozji i naprawy układu ładowania.",
+      "art": "case-liquid",
+      "hours": "48 h"
+    },
+    {
+      "title": "Naprawa płyty głównej po zwarciu",
+      "category": "Płyta główna",
+      "device": "Asus TUF",
+      "summary": "Zwarcie w sekcji zasilania procesora. Wymiana mosfetów, pomiary napięć i testy pod obciążeniem.",
+      "art": "case-board",
+      "hours": "3 dni"
+    },
+    {
+      "title": "Wymiana pękniętej matrycy",
+      "category": "Matryca",
+      "device": "HP Pavilion",
+      "summary": "Pęknięty panel 15,6\" Full HD. Dobór matrycy o tych samych parametrach i wymiana w dniu dostarczenia części.",
+      "art": "case-screen",
+      "hours": "24 h"
+    },
+    {
+      "title": "Czyszczenie chłodzenia w laptopie gamingowym",
+      "category": "Konserwacja",
+      "device": "MSI Katana",
+      "summary": "Zapchany radiator, wyschnięta pasta. Temperatury pod obciążeniem spadły o kilkanaście stopni.",
+      "art": "case-cooling",
+      "hours": "3 h"
+    },
+    {
+      "title": "Naprawa gniazda zasilania",
+      "category": "Zasilanie",
+      "device": "Dell Inspiron",
+      "summary": "Wyrwane gniazdo razem z fragmentem płyty. Odtworzenie ścieżek i wlutowanie nowego gniazda.",
+      "art": "case-socket",
+      "hours": "24 h"
+    },
+    {
+      "title": "Laptop, który nie włączał się",
+      "category": "Nie włącza się",
+      "device": "Acer Aspire",
+      "summary": "Brak reakcji na przycisk zasilania. Diagnostyka płyty, naprawa układu zasilania i testy stabilności.",
+      "art": "case-power",
+      "hours": "2 dni"
+    },
+    {
+      "title": "Regeneracja zawiasów i obudowy",
+      "category": "Obudowa",
+      "device": "Lenovo ThinkPad",
+      "summary": "Pęknięty plastik wokół zawiasu. Odbudowa mocowania, regulacja zawiasów i montaż bez śladów.",
+      "art": "case-hinge",
+      "hours": "24 h"
+    }
+  ]
+}

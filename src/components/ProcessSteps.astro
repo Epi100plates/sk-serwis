@@ -1,0 +1,142 @@
+---
+const steps = [
+  {
+    title: 'Przywozisz laptop',
+    desc: 'Bez umawiania, w godzinach pracy serwisu: poniedziałek–piątek 7:00–15:00. Możesz też zadzwonić i zapytać, zanim przyjedziesz.',
+    meta: 'Kotlarska 14, Wrocław',
+  },
+  {
+    title: 'Diagnoza i wycena',
+    desc: 'Sprawdzamy sprzęt i mówimy, co jest zepsute, ile potrwa naprawa i ile będzie kosztować. Diagnoza jest bezpłatna, jeśli zdecydujesz się na naprawę.',
+    meta: 'Zwykle na miejscu',
+  },
+  {
+    title: 'Naprawa',
+    desc: '99% napraw wykonujemy z dnia na dzień. Jeśli zależy Ci na czasie, pytaj o ekspres — wtedy robimy naprawę tego samego dnia.',
+    meta: 'Zwykle następnego dnia',
+  },
+  {
+    title: 'Odbiór',
+    desc: 'Dzwonimy, gdy laptop jest gotowy i sprawdzony. Odbierasz działający sprzęt i wiesz dokładnie, co zostało zrobione.',
+    meta: 'Bez niespodzianek na koniec',
+  },
+];
+---
+
+<section class="section process" aria-labelledby="process-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="process-title">Od przyjęcia do odbioru</h2>
+      <div class="section-head__aside">
+        <p>
+          Cztery kroki, bez ukrytych etapów. Na każdym wiesz, co się dzieje
+          i dlaczego.
+        </p>
+      </div>
+    </div>
+
+    <ol class="process__list">
+      {
+        steps.map((step, i) => (
+          <li class="process__step">
+            <span class="process__num mono">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="process__title">{step.title}</h3>
+            <p class="process__desc">{step.desc}</p>
+            <span class="process__meta mono">{step.meta}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+  }
+
+  .process__step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px 28px 28px 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .process__step:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .process__step + .process__step {
+    padding-left: 28px;
+  }
+
+  .process__num {
+    color: var(--muted-2);
+    font-size: 11px;
+  }
+
+  .process__title {
+    font-size: clamp(19px, 1.6vw, 22px);
+    letter-spacing: -0.025em;
+    margin-top: 4px;
+  }
+
+  .process__desc {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 34ch;
+  }
+
+  .process__meta {
+    margin-top: auto;
+    padding-top: 16px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .process__list {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .process__step {
+      border-bottom: 1px solid var(--line);
+      padding: 20px 20px 24px 0;
+    }
+
+    .process__step:nth-child(2n) {
+      border-right: 0;
+      padding-left: 20px;
+    }
+
+    .process__step + .process__step {
+      padding-left: 20px;
+    }
+
+    .process__step:nth-child(2n + 1) {
+      padding-left: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .process__list {
+      grid-template-columns: 1fr;
+    }
+
+    .process__step,
+    .process__step + .process__step,
+    .process__step:nth-child(2n) {
+      padding: 20px 0 24px;
+      border-right: 0;
+    }
+  }
+</style>

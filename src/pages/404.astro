@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../lib/url';
+
+const services = (await getCollection('uslugi', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 6);
+---
+
+<Base
+  title="Nie znaleziono strony | Studio-Komp"
+  description="Ta strona nie istnieje. Sprawdź nasze usługi albo zadzwoń do serwisu."
+  canonicalPath="/404/"
+  noindex={true}
+>
+  <section class="section notfound">
+    <div class="container">
+      <p class="mono notfound__code">Błąd 404</p>
+      <h1>Tej strony nie ma. Laptop na pewno jest.</h1>
+      <p class="lead notfound__lead">
+        Adres mógł się zmienić. Zajrzyj do usług albo po prostu zadzwoń —
+        powiemy Ci, gdzie szukać i co zrobić ze sprzętem.
+      </p>
+
+      <div class="notfound__actions">
+        <a class="btn btn--primary btn--lg" href="tel:+48500613500" data-track="call" data-location="404">
+          <Icon name="phone" size={18} /> 500 613 500
+        </a>
+        <a class="btn btn--outline btn--lg" href={withBase('/uslugi/')}>
+          Zobacz usługi <Icon name="arrow" size={17} />
+        </a>
+      </div>
+
+      <ul class="notfound__links">
+        {
+          services.map((s) => (
+            <li>
+              <a href={withBase(`/${s.id}/`)}>{s.data.navLabel}</a>
+            </li>
+          ))
+        }
+        <li><a href={withBase('/cennik/')}>Cennik</a></li>
+        <li><a href={withBase('/kontakt/')}>Kontakt</a></li>
+        <li><a href={withBase('/poradnik/')}>Poradnik</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .notfound {
+    min-height: 62vh;
+  }
+
+  .notfound__code {
+    color: var(--muted-2);
+  }
+
+  .notfound h1 {
+    margin-top: 16px;
+    max-width: 22ch;
+    font-size: clamp(34px, 5vw, 72px);
+  }
+
+  .notfound__lead {
+    margin-top: 22px;
+    max-width: 54ch;
+  }
+
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .notfound__links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    margin-top: 44px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+
+  .notfound__links a {
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  .notfound__links a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
