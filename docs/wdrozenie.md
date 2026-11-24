@@ -73,13 +73,13 @@ Najprostsza droga, jeśli chcesz zostać na obecnym hostingu.
    - formularz (jeśli włączony — patrz sekcja 4).
 5. W Google Search Console dodaj `sitemap-index.xml` i sprawdź indeksowanie po 48 h.
 
-**Edycja po wdrożeniu:** zmiany wprowadzasz w plikach lokalnie, uruchamiasz `pnpm build` i wgrywasz `dist/` ponownie. Panel CMS wymaga wariantu 2.
+**Edycja po wdrożeniu:** zmiany wprowadzasz w plikach lokalnie (albo w panelu `/edycja/` na wdrożonej stronie) i publikujesz przez `pnpm deploy` — patrz [Edycja treści](edycja.md).
 
 ### Wariant 2 — Netlify/Cloudflare Pages + GitHub (zalecany, jeśli chcesz CMS)
 
 1. Wrzuć projekt do repozytorium GitHub (prywatnego).
 2. Netlify: „Add new site” → „Import from Git” → wybierz repo. Build command: `pnpm build`, publish directory: `dist`. Plik `netlify.toml` już to ustawia.
-3. Włącz Netlify Identity i Git Gateway (dla panelu `/admin/`), zaproś swój adres e-mail. Po zalogowaniu do `/admin/` edytujesz treści jak w prostym CMS.
+3. Panel `/edycja/` jest już wdrożony na VPS (decap-server + hasło) i nie wymaga Netlify Identity. Jeśli jednak hostujesz na Netlify, musisz mieć osobny backend CMS (np. Netlify Identity + Git Gateway) — konfiguracja w `public/edycja/config.yml`.
 4. Po akceptacji strony podmień domenę na Netlify (rekordy DNS u rejestratora — dopiero na tym etapie). Do tego czasu DNS zostaje bez zmian.
 5. Cloudflare Pages: alternatywa zamiast Netlify (build `pnpm build`, output `dist`); panel CMS wymaga wtedy Git Gateway z Netlify albo innego backendu (np. Pages CMS).
 
@@ -134,7 +134,7 @@ Jeśli coś pójdzie nie tak: skopiuj z powrotem pliki z `backup-stara-strona/` 
 
 ## 8. Konserwacja
 
-- Aktualizacja treści: CMS `/admin/` (jeśli wdrożony Netlify) lub edycja plików + `pnpm build` + FTP.
+- Aktualizacja treści: panel `/edycja/` na wdrożonej stronie albo edycja plików; publikacja: `pnpm deploy` (build lokalny + wgranie na VPS).
 - Raz w miesiącu: sprawdź opinie w Google, zaktualizuj liczbę w `site.json`.
 - Raz na kwartał: `pnpm update astro` (testowo), sprawdź `pnpm build`.
 - Kopie zapasowe: trzymaj ostatnią wersję `dist/` i repozytorium Git.

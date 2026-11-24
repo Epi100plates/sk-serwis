@@ -11,7 +11,8 @@ pnpm install
 pnpm dev          # http://127.0.0.1:4321
 pnpm build        # statyczna strona w katalogu dist/
 pnpm preview      # podgląd builda
-pnpm deploy       # build + wgranie na VPS (sk.mati-it.pl)
+pnpm deploy       # commit + build lokalny + wgranie na VPS (sk.mati-it.pl)
+pnpm pull         # pobranie zmian zrobionych w panelu /edycja
 pnpm qa:live      # test działającej strony (sitemapa, linki, 301, 404)
 ```
 
@@ -29,7 +30,7 @@ Wymagania: Node.js 20+ i pnpm 9+.
 - **6 landing page Google Ads** (`/lp/...`) — noindex, zoptymalizowane pod telefon i formularz.
 - **SEO techniczne** — sitemap, robots.txt, canonical, Open Graph, schema LocalBusiness/Service/FAQPage/Article/BreadcrumbList, przekierowania 301 ze starych adresów.
 - **Analityka** — GTM/GA4 + Consent Mode v2, zdarzenia: `call_click`, `directions_click`, `cta_click`, `form_submit`, `generate_lead`.
-- **Panel edycji** — Decap CMS pod `/admin/` (opcjonalnie, wymaga Git + Netlify).
+- **Panel edycji** — Decap CMS pod `/edycja/`, własny serwer proxy na VPS + hasło (bez Netlify i Git Gateway). Zapis = commit w repo na serwerze; publikacja: `pnpm deploy` (build lokalny).
 - **Identyfikacja** — nowe logo (SVG/PNG), favicon, paleta i typografia; pliki w `public/brand/`.
 
 ## Struktura
@@ -45,7 +46,7 @@ src/
   pages/           trasy: /, /uslugi/, /[usluga]/, /poradnik/, /cennik/, /lp/[slug]/ itd.
   styles/          global.css (tokeny, typografia, komponenty bazowe)
 public/
-  admin/           panel Decap CMS
+  edycja/          panel Decap CMS (/edycja/)
   brand/           logo SVG/PNG
   images/          OG image, ilustracje realizacji
   .htaccess        przekierowania i cache dla obecnego hostingu
@@ -59,7 +60,9 @@ docs/
   wdrozenie-vps.md       wdrożona wersja: VPS + Cloudflare Tunnel (sk.mati-it.pl)
   brief-tresci.md        zasady redakcyjne (dla kolejnych treści)
 deploy/
-  deploy.ps1             jedno polecenie: build + wgranie na VPS
+  deploy.ps1             publikacja: commit + pull z panelu + build lokalny + wgranie dist/
+  provision.ps1          instalacja/odświeżenie usług panelu i nginx-sk na VPS
+  editor-setup.sh        konfiguracja decap-server + hasła do panelu (VPS)
   server-setup.sh        konfiguracja nginx-sk i usługi cloudflared na VPS
   nginx/                 konfiguracja osobnej instancji nginx (127.0.0.1:8088)
 ```
@@ -68,7 +71,7 @@ deploy/
 
 - [Audyt i strategia](docs/audyt-i-strategia.md)
 - [Identyfikacja wizualna](docs/logo-i-design.md)
-- [Edycja treści](docs/edycja.md)
+- [Edycja treści](docs/edycja.md) — panel `/edycja/` i praca na plikach
 - [Wdrożenie](docs/wdrozenie.md)
 - [Wdrożenie na VPS (sk.mati-it.pl)](docs/wdrozenie-vps.md)
 - [Wyniki testów](docs/qa-wyniki.md)

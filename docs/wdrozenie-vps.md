@@ -17,11 +17,16 @@ VPS olga322.mikrus.xyz (Ubuntu 24.04)  ◀────────────�
    ├─ usługa systemd: studio-komp-tunnel.service  (cloudflared, user cloudflared)
    ├─ usługa systemd: nginx-sk.service           (osobna instancja nginx)
    │      └─ 127.0.0.1:8088  →  /var/www/sk.mati-it.pl  (pliki statyczne)
-   ├─ usługa systemd: studio-komp-cms.service    (decap-server, 127.0.0.1:8081)
-   │      └─ panel /edycja/ — czyta i zapisuje pliki w /srv/studio-komp
-   └─ usługa systemd: studio-komp-publish.service (build + rsync po commicie)
-          └─ wyzwalana przez studio-komp-publish.path (zmiana refs/heads/main)
+   └─ usługa systemd: studio-komp-cms.service    (decap-server, 127.0.0.1:8081)
+          └─ panel /edycja/ — czyta i zapisuje pliki w /srv/studio-komp (git)
+
+laptop (Windows)
+   └─ pnpm deploy: pull z /srv/studio-komp → build Astro → scp dist → /var/www
 ```
+
+**Build dzieje się na laptopie, nie na VPS.** Serwer ma 1 vCPU i jest współdzielony
+(inne usługi: file-uploader, filman, docker) — build Astro trwający tam ~11 minut
+zawieszał całą maszynę. Dlatego na serwerze nie ma żadnej usługi budującej.
 
 Ważne: **nie ruszamy głównego `/etc/nginx/nginx.conf`** (obsługuje on file-uploader
 na `pliki.mati-it.pl`). Strona ma własną, minimalną instancję nginx z własnym
@@ -41,13 +46,11 @@ pid-em i logami. Port 8088 słucha wyłącznie na `127.0.0.1`.
 | Token tunelu | `/etc/studio-komp-tunnel/token` (root:cloudflared, 640) |
 | Usługa strony | `nginx-sk.service`, konfiguracja `/etc/nginx/nginx-sk.conf` |
 | Panel edycji | `studio-komp-cms.service` — decap-server na `127.0.0.1:8081` |
-| Publikacja | `studio-komp-publish.service` + `studio-komp-publish.path` |
 | Hasło panelu | `/etc/nginx/sk-edycja.htpasswd` (root:www-data, 640) |
-| Znacznik ostatniej publikacji | `/var/lib/studio-komp/last-publish` |
-| Node.js / pnpm / decap-server | `/opt/node22`, `pnpm@10`, globalny `decap-server@3` |
+| Node.js / decap-server | `/opt/node22`, globalny `decap-server@3` |
 | Logi nginx | `/var/log/nginx/sk.access.log`, `/var/log/nginx/sk.error.log` |
 | Log tunelu | `journalctl -u studio-komp-tunnel` |
-| Log panelu / builda | `journalctl -u studio-komp-cms`, `journalctl -u studio-komp-publish` |
+| Log panelu | `journalctl -u studio-komp-cms` |
 
 Wszystkie usługi są `enabled` — startują automatycznie po restarcie VPS.
 
@@ -57,39 +60,47 @@ Wszystkie usługi są `enabled` — startują automatycznie po restarcie VPS.
 - Stary adres `/admin/` przekierowuje na `/edycja/` (301).
 - Panel obsługuje Decap CMS: cennik, opinie, realizacje, wideo, dane firmy,
   landing page, podstrony usług i artykuły poradnika.
-- Serwer proxy (`decap-server`, tryb `git`) zapisuje zmiany bezpośrednio
-  w `/srv/studio-komp` i robi commit. Każdy commit uruchamia build i publikację.
-- Hasło do panelu jest trzymane **poza repozytorium** — na komputerze, z którego
-  uruchamiano `pnpm provision`, w `%LOCALAPPDATA%\studio-komp-deploy\edycja-password.txt`.
+- Serwer proxy (`decap-server`, tryb `git`) zapisuje zmiany w `/srv/studio-komp`
+  i robi commit. **Nie buduje strony** — publikacja to `pnpm deploy` na laptopie.
+- Hasło jest trzymane poza repozytorium: na komputerze, z którego uruchamiano
+  `pnpm provision`, w `%LOCALAPPDATA%\studio-komp-deploy\edycja-password.txt`.
   Zmiana hasła: `pnpm provision -PanelPassword "nowe-haslo"`.
 
-## Aktualizacja strony
+### Co jest potrzebne, żeby panel działał
 
-Źródłem prawdy jest repozytorium git na VPS. Dwa równoważne sposoby:
+| Wymóg | Gdzie |
+| --- | --- |
+| `decap-server` na 127.0.0.1:8081 | `studio-komp-cms.service` |
+| `config.yml` z typem `text/yaml` | `deploy/nginx/sk.mati-it.pl.conf` (`location = /edycja/config.yml`) |
+| Proxy `/edycja/api/` z `Host: 127.0.0.1` | `deploy/nginx/sk.mati-it.pl.conf` |
+| Hasło | `/etc/nginx/sk-edycja.htpasswd` |
+| Uprawnienia repo dla `skcms` | `pnpm deploy` robi `chown -R skcms:skcms /srv/studio-komp` po pushu |
+| `HOME` poza repo | `/var/lib/studio-komp-cms` (inaczej Node tworzy `.config/`, `.cache/` w repo) |
 
-1. **Panel** — https://sk.mati-it.pl/edycja/ (zmiana → commit → build → publikacja).
-2. **Z laptopa**:
+## Publikacja (z laptopa)
 
 ```powershell
-pnpm pull      # jeśli treść była zmieniana w panelu (inaczej push zostanie odrzucony)
-pnpm deploy    # commit lokalnych zmian + git push na VPS + oczekiwanie na publikację
+pnpm pull      # jeśli treść była zmieniana w panelu
+pnpm deploy    # commit lokalnych zmian → push → pull z panelu → build → wgranie dist/
 ```
 
-`pnpm deploy` nie wysyła już gotowego `dist/` — wysyła commity do repozytorium na
-VPS, a serwer sam buduje stronę (`deploy/publish.sh`). Dzięki temu zmiany z panelu
-i z laptopa trafiają do tego samego miejsca i nie nadpisują się nawzajem.
+`pnpm deploy`:
 
-Czas builda na tym VPS (1 vCPU, współdzielony serwer) to **kilka–kilkanaście minut**.
-Panel nie czeka na build — commit jest natychmiast, strona zmienia się po zakończeniu
-publikacji.
+1. commituje lokalne zmiany (jeśli są),
+2. pobiera commity z panelu (`git pull`),
+3. wypycha całość do `/srv/studio-komp` (`git push`) i porządkuje właściciela plików,
+4. buduje stronę lokalnie (`pnpm build`, `SITE_URL=https://sk.mati-it.pl`) — ~15 s,
+5. pakuje `dist/` i wysyła na serwer, gdzie `rsync --delete` podmienia
+   `/var/www/sk.mati-it.pl`,
+6. sprawdza odpowiedź strony i to, że panel jest pod hasłem.
 
-### Ręczne przebudowanie strony
+Build lokalny: 4 s + ~10 s narzutu. Build na VPS: ~11 minut i obciążenie całej
+maszyny — dlatego zrezygnowaliśmy z budowania na serwerze.
 
-```bash
-# na serwerze
-systemctl start studio-komp-publish          # jednorazowo: build + publikacja
-journalctl -u studio-komp-publish -f         # podgląd na żywo
-cat /var/lib/studio-komp/last-publish        # sha + data ostatniej publikacji
+### Ręczne wgranie bez zmian w treści
+
+```powershell
+pnpm deploy -SkipBuild
 ```
 
 ## Zmiana konfiguracji infrastruktury
@@ -100,9 +111,10 @@ Po zmianie `deploy/nginx/sk.mati-it.pl.conf` lub `deploy/editor-setup.sh`:
 pnpm provision
 ```
 
-Skrypt wgrywa konfiguracje, instaluje/odświeża usługi systemd, ustawia hasło do
-panelu i przeładowuje `nginx-sk`. Jest idempotentny. Źródła wgrywa tylko przy
-pierwszej instalacji (później obowiązuje `pnpm deploy`).
+Skrypt wgrywa konfiguracje, instaluje/odświeża usługę `studio-komp-cms`, usuwa
+stare jednostki budujące, ustawia hasło do panelu i przeładowuje `nginx-sk`.
+Jest idempotentny. Źródła wgrywa tylko przy pierwszej instalacji (później
+obowiązuje `pnpm deploy`).
 
 ## Zmiana treści — ściągawka
 
@@ -127,12 +139,11 @@ linki wewnętrzne, canonicale, H1, 301 ze starych adresów i stronę 404.
 
 ```bash
 # na serwerze
-systemctl status nginx-sk studio-komp-tunnel studio-komp-cms studio-komp-publish.path
+systemctl status nginx-sk studio-komp-tunnel studio-komp-cms
 journalctl -u studio-komp-cms -n 50 --no-pager
-journalctl -u studio-komp-publish -n 100 --no-pager
 curl -I http://127.0.0.1:8088/
 curl -s -o /dev/null -w '%{http_code}\n' -X POST http://127.0.0.1:8081/api/v1 \
-  -H 'Content-Type: application/json' -d '{"action":"info"}'
+  -H 'Host: 127.0.0.1' -H 'Content-Type: application/json' -d '{"action":"info"}'
 nginx -t -c /etc/nginx/nginx-sk.conf
 ```
 
@@ -141,22 +152,24 @@ nginx -t -c /etc/nginx/nginx-sk.conf
 - **401 w panelu** — złe hasło; patrz `%LOCALAPPDATA%\studio-komp-deploy\edycja-password.txt`.
 - **403 (strona)** — uprawnienia plików: `chown -R www-data:www-data /var/www/sk.mati-it.pl`.
 - **404 na podstronie** — brak pliku po niepełnym wgraniu; powtórz `pnpm deploy`.
-- **Commit jest, strona bez zmian** — build padł: `journalctl -u studio-komp-publish -n 100`.
+- **Panel: „insufficient permission for adding an object”** — root zostawił pliki
+  w repo; `pnpm deploy` robi `chown -R skcms:skcms /srv/studio-komp`.
+- **Panel: „Host … is not allowed”** — brak `proxy_set_header Host 127.0.0.1`
+  w `location /edycja/api/`; uruchom `pnpm provision`.
 
 ## Odzyskanie poprzedniej wersji treści
 
 ```bash
-# na serwerze
-cd /srv/studio-komp
+# na laptopie
 git log --oneline -10
-git revert <sha> && systemctl start studio-komp-publish
+git revert <sha>
+pnpm deploy
 ```
 
 ## Przejście na docelową domenę studio-komp.pl (później)
 
-1. Zbuduj wersję domyślną: `SITE_URL=https://studio-komp.pl pnpm build` — albo
-   zmień `SITE_URL` w `deploy/publish.sh` / `deploy.ps1`, żeby serwer budował
-   canonicale pod nową domenę.
+1. Zmień `SITE_URL` w `deploy/deploy.ps1` (parametr `-SiteUrl`) na
+   `https://studio-komp.pl` i przebuduj: `pnpm deploy -SiteUrl https://studio-komp.pl`.
 2. Zmień DNS `studio-komp.pl` na Cloudflare dopiero po akceptacji strony.
 3. Alternatywnie: dodaj do tunelu `studio-komp.pl` jako kolejny hostname w ingress.
 
@@ -164,9 +177,8 @@ git revert <sha> && systemctl start studio-komp-publish
 
 ```bash
 # na serwerze
-systemctl disable --now studio-komp-tunnel nginx-sk studio-komp-cms studio-komp-publish.path
-rm -f /etc/systemd/system/studio-komp-{tunnel,cms,publish}.service \
-      /etc/systemd/system/studio-komp-publish.path
+systemctl disable --now studio-komp-tunnel nginx-sk studio-komp-cms
+rm -f /etc/systemd/system/studio-komp-{tunnel,cms}.service
 systemctl daemon-reload
 ```
 

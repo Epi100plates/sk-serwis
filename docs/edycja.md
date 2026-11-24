@@ -1,8 +1,8 @@
 # Edycja strony — instrukcja dla właściciela
 
-Strona jest statyczna (Astro), ale treść jest oddzielona od kodu, więc ceny, teksty,
-opinie i zdjęcia zmieniasz **bez dotykania kodu i bez wgrywania plików przez FTP**.
-Masz do wyboru panel w przeglądarce albo edycję plików z publikacją jednym poleceniem.
+Strona jest statyczna (Astro), ale treść jest oddzielona od kodu. Możesz ją zmieniać
+w panelu w przeglądarce albo w plikach. Publikacja (build + wgranie) odbywa się
+**na Twoim komputerze** — serwer hostuje tylko gotową stronę i panel.
 
 ## Co gdzie leży
 
@@ -29,7 +29,8 @@ Przeglądarka pyta o login i hasło (zwykłe okienko „Authentication required�
 - hasło: wygenerowane przy instalacji, zapisane na Twoim komputerze w
   `%LOCALAPPDATA%\studio-komp-deploy\edycja-password.txt`
 
-Panel pozwala:
+Po zalogowaniu panel od razu pokazuje kolekcje (podstrony usług, poradnik, cennik,
+opinie, realizacje, wideo, dane firmy, landing page). Możesz:
 
 - zmieniać ceny i pozycje cennika,
 - dodawać i edytować opinie,
@@ -40,15 +41,21 @@ Panel pozwala:
 
 ### Jak działa publikacja
 
-1. Klikasz „Publish” w panelu → zmiana zapisuje się jako commit w repozytorium
-   na serwerze (`/srv/studio-komp`).
-2. Usługa `studio-komp-publish` od razu buduje stronę i podmienia pliki
-   w `/var/www/sk.mati-it.pl`.
-3. Nowa treść jest na stronie po zakończeniu builda. **Na tym VPS build trwa
-   kilka–kilkanaście minut** (1 vCPU, współdzielony serwer) — panel nie czeka na
-   build, możesz zamknąć kartę. Postęp sprawdzisz w `docs/wdrozenie-vps.md`.
-4. Każda zmiana jest osobnym commitem, więc można w każdej chwili wrócić do
-   poprzedniej wersji (`git log` na serwerze).
+1. Klikasz „Opublikuj” → „Opublikuj teraz”. Zmiana zapisuje się jako commit
+   w repozytorium na serwerze (`/srv/studio-komp`). Panel nie buduje strony
+   (serwer ma 1 vCPU — build Astro zawieszałby całą maszynę).
+2. Na komputerze z projektem uruchamiasz:
+
+   ```powershell
+   pnpm deploy
+   ```
+
+   Skrypt pobiera zmiany z panelu, buduje stronę **lokalnie** (kilkanaście sekund)
+   i wgrywa gotowe pliki na serwer.
+3. Strona jest zaktualizowana od razu po zakończeniu `pnpm deploy`.
+
+Panel nie może sam opublikować zmian — to celowe: build musi dziać się lokalnie.
+Notka w prawym dolnym rogu panelu przypomina o `pnpm deploy`.
 
 ### Zmiana hasła do panelu
 
@@ -59,7 +66,8 @@ pnpm provision -PanelPassword "nowe-haslo"
 ```
 
 (albo usuń plik `%LOCALAPPDATA%\studio-komp-deploy\edycja-password.txt` i uruchom
-`pnpm provision` — wygeneruje nowe hasło).
+`pnpm provision` — wygeneruje nowe hasło). Hasło jest trzymane tylko na serwerze
+(plik `/etc/nginx/sk-edycja.htpasswd`) i na Twoim dysku — nie w repozytorium.
 
 ### Gdy panel nie działa
 
@@ -67,8 +75,8 @@ pnpm provision -PanelPassword "nowe-haslo"
 | --- | --- |
 | Okno hasła wraca / 401 | hasło z pliku `edycja-password.txt`; zmiana: `pnpm provision -PanelPassword ...` |
 | 502 / „Cannot connect” | `systemctl status studio-komp-cms` i `journalctl -u studio-komp-cms -n 50` na serwerze |
-| Zapis się udał, strona bez zmian | `journalctl -u studio-komp-publish -n 50` — najczęściej błąd builda |
-| Panel ładuje się bez listy treści | odśwież stronę; sprawdź, czy `studio-komp-cms` odpowiada na porcie 8081 |
+| Zapis kończy się błędem | `journalctl -u studio-komp-cms -n 50` — najczęściej uprawnienia plików w `/srv/studio-komp` (naprawia `pnpm deploy`) |
+| Panel ładuje się bez listy treści | odśwież stronę; sprawdź, czy `studio-komp-cms` odpowiada |
 
 ## Wariant B — edycja plików + publikacja
 
@@ -79,13 +87,13 @@ pracować na plikach:
 pnpm pull      # najpierw pobierz zmiany zrobione w panelu na serwerze
 pnpm dev       # podgląd na http://127.0.0.1:4321
 # ... edycja plików ...
-pnpm deploy    # commit + push na serwer; serwer sam przebuduje i opublikuje
+pnpm deploy    # commit + push + build lokalny + wgranie na serwer
 ```
 
 - `pnpm pull` jest konieczne, jeśli treść była zmieniana w panelu — inaczej push
   zostanie odrzucony (git nie pozwoli nadpisać cudzych zmian).
-- `pnpm deploy` czeka na zakończenie publikacji i sprawdza, czy strona odpowiada.
-- Historia zmian jest w gicie; konflikt rozwiązujesz jak w każdym repozytorium.
+- `pnpm deploy` sam robi `pull` przed buildem, więc zwykle wystarczy samo `pnpm deploy`.
+- Konflikty rozwiązujesz jak w każdym repozytorium git.
 
 ## Najczęstsze zmiany
 
@@ -138,7 +146,7 @@ W `src/data/site.json` zmień `hours` (wyświetlanie) oraz `hoursSchema`
 
 ### Dodanie nowej usługi
 
-Panel → Podstrony usług → „Add Podstrona usługi”, albo skopiuj dowolny plik
+Panel → Podstrony usług → „Podstrona usługi”, albo skopiuj dowolny plik
 z `src/content/uslugi/`, zmień nazwę pliku na nowy adres
 (np. `naprawa-drukarek-wroclaw.md`) i uzupełnij frontmatter. Strona powstanie
 automatycznie pod `/<nazwa-pliku>/`, linki w menu i stopce dodadzą się same.
@@ -153,10 +161,11 @@ automatycznie pod `/<nazwa-pliku>/`, linki w menu i stopce dodadzą się same.
 
 ## Publikacja — podsumowanie
 
-| Sposób | Komenda / adres | Co się dzieje |
+| Sposób | Co robisz | Co się dzieje |
 | --- | --- | --- |
-| Panel | https://sk.mati-it.pl/edycja/ | commit na serwerze → build → publikacja |
-| Pliki | `pnpm deploy` | commit + push na serwer → build → publikacja |
+| Panel | https://sk.mati-it.pl/edycja/ | commit na serwerze (bez builda) |
+| Publikacja | `pnpm deploy` | pull z panelu → build lokalny → wgranie `dist/` na serwer |
+| Tylko pobranie | `pnpm pull` | ściąga commity z panelu do lokalnego repo |
 | Podgląd lokalny | `pnpm dev` | strona na `http://127.0.0.1:4321` |
 
-Szczegóły techniczne (usługi, logi, ręczne przebudowanie): `docs/wdrozenie-vps.md`.
+Szczegóły techniczne (usługi, uprawnienia, logi): `docs/wdrozenie-vps.md`.
