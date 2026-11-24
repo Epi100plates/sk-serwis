@@ -1,7 +1,6 @@
 {
-  "_note": "Cennik do samodzielnej edycji. Ceny nieznane zostaw jako '… zł' — na stronie pokażą się bez wymyślania kwoty. 'od' oznacza cenę minimalną.",
   "lead": "Każdą usterkę wyceniamy indywidualnie po diagnozie. Poniżej ceny najczęstszych napraw — dokładną kwotę podajemy przed rozpoczęciem pracy, bez zaskoczeń na koniec.",
-  "expressSurcharge": 150,
+  "expressSurcharge": 151,
   "groups": [
     {
       "title": "Diagnostyka",
@@ -103,5 +102,6 @@
         }
       ]
     }
-  ]
+  ],
+  "_note": "Cennik do samodzielnej edycji. Ceny nieznane zostaw jako '… zł' — na stronie pokażą się bez wymyślania kwoty. 'od' oznacza cenę minimalną."
 }
