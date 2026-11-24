@@ -49,7 +49,7 @@ for (const file of pages) {
 
   for (const m of html.matchAll(/href="(\/[^"#?]*)/g)) {
     const target = m[1];
-    if (target.startsWith('/_astro') || target.startsWith('/images') || target.startsWith('/brand') || target.startsWith('/admin')) continue;
+    if (target.startsWith('/_astro') || target.startsWith('/images') || target.startsWith('/brand') || target.startsWith('/edycja')) continue;
     links.set(rel, [...(links.get(rel) ?? []), target]);
   }
 }

@@ -9,7 +9,7 @@ Allow: /
 
 # Strony techniczne i kampanijne
 Disallow: /lp/
-Disallow: /admin/
+Disallow: /edycja/
 Disallow: /dziekujemy/
 Disallow: /logo-export/
 Disallow: /og-image/

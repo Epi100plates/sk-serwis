@@ -29,7 +29,7 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/lp/') &&
-        !page.includes('/admin') &&
+        !page.includes('/edycja') &&
         !page.includes('/polityka-prywatnosci/') &&
         !page.includes('/og-image') &&
         !page.includes('/logo-export') &&

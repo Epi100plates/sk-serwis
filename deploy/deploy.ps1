@@ -1,95 +1,143 @@
 ﻿<#
 .SYNOPSIS
-  Wdrożenie Studio-Komp na VPS (root@olga322.mikrus.xyz) + Cloudflare Tunnel.
+  Publikacja Studio-Komp na VPS (sk.mati-it.pl).
 
 .DESCRIPTION
-  1. Buduje stronę (SITE_URL), pakuje dist/ do tar.gz.
-  2. Wgrywa paczkę, konfigurację nginx, skrypt setup i token tunelu przez SCP.
-  3. Na serwerze: nginx vhost (127.0.0.1:8088), cloudflared jako usługa systemd.
-  4. Weryfikuje odpowiedź HTTP lokalnie i przez domenę publiczną.
+  Źródłem prawdy jest repozytorium git na VPS: /srv/studio-komp (branch main).
+  Panel /edycja zapisuje zmiany jako commity w tym samym repozytorium, a usługa
+  studio-komp-publish przebudowuje i publikuje stronę.
+
+  Ten skrypt:
+    1. inicjuje lokalne repozytorium (raz) i podpina remote `vps`,
+    2. commituje lokalne zmiany,
+    3. wypycha je na VPS (git push),
+    4. czeka, aż usługa publish opublikuje dokładnie ten commit,
+    5. sprawdza odpowiedź strony.
+
+  Zanim wypchniesz własne zmiany po edycji w panelu, zrób `pnpm pull`.
 
 .PRZYKŁAD
-  pwsh -File deploy\deploy.ps1
-  pwsh -File deploy\deploy.ps1 -SkipBuild
+  pnpm deploy
+  pnpm pull
+  pwsh -File deploy\deploy.ps1 -Pull
 #>
 param(
   [string]$Domain   = "sk.mati-it.pl",
-  [string]$SiteUrl  = "https://sk.mati-it.pl",
   [string]$SshHost  = "olga322.mikrus.xyz",
   [int]$SshPort     = 10322,
   [string]$SshUser  = "root",
-  [string]$KeyPath  = "$env:USERPROFILE\.ssh\id_ed25519_providers",
-  [string]$TokenFile = "$env:LOCALAPPDATA\studio-komp-deploy\tunnel.token",
-  [switch]$SkipBuild,
-  [switch]$SkipUpload
+  [string]$KeyPath  = "$env:USERPROFILE\.ssh\mikrus_olga322",
+  [string]$RepoDir  = "/srv/studio-komp",
+  [int]$PublishTimeoutSec = 900,
+  [switch]$Pull,
+  [switch]$NoVerify
 )
 
-# Windows PowerShell 5.1 zamienia stderr programów na wyjątki przy Stop,
-# dlatego błędy sprawdzamy jawnie przez $LASTEXITCODE / throw.
 $ErrorActionPreference = 'Continue'
 $ProgressPreference = 'SilentlyContinue'
 $root = Split-Path -Parent $PSScriptRoot
 $sshOpts = @("-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=accept-new", "-i", $KeyPath, "-p", "$SshPort")
-$scpOpts = @("-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=accept-new", "-i", $KeyPath, "-P", "$SshPort")
+$remoteUrl = "ssh://$($SshUser)@$($SshHost):$($SshPort)$($RepoDir)"
+$env:GIT_SSH_COMMAND = "ssh -i `"$KeyPath`" -o BatchMode=yes -o StrictHostKeyChecking=accept-new"
 
 function Invoke-Remote([string]$Command) {
   $out = & ssh @sshOpts "$SshUser@$SshHost" $Command 2>&1
+  if ($LASTEXITCODE -ne 0) { throw "Polecenie na serwerze nie powiodło się (kod $LASTEXITCODE): $Command`n$out" }
+  return $out
+}
+
+function Invoke-Git([string[]]$GitArgs) {
+  $out = & git @GitArgs 2>&1
   $code = $LASTEXITCODE
   $out | ForEach-Object { Write-Host "  $_" }
-  if ($code -ne 0) { throw "Polecenie na serwerze nie powiodło się (kod $code): $Command" }
+  return $code
 }
 
-Write-Host "== 1/5 Build ==" -ForegroundColor Cyan
-if (-not $SkipBuild) {
-  Push-Location $root
-  try {
-    $env:BASE_PATH = ""
-    $env:SITE_URL = $SiteUrl
-    & pnpm build
-    if ($LASTEXITCODE -ne 0) { throw "pnpm build nie powiodło się" }
-  } finally { Pop-Location }
-} else { Write-Host "  pominięto (-SkipBuild)" }
-
-Write-Host "== 2/5 Pakowanie ==" -ForegroundColor Cyan
-$tar = Join-Path $root "release\site-sk.tar.gz"
-if (Test-Path $tar) { Remove-Item $tar -Force }
-& tar -czf $tar --exclude=.htaccess --exclude=_redirects -C (Join-Path $root "dist") .
-if ($LASTEXITCODE -ne 0) { throw "tar nie powiodło się" }
-Write-Host ("  " + [math]::Round((Get-Item $tar).Length / 1MB, 2) + " MB")
-
-if (-not $SkipUpload) {
-  Write-Host "== 3/5 Upload ==" -ForegroundColor Cyan
-  $files = @(
-    @{ Local = $tar;                                 Remote = "/tmp/site-sk.tar.gz" },
-    @{ Local = "$root\deploy\nginx\sk.mati-it.pl.conf"; Remote = "/tmp/$Domain.conf" },
-    @{ Local = "$root\deploy\server-setup.sh";          Remote = "/tmp/server-setup.sh" },
-    @{ Local = $TokenFile;                              Remote = "/tmp/sk.token" }
-  )
-  foreach ($f in $files) {
-    if (-not (Test-Path $f.Local)) { throw "Brak pliku lokalnego: $($f.Local)" }
-    & scp @scpOpts $f.Local "$($SshUser)@$($SshHost):$($f.Remote)"
-    if ($LASTEXITCODE -ne 0) { throw "scp nie powiodło się: $($f.Local)" }
-    Write-Host "  wysłano: $($f.Remote)"
+Push-Location $root
+try {
+  if (-not (Test-Path .git)) {
+    Write-Host "== 1/5 Inicjalizacja lokalnego repozytorium ==" -ForegroundColor Cyan
+    if ((Invoke-Git @('init', '-b', 'main')) -ne 0) { throw "git init nie powiodło się" }
+  } else {
+    Write-Host "== 1/5 Repozytorium lokalne ==" -ForegroundColor Cyan
   }
 
-  Write-Host "== 4/5 Konfiguracja serwera ==" -ForegroundColor Cyan
-  Invoke-Remote @"
-set -euo pipefail
-mkdir -p /var/www/$Domain
-tar -xzf /tmp/site-sk.tar.gz -C /var/www/$Domain
-chown -R www-data:www-data /var/www/$Domain
-bash /tmp/server-setup.sh $Domain 8088
-rm -f /tmp/sk.token /tmp/site-sk.tar.gz /tmp/$Domain.conf /tmp/server-setup.sh
-echo '--- lokalnie:'
-curl -sS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8088/
-"@
-}
+  $remotes = & git remote
+  if (-not ($remotes -contains 'vps')) {
+    Write-Host "  dodaję remote vps -> $remoteUrl"
+    if ((Invoke-Git @('remote', 'add', 'vps', $remoteUrl)) -ne 0) { throw "git remote add nie powiodło się" }
+  }
 
-Write-Host "== 5/5 Weryfikacja ==" -ForegroundColor Cyan
-try {
-  $r = Invoke-WebRequest -Uri $SiteUrl -UseBasicParsing -TimeoutSec 25
-  Write-Host ("  $SiteUrl -> HTTP " + $r.StatusCode + ", " + $r.RawContentLength + " B")
-} catch {
-  Write-Host ("  UWAGA: $SiteUrl jeszcze nie odpowiada: " + $_.Exception.Message) -ForegroundColor Yellow
+  $email = & git config user.email
+  if (-not $email) {
+    Invoke-Git @('config', 'user.name', 'Studio-Komp') | Out-Null
+    Invoke-Git @('config', 'user.email', 'deploy@sk.mati-it.pl') | Out-Null
+  }
+
+  # Historia lokalna musi mieć wspólny korzeń z repozytorium na VPS —
+  # inaczej push zostałby odrzucony jako niepowiązany.
+  & git fetch vps main 2>&1 | Out-Null
+  $fetchOk = ($LASTEXITCODE -eq 0)
+  & git rev-parse --verify HEAD 2>$null | Out-Null
+  $hasCommit = ($LASTEXITCODE -eq 0)
+  if ($fetchOk) {
+    & git merge-base HEAD vps/main 2>$null | Out-Null
+    $sharesHistory = ($LASTEXITCODE -eq 0)
+    if (-not $hasCommit -or -not $sharesHistory) {
+      Write-Host "  przejmuję historię z VPS (git reset --mixed vps/main)"
+      if ((Invoke-Git @('reset', '--mixed', 'vps/main')) -ne 0) { throw "git reset nie powiodło się" }
+    }
+  }
+
+  if ($Pull) {
+    Write-Host "== 2/5 Pobieranie zmian z VPS ==" -ForegroundColor Cyan
+    if ((Invoke-Git @('pull', '--no-rebase', 'vps', 'main')) -ne 0) { throw "git pull nie powiodło się" }
+    Write-Host "GOTOWE (pull)." -ForegroundColor Green
+    return
+  }
+
+  Write-Host "== 2/5 Commit lokalnych zmian ==" -ForegroundColor Cyan
+  & git add -A
+  $dirty = & git status --porcelain
+  if ($dirty) {
+    $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
+    if ((Invoke-Git @('commit', '-m', "Zmiany z laptopa $stamp")) -ne 0) { throw "git commit nie powiodło się" }
+  } else {
+    Write-Host "  brak zmian do commita"
+  }
+
+  Write-Host "== 3/5 Push na VPS ==" -ForegroundColor Cyan
+  if ((Invoke-Git @('push', 'vps', 'main')) -ne 0) {
+    throw "git push odrzucony. Ktoś edytował treść w panelu /edycja — uruchom najpierw 'pnpm pull'."
+  }
+  $sha = (& git rev-parse HEAD).Trim()
+
+  Write-Host "== 4/5 Czekam na build i publikację ($sha) ==" -ForegroundColor Cyan
+  $deadline = (Get-Date).AddSeconds($PublishTimeoutSec)
+  $published = $false
+  while ((Get-Date) -lt $deadline) {
+    $line = (Invoke-Remote "cat /var/lib/studio-komp/last-publish 2>/dev/null || true" | Out-String).Trim()
+    if ($line -and ($line -split '\s+')[0] -eq $sha) { $published = $true; break }
+    Start-Sleep -Seconds 3
+  }
+  if (-not $published) {
+    throw "Brak potwierdzenia publikacji w $PublishTimeoutSec s. Sprawdź: ssh ... 'journalctl -u studio-komp-publish -n 50 --no-pager'"
+  }
+  Write-Host "  opublikowano: $sha"
+
+  if (-not $NoVerify) {
+    Write-Host "== 5/5 Weryfikacja ==" -ForegroundColor Cyan
+    $site = "https://$Domain/"
+    $r = Invoke-WebRequest -Uri $site -UseBasicParsing -TimeoutSec 25
+    Write-Host ("  {0} -> HTTP {1}, {2} B" -f $site, $r.StatusCode, $r.RawContentLength)
+    try {
+      Invoke-WebRequest -Uri "https://$Domain/edycja/" -UseBasicParsing -TimeoutSec 25 | Out-Null
+      Write-Host "  UWAGA: /edycja/ odpowiada bez hasła (basic auth nieaktywny?)" -ForegroundColor Yellow
+    } catch {
+      Write-Host "  /edycja/ -> HTTP $([int]$_.Exception.Response.StatusCode) (panel pod hasłem)"
+    }
+  }
+  Write-Host "GOTOWE" -ForegroundColor Green
+} finally {
+  Pop-Location
 }
-Write-Host "GOTOWE" -ForegroundColor Green
