@@ -106,7 +106,7 @@ try {
     Write-Host "== 2/7 Pobieranie zmian z VPS ==" -ForegroundColor Cyan
     if ((Invoke-Git @('pull', '--no-rebase', 'vps', 'main')) -ne 0) { throw "git pull nie powiodło się" }
     Write-Host "GOTOWE (pull)." -ForegroundColor Green
-    return
+    exit 0
   }
 
   Write-Host "== 2/7 Commit lokalnych zmian ==" -ForegroundColor Cyan
@@ -126,6 +126,9 @@ try {
 
   Write-Host "== 4/7 Push na VPS ==" -ForegroundColor Cyan
   if ((Invoke-Git @('push', 'vps', 'main')) -ne 0) { throw "git push nie powiodło się" }
+  # Push idzie jako root — po checkoucie pliki i obiekty gita należą do roota,
+  # a panel (skcms) musi móc dalej commitować.
+  Invoke-Remote "chown -R skcms:skcms /srv/studio-komp" | Out-Null
 
   if ($SkipBuild) {
     Write-Host "== 5/7 Build pominięty (-SkipBuild) ==" -ForegroundColor Cyan
@@ -164,6 +167,7 @@ try {
     }
   }
   Write-Host "GOTOWE" -ForegroundColor Green
+  exit 0
 } finally {
   Pop-Location
 }

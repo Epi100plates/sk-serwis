@@ -21,6 +21,7 @@ if [ -z "${PANEL_PASSWORD}" ] && [ ! -t 0 ]; then
   PANEL_PASSWORD=$(cat | tr -d '\r\n')
 fi
 REPO="/srv/studio-komp"
+CMS_HOME="/var/lib/studio-komp-cms"
 CMS_USER="skcms"
 NGX_CONF="/etc/nginx/nginx-sk.conf"
 HTPASSWD="/etc/nginx/sk-edycja.htpasswd"
@@ -49,8 +50,8 @@ fi
 # --- 2. Użytkownik i repozytorium -------------------------------------------
 say "Użytkownik ${CMS_USER} i repozytorium ${REPO}"
 id -u "${CMS_USER}" >/dev/null 2>&1 || useradd --system --create-home --home-dir "${REPO}" --shell /bin/bash "${CMS_USER}"
-mkdir -p "${REPO}"
-chown -R "${CMS_USER}:${CMS_USER}" "${REPO}"
+mkdir -p "${REPO}" "${CMS_HOME}"
+chown -R "${CMS_USER}:${CMS_USER}" "${REPO}" "${CMS_HOME}"
 if [ -d "${REPO}/.git" ]; then
   /usr/sbin/runuser -u "${CMS_USER}" -- env HOME="${REPO}" PATH="${PATH}" \
     git -C "${REPO}" config receive.denyCurrentBranch updateInstead
@@ -70,7 +71,11 @@ Type=simple
 User=${CMS_USER}
 Group=${CMS_USER}
 WorkingDirectory=${REPO}
-Environment=HOME=${REPO}
+Environment=HOME=${CMS_HOME}
+Environment=GIT_AUTHOR_NAME=Panel Studio-Komp
+Environment=GIT_AUTHOR_EMAIL=panel@sk.mati-it.pl
+Environment=GIT_COMMITTER_NAME=Panel Studio-Komp
+Environment=GIT_COMMITTER_EMAIL=panel@sk.mati-it.pl
 Environment=PORT=8081
 Environment=BIND_HOST=127.0.0.1
 Environment=MODE=git
