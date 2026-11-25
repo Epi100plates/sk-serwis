@@ -1,6 +1,7 @@
 # Studio-Komp — baza konfiguracji Apache/LiteSpeed (hosting klasyczny).
 # Panel CMS generuje z tego plik public/.htaccess, wstawiając przekierowania
 # w miejsce   RewriteRule ^aktualnosci$ https://sk.mati-it.pl/poradnik/ [R=301,L]
+  RewriteRule ^aktualnosci$ https://sk.mati-it.pl/poradnik/ [R=301,L]
   RewriteRule ^aktualnoscidlaczego-warto-nas-wybrac.html$ https://sk.mati-it.pl/o-serwisie/ [R=301,L]
   RewriteRule ^aktualnosciindex.html$ https://sk.mati-it.pl/poradnik/ [R=301,L]
   RewriteRule ^aktualnoscistrona-w-przebudowie.html$ https://sk.mati-it.pl/poradnik/ [R=301,L]
@@ -33,6 +34,7 @@ DirectoryIndex index.html
   RewriteBase /
 
   # --- Przekierowania 301 ze starej strony (zarządzane z panelu) ---
+  RewriteRule ^aktualnosci$ https://sk.mati-it.pl/poradnik/ [R=301,L]
   RewriteRule ^aktualnosci$ https://sk.mati-it.pl/poradnik/ [R=301,L]
   RewriteRule ^aktualnoscidlaczego-warto-nas-wybrac.html$ https://sk.mati-it.pl/o-serwisie/ [R=301,L]
   RewriteRule ^aktualnosciindex.html$ https://sk.mati-it.pl/poradnik/ [R=301,L]
