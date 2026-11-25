@@ -1,5 +1,18 @@
-# Studio-Komp — konfiguracja Apache/LiteSpeed (obecny hosting)
-# Plik trafia do katalogu public/ i jest kopiowany do dist/ przy buildzie.
+# Studio-Komp — baza konfiguracji Apache/LiteSpeed (hosting klasyczny).
+# Panel CMS generuje z tego plik public/.htaccess, wstawiając przekierowania
+# w miejsce   RewriteRule ^aktualnosci$ https://sk.mati-it.pl/poradnik/ [R=301,L]
+  RewriteRule ^aktualnoscidlaczego-warto-nas-wybrac.html$ https://sk.mati-it.pl/o-serwisie/ [R=301,L]
+  RewriteRule ^aktualnosciindex.html$ https://sk.mati-it.pl/poradnik/ [R=301,L]
+  RewriteRule ^aktualnoscistrona-w-przebudowie.html$ https://sk.mati-it.pl/poradnik/ [R=301,L]
+  RewriteRule ^cennik.html$ https://sk.mati-it.pl/cennik/ [R=301,L]
+  RewriteRule ^galeria.html$ https://sk.mati-it.pl/realizacje/ [R=301,L]
+  RewriteRule ^googleads$ https://sk.mati-it.pl/lp/naprawa-laptopow/ [R=301,L]
+  RewriteRule ^kontakt.html$ https://sk.mati-it.pl/kontakt/ [R=301,L]
+  RewriteRule ^mapa$ https://sk.mati-it.pl/kontakt/ [R=301,L]
+  RewriteRule ^o-firmie.html$ https://sk.mati-it.pl/o-serwisie/ [R=301,L]
+  RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
+  RewriteRule ^ofertaczyszczenie-i-konserwacja-ukladu-chlodzenia.html$ https://sk.mati-it.pl/czyszczenie-laptopa-wroclaw/ [R=301,L]
+. Ten plik leży poza public/, żeby nie trafił na hosting.
 
 Options -Indexes
 DirectoryIndex index.html
@@ -17,21 +30,20 @@ DirectoryIndex index.html
 
   RewriteBase /
 
-  # --- Przekierowania 301 ze starej strony ---
-  RewriteRule ^o-firmie\.html$ /o-serwisie/ [R=301,L]
-  RewriteRule ^oferta/?$ /uslugi/ [R=301,L]
-  RewriteRule ^oferta/czyszczenie-i-konserwacja-ukladu-chlodzenia\.html$ /czyszczenie-laptopa-wroclaw/ [R=301,L]
-  RewriteRule ^cennik\.html$ /cennik/ [R=301,L]
-  RewriteRule ^galeria\.html$ /realizacje/ [R=301,L]
-  RewriteRule ^kontakt\.html$ /kontakt/ [R=301,L]
-  RewriteRule ^aktualnosci/?$ /poradnik/ [R=301,L]
-  RewriteRule ^aktualnosci/index\.html$ /poradnik/ [R=301,L]
-  RewriteRule ^aktualnosci/dlaczego-warto-nas-wybrac\.html$ /o-serwisie/ [R=301,L]
-  RewriteRule ^aktualnosci/zalany-laptop.*$ /poradnik/zalany-laptop-czego-nie-robic/ [R=301,L]
-  RewriteRule ^aktualnosci/.*laptop-sie-grzeje.*$ /poradnik/laptop-sie-przegrzewa-przyczyny/ [R=301,L]
-  RewriteRule ^aktualnosci/strona-w-przebudowie\.html$ /poradnik/ [R=301,L]
-  RewriteRule ^googleads/?$ /lp/naprawa-laptopow/ [R=301,L]
-  RewriteRule ^mapa/?$ /kontakt/ [R=301,L]
+  # --- Przekierowania 301 ze starej strony (zarządzane z panelu) ---
+  RewriteRule ^aktualnosci$ https://sk.mati-it.pl/poradnik/ [R=301,L]
+  RewriteRule ^aktualnoscidlaczego-warto-nas-wybrac.html$ https://sk.mati-it.pl/o-serwisie/ [R=301,L]
+  RewriteRule ^aktualnosciindex.html$ https://sk.mati-it.pl/poradnik/ [R=301,L]
+  RewriteRule ^aktualnoscistrona-w-przebudowie.html$ https://sk.mati-it.pl/poradnik/ [R=301,L]
+  RewriteRule ^cennik.html$ https://sk.mati-it.pl/cennik/ [R=301,L]
+  RewriteRule ^galeria.html$ https://sk.mati-it.pl/realizacje/ [R=301,L]
+  RewriteRule ^googleads$ https://sk.mati-it.pl/lp/naprawa-laptopow/ [R=301,L]
+  RewriteRule ^kontakt.html$ https://sk.mati-it.pl/kontakt/ [R=301,L]
+  RewriteRule ^mapa$ https://sk.mati-it.pl/kontakt/ [R=301,L]
+  RewriteRule ^o-firmie.html$ https://sk.mati-it.pl/o-serwisie/ [R=301,L]
+  RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
+  RewriteRule ^ofertaczyszczenie-i-konserwacja-ukladu-chlodzenia.html$ https://sk.mati-it.pl/czyszczenie-laptopa-wroclaw/ [R=301,L]
+
 
   # Katalogi bez ukośnika na końcu → z ukośnikiem
   RewriteCond %{REQUEST_FILENAME} -d
@@ -67,7 +79,6 @@ ErrorDocument 404 /404.html
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
 
-  # Hashed assety Astro mogą być cache'owane agresywnie
   <FilesMatch "\.(css|js|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
