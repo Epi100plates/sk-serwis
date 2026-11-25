@@ -548,6 +548,28 @@ i `systemctl reload nginx-sk`; baza z kopii z punktu 1. Uwaga: cofnięcie pliku
 `panel/api/status.php` bez cofnięcia konfiguracji nginx daje 404 na całej
 ścieżce `/status/`.
 
+### Dostępność - wynik audytu axe
+
+Strona statusu przeszła audyt axe-core (`wcag2a`, `wcag2aa`, `wcag21a`,
+`wcag21aa`, `best-practice`) na żywym HTML-u z 2026-11-25:
+
+| Widok | Naruszenia | Zaliczone reguły | Nierozstrzygnięte |
+|---|---|---|---|
+| `/status/<token>/` 390 px | **0** | 32 | 0 |
+| `/status/<token>/` 1366 px | **0** | 32 | 0 |
+| `/klient/status/<token>/` 390 px | **0** | 32 | 0 |
+| strona „link nieaktywny" (404) 390 px | **0** | 30 | 0 |
+
+Do tego sprawdzone ręcznie: kolejność Tab (telefon → adres strony, widoczny
+focus `2px solid`), dokładnie jeden `<h1>`, jeden `aria-current="step"`,
+brak poziomego przewijania (`scrollWidth == clientWidth == 375`), jeden plik CSS
+i cztery pliki fontów, zero JavaScriptu.
+
+Uwaga przy powtarzaniu audytu: CSP (`default-src 'none'`) celowo blokuje
+wstrzyknięcie `axe.min.js` do żywej strony. Audyt robi się na zapisanej kopii
+HTML (`curl -o strona.html`), serwowanej lokalnie razem z `/tracking/` - wtedy
+style i fonty się ładują, a CSP nie obowiązuje.
+
 ---
 
 ## 9. Diagnostyka
