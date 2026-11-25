@@ -1,133 +1,118 @@
-# GitHub - co wrzucamy i do którego repozytorium
+# GitHub - co jest w którym repozytorium
 
-Dokument dla właściciela. Opisuje, jak podzielić projekt na dwa repozytoria
-GitHub i jak je wypchnąć, gdy projekty zostaną już utworzone na koncie.
+Dokument dla właściciela. Opisuje podział projektu na dwa repozytoria GitHub,
+stan wdrożenia i to, co zostaje poza repozytoriami.
 
-Stan na 2026-11-25: cała implementacja jest w jednym repozytorium roboczym
-(`Piotrekv3`, wdrożona na https://sk.mati-it.pl, release `20261125-232808`).
+Stan na 2026-11-25.
 
 ---
 
-## 1. Co jest źródłem, a co artefaktem
+## 1. Dwa repozytoria (utworzone, wypchnięte)
 
-Repozytorium zawiera **cały kod źródłowy**. Poza nim zostają pliki, które
-odtwarza się jedną komendą albo które są danymi lokalnymi:
+| Repozytorium | Zawartość | Adres |
+|---|---|---|
+| **sk-serwis** | strona serwisu + panel CMS + strona statusu (`/status/<token>/`), czyli cały obecny projekt `Piotrekv3` | https://github.com/Epi100plates/sk-serwis |
+| **sk-klient** | samodzielna strona statusu dla klienta: widok, style, klient publicznego JSON-a; bez bazy danych i bez tokenów | https://github.com/Epi100plates/sk-klient |
+
+Oba repozytoria są publiczne, gałąź domyślna `main`, bez `node_modules` i bez
+buildów (`dist/`). Klon `sk-serwis` waży ok. 6,4 MB i zawiera pełną historię
+pracy.
+
+### Dlaczego tak
+
+- **sk-serwis** jest jedynym źródłem prawdy o statusach, tokenach i kolejce SMS.
+  Strona statusu jest tam częścią panelu PHP, bo czyta bazę `panel.sqlite`
+  i korzysta z tego samego klucza tokenów.
+- **sk-klient** to warstwa prezentacji dla klienta. Czyta publiczny endpoint
+  `GET https://sk.mati-it.pl/status/<token>/?format=json` i renderuje dokładnie
+  ten sam widok. Nie ma dostępu do bazy, więc wyciek tego kodu nie ujawnia
+  danych klientów ani sposobu liczenia tokenów.
+
+Dzięki temu rozdzieleniu link w SMS-ie może wskazywać albo na sk-serwis
+(`https://sk.mati-it.pl/status/...` - tak działa to teraz), albo na osobną
+domenę sk-klient (po wdrożeniu i zmianie `site_url` w konfiguracji panelu).
+Obie wersje korzystają z jednego backendu.
+
+---
+
+## 2. Co jest źródłem, a co artefaktem
 
 | Katalog / plik | W repo | Dlaczego |
 |---|---|---|
 | `src/`, `panel/`, `deploy/`, `scripts/`, `docs/`, `public/` | tak | kod, konfiguracja, dokumentacja, assety |
-| `package.json`, `pnpm-lock.yaml`, `astro.config.mjs`, `tsconfig.json` | tak | odtwarzają build (`pnpm install`) |
+| `package.json`, `pnpm-lock.yaml`, `astro.config.mjs`, `tsconfig.json` | tak | odtwarzają build (`pnpm install --frozen-lockfile`) |
 | `AGENTS.md`, `README.md` | tak | dokumentacja dla ludzi i agentów |
-| `node_modules/` | **nie** | odtwarza `pnpm install --frozen-lockfile` |
+| `node_modules/` | **nie** | odtwarza `pnpm install` |
 | `dist/`, `dist-preview/`, `.astro/` | **nie** | odtwarza `pnpm build` |
-| `release/` (logi, paczki, backupy) | **nie** | artefakty publikacji, mogą zawierać dane |
+| `release/` (logi, paczki, backupy) | **nie** | artefakty publikacji |
 | `shots/` (zrzuty ekranu) | **nie** | materiały robocze |
 | `panel/config.php`, `data/`, `tracking.key`, `panel.sqlite` | **nie** | konfiguracja i dane poza repozytorium |
 
-Wszystkie wpisy „nie” są już w `.gitignore` - klon repozytorium nie zawiera
-`node_modules` ani buildów.
+Wszystkie wpisy „nie” są w `.gitignore` - świeży klon nie zawiera ani
+`node_modules`, ani buildów, ani sekretów.
 
 ---
 
-## 2. Podział na dwa repozytoria
-
-### Repozytorium A - strona serwisu (Astro + panel CMS)
-
-To cały obecny projekt: strona publiczna, panel `/panel`, formularz zgłoszeń,
-analityka, publikacja i **strona statusu naprawy** (`/status/<token>/`) z jej
-SMS-ami i kolejką powiadomień.
-
-Uzasadnienie: strona statusu czyta bazę panelu (`panel.sqlite`) i korzysta
-z tego samego klucza tokenów oraz tej samej kolejki SMS. Rozdzielenie tego na
-dwie aplikacje PHP oznaczałoby albo dwa procesy piszące do jednej bazy, albo
-kopię logiki tokenów i statusów - czyli dwa źródła prawdy i ryzyko rozjazdu.
-
-### Repozytorium B - strona dla klienta
-
-Rekomendacja: **samodzielny front-end strony statusu** (PHP albo statyczny
-szablon + `fetch`), który pobiera dane z publicznego JSON-a repozytorium A:
-
-```
-GET https://sk.mati-it.pl/status/<token>/?format=json
--> {"ok":true,"status":{"number":"SK-2026-000001","stage":"ready",...}}
-```
-
-Zalety: zero duplikacji kryptografii i zapytań SQL, wdrożenie na dowolnym
-hostingu (nawet statycznym + mały proxy), a repozytorium A pozostaje jedynym
-źródłem prawdy o statusach. Wada: dodatkowe żądanie sieciowe i druga domena do
-utrzymania; link w SMS-ie musi wskazywać na wybraną wersję strony (adres bierze
-się z `site_url` w konfiguracji panelu).
-
-Wariant alternatywny (jeśli właściciel chce dwa niezależne backendy): repo B
-zawiera `panel/api/status.php`, `panel/views/status.php`, `public/tracking/`
-oraz biblioteki `panel/lib/db.php`, `tickets.php`, `sms.php`, `mailer.php`
-i własny `config.php`. Wtedy trzeba pilnować, żeby oba repozytoria miały tę samą
-wersję `tickets.php` (token HMAC i mapowanie etapów), bo inaczej linki przestaną
-działać po jednej ze stron.
-
----
-
-## 3. Jak wypchnąć repozytorium A
-
-Klon roboczy jest gotowy w `D:\Deepseekapp\serwis\_exports\studio-komp-www`
-(pełna historia, bez `node_modules`, 6,4 MB).
+## 3. Jak wypchnąć zmiany
 
 ```powershell
-cd D:\Deepseekapp\serwis\_exports\studio-komp-www
-git remote add github git@github.com:<konto>/<nazwa-repo-A>.git
-git push -u github main
+cd D:\Deepseekapp\serwis\Piotrekv3
+$env:GIT_SSH_COMMAND = "ssh -i `"$env:USERPROFILE\.ssh\github_serwiskit`" -o BatchMode=yes"
+
+# repozytorium serwisu (VPS + GitHub)
+git push origin main
+git -C D:\Deepseekapp\serwis\_exports\studio-komp-www pull --ff-only
+git -C D:\Deepseekapp\serwis\_exports\studio-komp-www push github main
+
+# strona dla klienta (tylko GitHub)
+cd D:\Deepseekapp\serwis\_exports\client-status
+git push github main
 ```
 
-Jeśli GitHub ma być źródłem prawdy także dla codziennej pracy, można zamienić
-remote `origin` (VPS) na `github` i wypychać na oba:
+Klon roboczy do wypychania `sk-serwis`: `D:\Deepseekapp\serwis\_exports\studio-komp-www`
+(remote `origin` = VPS, remote `github` = GitHub). Drugi klon: `_exports\client-status`
+(remote `github` = `sk-klient`).
 
-```powershell
-git remote set-url --add --push origin git@github.com:<konto>/<nazwa-repo-A>.git
-```
-
-(Uwaga: publikacja `pnpm publish:remote` wypycha na `origin`, więc VPS musi
-zostać jednym z adresów `origin`.)
-
-Repozytorium może być prywatne - kod nie zawiera sekretów: konfiguracja panelu,
-klucz tokenów śledzenia, baza SQLite i dane klientów żyją poza repozytorium.
+Repozytoria mogą być prywatne bez zmiany kodu - nie zawierają sekretów:
+konfiguracja panelu, klucz tokenów, baza i dane klientów żyją wyłącznie na VPS
+w `/srv/studio-komp-cms`.
 
 ---
 
-## 4. Jak przygotować repozytorium B (wariant rekomendowany)
+## 4. Synchronizacja widoku między repozytoriami
 
-Minimalny zestaw plików nowego projektu:
-
-```
-client-status/
-  README.md
-  config.php            # adres API (site_url), opcjonalny cache
-  index.php             # router: /<token> -> pobranie JSON -> render
-  views/status.php      # ten sam układ co w repo A (bilet + timeline)
-  public/tracking/      # status.css + fonts/*.woff2 (kopiowane z repo A)
-```
-
-Kopiowanie widoku i stylów z repo A (jednorazowo):
+`sk-klient/views/status.php` i `sk-klient/public/tracking/` są kopiami z
+`sk-serwis`. Źródłem prawdy jest `sk-serwis`:
 
 ```powershell
 $src = 'D:\Deepseekapp\serwis\Piotrekv3'
 $dst = 'D:\Deepseekapp\serwis\_exports\client-status'
-New-Item -ItemType Directory -Force "$dst\views","$dst\public" | Out-Null
-Copy-Item "$src\panel\views\status.php" "$dst\views\status.php"
-Copy-Item "$src\public\tracking" "$dst\public\tracking" -Recurse
+Copy-Item "$src\panel\views\status.php" "$dst\views\status.php" -Force
+Copy-Item "$src\public\tracking" "$dst\public\tracking" -Recurse -Force
 ```
 
-Czego **nie** kopiować: `panel/lib/*`, `panel/api/status.php` (wariant
-rekomendowany korzysta z API), bazy, konfiguracji panelu.
+Po skopiowaniu: podbij `?v=` przy `status.css` w obu widokach `sk-klient`,
+zrób commit i push. Ta sama zasada obowiązuje dla `views/unavailable.php`.
 
 ---
 
-## 5. Czego jeszcze brakuje
+## 5. Wdrożenie - stan i brakujące kroki
 
-1. Nazwy i widoczność obu repozytoriów na koncie GitHub (właściciel tworzy je
-   sam) oraz decyzja, czy repo B to wariant rekomendowany (JSON API), czy
-   niezależny backend.
-2. Klucz SSH do GitHuba na tej maszynie (`github_serwiskit`, `github_plany2`
-   należą do innych projektów) albo token dostępu.
-3. Po utworzeniu repozytoriów: `git push` (sekcja 3) i ewentualne ustawienie
-   GitHub Actions dla `pnpm build` (opcjonalne - build i tak wykonuje się
-   lokalnie).
+| Element | Stan |
+|---|---|
+| Strona serwisu + panel + `/status/` na `sk.mati-it.pl` | **wdrożone** (release `20261125-232808`, nginx `-t` OK, live 200) |
+| Repozytoria GitHub | **wypchnięte** (`sk-serwis`, `sk-klient`) |
+| Strona `sk-klient` na własnej domenie | **nie wdrożona** - brak decyzji o domenie (np. `status.studio-komp.pl`) |
+| Realna wysyłka SMS | **wyłączona** - tryb testowy; potrzebny token SMSAPI/SerwerSMS i nadawca |
+
+Wdrożenie `sk-klient` na VPS po decyzji o domenie:
+
+1. `git clone git@github.com:Epi100plates/sk-klient.git /srv/sk-klient`
+2. `cp /srv/sk-klient/config.example.php /srv/sk-klient/config.php` i ustawić
+   `api_base` na `https://sk.mati-it.pl`.
+3. `install -m 644 /srv/sk-klient/deploy/nginx.conf /etc/nginx/sites-available/sk-klient`
+   (dostosować `server_name`, certyfikat i socket PHP-FPM), `ln -s` do
+   `sites-enabled`, `nginx -t`, `systemctl reload nginx`.
+4. Test: `curl -I https://<domena>/status/<token>/` (200), `.../status/zly/` (404).
+5. Opcjonalnie: zmienić `site_url` w konfiguracji panelu na tę domenę, żeby SMS-y
+   wysyłały link do `sk-klient` zamiast do `sk.mati-it.pl`.
