@@ -145,6 +145,9 @@ if ($status !== null) {
 <meta name="theme-color" content="#ffd400">
 <meta name="color-scheme" content="light">
 <title><?= $h($pageTitle) ?></title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/tracking/status.css?v=1">
 </head>
 <body>
