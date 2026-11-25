@@ -16,6 +16,8 @@
   RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
   RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
   RewriteRule ^ofertaczyszczenie-i-konserwacja-ukladu-chlodzenia.html$ https://sk.mati-it.pl/czyszczenie-laptopa-wroclaw/ [R=301,L]
+  RewriteRule ^serwis-microsoft-surface-wroclaw$ https://sk.mati-it.pl/uslugi/ [R=301,L]
+  RewriteRule ^serwis-microsoft-surface-wroclaw$ https://sk.mati-it.pl/uslugi/ [R=301,L]
 . Ten plik leży poza public/, żeby nie trafił na hosting.
 
 Options -Indexes
@@ -51,6 +53,8 @@ DirectoryIndex index.html
   RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
   RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
   RewriteRule ^ofertaczyszczenie-i-konserwacja-ukladu-chlodzenia.html$ https://sk.mati-it.pl/czyszczenie-laptopa-wroclaw/ [R=301,L]
+  RewriteRule ^serwis-microsoft-surface-wroclaw$ https://sk.mati-it.pl/uslugi/ [R=301,L]
+  RewriteRule ^serwis-microsoft-surface-wroclaw$ https://sk.mati-it.pl/uslugi/ [R=301,L]
 
 
   # Katalogi bez ukośnika na końcu → z ukośnikiem
