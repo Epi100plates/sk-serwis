@@ -1,25 +1,31 @@
 # GitHub - co jest w którym repozytorium
 
-Dokument dla właściciela. Opisuje podział projektu na dwa repozytoria GitHub,
+Dokument dla właściciela. Opisuje podział projektu na trzy repozytoria GitHub,
 stan wdrożenia i to, co zostaje poza repozytoriami.
 
 Stan na 2026-11-25.
 
 ---
 
-## 1. Dwa repozytoria (utworzone, wypchnięte)
+## 1. Trzy repozytoria (utworzone, wypchnięte)
 
 | Repozytorium | Zawartość | Adres |
 |---|---|---|
+| **sk-core** | aplikacja warsztatu dla serwisantów (Laravel 12): kolejka napraw, zdjęcia, statusy, wydruki A4, PWA - katalog główny projektu `D:\Deepseekapp\serwis`, nie `Piotrekv3/` | https://github.com/Epi100plates/sk-core |
 | **sk-serwis** | strona serwisu + panel CMS + strona statusu (`/status/<token>/`), czyli cały obecny projekt `Piotrekv3` | https://github.com/Epi100plates/sk-serwis |
 | **sk-klient** | samodzielna strona statusu dla klienta: widok, style, klient publicznego JSON-a; bez bazy danych i bez tokenów | https://github.com/Epi100plates/sk-klient |
 
-Oba repozytoria są publiczne, gałąź domyślna `main`, bez `node_modules` i bez
-buildów (`dist/`). Klon `sk-serwis` waży ok. 6,4 MB i zawiera pełną historię
-pracy.
+Wszystkie repozytoria są publiczne, gałąź domyślna `main`, bez `node_modules`
+i bez buildów (`dist/`). Klon `sk-serwis` waży ok. 6,4 MB i zawiera pełną
+historię pracy; `sk-core` to 295 plików i 3,5 MB źródeł (bez `vendor/`, bez
+danych z `storage/app/data`).
 
 ### Dlaczego tak
 
+- **sk-core** to aplikacja, której używają serwisanci w warsztacie. Nie zna
+  bazy panelu CMS i nie wysyła SMS-ów do klientów - dlatego jest osobnym
+  repozytorium: inny odbiorca (pracownik), inne wdrożenie (hosting współdzielony,
+  paczka ZIP) i brak wspólnego kodu z warstwą publiczną.
 - **sk-serwis** jest jedynym źródłem prawdy o statusach, tokenach i kolejce SMS.
   Strona statusu jest tam częścią panelu PHP, bo czyta bazę `panel.sqlite`
   i korzysta z tego samego klucza tokenów.
@@ -51,6 +57,14 @@ Obie wersje korzystają z jednego backendu.
 Wszystkie wpisy „nie” są w `.gitignore` - świeży klon nie zawiera ani
 `node_modules`, ani buildów, ani sekretów.
 
+Te same zasady obowiązują w `sk-core` (aplikacja dla serwisantów): w repo są
+`app/`, `resources/`, `public/`, `config/`, `routes/`, `database/`, `tests/`,
+`deploy/`, `docs/`, `composer.json` i `composer.lock`; poza repo zostają
+`vendor/`, `.env`, `storage/app/data` i `storage/app/photos` (dane klientów),
+`old-app/` (archiwum starej aplikacji PHP), `Piotrekv3/` oraz paczki
+`release-*.zip`. Świeży klon odtwarza `composer install` + `php artisan
+app:install`.
+
 ---
 
 ## 3. Jak wypchnąć zmiany
@@ -67,11 +81,17 @@ git -C D:\Deepseekapp\serwis\_exports\studio-komp-www push github main
 # strona dla klienta (tylko GitHub)
 cd D:\Deepseekapp\serwis\_exports\client-status
 git push github main
+
+# aplikacja dla serwisantów (tylko GitHub)
+cd D:\Deepseekapp\serwis
+git push github main
 ```
 
 Klon roboczy do wypychania `sk-serwis`: `D:\Deepseekapp\serwis\_exports\studio-komp-www`
 (remote `origin` = VPS, remote `github` = GitHub). Drugi klon: `_exports\client-status`
-(remote `github` = `sk-klient`).
+(remote `github` = `sk-klient`). `sk-core` wypycha się wprost z katalogu głównego
+projektu `D:\Deepseekapp\serwis` (gałąź `main`, remote `github` = `sk-core`) -
+nie ma tam drugiego remote'a ani osobnego klonu.
 
 Repozytoria mogą być prywatne bez zmiany kodu - nie zawierają sekretów:
 konfiguracja panelu, klucz tokenów, baza i dane klientów żyją wyłącznie na VPS
@@ -101,7 +121,8 @@ zrób commit i push. Ta sama zasada obowiązuje dla `views/unavailable.php`.
 | Element | Stan |
 |---|---|
 | Strona serwisu + panel + `/status/` na `sk.mati-it.pl` | **wdrożone** (release `20261125-232808`, nginx `-t` OK, live 200) |
-| Repozytoria GitHub | **wypchnięte** (`sk-serwis`, `sk-klient`) |
+| Repozytoria GitHub | **wypchnięte** (`sk-core`, `sk-serwis`, `sk-klient`) |
+| Aplikacja dla serwisantów (`sk-core`) | **działa** - `https://epii.pl/serwis` (hosting współdzielony, paczka ZIP z `build-release.ps1`); repozytorium to samo źródło, bez wdrożenia na VPS |
 | Strona `sk-klient` na VPS | **wdrożona pod `/klient/`** - adres `https://sk.mati-it.pl/klient/status/<token>/`, aplikacja w `/srv/sk-klient`, ten sam backend co `/status/` |
 | Strona `sk-klient` na własnej domenie | **nie wdrożona** - brak decyzji o domenie (np. `status.studio-komp.pl`) |
 | Realna wysyłka SMS | **wyłączona** - tryb testowy; potrzebny token SMSAPI/SerwerSMS i nadawca |

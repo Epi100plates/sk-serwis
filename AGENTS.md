@@ -621,6 +621,7 @@ wyłącznie realizacji naprawy (nie marketingu).
 | 2026-11-25 | Status naprawy dla klienta: `/status/<token>/`, tokeny podpisane (HMAC-SHA256, w bazie tylko `status_token_version`), 3 etapy + „Odebrany”, SMS `client_accepted`/`client_ready`, publiczna notatka, limit tempa, panel, nginx, dokumentacja `docs/status-klienta.md`. |
 | 2026-11-25 | Dwa repozytoria GitHub (`sk-serwis` - strona i panel, `sk-klient` - strona dla klienta czytająca JSON API). `sk-klient` wdrożona na VPS pod `/klient/` (`/srv/sk-klient`, `open_basedir` poolu rozszerzony), dokumentacja `docs/github-repozytoria.md`. |
 | 2026-11-25 | Numeracja zgłoszeń bez powtórek: tabela `ticket_counters` (licznik roczny podnoszony w transakcji zapisu); usunięcie zgłoszenia nie oddaje już jego numeru. Test w `panel/bin/self-check-status.php` (56 warunków). |
+| 2026-11-25 | Trzecie repozytorium GitHub `sk-core` - kod źródłowy aplikacji dla serwisantów (Laravel 12, katalog główny projektu `D:\Deepseekapp\serwis`); 295 plików, bez `vendor/`, `.env` i danych z `storage/app/data`. `docs/github-repozytoria.md` opisuje trzy repozytoria i komendy push. |
 
 ---
 
