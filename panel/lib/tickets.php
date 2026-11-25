@@ -27,6 +27,36 @@ const TICKET_SMS_TEMPLATE_DEFAULT = 'Studio-Komp: nowe zgloszenie nr {number}. {
 
 const TICKET_NOTIFY_CHANNELS = ['sms', 'email'];
 
+/**
+ * Etapy naprawy widoczne dla klienta. To jedyne miejsce mapowania statusów
+ * z bazy (TICKET_STATUSES) na to, co widzi klient - wszystkie etapy pośrednie
+ * pokazują się jako "W trakcie naprawy".
+ */
+const CLIENT_STAGES = [
+    'accepted' => 'Przyjęty',
+    'in_progress' => 'W trakcie naprawy',
+    'ready' => 'Gotowy do wydania',
+    'picked_up' => 'Odebrany',
+];
+
+const CLIENT_STAGE_BY_STATUS = [
+    'new' => 'accepted',
+    'read' => 'accepted',
+    'in_progress' => 'in_progress',
+    'done' => 'ready',
+    'closed' => 'picked_up',
+];
+
+/** Domyślne treści SMS do klienta (edytowalne w panelu: Ustawienia -> Formularz). */
+const TICKET_CLIENT_SMS_DEFAULTS = [
+    'client_accepted' => 'Studio-Komp: przyjelismy sprzet ({sprzet}). Status naprawy: {link}',
+    'client_ready' => 'Studio-Komp: {sprzet} jest gotowy do odbioru. Kotlarska 14, pon.-pt. 7:00-15:00. Status: {link}',
+];
+
+/** Limity publicznej strony statusu ( żądania / okno w sekundach / IP-hash ). */
+const TICKET_STATUS_RATE_LIMIT = 30;
+const TICKET_STATUS_RATE_WINDOW = 60;
+
 /* ------------------------------------------------------------------ logi */
 
 /**
@@ -47,6 +77,12 @@ function tickets_log(string $message): void
 function ticket_status_label(string $status): string
 {
     return TICKET_STATUSES[$status] ?? $status;
+}
+
+/** Status zgłoszenia -> etap widoczny na stronie klienta. */
+function ticket_client_stage(string $status): string
+{
+    return CLIENT_STAGE_BY_STATUS[$status] ?? 'accepted';
 }
 
 function ticket_status_tone(string $status): string
@@ -376,6 +412,8 @@ function tickets_create(array $data, string $clientToken): array
 
             $ticket = $clean + ['id' => $ticketId, 'number' => $number];
             tickets_enqueue_notifications($pdo, $ticketId, $ticket);
+            // Link do śledzenia naprawy trafia do klienta od razu po przyjęciu sprzętu.
+            tickets_enqueue_client_sms($pdo, $ticketId, $ticket, 'client_accepted');
 
             $pdo->commit();
             tickets_log('formularz: utworzono zgłoszenie ' . $number);
@@ -528,6 +566,324 @@ function tickets_sms_message(array $ticket, ?string $template = null): string
     return mb_substr(trim($message), 0, 459, 'UTF-8');
 }
 
+/* --------------------------------------- śledzenie naprawy (dla klienta) */
+
+/** Klucz HMAC tokenów śledzenia - plik w data_dir, poza repozytorium. */
+function tickets_tracking_key(): string
+{
+    static $key = null;
+    if (is_string($key)) {
+        return $key;
+    }
+    $configured = trim((string) (function_exists('cfg') ? cfg('tracking_secret', '') : ''));
+    if ($configured !== '') {
+        return $key = $configured;
+    }
+    $file = rtrim((string) cfg('data_dir'), '/') . '/tracking.key';
+    if (!is_file($file)) {
+        @mkdir(dirname($file), 0770, true);
+        @file_put_contents($file, bin2hex(random_bytes(32)), LOCK_EX);
+        @chmod($file, 0600);
+    }
+    $stored = trim((string) @file_get_contents($file));
+    if ($stored === '') {
+        throw new RuntimeException('Brak klucza tokenów śledzenia naprawy.');
+    }
+    return $key = $stored;
+}
+
+/** Podpis tokenu: HMAC-SHA256 (base64url) z id zgłoszenia i wersji tokenu. */
+function tickets_tracking_mac(int $ticketId, int $version): string
+{
+    $raw = hash_hmac('sha256', 'ticket|' . $ticketId . '|' . $version, tickets_tracking_key(), true);
+    return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+}
+
+/**
+ * Token śledzenia w formacie <id>.<wersja>.<podpis>. Nie wymaga kolumny z
+ * sekretem: link da się odtworzyć w panelu, a wyciek samej bazy nie wystarcza
+ * do jego policzenia. Nowa wersja (refresh) unieważnia poprzedni link.
+ */
+function tickets_tracking_token(int $ticketId, bool $refresh = false): string
+{
+    $ticket = tickets_by_id($ticketId);
+    if (!$ticket) {
+        return '';
+    }
+    $version = (int) ($ticket['status_token_version'] ?? 0);
+    if ($version <= 0 || $refresh) {
+        // Wersja zawsze rośnie, żeby odświeżenie w tej samej sekundzie też unieważniło link.
+        $version = max(time(), $version + 1);
+        db()->prepare('UPDATE tickets SET status_token_version = ? WHERE id = ?')->execute([$version, $ticketId]);
+    }
+    return $ticketId . '.' . $version . '.' . tickets_tracking_mac($ticketId, $version);
+}
+
+function tickets_tracking_url(string $token): string
+{
+    if ($token === '') {
+        return '';
+    }
+    return rtrim((string) cfg('site_url'), '/') . '/status/' . $token . '/';
+}
+
+/** Gotowy link do strony statusu dla zgłoszenia ('' gdy brak numeru id). */
+function tickets_tracking_link(array $ticket): string
+{
+    $id = (int) ($ticket['id'] ?? 0);
+    return $id > 0 ? tickets_tracking_url(tickets_tracking_token($id)) : '';
+}
+
+/** Token z żądania: albo parametr ?t=, albo ścieżka /status/<token>/. */
+function tickets_tracking_token_from_request(): string
+{
+    $param = trim((string) ($_GET['t'] ?? ''));
+    if ($param !== '') {
+        return $param;
+    }
+    $uri = (string) ($_SERVER['REQUEST_URI'] ?? '');
+    if (preg_match('~/status/([^/?#]+)~', $uri, $m)) {
+        return $m[1];
+    }
+    return '';
+}
+
+/** Zgłoszenie na podstawie tokenu; null = nieprawidłowy lub unieważniony link. */
+function tickets_find_by_tracking_token(string $token): ?array
+{
+    if (!preg_match('/^(\d{1,10})\.(\d{1,12})\.([A-Za-z0-9_-]{43})$/', $token, $m)) {
+        return null;
+    }
+    $ticketId = (int) $m[1];
+    $version = (int) $m[2];
+    if ($ticketId <= 0 || $version <= 0) {
+        return null;
+    }
+    $ticket = tickets_by_id($ticketId);
+    if (!$ticket || (int) ($ticket['status_token_version'] ?? 0) !== $version) {
+        return null;
+    }
+    if (!hash_equals(tickets_tracking_mac($ticketId, $version), $m[3])) {
+        return null;
+    }
+    return $ticket;
+}
+
+/** Dane kontaktowe serwisu ze strony (src/data/site.json) - bez danych klienta. */
+function ticket_public_service(): array
+{
+    static $service = null;
+    if (is_array($service)) {
+        return $service;
+    }
+    $root = defined('SK_PANEL_ROOT') ? dirname(SK_PANEL_ROOT) : dirname(__DIR__, 2);
+    $file = rtrim((string) $root, '/') . '/src/data/site.json';
+    $site = is_file($file) ? json_decode((string) file_get_contents($file), true) : null;
+    $site = is_array($site) ? $site : [];
+
+    $address = (array) ($site['address'] ?? []);
+    $street = trim((string) ($address['street'] ?? ''));
+    $city = trim(trim((string) ($address['postalCode'] ?? '')) . ' ' . trim((string) ($address['city'] ?? '')));
+    $hours = (array) ($site['hours'] ?? []);
+    $firstHour = (array) ($hours[0] ?? []);
+    $hoursLabel = trim((string) ($firstHour['label'] ?? ''));
+    $hoursValue = trim((string) ($firstHour['value'] ?? ''));
+
+    $service = [
+        'name' => trim((string) ($site['name'] ?? '')) ?: 'Studio-Komp',
+        'phone' => trim((string) ($site['phoneDisplay'] ?? '')) ?: '500 613 500',
+        'phone_href' => 'tel:' . preg_replace('/\s+/', '', trim((string) ($site['phoneTel'] ?? '')) ?: '+48500613500'),
+        'address' => implode(', ', array_filter([$street, $city])),
+        'hours' => $hoursLabel !== '' && $hoursValue !== '' ? $hoursLabel . ': ' . $hoursValue : 'pon.-pt. 7:00-15:00',
+        'url' => rtrim((string) cfg('site_url'), '/'),
+    ];
+    return $service;
+}
+
+/**
+ * Model widoku publicznej strony statusu. Zawiera wyłącznie dane bezpieczne:
+ * numer zgłoszenia, sprzęt, daty, etap i publiczną notatkę serwisu.
+ */
+function ticket_public_view(array $ticket): array
+{
+    $ticketId = (int) ($ticket['id'] ?? 0);
+    $status = (string) ($ticket['status'] ?? 'new');
+    $stage = ticket_client_stage($status);
+
+    $order = ['accepted', 'in_progress', 'ready'];
+    if ($stage === 'picked_up') {
+        $order[] = 'picked_up';
+    }
+
+    // Czas wejścia w etap: pierwszy wpis historii o statusie mapowanym na ten etap.
+    $stageAt = [];
+    foreach (tickets_history($ticketId) as $row) {
+        $key = ticket_client_stage((string) ($row['status'] ?? ''));
+        if (!isset($stageAt[$key]) && (string) ($row['created_at'] ?? '') !== '') {
+            $stageAt[$key] = (string) $row['created_at'];
+        }
+    }
+
+    $captions = [
+        'accepted' => 'Sprzęt przyjęty w serwisie.',
+        'in_progress' => 'Diagnoza i naprawa w toku.',
+        'ready' => 'Sprzęt gotowy - zapraszamy do odbioru.',
+        'picked_up' => 'Sprzęt wydany klientowi.',
+    ];
+
+    $currentIndex = array_search($stage, $order, true);
+    $currentIndex = $currentIndex === false ? 0 : (int) $currentIndex;
+    $steps = [];
+    foreach ($order as $index => $key) {
+        $state = $index < $currentIndex ? 'done' : ($index === $currentIndex ? 'current' : 'todo');
+        $at = $index <= $currentIndex ? ticket_format_datetime($stageAt[$key] ?? '') : '';
+        $steps[] = [
+            'key' => $key,
+            'label' => CLIENT_STAGES[$key],
+            'state' => $state,
+            'at' => $at,
+            'caption' => $captions[$key] ?? '',
+        ];
+    }
+
+    $created = ticket_format_datetime((string) ($ticket['created_at'] ?? ''));
+    $createdParts = $created === '' ? ['', ''] : explode(', ', $created);
+
+    return [
+        'number' => (string) ($ticket['number'] ?? ''),
+        'device' => (string) ($ticket['device'] ?? ''),
+        'received_date' => $createdParts[0],
+        'received_time' => $createdParts[1] ?? '',
+        'stage' => $stage,
+        'stage_label' => CLIENT_STAGES[$stage],
+        'stage_index' => $currentIndex + 1,
+        'stage_total' => count($order),
+        'steps' => $steps,
+        'public_note' => (string) ($ticket['public_note'] ?? ''),
+        'updated_at' => ticket_format_datetime((string) ($ticket['updated_at'] ?? '')),
+        'service' => ticket_public_service(),
+    ];
+}
+
+/** Format daty z bazy na czytelny dla klienta: "25.11.2026, 11:20". */
+function ticket_format_datetime(string $value): string
+{
+    $value = trim($value);
+    if ($value === '') {
+        return '';
+    }
+    try {
+        $date = new DateTimeImmutable($value);
+    } catch (Throwable $e) {
+        return '';
+    }
+    return $date->format('d.m.Y, H:i');
+}
+
+/** Szablon SMS do klienta (pusty wpis w ustawieniach = domyślny). */
+function tickets_client_sms_template(string $template): string
+{
+    $configured = trim(setting_get('sms_client_' . $template));
+    if ($configured === '') {
+        $configured = TICKET_CLIENT_SMS_DEFAULTS[$template] ?? '';
+    }
+    return $configured;
+}
+
+/** Treść SMS do klienta z linkiem do strony statusu. */
+function tickets_client_sms_message(array $ticket, string $template): string
+{
+    $service = ticket_public_service();
+    $device = trim((string) ($ticket['device'] ?? ''));
+    $vars = [
+        '{numer}' => (string) ($ticket['number'] ?? ''),
+        '{number}' => (string) ($ticket['number'] ?? ''),
+        '{imie}' => (string) ($ticket['name'] ?? ''),
+        '{sprzet}' => $device !== '' ? $device : 'sprzet',
+        '{serwis}' => (string) $service['name'],
+        '{telefon}' => (string) $service['phone'],
+        '{link}' => tickets_tracking_link($ticket),
+    ];
+    $message = strtr(tickets_client_sms_template($template), $vars);
+    $message = tickets_sms_ascii($message);
+    $message = preg_replace('/\s+/u', ' ', $message) ?? $message;
+    return mb_substr(trim($message), 0, 459, 'UTF-8');
+}
+
+/**
+ * Kolejkuje SMS do klienta (tylko gdy włączone w ustawieniach i jest telefon).
+ * UNIQUE(ticket_id, channel, template) blokuje duplikaty tego samego etapu.
+ */
+function tickets_enqueue_client_sms(PDO $pdo, int $ticketId, array $ticket, string $template): bool
+{
+    if (!isset(TICKET_CLIENT_SMS_DEFAULTS[$template])) {
+        return false;
+    }
+    if (setting_get('sms_client_enabled', '1') !== '1') {
+        return false;
+    }
+    $phone = trim((string) ($ticket['phone'] ?? ''));
+    if ($phone === '') {
+        return false;
+    }
+    $provider = setting_get('sms_provider', 'smsapi');
+    if (!in_array($provider, ['smsapi', 'serwersms'], true)) {
+        $provider = 'smsapi';
+    }
+    $now = now();
+    $payload = json_encode([
+        'template' => $template,
+        'number' => (string) ($ticket['number'] ?? ''),
+        'message' => tickets_sms_masked_preview($ticket) . ' - wiadomość do klienta',
+    ], JSON_UNESCAPED_UNICODE);
+    $st = $pdo->prepare(
+        'INSERT OR IGNORE INTO notifications (ticket_id, channel, provider, recipient, template, payload, status, attempts, created_at, updated_at, next_attempt_at)
+         VALUES (?,?,?,?,?,?,?,0,?,?,?)'
+    );
+    $st->execute([$ticketId, 'sms', $provider, $phone, $template, $payload, 'pending', $now, $now, $now]);
+    return $st->rowCount() > 0;
+}
+
+/**
+ * Limit tempa publicznej strony statusu (IP-hash, 30 żądań na minutę).
+ * Starsze wpisy są czyszczone okazjonalnie, żeby tabela nie rosła.
+ */
+function ticket_status_rate_ok(int $limit = TICKET_STATUS_RATE_LIMIT, int $windowSeconds = TICKET_STATUS_RATE_WINDOW): bool
+{
+    $pdo = db();
+    if (random_int(1, 20) === 1) {
+        $pdo->prepare('DELETE FROM status_rate WHERE created_at < ?')
+            ->execute([(new DateTimeImmutable('-1 day'))->format('Y-m-d H:i:s')]);
+    }
+    $hash = function_exists('security_ip_hash') ? security_ip_hash() : '';
+    $since = (new DateTimeImmutable('-' . max(1, $windowSeconds) . ' seconds'))->format('Y-m-d H:i:s');
+    $st = $pdo->prepare('SELECT COUNT(*) FROM status_rate WHERE ip_hash = ? AND created_at >= ?');
+    $st->execute([$hash, $since]);
+    if ((int) $st->fetchColumn() >= $limit) {
+        return false;
+    }
+    $pdo->prepare('INSERT INTO status_rate (ip_hash, created_at) VALUES (?,?)')
+        ->execute([$hash, (new DateTimeImmutable('now'))->format('Y-m-d H:i:s')]);
+    return true;
+}
+
+/** Publiczna notatka serwisu widoczna na stronie statusu (panel, Ustawienia pola). */
+function ticket_set_public_note(int $ticketId, string $note): array
+{
+    $ticket = tickets_by_id($ticketId);
+    if (!$ticket) {
+        return ['ok' => false, 'error' => 'Nie znaleziono zgłoszenia.'];
+    }
+    $note = tickets_normalize_text($note, 500, true);
+    if ($note === (string) ($ticket['public_note'] ?? '')) {
+        return ['ok' => true];
+    }
+    db()->prepare('UPDATE tickets SET public_note = ?, updated_at = ? WHERE id = ?')
+        ->execute([$note, now(), $ticketId]);
+    tickets_log('panel: zmieniono publiczną notatkę zgłoszenia ' . (string) ($ticket['number'] ?? ''));
+    return ['ok' => true];
+}
+
 /** Temat i treść e-maila powiadomienia (HTML + plain). */
 function tickets_mail_body(array $ticket): array
 {
@@ -601,11 +957,20 @@ function tickets_process_queue(int $limit = 20): array
         }
 
         if ($notification['channel'] === 'sms') {
+            $template = (string) ($notification['template'] ?? 'new_ticket');
+            $isClient = isset(TICKET_CLIENT_SMS_DEFAULTS[$template]);
             $recipient = trim((string) $notification['recipient']);
             if ($recipient === '') {
-                $recipient = trim($smsConfig['recipient']);
+                $recipient = $isClient
+                    ? trim((string) ($ticket['phone'] ?? ''))
+                    : trim($smsConfig['recipient']);
             }
-            $result = sms_send($recipient, tickets_sms_message($ticket), $smsConfig);
+            if ($isClient && setting_get('sms_client_enabled', '1') !== '1') {
+                $result = ['ok' => false, 'skipped' => true, 'error' => 'Wysyłka SMS do klienta wyłączona w ustawieniach.'];
+            } else {
+                $message = $isClient ? tickets_client_sms_message($ticket, $template) : tickets_sms_message($ticket);
+                $result = sms_send($recipient, $message, $smsConfig);
+            }
         } elseif ($notification['channel'] === 'email') {
             $recipient = trim((string) $notification['recipient']);
             if ($recipient === '') {
@@ -755,6 +1120,10 @@ function tickets_change_status(int $ticketId, string $status, string $note, stri
         $pdo->prepare('UPDATE tickets SET status = ?, updated_at = ? WHERE id = ?')->execute([$status, $now, $ticketId]);
         $pdo->prepare('INSERT INTO ticket_history (ticket_id, status, note, username, created_at) VALUES (?,?,?,?,?)')
             ->execute([$ticketId, $status, $note, $username, $now]);
+        // Klient dostaje SMS z linkiem dopiero przy przejściu na "gotowy do wydania".
+        if ($status === 'done' && (string) ($ticket['status'] ?? '') !== 'done') {
+            tickets_enqueue_client_sms($pdo, $ticketId, $ticket + ['status' => 'done'], 'client_ready');
+        }
         $pdo->commit();
     } catch (Throwable $e) {
         if ($pdo->inTransaction()) {

@@ -245,7 +245,9 @@ CREATE TABLE IF NOT EXISTS tickets (
     consent_version TEXT NOT NULL DEFAULT '',
     client_token TEXT NOT NULL DEFAULT '',
     archived INTEGER NOT NULL DEFAULT 0,
-    notes TEXT NOT NULL DEFAULT ''
+    notes TEXT NOT NULL DEFAULT '',
+    public_note TEXT NOT NULL DEFAULT '',
+    status_token_version INTEGER NOT NULL DEFAULT 0
 );
 SQL);
     $pdo->exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_tickets_number ON tickets(number)');
@@ -303,6 +305,16 @@ CREATE TABLE IF NOT EXISTS form_rate (
 SQL);
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_form_rate ON form_rate(ip_hash, created_at)');
 
+    // Limit tempa publicznej strony statusu (link z SMS-a bywa udostępniany dalej).
+    $pdo->exec(<<<SQL
+CREATE TABLE IF NOT EXISTS status_rate (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ip_hash TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+SQL);
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_status_rate_ip ON status_rate(ip_hash, created_at)');
+
     // Migracje lekkie (dodawanie kolumn w przyszłości)
     db_ensure_column($pdo, 'events', 'element', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'events', 'referrer_host', "TEXT NOT NULL DEFAULT ''");
@@ -313,6 +325,9 @@ SQL);
     db_ensure_column($pdo, 'tickets', 'client_token', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'tickets', 'archived', 'INTEGER NOT NULL DEFAULT 0');
     db_ensure_column($pdo, 'tickets', 'notes', "TEXT NOT NULL DEFAULT ''");
+    // Publiczna strona statusu: notatka dla klienta i wersja tokenu w linku.
+    db_ensure_column($pdo, 'tickets', 'public_note', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'status_token_version', 'INTEGER NOT NULL DEFAULT 0');
     db_ensure_column($pdo, 'ticket_history', 'note', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'notifications', 'provider', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'notifications', 'delivery_status', "TEXT NOT NULL DEFAULT ''");

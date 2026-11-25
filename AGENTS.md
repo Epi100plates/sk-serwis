@@ -76,6 +76,7 @@ src/
 public/
   brand/                 logo (nowe, z pliku źródłowego) + paleta
   images/                OG image, ilustracje realizacji, uploads (media z panelu)
+  tracking/              status.css + fonts/* - styl publicznej strony statusu naprawy
   favicon.*, icon-*.png, apple-touch-icon.png, site.webmanifest
   .htaccess              generowany z panelu (hosting klasyczny)
   _redirects             generowany z panelu (Netlify/Cloudflare Pages)
@@ -85,13 +86,17 @@ panel/                   panel CMS (PHP, serwowany z /srv/studio-komp/panel)
   lib/                   db, auth (hash, CSRF, 2FA, limity), content (frontmatter),
                          publish (kolejka/wersje), media (upload+WebP), analytics,
                          redirects (walidacja+generowanie plików), reviews, realizacje,
-                         tickets (zgłoszenia), sms (SMSAPI/SerwerSMS), mailer (SMTP)
+                         tickets (zgłoszenia, etapy klienta, token śledzenia), sms
+                         (SMSAPI/SerwerSMS), mailer (SMTP)
   pages/                 widoki: dashboard, analytics, content, editor, realizacje,
                          kategorie, media, redirects, reviews, zgloszenia, settings,
                          publish, users, profile, audit, preview, help, login
-  api/                   e.php (pomiar), form-token.php + form.php (formularz zgłoszeń)
+  views/                 layout.php, status.php (publiczna strona statusu naprawy)
+  api/                   e.php (pomiar), form-token.php + form.php (formularz zgłoszeń),
+                         status.php (GET /status/<token>/ - HTML i JSON)
   bin/                   create-admin, setup-panel, export-content, reviews-refresh,
-                         cleanup, self-check, tickets-worker (kolejka powiadomień)
+                         cleanup, self-check, self-check-status, tickets-worker
+                         (kolejka powiadomień)
   assets/                admin.css, admin.js
 deploy/
   publish.ps1            build lokalny + wysyłka na VPS (kolejka z panelu)
@@ -472,97 +477,121 @@ raporcie końcowym.
 
 ---
 
-## L. Future Goals — status napraw i SMS
+## L. Status napraw i SMS - zrealizowane
 
-Cel: klient sprawdza postęp naprawy przez unikalny, bezpieczny link, a serwis
-wysyła statusy SMS-em. **Nie zaimplementowano** (brak decyzji właściciela,
-kont API). Poniżej gotowy projekt.
+Cel zrealizowany: klient sprawdza postęp naprawy przez unikalny link
+(`https://<site_url>/status/<token>/`, obecnie testowo
+`https://sk.mati-it.pl/status/<token>/`), a serwis wysyła dwa SMS-y z linkiem -
+po przyjęciu sprzętu i po zmianie statusu na „gotowy do wydania”. Stronę
+renderuje PHP z bazy panelu (strona publiczna pozostaje statyczna, bez bazy
+przy żądaniu). Dokumentacja: `docs/status-klienta.md`.
 
-### L.1 Model bazy (MySQL/MariaDB lub SQLite — do decyzji)
+Zrobione: token śledzenia, strona `/status/<token>/` (HTML + `?format=json`),
+mapowanie statusów na etapy klienta, publiczna notatka, SMS `client_accepted`
+i `client_ready` w istniejącej kolejce `notifications`, limit tempa, `noindex`
+i `no-store`, konfiguracja nginx, dokumentacja.
 
-```sql
-repairs (
-  id            INTEGER PK,
-  token_hash    CHAR(64) UNIQUE,      -- SHA-256 tokenu, nie sam token
-  status        VARCHAR(32),          -- accepted|diagnosis|awaiting_approval|awaiting_parts|in_repair|testing|ready|picked_up
-  device_brand  VARCHAR(64),
-  device_model  VARCHAR(128),
-  customer_phone_encrypted BLOB,      -- opcjonalnie, jeśli SMS
-  customer_name VARCHAR(120),
-  public_note   TEXT,                 -- widoczne dla klienta, bez danych osobowych
-  internal_note TEXT,
-  created_at, updated_at, ready_at,
-  status_token_expires_at,
-  sms_consent   TINYINT
-);
+Wymaga decyzji właściciela: realna wysyłka SMS (konto, token, nadawca),
+ważność linku, kopia klucza tokenów, domena docelowa, retencja zgłoszeń.
 
-repair_status_history (
-  id, repair_id FK, status, note, created_by, created_at
-);
+### L.1 Model bazy - użyto istniejącej tabeli `tickets`
 
-sms_log (
-  id, repair_id, phone_hash, template, status, provider_message_id, error, sent_at
-);
-```
+Nie powstała osobna tabela `repairs` ani `sms_log`. Uzasadnienie: zgłoszenie
+z formularza i naprawa to ten sam byt (ten sam numer `SK-ROK-000123`, ta sama
+historia statusów i ta sama kolejka powiadomień), więc druga tabela oznaczałaby
+duplikację danych klienta i ręczne wiązanie rekordów.
 
-Dane wrażliwe: telefon klienta nie może być widoczny na stronie statusu;
-w panelu — dostęp tylko dla zalogowanych pracowników; szyfrowanie kolumny lub
-przechowywanie w oddzielnej tabeli z ograniczonym dostępem.
+| Element | Stan | Opis |
+|---|---|---|
+| `tickets.status` | istniejąca kolumna | `new`, `read`, `in_progress`, `done`, `closed` |
+| `tickets.public_note` | nowa (`db_ensure_column`) | publiczna notatka serwisu, do 500 znaków, bez danych osobowych |
+| `tickets.status_token_version` | nowa | wersja tokenu w linku (unix time); nowa wartość = nowy link, stary przestaje działać |
+| `tickets.archived` | istniejąca | `1` = zgłoszenie niedostępne publicznie (404) |
+| `ticket_history` | istniejąca | historia statusów, źródło dat etapów |
+| `notifications` | istniejąca | SMS do klienta (`client_accepted`, `client_ready`) tą samą kolejką i workerem |
+| `status_rate` | nowa | `ip_hash`, `created_at` - limit tempa publicznej strony statusu |
+
+Dane wrażliwe: telefon klienta i opis usterki zostają w `tickets`, ale nie są
+nigdzie renderowane na stronie statusu - `ticket_public_view()` zwraca wyłącznie
+numer, sprzęt, etapy z datami, publiczną notatkę i dane kontaktowe firmy.
+Kolumny z danymi osobowymi nie są szyfrowane (baza poza webrootem, dostęp przez
+PHP-FPM jako `skcms`).
 
 ### L.2 Token i link
 
-- Token: 32 bajty losowe (`random_bytes(32)`), base64url; w bazie wyłącznie
-  **hash** (SHA-256). Link: `https://studio-komp.pl/status/<token>/`.
-- Ważność: do 30 dni po odbiorze, unieważnienie ręczne; jednorazowe ponowienie
-  generuje nowy token.
-- Strona statusu: tylko status, marka/model, data przyjęcia, publiczna notatka,
-  numer zgłoszenia skrócony; **bez** nazwiska, telefonu, adresu, ceny.
-- Rate limiting: 10 żądań/min/IP, brak indeksowania (noindex), brak cache.
+- Token: `<id zgłoszenia>.<wersja>.<podpis>`; podpis to HMAC-SHA256 (base64url)
+  z `ticket|<id>|<wersja>`, liczony kluczem serwera. W bazie nie ma tokenu ani
+  jego hasha - tylko `status_token_version`, więc kopia bazy nie daje linków.
+- Klucz: `tracking_secret` w konfiguracji panelu albo `data/tracking.key`
+  (64 znaki hex, 0600, poza repozytorium i webrootem). Utrata klucza unieważnia
+  wszystkie wysłane linki - trzeba wtedy wygenerować nowe w panelu.
+- Link: `https://<site_url>/status/<token>/` (`site_url` z konfiguracji panelu).
+- Unieważnienie: `tickets_tracking_token($id, true)` zmienia wersję; brak
+  automatycznej ważności (decyzja właściciela).
+- Strona statusu: numer zgłoszenia, sprzęt, trzy etapy + „Odebrany” z datami,
+  publiczna notatka, dane kontaktowe firmy; **bez** imienia, telefonu, adresu,
+  ceny, notatek wewnętrznych.
+- Rate limiting: 30 żądań/min na hash IP (`status_rate`), `X-Robots-Tag:
+  noindex, nofollow`, `Cache-Control: no-store`, `Referrer-Policy: no-referrer`,
+  `Content-Security-Policy` (`default-src 'none'`, styl i fonty tylko z
+  `/tracking/` - brak inline i CDN), `access_log off` dla `/status/` (token nie
+  trafia do logów). Obsługiwane metody: GET i HEAD (HEAD zwraca nagłówki bez
+  treści), pozostałe - 405 z `Allow: GET, HEAD`.
 
-### L.3 API (przyszłe endpointy panelu/API)
+### L.3 Endpointy - co powstało, co nie
 
 ```
-POST /api/repairs              (auth pracownika) — utworzenie naprawy
-PATCH /api/repairs/:id/status  (auth) — zmiana statusu + notatka + SMS
-POST /api/repairs/:id/token    (auth) — wygenerowanie/odświeżenie linku
-GET  /status/:token            (publiczne, GET) — dane statusu (JSON/HTML)
-POST /api/sms/webhook          (podpisany) — raport doręczenia
+GET /status/<token>/              (publiczne, GET) - HTML w stylu marki
+GET /status/<token>/?format=json  (publiczne, GET) - {"ok":true,"status":{...}}
 ```
 
-Autoryzacja: sesja panelu + CSRF; webhook podpisany sekretem; rate limiting.
+Nie powstały: `POST /api/repairs`, `PATCH /api/repairs/:id/status`,
+`POST /api/repairs/:id/token`, `POST /api/sms/webhook`. Zamiast nich działa
+panel (sesja + CSRF): status zmienia `tickets_change_status()`, nowy link daje
+`tickets_tracking_token($id, true)`, publiczną notatkę zapisuje
+`ticket_set_public_note()`. Webhook doręczeń nie jest potrzebny, dopóki
+wysyłka działa w trybie testowym; `delivery_status` uzupełnia worker.
 
-### L.4 SMS API — porównanie (do weryfikacji przed wdrożeniem)
+### L.4 SMS API - dostawcy (stan faktyczny)
 
-| Dostawca | Cena SMS (orientacyjnie) | Nadawca | API | Uwagi |
-|---|---|---|---|---|
-| SMSAPI (PL) | ok. 0,05–0,09 zł netto / SMS | własny identyfikator po weryfikacji | REST, dobra dokumentacja | popularny, wsparcie 24/7, raporty doręczeń |
-| SMS Planet | podobnie (zależne od pakietu) | własny nadawca | REST | polski dostawca, faktury VAT |
-| Twilio | wyższe (ok. 0,04–0,08 USD + opłaty PL) | alfanumeryczny | REST, globalny | dobre API, wyższe koszty i konfiguracja |
-| Vonage/Nexmo | wyższe niż PL | alfanumeryczny | REST | globalny |
+Zaimplementowani dostawcy: SMSAPI i SerwerSMS (`panel/lib/sms.php`), domyślnie
+tryb testowy (bez połączenia z dostawcą i bez kosztów). SMS Planet, Twilio
+i Vonage/Nexmo **nie są** zaimplementowane - tabela porównawcza z poprzedniej
+wersji tego dokumentu była projektem i nie została zweryfikowana u dostawców,
+dlatego nie podajemy tu cen.
 
-Ceny i limity **zmieniają się** — przed wdrożeniem sprawdzić aktualny cennik i
-regulamin. Rekomendacja: SMSAPI lub SMS Planet (polskie, faktury, nadawca
-alfanumeryczny, raporty doręczeń).
+Do włączenia realnej wysyłki: konto u dostawcy, token API, zatwierdzony nadawca,
+numer odbiorcy i wyłączenie trybu testowego (Ustawienia -> Formularz).
 
-### L.5 Szablony wiadomości
+### L.5 Szablony wiadomości - dwa, nie sześć
 
-1. „Przyjęliśmy Twój sprzęt. Status: <link>”
-2. „Diagnoza zakończona — czekamy na Twoją decyzję: <link>”
-3. „Oczekujemy na części. O nowościach poinformujemy: <link>”
-4. „Naprawa rozpoczęta: <link>”
-5. „Naprawa zakończona, trwają testy: <link>”
-6. „Sprzęt gotowy do odbioru: <link>”
+| Szablon | Kiedy | Domyślna treść |
+|---|---|---|
+| `client_accepted` | po przyjęciu sprzętu (`tickets_create`) | `Studio-Komp: przyjelismy sprzet ({sprzet}). Status naprawy: {link}` |
+| `client_ready` | po zmianie statusu na `done` | `Studio-Komp: {sprzet} jest gotowy do odbioru. Kotlarska 14, pon.-pt. 7:00-15:00. Status: {link}` |
 
-Zgodność: zgoda na komunikację SMS, informacja o kosztach, możliwość rezygnacji.
-Limit: max 6 SMS-ów na naprawę; log wysyłek; brak wysyłki bez zgody.
+Placeholdery: `{numer}` (alias `{number}`), `{imie}`, `{sprzet}`, `{link}`,
+`{serwis}`, `{telefon}`. Uwaga: w szablonie `new_ticket` (SMS do serwisu)
+`{telefon}` to numer klienta, a w szablonach klienta - numer serwisu.
+
+Treści są edytowalne w panelu (Ustawienia -> Formularz), polskie znaki są
+zamieniane na ASCII (GSM-7), treść jest ograniczana do 459 znaków. Zrezygnowano
+z sześciu etapowych SMS-ów: klient ma jeden link i widzi na nim wszystkie etapy,
+a dwa SMS-y ograniczają koszt i liczbę wiadomości. Zgoda na kontakt w sprawie
+zgłoszenia jest zbierana w formularzu (`consent_version`), a SMS-y dotyczą
+wyłącznie realizacji naprawy (nie marketingu).
 
 ### L.6 Koszty i ryzyka
 
-- Koszt SMS: ok. 0,30–0,60 zł / naprawa przy 6 wiadomościach (zależnie od cennika).
-- Koszt Places API: wg cennika Google (kilka tysięcy zapytań/mies. może być
-  darmowe w ramach kredytu; sprawdzić aktualne limity).
-- Ryzyka: wyciek tokenów (dlatego hash + unieważnianie), błędny numer klienta,
-  koszty SMS przy błędnych danych, konieczność RODO (dane w SMS-ach minimalne).
+- Koszt SMS: 2 wiadomości na naprawę zamiast 6; ceny wg cennika dostawcy
+  (`docs/formularz-zgloszen.md` świadomie nie podaje cen).
+- Koszt Places API: bez zmian, patrz sekcja K.
+- Ryzyka: utrata `data/tracking.key` (stare linki przestają działać, klient
+  dostaje nowy), błędny numer klienta (SMS nie dojdzie - link jest w panelu),
+  koszty SMS przy błędnych danych, RODO (w SMS-ach tylko numer zgłoszenia,
+  sprzęt i link).
+- Link jest sekretem: przesłanie go dalej ujawnia status naprawy. Ograniczają to
+  `noindex`, `no-store` i limit tempa, ale nie zastępują logowania.
 
 ---
 
@@ -589,6 +618,7 @@ Limit: max 6 SMS-ów na naprawę; log wysyłek; brak wysyłki bez zgody.
 | 2026-11-25 | Instrukcja nr 2: sekcja „Co najczęściej naprawiamy” przebudowana na 9 prostokątnych kafelków (3/2/1-2 kolumny) ze zdjęciem i tytułem, opisem procesu po hover/kliknięciu, obsługą klawiatury i limitem 6 kafelków na mobile; panel: pola `tile`, `tileTitle`, `tileText`, `image`, `order` w edytorze usług. |
 | 2026-11-25 | Instrukcja nr 2: naprawione filtry realizacji (CSS `[hidden]`), siatka 3/2/1 bez wyróżnionego kafelka, szerszy desktopowy widok szczegółów realizacji (zwykły kontener, 2 kolumny, galeria 3 kolumny), stopka z listą marek w dwóch kolumnach i akordeonem na mobile. |
 | 2026-11-25 | Instrukcja nr 2: audyt językowy wszystkich 15 opublikowanych artykułów poradnika (krótsze, konkretniejsze teksty, bez schematów marketingowych, poprawione ceny), bez zmian wyglądu listy `/poradnik/`. |
+| 2026-11-25 | Status naprawy dla klienta: `/status/<token>/`, tokeny podpisane (HMAC-SHA256, w bazie tylko `status_token_version`), 3 etapy + „Odebrany”, SMS `client_accepted`/`client_ready`, publiczna notatka, limit tempa, panel, nginx, dokumentacja `docs/status-klienta.md`. |
 
 ---
 
@@ -618,6 +648,17 @@ Testy zawartości i parsera na serwerze:
 
 ```bash
 runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check.php
+runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-status.php
+```
+
+`self-check-status.php` to test regresyjny publicznej strony statusu naprawy: 54
+warunki (mapowanie statusów na etapy, tokeny śledzenia, podrobiony podpis,
+unieważnianie linku, kolejka `client_accepted`/`client_ready`, tryb testowy,
+model widoku bez danych osobowych, limit tempa). Działa na tymczasowym katalogu
+danych - nie dotyka bazy produkcyjnej i nie wysyła SMS. Lokalnie na Windows:
+
+```powershell
+php -d extension=pdo_sqlite -d extension=sqlite3 panel/bin/self-check-status.php
 ```
 
 ## O. Znane ograniczenia i rzeczy do zrobienia przez właściciela

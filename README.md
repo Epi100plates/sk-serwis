@@ -38,6 +38,10 @@ Wymagania: Node.js 20+ / 22, pnpm 9+, Git, OpenSSH, klucz SSH do VPS.
 - **Cennik, opinie, kontakt, o serwisie, polityka prywatności, LP Google Ads**.
 - **Panel CMS** — treści, media, realizacje, przekierowania, ustawienia,
   użytkownicy, audyt, publikacja i rollback.
+- **Status naprawy dla klienta** - publiczna strona `/status/<token>/` wysyłana
+  SMS-em po przyjęciu sprzętu i po zmianie statusu na „gotowy do wydania”;
+  pokazuje numer zgłoszenia, sprzęt, etap naprawy z datami i publiczną notatkę
+  serwisu, bez danych osobowych i cen.
 - **Analityka** — własny pomiar (odsłony + 14 zdarzeń, urządzenia, źródła, UTM)
   + gotowy Consent Mode v2 pod GA4/GTM/Ads/Clarity.
 - **SEO techniczne** — sitemap, robots, canonical, OG, schema (LocalBusiness,
@@ -62,6 +66,8 @@ AGENTS.md       pełna dokumentacja techniczna i future goals
 - [AGENTS.md](AGENTS.md) — architektura, panel, analityka, bezpieczeństwo, SEO,
   future goals (status napraw + SMS), historia zmian.
 - [docs/wdrozenie-vps.md](docs/wdrozenie-vps.md) — VPS, tunnel, publikacja, rollback.
+- [docs/status-klienta.md](docs/status-klienta.md) - publiczna strona statusu
+  naprawy (`/status/<token>/`): token, etapy, SMS do klienta, panel, nginx.
 - [docs/edycja.md](docs/edycja.md) — instrukcja obsługi panelu dla właściciela.
 - [docs/wdrozenie-hosting-www.md](docs/wdrozenie-hosting-www.md) — pakiet na
   hosting klasyczny (ZIP, podkatalog /sk/).

@@ -187,6 +187,28 @@ if (is_post()) {
         }
         setting_set('sms_template', $template);
 
+        // SMS do klienta (link do śledzenia naprawy). Klucze: sms_client_<szablon>,
+        // bo tak czyta je tickets_client_sms_template() - pusty wpis = treść domyślna.
+        $clientTemplates = [];
+        foreach (array_keys(TICKET_CLIENT_SMS_DEFAULTS) as $clientTemplate) {
+            $value = trim((string) post('sms_client_' . $clientTemplate));
+            if ($value !== '') {
+                if (mb_strlen($value, 'UTF-8') > 459) {
+                    flash('err', 'Treść SMS do klienta może mieć maksymalnie 459 znaków.');
+                    redirect_to(panel_url('settings', ['tab' => 'form']));
+                }
+                if (!str_contains($value, '{link}')) {
+                    flash('err', 'Treść SMS do klienta musi zawierać placeholder {link} - inaczej klient nie dostanie adresu strony statusu.');
+                    redirect_to(panel_url('settings', ['tab' => 'form']));
+                }
+            }
+            $clientTemplates[$clientTemplate] = $value;
+        }
+        setting_set('sms_client_enabled', !empty(post('sms_client_enabled')) ? '1' : '0');
+        foreach ($clientTemplates as $clientTemplate => $value) {
+            setting_set('sms_client_' . $clientTemplate, $value);
+        }
+
         setting_set('mail_enabled', !empty(post('mail_enabled')) ? '1' : '0');
         setting_set('smtp_host', mb_substr(trim((string) post('smtp_host')), 0, 190, 'UTF-8'));
         $port = (int) post('smtp_port');
@@ -224,6 +246,7 @@ if (is_post()) {
         audit('settings_notifications', '', [
             'sms_test_mode' => setting_get('sms_test_mode'),
             'sms_provider' => $provider,
+            'sms_client_enabled' => setting_get('sms_client_enabled', '1'),
             'mail_enabled' => setting_get('mail_enabled'),
             'smtp_host_set' => setting_get('smtp_host') !== '',
         ]);
@@ -621,6 +644,27 @@ layout_head('Ustawienia', 'settings');
   ], $smsTemplate);
   $hasSmsToken = setting_get('sms_api_token') !== '';
   $hasSmtpPass = setting_get('smtp_pass') !== '';
+
+  // SMS do klienta (śledzenie naprawy): klucze sms_client_<szablon>, puste = treść domyślna.
+  $clientSmsEnabled = setting_get('sms_client_enabled', '1') === '1';
+  $clientSmsLabels = [
+      'client_accepted' => 'SMS po przyjęciu sprzętu',
+      'client_ready' => 'SMS po zmianie statusu na „Zrealizowane”',
+  ];
+  $clientSmsValues = [];
+  $clientSmsPreviews = [];
+  $lastTicket = db()->query('SELECT * FROM tickets ORDER BY id DESC LIMIT 1')->fetch();
+  $clientPreviewTicket = $lastTicket ?: [
+      'id' => 0,
+      'number' => 'SK-2026-000001',
+      'name' => 'Anna',
+      'phone' => '+48500613500',
+      'device' => 'Lenovo IdeaPad 5',
+  ];
+  foreach (array_keys(TICKET_CLIENT_SMS_DEFAULTS) as $clientTemplate) {
+      $clientSmsValues[$clientTemplate] = setting_get('sms_client_' . $clientTemplate);
+      $clientSmsPreviews[$clientTemplate] = tickets_client_sms_message($clientPreviewTicket, $clientTemplate);
+  }
   ?>
   <div class="grid grid--sidebar">
     <section class="card">
@@ -678,6 +722,49 @@ layout_head('Ustawienia', 'settings');
           <div class="help-box">
             <strong>Podgląd SMS:</strong><br>
             <span class="mono"><?= e($smsPreview) ?></span>
+          </div>
+
+          <p class="section-title">SMS do klienta (śledzenie naprawy)</p>
+          <label class="field field--check">
+            <input type="checkbox" name="sms_client_enabled" value="1" <?= $clientSmsEnabled ? 'checked' : '' ?>>
+            <span>Wysyłaj SMS do klienta</span>
+          </label>
+          <div class="help-box">
+            Dotyczy dwóch wiadomości: po przyjęciu sprzętu oraz po zmianie statusu na
+            <strong>Zrealizowane</strong> (u klienta: <strong>Gotowy do wydania</strong>).
+            Wiadomości idą tą samą kolejką i przez tego samego dostawcę co SMS do serwisu - domyślnie
+            w <strong>trybie testowym</strong>, czyli bez realnej wysyłki i bez kosztów.
+            Każda wiadomość zawiera link do strony statusu zgłoszenia.
+          </div>
+          <?php foreach (TICKET_CLIENT_SMS_DEFAULTS as $clientTemplate => $clientDefault): ?>
+            <label class="field">
+              <span><?= e($clientSmsLabels[$clientTemplate] ?? $clientTemplate) ?> <em>szablon: <?= e($clientTemplate) ?></em></span>
+              <textarea name="sms_client_<?= e($clientTemplate) ?>" rows="3" maxlength="459" placeholder="<?= e($clientDefault) ?>"><?= e($clientSmsValues[$clientTemplate]) ?></textarea>
+              <span class="field__hint">
+                Puste pole = treść domyślna (widoczna jako podpowiedź w polu). Maksymalnie 459 znaków.
+                Placeholdery: <span class="code-inline">{numer}</span> numer zgłoszenia,
+                <span class="code-inline">{imie}</span> imię klienta,
+                <span class="code-inline">{sprzet}</span> sprzęt,
+                <span class="code-inline">{serwis}</span> nazwa serwisu,
+                <span class="code-inline">{telefon}</span> telefon serwisu (nie klienta),
+                <span class="code-inline">{link}</span> adres strony statusu (wymagany).
+              </span>
+            </label>
+          <?php endforeach; ?>
+          <div class="help-box">
+            <strong>Przykład:</strong><br>
+            <?php foreach ($clientSmsPreviews as $clientTemplate => $clientPreview): ?>
+              <p class="small" style="margin-top:6px">
+                <span class="muted"><?= e($clientSmsLabels[$clientTemplate] ?? $clientTemplate) ?>:</span><br>
+                <span class="mono"><?= e($clientPreview) ?></span>
+              </p>
+            <?php endforeach; ?>
+            <?php if (!$lastTicket): ?>
+              <p class="small muted" style="margin-top:8px">
+                W bazie nie ma jeszcze zgłoszeń, więc podgląd nie zawiera linku. Prawdziwy adres
+                powstaje przy pierwszym zgłoszeniu.
+              </p>
+            <?php endif; ?>
           </div>
 
           <p class="section-title">E-mail (opcjonalna kopia)</p>

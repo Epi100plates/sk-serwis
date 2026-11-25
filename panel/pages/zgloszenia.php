@@ -22,10 +22,26 @@ function ticket_notification_badge(string $status): string
         . e(ticket_notification_status_label($status)) . '</span>';
 }
 
+/**
+ * Czytelna nazwa szablonu powiadomienia (mapowanie lokalne dla widoku -
+ * biblioteka zgłoszeń trzyma tylko statusy, nie szablony).
+ */
+function ticket_notification_template_label(string $template): string
+{
+    $map = [
+        'new_ticket' => 'Nowe zgłoszenie (do serwisu)',
+        'client_accepted' => 'Klient: przyjęcie sprzętu',
+        'client_ready' => 'Klient: gotowy do odbioru',
+    ];
+    return $map[$template] ?? $template;
+}
+
 $ticketId = (int) get('id', 0);
 $user = current_user();
 $role = (string) ($user['role'] ?? '');
 $username = (string) ($user['username'] ?? 'system');
+// Notatkę publiczną i link śledzenia mogą zmieniać admin i editor (jak przy statusie).
+$canManageTicket = in_array($role, ['admin', 'editor'], true);
 
 /* ------------------------------------------------------------------ akcje */
 
@@ -58,6 +74,56 @@ if (is_post()) {
             flash('err', (string) ($result['error'] ?? 'Nie udało się ponowić powiadomienia.'));
         }
         redirect_to(panel_url('zgloszenia', ['id' => $ticketIdForRedirect]));
+    }
+
+    if ($action === 'save_public_note') {
+        $id = (int) post('ticket_id', 0);
+        if (!$canManageTicket) {
+            flash('err', 'Zmiana notatki publicznej wymaga uprawnień administratora lub redaktora.');
+            redirect_to(panel_url('zgloszenia', ['id' => $id]));
+        }
+        $ticket = tickets_by_id($id);
+        if (!$ticket) {
+            flash('err', 'Nie znaleziono zgłoszenia.');
+            redirect_to(panel_url('zgloszenia'));
+        }
+        $noteInput = (string) post('public_note');
+        $result = ticket_set_public_note($id, $noteInput);
+        if ($result['ok']) {
+            audit('ticket_public_note', 'ticket:' . $id, [
+                'number' => (string) $ticket['number'],
+                'length' => mb_strlen(tickets_normalize_text($noteInput, 500, true), 'UTF-8'),
+            ]);
+            flash('ok', 'Zapisano notatkę publiczną - jest widoczna na stronie statusu klienta.');
+        } else {
+            flash('err', (string) ($result['error'] ?? 'Nie udało się zapisać notatki publicznej.'));
+        }
+        redirect_to(panel_url('zgloszenia', ['id' => $id]));
+    }
+
+    if ($action === 'refresh_tracking_link') {
+        $id = (int) post('ticket_id', 0);
+        if (!$canManageTicket) {
+            flash('err', 'Generowanie linku do śledzenia wymaga uprawnień administratora lub redaktora.');
+            redirect_to(panel_url('zgloszenia', ['id' => $id]));
+        }
+        if (empty(post('confirm'))) {
+            flash('err', 'Zaznacz potwierdzenie, że stary link do strony statusu przestanie działać.');
+            redirect_to(panel_url('zgloszenia', ['id' => $id]));
+        }
+        $ticket = tickets_by_id($id);
+        if (!$ticket) {
+            flash('err', 'Nie znaleziono zgłoszenia.');
+            redirect_to(panel_url('zgloszenia'));
+        }
+        $token = tickets_tracking_token($id, true);
+        if ($token === '') {
+            flash('err', 'Nie udało się wygenerować nowego linku do śledzenia naprawy.');
+            redirect_to(panel_url('zgloszenia', ['id' => $id]));
+        }
+        audit('ticket_tracking_refresh', 'ticket:' . $id, ['number' => (string) $ticket['number']]);
+        flash('ok', 'Wygenerowano nowy link. Poprzedni adres przestał działać - przekaż klientowi nowy.');
+        redirect_to(panel_url('zgloszenia', ['id' => $id]));
     }
 
     if ($action === 'process_queue') {
@@ -168,6 +234,11 @@ if ($ticketId > 0) {
     $mailCfg = mailer_config();
     $smsCfg = tickets_sms_config();
 
+    // Link do publicznej strony statusu (token podpisany kluczem serwera).
+    $trackingLink = tickets_tracking_link($ticket);
+    $clientStage = CLIENT_STAGES[ticket_client_stage((string) $ticket['status'])] ?? '';
+    $publicNote = (string) ($ticket['public_note'] ?? '');
+
     layout_head('Zgłoszenie ' . $ticket['number'], 'zgloszenia');
     ?>
     <p class="toolbar">
@@ -236,6 +307,74 @@ if ($ticketId > 0) {
 
     <section class="card" style="margin-top:16px">
       <header class="card__head">
+        <h2>Śledzenie naprawy (dla klienta)</h2>
+        <div class="card__actions">
+          <span class="badge badge--info"><?= e($clientStage) ?></span>
+        </div>
+      </header>
+      <div class="card__body">
+        <div class="field">
+          <span>Link do strony statusu</span>
+          <div class="copy-row">
+            <input type="text" value="<?= e($trackingLink) ?>" readonly aria-label="Link do strony statusu">
+            <button class="btn btn--sm" type="button" data-copy="<?= e($trackingLink) ?>">Kopiuj</button>
+          </div>
+          <span class="field__hint">
+            Adres jest podpisany tokenem i nie da się go odgadnąć; nie zawiera danych klienta.
+            Ten sam link jest wysyłany w SMS-ach: po przyjęciu sprzętu i po zmianie statusu na
+            „Zrealizowane” (u klienta: „Gotowy do wydania”).
+          </span>
+        </div>
+        <div class="form-actions" style="margin-top:12px">
+          <?php if ($trackingLink !== ''): ?>
+            <a class="btn btn--sm" href="<?= e($trackingLink) ?>" target="_blank" rel="noopener">Otwórz stronę statusu ↗</a>
+          <?php endif; ?>
+          <span class="small muted">Pod takim adresem klient widzi etap naprawy, daty i notatkę publiczną.</span>
+        </div>
+
+        <div class="form-row" style="margin-top:20px">
+          <form method="post" class="form-grid">
+            <?= csrf_field() ?>
+            <input type="hidden" name="action" value="refresh_tracking_link">
+            <input type="hidden" name="ticket_id" value="<?= (int) $ticketId ?>">
+            <p class="section-title">Nowy link</p>
+            <p class="small">
+              Wygenerowanie nowego linku natychmiast unieważnia poprzedni. Użyj tego, gdy stary
+              adres został wysłany do złego numeru lub wyciekł.
+            </p>
+            <label class="field field--check">
+              <input type="checkbox" name="confirm" value="1" required>
+              <span>Rozumiem, że stary link przestanie działać</span>
+            </label>
+            <div class="form-actions">
+              <button class="btn btn--sm" type="submit">Wygeneruj nowy link</button>
+            </div>
+          </form>
+
+          <form method="post" class="form-grid">
+            <?= csrf_field() ?>
+            <input type="hidden" name="action" value="save_public_note">
+            <input type="hidden" name="ticket_id" value="<?= (int) $ticketId ?>">
+            <p class="section-title">Notatka publiczna (widoczna dla klienta)</p>
+            <label class="field">
+              <span>Treść notatki</span>
+              <textarea name="public_note" rows="4" maxlength="500" placeholder="np. Zamówiona matryca dotarła, montaż w piątek."><?= e($publicNote) ?></textarea>
+              <span class="field__hint">
+                Notatka pojawia się na stronie statusu obok etapu naprawy - pisz tak, jakby czytał to
+                klient (bez danych osobowych i kwot). Puste pole usuwa notatkę. Notatki wewnętrzne
+                pozostają w historii statusów, w polu „Notatka” przy zmianie statusu.
+              </span>
+            </label>
+            <div class="form-actions">
+              <button class="btn btn--sm btn--primary" type="submit">Zapisz notatkę publiczną</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <header class="card__head">
         <h2>Historia statusów</h2>
         <div class="card__actions"><span class="small muted"><?= count($history) ?> wpisów</span></div>
       </header>
@@ -280,12 +419,13 @@ if ($ticketId > 0) {
           <div class="table-wrap">
             <table class="table table--compact">
               <thead>
-                <tr><th>Kanał</th><th>Odbiorca</th><th>Status</th><th>Próby</th><th>Następna próba</th><th>ID u dostawcy</th><th>Błąd</th><th>Akcje</th></tr>
+                <tr><th>Kanał</th><th>Szablon</th><th>Odbiorca</th><th>Status</th><th>Próby</th><th>Następna próba</th><th>ID u dostawcy</th><th>Błąd</th><th>Akcje</th></tr>
               </thead>
               <tbody>
               <?php foreach ($notifications as $notification): ?>
                 <tr>
                   <td class="nowrap"><strong><?= $notification['channel'] === 'sms' ? 'SMS' : 'E-mail' ?></strong><br><span class="small muted"><?= e($notification['provider']) ?></span></td>
+                  <td class="small"><?= e(ticket_notification_template_label((string) $notification['template'])) ?></td>
                   <td class="small"><?= e($notification['recipient'] !== '' ? $notification['recipient'] : 'brak konfiguracji') ?></td>
                   <td><?= ticket_notification_badge($notification['status']) ?></td>
                   <td class="num"><?= (int) $notification['attempts'] ?> / <?= TICKET_NOTIFY_MAX_ATTEMPTS ?></td>
