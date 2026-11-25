@@ -48,6 +48,8 @@ if (-not (Test-Path $GitPath)) {
 
 $sshOpts = @('-o', 'BatchMode=yes', '-o', 'StrictHostKeyChecking=accept-new', '-i', $KeyPath, '-p', "$SshPort", "$SshUser@$SshHost")
 $scpOpts = @('-o', 'BatchMode=yes', '-o', 'StrictHostKeyChecking=accept-new', '-i', $KeyPath, '-P', "$SshPort")
+# Git musi uzywac tego samego klucza SSH co ssh/scp.
+$env:GIT_SSH_COMMAND = "ssh -i `"$KeyPath`" -p $SshPort -o StrictHostKeyChecking=accept-new -o BatchMode=yes"
 
 function Invoke-Remote([string]$Command) {
   $out = & ssh @sshOpts $Command 2>&1
