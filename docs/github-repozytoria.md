@@ -20,6 +20,10 @@ i bez buildów (`dist/`). Klon `sk-serwis` waży ok. 6,4 MB i zawiera pełną
 historię pracy; `sk-core` to 295 plików i 3,5 MB źródeł (bez `vendor/`, bez
 danych z `storage/app/data`).
 
+`sk-core` ma własne CI (`.github/workflows/ci.yml`): Pint, PHPStan poziom 6
+i testy Pest w dwóch magazynach danych (JSON i MySQL). Po pierwszym wypchnięciu
+2026-11-25 oba zadania są zielone.
+
 ### Dlaczego tak
 
 - **sk-core** to aplikacja, której używają serwisanci w warsztacie. Nie zna
