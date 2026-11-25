@@ -159,8 +159,8 @@ if ($status !== null) {
 <?php if ($status === null): ?>
   <section class="empty" aria-labelledby="empty-title">
     <p class="label">Status naprawy</p>
-    <h1 class="empty__title" id="empty-title">Ten link jest nieaktywny lub wygasł</h1>
-    <p class="empty__text">Link do statusu działa przez ograniczony czas i zmienia się przy nowym zgłoszeniu. Jeśli chcesz sprawdzić stan naprawy, zadzwoń do serwisu - powiemy, co dzieje się ze sprzętem.</p>
+    <h1 class="empty__title" id="empty-title">Ten link jest nieaktywny lub został unieważniony</h1>
+    <p class="empty__text">Link mógł zostać wygenerowany ponownie w serwisie albo zawiera literówkę. Jeśli chcesz sprawdzić stan naprawy, zadzwoń do serwisu - powiemy, co dzieje się ze sprzętem.</p>
     <a class="phone" href="<?= $h($phoneHref) ?>"><?= $h($service['phone']) ?></a>
     <dl class="rows">
       <div class="row">
