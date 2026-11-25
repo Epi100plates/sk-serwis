@@ -6,6 +6,8 @@
 function layout_head(string $title, string $active = ''): void
 {
     $user = current_user();
+    $cssVer = @filemtime(dirname(__DIR__) . '/assets/admin.css') ?: time();
+    $jsVer = @filemtime(dirname(__DIR__) . '/assets/admin.js') ?: time();
     $nav = [
         'dashboard' => ['Pulpit', 'grid', panel_url('')],
         'analytics' => ['Analityka', 'chart', panel_url('analytics')],
@@ -30,7 +32,7 @@ function layout_head(string $title, string $active = ''): void
   <meta name="robots" content="noindex, nofollow">
   <title><?= e($title) ?> — Panel Studio-Komp</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="<?= e(base_path()) ?>/assets/admin.css?v=1">
+  <link rel="stylesheet" href="<?= e(base_path()) ?>/assets/admin.css?v=<?= (int) $cssVer ?>">
 </head>
 <body class="admin">
 <a class="admin-skip" href="#main">Przejdź do treści</a>
@@ -88,7 +90,7 @@ function layout_foot(): void
   </div>
 </div>
 <div class="sidebar-backdrop" data-sidebar-backdrop hidden></div>
-<script src="<?= e(base_path()) ?>/assets/admin.js?v=1"></script>
+<script src="<?= e(base_path()) ?>/assets/admin.js?v=<?= (int) $jsVer ?>"></script>
 </body>
 </html>
     <?php
