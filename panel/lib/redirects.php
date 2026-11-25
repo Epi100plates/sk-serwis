@@ -152,13 +152,9 @@ function redirects_sync_files(): void
  * Wczytuje startowy zestaw przekierowań ze starej strony, jeśli tabela jest pusta.
  * Dzięki temu wdrożenie panelu nie gubi istniejących 301.
  */
-function redirects_seed_if_empty(): int
+function redirects_defaults(): array
 {
-    $count = (int) db()->query('SELECT COUNT(*) FROM redirects')->fetchColumn();
-    if ($count > 0) {
-        return 0;
-    }
-    $seed = [
+    return [
         ['/o-firmie.html', '/o-serwisie/'],
         ['/oferta/', '/uslugi/'],
         ['/oferta', '/uslugi/'],
@@ -175,13 +171,49 @@ function redirects_seed_if_empty(): int
         ['/googleads', '/lp/naprawa-laptopow/'],
         ['/mapa/', '/kontakt/'],
         ['/mapa', '/kontakt/'],
+        // Usunieta podstrona marki Microsoft Surface - 301 zachowuje link equity.
+        ['/serwis-microsoft-surface-wroclaw/', '/uslugi/'],
+        ['/serwis-microsoft-surface-wroclaw', '/uslugi/'],
     ];
+}
+
+function redirects_seed_if_empty(): int
+{
+    $count = (int) db()->query('SELECT COUNT(*) FROM redirects')->fetchColumn();
+    if ($count > 0) {
+        return 0;
+    }
+    $seed = redirects_defaults();
     $st = db()->prepare('INSERT INTO redirects (old_path, target_url, status_code, enabled, note, hits, created_at, updated_at) VALUES (?,?,301,1,?,0,?,?)');
     foreach ($seed as $row) {
         $st->execute([$row[0], $row[1], 'Startowe przekierowanie ze starej strony', now(), now()]);
     }
     redirects_sync_files();
     return count($seed);
+}
+
+/**
+ * Dosyla brakujace przekierowania z listy domyslnej do istniejacej bazy.
+ * Idempotentne - dodaje tylko te sciezki, ktorych jeszcze nie ma.
+ * Uzywane przy wdrozeniu nowych wersji panelu (np. po usunieciu podstrony).
+ */
+function redirects_ensure_defaults(): int
+{
+    $existing = db()->query('SELECT old_path FROM redirects')->fetchAll(PDO::FETCH_COLUMN);
+    $existing = array_flip(array_map('strval', $existing));
+    $added = 0;
+    $st = db()->prepare('INSERT INTO redirects (old_path, target_url, status_code, enabled, note, hits, created_at, updated_at) VALUES (?,?,301,1,?,0,?,?)');
+    foreach (redirects_defaults() as $row) {
+        if (isset($existing[$row[0]])) {
+            continue;
+        }
+        $st->execute([$row[0], $row[1], 'Przekierowanie domyslne panelu', now(), now()]);
+        $added++;
+    }
+    if ($added > 0) {
+        redirects_sync_files();
+    }
+    return $added;
 }
 
 function redirect_hit(string $path): void
