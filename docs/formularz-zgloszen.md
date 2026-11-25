@@ -366,5 +366,7 @@ sieciowego, status `failed` + `next_attempt_at`).
 - Potwierdzenie kosztów SMS i zasad reakcji na błędy dostawcy.
 - Kopia zapasowa `panel.sqlite` (poza VPS) - nadal zalecana.
 - Ewentualna retencja: automatyczne usuwanie zgłoszeń po 12 miesiącach od
-  zamknięcia (można dodać do `panel/bin/cleanup.php`; obecnie schemat jest
-  gotowy, ale czyszczenie nie jest włączone automatycznie).
+  zamknięcia. `panel/bin/cleanup.php` (cron codziennie) **raportuje** liczbę
+  takich zgłoszeń, ale ich nie usuwa - usuwanie danych klienta wymaga decyzji
+  właściciela. Aby je włączyć, trzeba dodać do skryptu `DELETE` po
+  `status = 'closed'` i `updated_at` starszym niż 365 dni (najpierw kopia bazy).

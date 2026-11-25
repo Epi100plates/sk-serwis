@@ -42,6 +42,13 @@ if (is_dir($thumbs)) {
     }
 }
 
+// Retencja zgłoszeń: raport bez usuwania. Zgodnie z polityką prywatności
+// zgłoszenia zamknięte starsze niż 12 miesięcy powinny być usuwane, ale to
+// decyzja właściciela - skrypt tylko pokazuje, ile ich jest.
+$st = $pdo->query("SELECT COUNT(*) FROM tickets WHERE status = 'closed' AND updated_at < datetime('now', '-365 days')");
+$staleTickets = (int) $st->fetchColumn();
+
 echo 'Usunieto rekordow analityki: ' . $removed . "\n";
 echo 'Usunieto osieroconych miniatur: ' . $orphans . "\n";
+echo 'Zgloszenia zamkniete starsze niz 365 dni (do decyzji, nie usuniete): ' . $staleTickets . "\n";
 echo "OK\n";
