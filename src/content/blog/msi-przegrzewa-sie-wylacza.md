@@ -11,7 +11,7 @@ faq:
   - question: "Dlaczego MSI wyłącza się w grach, a w Windows działa normalnie?"
     answer: "Pod obciążeniem rosną temperatury i pobór prądu, więc ujawniają się problemy, których nie widać w spoczynku: zapchany radiator, wyschnięta pasta, zużyty zasilacz albo uszkodzony układ zasilania na płycie. Wyłączenia pod obciążeniem wymagają sprawdzenia temperatur i poboru prądu."
   - question: "Ile kosztuje diagnostyka laptopa MSI?"
-    answer: "Diagnostyka jest bezpłatna, jeśli zlecisz naprawę. Jeśli nie zdecydujesz się naprawiać, jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Konserwacja chłodzenia zaczyna się od 200 zł, ekspres to dopłata 150 zł."
+    answer: "Diagnostyka jest bezpłatna, jeśli zlecisz naprawę. Jeśli nie zdecydujesz się naprawiać, jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Konserwacja chłodzenia kosztuje 200-250 zł, ekspres to dopłata 150 zł."
 ---
 
 MSI Gaming, który po kilkunastu minutach gry zaczyna hałasować i nagle się wyłącza, ma zwykle jedną z kilku przewidywalnych przyczyn. W laptopach gamingowych ciepło jest normalną częścią pracy, więc nie każda wysoka temperatura oznacza usterkę. Problem zaczyna się wtedy, gdy układ chłodzenia nie odbiera ciepła z układów, a elektronika ratuje się wyłączeniem. Zanim zaczniesz szukać wadliwej części, warto przejść przez listę przyczyn od najprostszej.

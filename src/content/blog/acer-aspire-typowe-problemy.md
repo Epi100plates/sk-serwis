@@ -30,7 +30,7 @@ Drugi typowy problem to temperatura. Aspire zwykle ma jeden wentylator i radiato
 
 Objawy zapchanego chłodzenia łatwo pomylić z czymś innym. Zanim uznasz, że laptop jest po prostu wolny, sprawdź, czy nie wyłącza się pod obciążeniem i czy wentylator nie wchodzi na wysokie obroty bez powodu. Kurz na żeberkach radiatora widać przez kratkę, jeśli poświecisz latarką.
 
-Rozwiązaniem jest czyszczenie z rozbiórką i wymiana pasty termoprzewodzącej. Sprężone powietrze w aerozolu nie usuwa osadu z żeberek, a potrafi wepchnąć kurz głębiej i rozkręcić wirnik powyżej jego normalnych obrotów. Czyszczenie w serwisie zaczyna się od 200 zł i obejmuje testy temperatur po złożeniu. Więcej o samym procesie i cenie piszę na stronie [czyszczenia laptopa we Wrocławiu](/czyszczenie-laptopa-wroclaw/).
+Rozwiązaniem jest czyszczenie z rozbiórką i wymiana pasty termoprzewodzącej. Sprężone powietrze w aerozolu nie usuwa osadu z żeberek, a potrafi wepchnąć kurz głębiej i rozkręcić wirnik powyżej jego normalnych obrotów. Czyszczenie w serwisie kosztuje 200-250 zł i obejmuje testy temperatur po złożeniu. Więcej o samym procesie i cenie piszę na stronie [czyszczenia laptopa we Wrocławiu](/czyszczenie-laptopa-wroclaw/).
 
 ## Zasilanie: gniazdo, zasilacz, bateria
 

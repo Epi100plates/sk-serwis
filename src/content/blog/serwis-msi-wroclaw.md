@@ -50,7 +50,7 @@ Wentylatory do popularnych modeli gamingowych bywają dostępne od ręki, ale pr
 
 ## Cena, czas i ekspres
 
-Cenę podajemy po diagnozie, przed rozpoczęciem naprawy. Konserwacja zaczyna się od 200 zł i zależy od modelu oraz konstrukcji chłodzenia. Standardowo naprawa jest gotowa z dnia na dzień, a przy części zamawianej czas zależy od dostawy. Usługa ekspresowa to dopłata 150 zł i naprawa tego samego dnia, o ile część jest na miejscu. Pełne widełki znajdziesz w [cenniku](/cennik/), a zakres prac na stronie [serwis laptopów we Wrocławiu](/serwis-laptopow-wroclaw/).
+Cenę podajemy po diagnozie, przed rozpoczęciem naprawy. Konserwacja kosztuje 200-250 zł i zależy od modelu oraz konstrukcji chłodzenia. Standardowo naprawa jest gotowa z dnia na dzień, a przy części zamawianej czas zależy od dostawy. Usługa ekspresowa to dopłata 150 zł i naprawa tego samego dnia, o ile część jest na miejscu. Pełne widełki znajdziesz w [cenniku](/cennik/), a zakres prac na stronie [serwis laptopów we Wrocławiu](/serwis-laptopow-wroclaw/).
 
 ## Kiedy przyjechać na Kotlarską 14
 

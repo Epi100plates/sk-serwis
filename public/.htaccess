@@ -1,4 +1,4 @@
-# Studio-Komp — baza konfiguracji Apache/LiteSpeed (hosting klasyczny).
+# Studio-Komp - baza konfiguracji Apache/LiteSpeed (hosting klasyczny).
 # Panel CMS generuje z tego plik public/.htaccess, wstawiając przekierowania
 # w miejsce   RewriteRule ^aktualnosci$ https://sk.mati-it.pl/poradnik/ [R=301,L]
   RewriteRule ^aktualnosci$ https://sk.mati-it.pl/poradnik/ [R=301,L]

@@ -36,7 +36,7 @@ Warto zajrzeć w kratkę wlotową. Jeśli widać szary, zbity kożuch na żeberk
 
 Czyszczenie zaczyna się od rozbiórki dolnej pokrywy i odłączenia baterii. Następnie demontujemy wentylatory i radiatory, czyścimy żeberka oraz wirniki, usuwamy starą pastę z procesora i karty graficznej i nakładamy nową. Sprawdzamy też stan termopadów na sekcjach zasilania i pamięciach, bo wyschnięty pad potrafi podnieść temperatury mimo świeżej pasty.
 
-Po złożeniu laptop jest testowany pod obciążeniem. Sprawdzamy temperatury, obroty wentylatorów i to, czy nie pojawiają się spadki taktowania. Dopiero ten test potwierdza, że chłodzenie działa poprawnie, a nie tylko że laptop się włącza. Cena zależy od modelu i konstrukcji chłodzenia, zaczyna się od 200 zł, a kwotę podajemy przed rozpoczęciem pracy.
+Po złożeniu laptop jest testowany pod obciążeniem. Sprawdzamy temperatury, obroty wentylatorów i to, czy nie pojawiają się spadki taktowania. Dopiero ten test potwierdza, że chłodzenie działa poprawnie, a nie tylko że laptop się włącza. Cena zależy od modelu i konstrukcji chłodzenia i wynosi 200-250 zł. Kwotę podajemy przed rozpoczęciem pracy.
 
 ## Pasta termoprzewodząca: kiedy wymieniać
 
