@@ -102,10 +102,30 @@ zrób commit i push. Ta sama zasada obowiązuje dla `views/unavailable.php`.
 |---|---|
 | Strona serwisu + panel + `/status/` na `sk.mati-it.pl` | **wdrożone** (release `20261125-232808`, nginx `-t` OK, live 200) |
 | Repozytoria GitHub | **wypchnięte** (`sk-serwis`, `sk-klient`) |
+| Strona `sk-klient` na VPS | **wdrożona pod `/klient/`** - adres `https://sk.mati-it.pl/klient/status/<token>/`, aplikacja w `/srv/sk-klient`, ten sam backend co `/status/` |
 | Strona `sk-klient` na własnej domenie | **nie wdrożona** - brak decyzji o domenie (np. `status.studio-komp.pl`) |
 | Realna wysyłka SMS | **wyłączona** - tryb testowy; potrzebny token SMSAPI/SerwerSMS i nadawca |
 
-Wdrożenie `sk-klient` na VPS po decyzji o domenie:
+### Wdrożenie pod `/klient/` (zrobione)
+
+Aplikacja `sk-klient` jest na VPS w `/srv/sk-klient` (właściciel `skcms`),
+nginx-serwis przekazuje `/klient/` do jej `index.php`, a style i fonty pochodzą
+ze wspólnego `/tracking/`. Wymagane dwa elementy konfiguracji:
+
+1. blok `location ^~ /klient/` w `deploy/nginx/sk.mati-it.pl.conf`,
+2. `/srv/sk-klient` w `php_admin_value[open_basedir]` poolu `studio-komp`
+   (`deploy/setup-cms.sh`) - bez tego PHP-FPM zwraca
+   `Unable to open primary script ... (Operation not permitted)`.
+
+Test po wdrożeniu:
+
+```bash
+curl -I https://sk.mati-it.pl/klient/status/<token>/   # 200, Cache-Control: no-store
+curl -I https://sk.mati-it.pl/klient/                   # 404
+curl -X POST https://sk.mati-it.pl/klient/status/<t>/   # 403 (nginx)
+```
+
+### Przeniesienie na własną domenę (do decyzji)
 
 1. `git clone git@github.com:Epi100plates/sk-klient.git /srv/sk-klient`
 2. `cp /srv/sk-klient/config.example.php /srv/sk-klient/config.php` i ustawić

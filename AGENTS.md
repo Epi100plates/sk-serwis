@@ -619,6 +619,7 @@ wyłącznie realizacji naprawy (nie marketingu).
 | 2026-11-25 | Instrukcja nr 2: naprawione filtry realizacji (CSS `[hidden]`), siatka 3/2/1 bez wyróżnionego kafelka, szerszy desktopowy widok szczegółów realizacji (zwykły kontener, 2 kolumny, galeria 3 kolumny), stopka z listą marek w dwóch kolumnach i akordeonem na mobile. |
 | 2026-11-25 | Instrukcja nr 2: audyt językowy wszystkich 15 opublikowanych artykułów poradnika (krótsze, konkretniejsze teksty, bez schematów marketingowych, poprawione ceny), bez zmian wyglądu listy `/poradnik/`. |
 | 2026-11-25 | Status naprawy dla klienta: `/status/<token>/`, tokeny podpisane (HMAC-SHA256, w bazie tylko `status_token_version`), 3 etapy + „Odebrany”, SMS `client_accepted`/`client_ready`, publiczna notatka, limit tempa, panel, nginx, dokumentacja `docs/status-klienta.md`. |
+| 2026-11-25 | Dwa repozytoria GitHub (`sk-serwis` - strona i panel, `sk-klient` - strona dla klienta czytająca JSON API). `sk-klient` wdrożona na VPS pod `/klient/` (`/srv/sk-klient`, `open_basedir` poolu rozszerzony), dokumentacja `docs/github-repozytoria.md`. |
 
 ---
 
