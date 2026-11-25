@@ -1,9 +1,11 @@
 ---
 title: "Laptop nie ładuje się: przyczyny i diagnoza po kolei"
-description: "Laptop nie ładuje baterii? Sprawdź po kolei ładowarkę, kabel, gniazdo i układ ładowania. Konkretna diagnoza i moment, w którym potrzebny jest serwis."
+description: "Laptop przestał ładować baterię? Sprawdź zasilacz, kabel, gniazdo i baterię w ustalonej kolejności. Wyjaśniamy, kiedy potrzebne są pomiary na płycie."
 pubDate: 2026-11-11
+updatedDate: 2026-11-25
 category: "Naprawa"
 service: "naprawa-gniazda-zasilania"
+readingTime: 4
 faq:
   - question: "Czy ładowarkę mogę sprawdzić sam?"
     answer: "Możesz sprawdzić, czy świeci dioda, podmienić kabel USB-C i podłączyć zasilacz do innego zgodnego laptopa. Napięcie na wtyczce zmierzysz miernikiem, ale nie rozkręcaj zasilacza, bo w środku mogą być naładowane kondensatory."
@@ -13,68 +15,56 @@ faq:
     answer: "Nie zawsze. Zużyta bateria rzadko blokuje ładowanie zupełnie. Jeśli laptop działa na zasilaczu, ale procent stoi, częściej winny jest układ ładowania na płycie albo limit ładowania ustawiony w systemie."
 ---
 
-Laptop pracuje na zasilaczu, ale procent stoi w miejscu. Albo dioda przy gnieździe w ogóle się nie świeci, a po odłączeniu kabla komputer gaśnie natychmiast. Zanim uznasz, że bateria jest do wymiany, przejdź diagnostykę w ustalonej kolejności: ładowarka, kabel, gniazdo, bateria, a na końcu układ ładowania na płycie. Każdy z tych elementów daje inne objawy i inny koszt naprawy.
+Laptop pracuje na zasilaczu, ale procent stoi. Albo dioda przy gnieździe nie świeci, a po wyjęciu kabla komputer gaśnie natychmiast. Zanim uznasz, że bateria jest do wymiany, przejdź przez cztery punkty w tej kolejności: zasilacz z kablem, gniazdo, bateria i układ ładowania na płycie.
 
-## Ładowarka i kabel: pierwsze podejrzenie
+## Zasilacz i kabel
 
-Zacznij od zasilacza. Większość ma diodę, która pokazuje, czy dostaje napięcie z sieci. Brak świecenia po podłączeniu do gniazdka oznacza, że problem jest w zasilaczu albo w gniazdku sieciowym, nie w laptopie. Sprawdź też, czy kabel nie jest złamany przy wtyczce i czy nie ma śladów nadtopienia.
+Zacznij od zasilacza. Większość ma diodę, która świeci po podłączeniu do sieci. Jeśli nie świeci, usterki szukaj w zasilaczu albo w gniazdku, nie w laptopie. Obejrzyj kabel przy samej wtyczce: złamania, przetarcia i ślady nadtopienia dają dokładnie takie objawy jak awaria komputera.
 
-Najprostszy test to podłączenie ładowarki do innego, zgodnego laptopa. Musi mieć to samo napięcie, tę samą polaryzację i pasującą wtyczkę. Podłączanie zasilacza o innym napięciu to proszenie się o uszkodzenie płyty, więc jeśli nie masz pewności, zrezygnuj z tego testu.
+Najprostszy test to podłączenie ładowarki do innego laptopa o tych samych parametrach. Musi się zgadzać napięcie, polaryzacja i wtyczka. Podanie wyższego napięcia to prosta droga do uszkodzenia płyty, więc jeśli nie masz pewności, daruj sobie ten test.
 
-### Pomiar miernikiem, jeśli go masz
+Masz miernik? Ustaw go na napięcie stałe, dotknij sondami pinów wtyczki i porównaj wynik z etykietą zasilacza. Zero oznacza martwy zasilacz, wyraźnie niższa wartość zwykle awarię pod obciążeniem. Nie rozkręcaj zasilacza, bo w środku siedzą naładowane kondensatory.
 
-Ustaw miernik na pomiar napięcia stałego, dotknij sondami do pinów wtyczki i porównaj wynik z etykietą zasilacza. Wartość zerowa oznacza padnięty zasilacz, wyraźnie niższa zwykle oznacza awarię pod obciążeniem. Rób to ostrożnie: nie rozkręcaj zasilacza i nie dotykaj pinów palcami.
+W laptopach z USB-C sprawdź inny kabel, inną ładowarkę zgodną z Power Delivery i inny port. Kabel USB-C potrafi ładować telefon, a nie przekazać do laptopa wystarczającej mocy. Jeśli ładowarka ma wymienne końcówki, upewnij się, że końcówka pasuje do modelu. Zły rozmiar daje pozorny kontakt i po czasie wyrabia gniazdo.
 
-W laptopach z ładowaniem USB-C test jest łatwiejszy. Sprawdź inny kabel, inną ładowarkę zgodną z USB Power Delivery i inny port w laptopie. Kabel USB-C potrafi ładować telefon, a nie przekazywać wystarczającej mocy do laptopa, więc podmiana kabla bywa rozstrzygająca.
+## Gniazdo zasilania
 
-Jeśli ładowarka ma wiele końcówek albo przejściówkę, sprawdź, czy końcówka jest właściwa dla Twojego modelu. Zły rozmiar wtyczki daje pozorny kontakt, a po czasie wyrabia gniazdo.
+Charakterystyczny objaw: wtyczkę trzeba ustawić pod kątem, przytrzymać albo oprzeć kabel, żeby ładowanie ruszyło. Przy każdym ruchu laptopa dioda gaśnie. To luz mechaniczny i pęknięte luty gniazda.
 
-## Gniazdo zasilania: ładuje tylko pod kątem
+Obejrzyj gniazdo pod światło. Ciemne, nadtopione elementy plastikowe, odbarwienia albo iskrzenie przy wkładaniu znaczą, że styk pracuje nieprawidłowo. Nie wkładaj do gniazda śrubokręta i nie naginaj blaszek. Łatwo zewrzeć piny albo uszkodzić ścieżki.
 
-Charakterystyczny objaw: musisz ustawić wtyczkę pod odpowiednim kątem, przytrzymać ją albo oprzeć kabel, żeby ładowanie ruszyło. Przy każdym ruchu laptopa dioda gaśnie. To luz mechaniczny i pęknięte luty gniazda. Zdarza się też, że wtyczka siedzi luźno i wypada pod własnym ciężarem.
-
-Obejrzyj gniazdo pod światło. Ciemne, nadtopione plastikowe elementy, odbarwienia albo iskrzenie przy wkładaniu to sygnał, że styk pracuje nieprawidłowo. Nie wkładaj śrubokręta do gniazda i nie próbuj naginać blaszek, bo łatwo zewrzeć piny albo uszkodzić ścieżki.
-
-W laptopach z USB-C zamiast klasycznego gniazda problem objawia się inaczej: port jest luźny, kabel wypada przy lekkim ruchu, a ładowanie działa tylko w jednej pozycji. To też usterka mechaniczna, którą trzeba wylutować i wymienić, a nie „oczyścić”.
+W laptopach z USB-C problem wygląda podobnie: port jest luźny, kabel wypada przy lekkim ruchu, ładowanie działa tylko w jednej pozycji. To też usterka mechaniczna, którą trzeba wylutować i wymienić, a nie przeczyścić.
 
 ## Bateria i układ ładowania
 
-Bateria po kilku latach traci pojemność, ale rzadko powoduje, że laptop w ogóle nie ładuje. Typowe objawy zużytego ogniwa to nagłe wyłączenia przy 20-30 procentach, ładowanie do pełna w kilka minut i bardzo krótki czas pracy po odłączeniu zasilacza.
+Bateria po kilku latach traci pojemność, ale rzadko powoduje, że laptop w ogóle nie ładuje. Zużyte ogniwo poznasz po nagłych wyłączeniach przy 20-30 procentach, ładowaniu do pełna w kilka minut i bardzo krótkim czasie pracy bez zasilacza.
 
-Inaczej wygląda awaria układu ładowania. Laptop pracuje na zasilaczu, ale procent stoi, a system nie widzi ładowania. Odpowiadają za to kontroler ładowania, mosfety i bezpieczniki na płycie, które padają po zwarciu, przepięciu albo zalaniu. Taka usterka wymaga pomiarów na płycie, a nie wymiany baterii na wyczucie.
+Inaczej wygląda awaria układu ładowania. Laptop pracuje z zasilacza, procent stoi, system nie widzi ładowania. Winne są kontroler ładowania, mosfety i bezpieczniki na płycie, które padają po zwarciu, przepięciu albo zalaniu. Takiej usterki nie naprawia się wymianą baterii na wyczucie.
 
-Warto też sprawdzić, czy bateria jest dobrze osadzona w złączu. W części laptopów pakiet jest wypinany i po latach styki się utleniają. Wyjęcie i ponowne wpięcie baterii, po odłączeniu zasilacza, potrafi przywrócić ładowanie bez żadnej naprawy.
+Sprawdź jeszcze, czy bateria siedzi w złączu. W części modeli pakiet jest wypinany i po latach styki się utleniają. Wyjęcie i ponowne wpięcie baterii, po odłączeniu zasilacza, potrafi przywrócić ładowanie bez żadnej naprawy.
 
-Zanim uznasz to za awarię, sprawdź ustawienia zasilania. Wiele laptopów ma tryb ochrony baterii, który zatrzymuje ładowanie na 60-80 procentach. To normalne zachowanie, a nie usterka, i warto o tym wiedzieć przed wizytą w serwisie.
+Zanim uznasz to za awarię, zajrzyj do ustawień zasilania. Wiele laptopów ma tryb ochrony baterii, który zatrzymuje ładowanie na 60-80 procentach. To normalne zachowanie, nie usterka.
 
-Diagnostyka nie polega na wymianie części na wyczucie. Każdy pomiar zawęża listę podejrzanych elementów, a to skraca naprawę i obniża jej koszt.
-
-## Objawy, które zawężają diagnozę
+## Objawy i co z nich wynika
 
 - dioda nie świeci, laptop nie reaguje: zasilacz, gniazdo albo płyta,
 - dioda świeci, procent stoi: bateria, układ ładowania lub limit ładowania,
 - ładuje tylko pod kątem: gniazdo zasilania,
-- komputer wyłącza się po odłączeniu kabla: bateria albo połączenie baterii z płytą,
-- ładowanie przerywa się przy obciążeniu: za słaby zasilacz lub uszkodzony układ zasilania.
+- komputer gaśnie po odłączeniu kabla: bateria albo jej połączenie z płytą,
+- ładowanie przerywa się pod obciążeniem: za słaby zasilacz lub uszkodzony układ zasilania.
 
-Ten podział nie jest idealny, bo objawy potrafią się nakładać, ale zawęża pole poszukiwań przed wizytą w serwisie.
+## Czego nie rób
 
-## Co możesz wykluczyć sam
+Nie rozkręcaj laptopa tylko po to, żeby dokręcić gniazdo. Nie lutuj niczego bez wprawy w elektronice. Nie podłączaj zasilacza od innego modelu na chwilę. Nie próbuj reanimować baterii, która wybrzuszyła obudowę.
 
-Możesz sprawdzić zasilacz na innym zgodnym sprzęcie, podmienić kabel USB-C, zajrzeć do ustawień zasilania i przypomnieć sobie, czy laptop był zalany lub upuszczony. Możesz też delikatnie poruszyć wtyczką przy gnieździe i obserwować diodę, ale bez szarpania i bez wyginania.
+Jeśli laptop był zalany, nie podłączaj go do zasilacza, żeby sprawdzić, czy ładuje. Woda w środku plus napięcie to najkrótsza droga do zwarcia, a naprawa po zalaniu kosztuje więcej niż osuszenie i diagnostyka.
 
-Czego nie rób: nie rozkręcaj laptopa tylko po to, żeby „dokręcić” gniazdo, nie lutuj niczego bez doświadczenia w elektronice, nie podłączaj zasilacza od innego modelu na chwilę i nie próbuj reanimować baterii, która wybrzuszyła obudowę.
+## Diagnostyka w serwisie
 
-Jeśli laptop był zalany, nie podłączaj go do zasilacza, żeby sprawdzić, czy ładuje. Woda w środku i napięcie to najprostsza droga do zwarcia, a naprawa po zalaniu jest droższa niż osuszenie i diagnostyka. Domowe naprawy gniazda kończą się zwykle zwarciem i droższą naprawą płyty.
+Zaczynamy od pomiaru napięcia zasilacza i sprawdzenia, czy laptop w ogóle pobiera prąd. Przy trudniejszych przypadkach używamy zasilacza laboratoryjnego z ograniczeniem prądu. Potem sprawdzamy gniazdo, bezpieczniki i układ ładowania.
 
-## Jak wygląda diagnostyka w serwisie
+Gdy laptop nie reaguje wcale, szukamy zwarcia w obwodzie zasilania i sprawdzamy, czy płyta startuje. Gdy działa, ale nie ładuje, porównujemy napięcia w obwodzie ładowania i sprawdzamy komunikację kontrolera z baterią. Dzięki temu nie wymieniamy części na wyczucie.
 
-Diagnostyka zaczyna się od pomiaru napięcia zasilacza i sprawdzenia, czy laptop pobiera prąd. Do tego służy miernik, a przy trudniejszych przypadkach zasilacz laboratoryjny z ograniczeniem prądu. Dopiero potem sprawdzamy gniazdo, bezpieczniki i układ ładowania na płycie.
+Uszkodzone gniazdo to najczęstsza przyczyna problemów z ładowaniem, a jego wymiana kosztuje 350 zł. Diagnostyka jest bezpłatna przy zleceniu naprawy, a bez naprawy kosztuje 150-250 zł. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, jeśli gniazdo jest na miejscu.
 
-Jeśli laptop nie reaguje wcale, szukamy zwarcia w obwodzie zasilania i sprawdzamy, czy płyta startuje. Gdy laptop działa, ale nie ładuje, porównujemy napięcia w obwodzie ładowania i sprawdzamy komunikację kontrolera z baterią. To pozwala odróżnić uszkodzoną baterię od awarii elektroniki i nie wymieniać części na wyczucie.
-
-## Kiedy przyjechać do serwisu
-
-Jeśli po sprawdzeniu zasilacza i kabla problem zostaje, kolejny krok to pomiary na płycie. [Naprawa gniazda zasilania](/naprawa-gniazda-zasilania/) to najczęstsza przyczyna problemów z ładowaniem, a wymiana gniazda kosztuje 350 zł. Jeśli laptop nie włącza się w ogóle, diagnostykę warto rozszerzyć; opisaliśmy ją przy [naprawie laptopa, który się nie włącza](/naprawa-laptopa-ktory-sie-nie-wlacza/).
-
-Diagnostyka jest bezpłatna przy zleceniu naprawy. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, jeśli część jest dostępna. Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00-15:00 albo zadzwoń pod 500 613 500. Aktualne stawki znajdziesz w [cenniku](/cennik/).
+Jeśli po podmianie zasilacza i kabla problem zostaje, dalsze próby w domu nic nie dadzą. Usługę opisuje strona [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/), a przy laptopie, który w ogóle nie startuje, zajrzyj do tekstu o [naprawie laptopa, który się nie włącza](/naprawa-laptopa-ktory-sie-nie-wlacza/). Stawki znajdziesz w [cenniku](/cennik/). Zadzwoń pod 500 613 500 albo wpadnij na Kotlarską 14 w dni robocze między 7:00 a 15:00.

@@ -38,7 +38,7 @@ const schema = [
 
   <section class="section section--tight">
     <div class="container">
-      <div class="cases-filter" data-cases-filter>
+      <div class="cases-filter" data-cases-filter role="group" aria-label="Filtruj realizacje według kategorii" hidden>
         <button type="button" class="cases-filter__btn is-active" data-filter="all" aria-pressed="true">
           Wszystkie
         </button>
@@ -50,8 +50,19 @@ const schema = [
           ))
         }
       </div>
+      <script is:inline>
+        (function () {
+          var s = document.currentScript;
+          var f = s && s.previousElementSibling;
+          if (f && f.hasAttribute('data-cases-filter')) f.removeAttribute('hidden');
+        })();
+      </script>
 
       <CaseGrid items={items} categoryLabels={labelBySlug} showLink />
+      <p class="cases-empty" data-cases-empty role="status" hidden>
+        W tej kategorii nie mamy jeszcze opisanej realizacji. Zobacz wszystkie naprawy
+        albo zadzwoń i zapytaj o podobny przypadek.
+      </p>
       <p class="cases-note">
         Opisy dotyczą typowych rodzajów napraw wykonywanych w naszym serwisie.
         Zdjęcia z realizacji i porównania „przed/po” dodajemy na bieżąco -
@@ -67,29 +78,34 @@ const schema = [
 <script>
   const filter = document.querySelector<HTMLElement>('[data-cases-filter]');
   const grid = document.querySelector<HTMLElement>('.cases');
+  const empty = document.querySelector<HTMLElement>('[data-cases-empty]');
+
   if (filter && grid) {
-    const buttons = filter.querySelectorAll<HTMLButtonElement>('[data-filter]');
-    const items = grid.querySelectorAll<HTMLElement>('.case');
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const value = btn.dataset.filter;
-        buttons.forEach((b) => {
-          b.classList.toggle('is-active', b === btn);
-          b.setAttribute('aria-pressed', String(b === btn));
-        });
-        items.forEach((item) => {
-          const show = value === 'all' || item.dataset.category === value;
-          item.hidden = !show;
-          if (show) item.classList.remove('case--lead');
-        });
-        const firstVisible = Array.from(items).find((i) => !i.hidden);
-        if (firstVisible) firstVisible.classList.add('case--lead');
-        window.dispatchEvent(
-          new CustomEvent('sk:event', {
-            detail: { name: 'cases_filter', params: { category: value } },
-          })
-        );
+    const buttons = Array.from(filter.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('.case'));
+
+    const apply = (value: string) => {
+      let visible = 0;
+      items.forEach((item) => {
+        const show = value === 'all' || item.dataset.category === value;
+        item.hidden = !show;
+        if (show) visible += 1;
       });
+      buttons.forEach((b) => {
+        const active = b.dataset.filter === value;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      if (empty) empty.hidden = visible > 0;
+      window.dispatchEvent(
+        new CustomEvent('sk:event', {
+          detail: { name: 'cases_filter', params: { category: value } },
+        })
+      );
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => apply(btn.dataset.filter ?? 'all'));
     });
   }
 </script>
@@ -100,6 +116,11 @@ const schema = [
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: clamp(20px, 3vw, 32px);
+  }
+
+  /* Filtry pojawiają się tylko z JS; bez JS atrybut hidden zostaje. */
+  .cases-filter[hidden] {
+    display: none;
   }
 
   .cases-filter__btn {
@@ -130,6 +151,21 @@ const schema = [
     line-height: 1.55;
     color: var(--muted);
     max-width: 62ch;
+  }
+
+  .cases-empty {
+    margin-top: 8px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 62ch;
+  }
+
+  .cases-empty[hidden] {
+    display: none;
   }
 
   @media (max-width: 640px) {

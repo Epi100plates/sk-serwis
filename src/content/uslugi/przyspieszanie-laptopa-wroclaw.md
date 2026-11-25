@@ -8,6 +8,8 @@ teaser: "Diagnostyka, SSD, RAM, klonowanie danych i czyszczenie - jedno zamiast 
 group: "System i dane"
 order: 40
 featured: true
+tile: true
+tileText: "Mierzymy stan dysku, pamięci i temperatury, żeby ustalić wąskie gardło. Dobieramy dysk SSD i pamięć RAM, klonujemy system z programami i plikami, a na końcu sprawdzamy chłodzenie."
 priceNote: "Cena zależy od tego, co trzeba wymienić - wyceniamy po diagnozie."
 duration: "zwykle z dnia na dzień"
 includes:

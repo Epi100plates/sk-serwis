@@ -8,6 +8,8 @@ teaser: "Wyrwane gniazdo, luźna wtyczka, brak ładowania. Odbudowa ścieżek i 
 group: "Naprawy"
 order: 80
 featured: false
+tile: true
+tileText: "Wyjmujemy płytę, oceniamy stan padów i ścieżek, wylutowujemy uszkodzone gniazdo i wlutowujemy nowe, dopasowane do modelu. Odbudowujemy mocowania i testujemy ładowanie przy różnych kątach wtyczki."
 priceFrom: "350 zł"
 duration: "zwykle z dnia na dzień"
 includes:

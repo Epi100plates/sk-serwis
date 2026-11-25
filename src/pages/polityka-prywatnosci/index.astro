@@ -46,7 +46,28 @@ const updated = '25 listopada 2026';
         użytkowników ani nie stosujemy fingerprintingu urządzeń.
       </p>
 
-      <h2>3. Cele i podstawy przetwarzania</h2>
+      <h2>3. Zgłoszenia serwisowe i powiadomienia</h2>
+      <p>
+        Formularz zgłoszenia naprawy zapisuje dane w bazie panelu Serwisu
+        i nadaje zgłoszeniu numer. Dzięki temu zgłoszenie nie ginie, a jego
+        obsługa jest rejestrowana wewnętrznie.
+      </p>
+      <ul>
+        <li><strong>Administrator:</strong> Studio-Komp, Kotlarska 14, 50-150 Wrocław;</li>
+        <li><strong>Cel:</strong> kontakt w sprawie zgłoszenia, przygotowanie wyceny i obsługa naprawy;</li>
+        <li><strong>Zakres danych:</strong> imię, numer telefonu, model sprzętu, opis usterki, strona, z której wysłano formularz, data i godzina zgłoszenia oraz informacja o wyrażonej zgodzie; adres IP zapisujemy wyłącznie jako skrót (hash) do ograniczania nadużyć;</li>
+        <li><strong>Podstawa prawna:</strong> art. 6 ust. 1 lit. b RODO (działania niezbędne do zawarcia i wykonania umowy) oraz art. 6 ust. 1 lit. f RODO (uzasadniony interes - obsługa zgłoszeń i ochrona przed nadużyciami);</li>
+        <li><strong>Okres przechowywania:</strong> 12 miesięcy od zamknięcia zgłoszenia, a następnie usunięcie; dłużej tylko wtedy, gdy wymagają tego przepisy (np. rozliczenia);</li>
+        <li><strong>Odbiorcy:</strong> dostawca hostingu i poczty oraz - tylko jeśli Serwis włączy taką funkcję - dostawca SMS (powiadomienie do serwisu) i serwer SMTP; dane nie są przekazywane do celów marketingowych;</li>
+        <li><strong>Prawa:</strong> dostęp do danych, ich sprostowanie, usunięcie, ograniczenie przetwarzania, przenoszenie, sprzeciw oraz skarga do Prezesa UOD; realizacja praw - kontakt telefoniczny lub osobisty w Serwisie.</li>
+      </ul>
+      <p>
+        Powiadomienia SMS i e-mail o nowym zgłoszeniu trafiają wyłącznie do
+        Serwisu i mają charakter wewnętrzny - nie są komunikacją marketingową
+        ani nie są wysyłane do klienta bez jego zgody.
+      </p>
+
+      <h2>4. Cele i podstawy przetwarzania</h2>
       <ul>
         <li>kontakt w sprawie zgłoszenia naprawy i przygotowanie wyceny - art. 6 ust. 1 lit. b RODO (czynności niezbędne do zawarcia umowy);</li>
         <li>obsługa naprawy i rozliczenie - art. 6 ust. 1 lit. b i c RODO;</li>
@@ -54,7 +75,7 @@ const updated = '25 listopada 2026';
         <li>dochodzenie lub obrona przed roszczeniami - art. 6 ust. 1 lit. f RODO.</li>
       </ul>
 
-      <h2>4. Odbiorcy danych i narzędzia</h2>
+      <h2>5. Odbiorcy danych i narzędzia</h2>
       <p>
         Dane mogą być przekazywane podmiotom obsługującym stronę i jej
         infrastrukturę. Poniżej lista narzędzi faktycznie używanych przez stronę:
@@ -65,19 +86,19 @@ const updated = '25 listopada 2026';
         <li><strong>Google Analytics 4 / Google Tag Manager / Google Ads</strong> (Google Ireland Limited) - tylko jeśli zostały skonfigurowane i po wyrażeniu zgody; dane mogą być przekazywane poza EOG na podstawie standardowych klauzul umownych;</li>
         <li><strong>Microsoft Clarity</strong> (Microsoft Corporation) - opcjonalnie, tylko po zgodzie analitycznej; nagrania sesji z maskowaniem pól formularzy;</li>
         <li><strong>Google Maps</strong> (Google Ireland Limited) - osadzona mapa w sekcji kontaktu;</li>
-        <li><strong>Web3Forms</strong> - dostawca obsługi formularza zgłoszenia (przekazanie treści zgłoszenia na skrzynkę Serwisu), albo formularz natywny hostingu;</li>
+        <li><strong>Własny system zgłoszeń serwisowych:</strong> dane zgłoszenia zapisywane w bazie na serwerze Serwisu - bez przekazywania do zewnętrznych dostawców; opcjonalnie powiadomienie SMS do serwisu (dostawca SMS) i kopia e-mail (serwer SMTP) - tylko jeśli Serwis włączy te funkcje;</li>
         <li>podmioty świadczące usługi księgowe i prawne - w zakresie niezbędnym.</li>
       </ul>
 
-      <h2>5. Okres przechowywania</h2>
+      <h2>6. Okres przechowywania</h2>
       <ul>
-        <li>dane ze zgłoszeń - przez czas potrzebny do obsługi zapytania, a następnie do przedawnienia ewentualnych roszczeń;</li>
+        <li>dane ze zgłoszeń serwisowych - 12 miesięcy od zamknięcia zgłoszenia, potem usunięcie; dłużej tylko w zakresie wymaganym przepisami;</li>
         <li>własne statystyki - do 400 dni, po czym są automatycznie usuwane;</li>
         <li>dane analityczne Google - zgodnie z konfiguracją (zwykle do 14 miesięcy w GA4, o ile włączono retencję);</li>
         <li>dane rozliczeniowe - przez okres wymagany przepisami podatkowymi.</li>
       </ul>
 
-      <h2>6. Twoje prawa</h2>
+      <h2>7. Twoje prawa</h2>
       <p>
         Masz prawo dostępu do danych, ich sprostowania, usunięcia,
         ograniczenia przetwarzania, przenoszenia, wniesienia sprzeciwu oraz
@@ -88,7 +109,7 @@ const updated = '25 listopada 2026';
         w siedzibie serwisu.
       </p>
 
-      <h2>7. Pliki cookies i pamięć przeglądarki</h2>
+      <h2>8. Pliki cookies i pamięć przeglądarki</h2>
       <p>
         Strona używa czterech kategorii technologii. Kategorie opcjonalne
         (analityczne, marketingowe, funkcjonalne) są domyślnie wyłączone.
@@ -106,6 +127,12 @@ const updated = '25 listopada 2026';
               <td>niezbędne</td>
               <td>zapamiętanie Twojej decyzji o cookies</td>
               <td>do wyczyszczenia przeglądarki</td>
+            </tr>
+            <tr>
+              <td><code>sk_form_csrf</code></td>
+              <td>niezbędne</td>
+              <td>zabezpieczenie formularza zgłoszenia przed obcymi stronami (token jednorazowej sesji formularza)</td>
+              <td>2 godziny</td>
             </tr>
             <tr>
               <td><code>__cf_bm</code> (Cloudflare)</td>
@@ -160,7 +187,7 @@ const updated = '25 listopada 2026';
         objęte zgodą analityczną.
       </p>
 
-      <h2>8. Bezpieczeństwo</h2>
+      <h2>9. Bezpieczeństwo</h2>
       <p>
         Strona działa w protokole HTTPS. Dostęp do danych ze zgłoszeń mają
         wyłącznie osoby obsługujące serwis. Panel zarządzania treścią jest
@@ -170,7 +197,7 @@ const updated = '25 listopada 2026';
         danych.
       </p>
 
-      <h2>9. Postanowienia końcowe</h2>
+      <h2>10. Postanowienia końcowe</h2>
       <p>
         Polityka może być aktualizowana - data ostatniej zmiany znajduje się
         na początku dokumentu. Zmiany nie ograniczają praw przysługujących

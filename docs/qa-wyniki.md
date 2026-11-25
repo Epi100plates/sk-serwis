@@ -107,11 +107,32 @@ produkcyjne. Rekomendacje w raporcie końcowym.
 ## 8. Znane problemy / do zrobienia
 
 1. Brak ID GA4/GTM/Ads/Clarity — kod gotowy, panel pokazuje „niepodłączone”.
-2. Brak klucza Web3Forms — formularz nie wyśle zgłoszenia do czasu uzupełnienia.
+2. Formularz działa i zapisuje zgłoszenia w bazie panelu; brakuje kont SMS/SMTP,
+   żeby wysyłać realne powiadomienia (tryb testowy).
 3. Brak klucza Google Places API — ocena opinii ręczna.
 4. Ceny „… zł” w cenniku do uzupełnienia przez właściciela.
 5. Zdjęcia realizacji/usług to ilustracje techniczne — do podmiany na własne.
-6. 27 artykułów markowych to szkice (`draft: true`) — do zatwierdzenia.
+6. 25 artykułów markowych to szkice (`draft: true`) — do zatwierdzenia.
 7. Mapa Google ładuje się przed decyzją cookies — decyzja właściciela, opisana
    w polityce prywatności i AGENTS.md.
 8. Brak automatycznej kopii bazy SQLite poza VPS — zalecany cron + backup.
+
+## 9. Testy instrukcji nr 2 (2026-11-25)
+
+Skrypt: `node scripts/qa-inst2.mjs` (Chrome headless przez playwright-core,
+lokalny build `pnpm build` + `pnpm preview`).
+
+| Obszar | Testy | Wynik |
+|---|---|---|
+| Logo i favicony | wysokość logo, proporcje, brak przewijania 1440/390, 8 adresów ikon + manifest | OK |
+| Kafelki usług | 9 kafelków, 3 kolumny, domyślnie bez opisu, hover = opis + przyciemnienie, klawiatura, 6 kafelków na mobile, tap rozwija/zwija | OK |
+| Ceny | 200-250 zł (2 pozycje), instalacja 250 zł, matryca 600-700 zł, brak „od 200 zł”, brak „kierownik” | OK |
+| Myślniki | brak U+2013/U+2014 na stronie głównej, cenniku, poradniku, realizacjach | OK |
+| Realizacje | 7 kafelków, 9 filtrów × 3 szerokości, poprawne liczby po kategorii, stan aktywny, 3/2/1 kolumny, linki do podstron | OK |
+| Szczegóły realizacji | kontener > 1100 px, 2 kolumny, akapit <= 75ch, mobile 1 kolumna | OK |
+| Stopka | 9 marek w 2 kolumnach, brak przewijania; mobile: akordeon domyślnie zwinięty, kontakt widoczny, rozwinięcie marek | OK |
+| Mobile | 4,8 ekranu (limit 5), brak poziomego przewijania | OK |
+
+Łącznie **98/98 testów OK**. Formularz zgłoszeń: testy funkcji 133 OK,
+endpointów 31 OK, panelu 42 OK (raport agenta, lokalny PHP + php -S, tryb
+testowy, bez realnych SMS/e-maili).

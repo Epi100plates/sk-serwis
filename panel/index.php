@@ -29,7 +29,7 @@ require_login();
 
 require_once __DIR__ . '/views/layout.php';
 
-$allowed = ['dashboard', 'analytics', 'content', 'editor', 'realizacje', 'kategorie', 'media', 'redirects', 'reviews', 'settings', 'publish', 'users', 'profile', 'audit', 'preview', 'help'];
+$allowed = ['dashboard', 'analytics', 'content', 'editor', 'realizacje', 'kategorie', 'media', 'redirects', 'reviews', 'zgloszenia', 'settings', 'publish', 'users', 'profile', 'audit', 'preview', 'help'];
 if ($page === '' || $page === 'dashboard') {
     $page = 'dashboard';
 }

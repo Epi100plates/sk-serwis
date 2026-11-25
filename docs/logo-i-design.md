@@ -121,13 +121,16 @@ tokenami marki (`#FFD400`, `#F5F6F5`) — spójnie z `--yellow` w CSS.
 | `public/brand/studio-komp-logo@2x.png` | 996×336 | ekrany HiDPI, tło `#2D343A` |
 | `public/brand/studio-komp-logo@1x.png` | 498×168 | wersja bazowa 1×, tło `#2D343A` |
 | `public/brand/studio-komp-logo-transparent.png` | 1494×504 | 3× bez tła (RGBA), tylko na ciemne tła |
+| `public/brand/studio-komp-logo-trim.png` | 1386×246 | wersja przycięta do widocznego tuszu (bez przezroczystego marginesu) - używana w nagłówku strony |
 | `public/brand/studio-komp-mark-square.png` | 512×512 | kwadratowy znak SK na tle `#2D343A` (margines 8%), avatar/pieczątka |
+| `public/brand/sk-mark.png` | 1024×1024 | master znaku SK do faviconów i materiałów |
 | `public/brand/palette.json` | — | tokeny marki + realnie zmierzone kolory źródła |
 | `public/icon-512.png` | 512×512 | ikona PWA/Android |
 | `public/icon-192.png` | 192×192 | ikona PWA/Android |
 | `public/apple-touch-icon.png` | 180×180 | iOS |
-| `public/favicon.ico` | 16/32/48 | favicon klasyczny (z znaku SK) |
-| `public/favicon.svg` | 256 (PNG 256 w base64) | favicon nowoczesny — wierność kształtu ważniejsza niż wektor |
+| `public/favicon.ico` | 16/32/48 | favicon klasyczny (z znaku SK, PNG w ICO) |
+| `public/favicon-16.png`, `public/favicon-32.png` | 16, 32 | favicony PNG (nowoczesne przeglądarki) |
+| `public/favicon.svg` | 64 (PNG 64 w base64) | favicon wektorowy z osadzonym znakiem SK |
 
 ### Zasady użycia
 
@@ -139,8 +142,13 @@ tokenami marki (`#FFD400`, `#F5F6F5`) — spójnie z `--yellow` w CSS.
 - **Minimalna szerokość:** 120 px (ekran), 30 mm (print). Poniżej — użyj samego znaku
   (`studio-komp-mark-square.png`).
 - **Pole ochronne:** wysokość znaku (wersja pozioma) z każdej strony.
-- **Favicony i ikony** generowane są z kwadratowego znaku SK — nie kadruj ich z pełnego
-  logo, bo napis „STUDIO-KOMP” przestaje być czytelny.
+- **Nagłówek** używa przyciętej wersji (`studio-komp-logo-trim.png`): 38 px wysokości
+  na desktopie, 30 px na telefonie, zawsze z proporcji 1386:246. Dzięki przycięciu
+  napis jest czytelny bez zwiększania belki.
+- **Favicony i ikony** generowane są wyłącznie ze znaku SK (przez `scripts/favicon.mjs`,
+  który wykrywa granicę znaku i napisu analizą pikseli) - nie kadruj ich z pełnego
+  logo, bo napis „STUDIO-KOMP” przestaje być czytelny. Linki w HTML mają `?v=2`
+  (cache-busting); po podmianie ikon podnieś wersję.
 - Kształt liter jest wierną kopią pliku źródłowego: nie przerysowuj napisów, nie podmieniaj
   fontu i nie „poprawiaj” proporcji.
 - Po zmianie pliku źródłowego wygeneruj assety ponownie:

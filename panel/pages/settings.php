@@ -147,6 +147,90 @@ if (is_post()) {
         redirect_to(panel_url('settings', ['tab' => 'form']));
     }
 
+    if ($action === 'save_notifications') {
+        $provider = (string) post('sms_provider');
+        if (!in_array($provider, ['smsapi', 'serwersms'], true)) {
+            $provider = 'smsapi';
+        }
+        setting_set('sms_test_mode', !empty(post('sms_test_mode')) ? '1' : '0');
+        setting_set('sms_provider', $provider);
+
+        $token = trim((string) post('sms_api_token'));
+        if ($token !== '') {
+            setting_set('sms_api_token', $token);
+        }
+        if (!empty(post('clear_sms_token'))) {
+            setting_set('sms_api_token', '');
+        }
+
+        setting_set('sms_sender', mb_substr(trim((string) post('sms_sender')), 0, 30, 'UTF-8'));
+
+        $recipientRaw = trim((string) post('sms_recipient'));
+        $recipient = $recipientRaw === '' ? '' : tickets_normalize_phone($recipientRaw);
+        if ($recipientRaw !== '' && $recipient === '') {
+            flash('err', 'Numer odbiorcy SMS jest nieprawidłowy - podaj 9 cyfr (np. 600 000 000). Pozostałe ustawienia SMS nie zostały zmienione.');
+            redirect_to(panel_url('settings', ['tab' => 'form']));
+        }
+        setting_set('sms_recipient', $recipient);
+
+        $template = trim((string) post('sms_template'));
+        if ($template === '') {
+            $template = TICKET_SMS_TEMPLATE_DEFAULT;
+        }
+        if (!str_contains($template, '{number}')) {
+            flash('err', 'Szablon SMS musi zawierać placeholder {number} (numer zgłoszenia).');
+            redirect_to(panel_url('settings', ['tab' => 'form']));
+        }
+        if (mb_strlen($template, 'UTF-8') > 320) {
+            flash('err', 'Szablon SMS może mieć maksymalnie 320 znaków.');
+            redirect_to(panel_url('settings', ['tab' => 'form']));
+        }
+        setting_set('sms_template', $template);
+
+        setting_set('mail_enabled', !empty(post('mail_enabled')) ? '1' : '0');
+        setting_set('smtp_host', mb_substr(trim((string) post('smtp_host')), 0, 190, 'UTF-8'));
+        $port = (int) post('smtp_port');
+        if ($port < 1 || $port > 65535) {
+            $port = 587;
+        }
+        setting_set('smtp_port', (string) $port);
+        $secure = (string) post('smtp_secure');
+        if (!in_array($secure, ['none', 'tls', 'ssl'], true)) {
+            $secure = 'tls';
+        }
+        setting_set('smtp_secure', $secure);
+        setting_set('smtp_user', mb_substr(trim((string) post('smtp_user')), 0, 190, 'UTF-8'));
+        $smtpPass = (string) post('smtp_pass');
+        if ($smtpPass !== '') {
+            setting_set('smtp_pass', $smtpPass);
+        }
+        if (!empty(post('clear_smtp_pass'))) {
+            setting_set('smtp_pass', '');
+        }
+        $from = trim((string) post('smtp_from'));
+        if ($from !== '' && !mailer_valid_email($from)) {
+            $from = '';
+            flash('err', 'Adres nadawcy e-mail jest nieprawidłowy - zapisano puste pole.');
+        }
+        setting_set('smtp_from', $from);
+        $to = trim((string) post('smtp_to'));
+        if ($to !== '' && !mailer_valid_email($to)) {
+            $to = '';
+            flash('err', 'Adres odbiorcy e-mail jest nieprawidłowy - zapisano puste pole.');
+        }
+        setting_set('smtp_to', $to);
+        setting_set('smtp_from_name', mb_substr(trim((string) post('smtp_from_name')), 0, 120, 'UTF-8'));
+
+        audit('settings_notifications', '', [
+            'sms_test_mode' => setting_get('sms_test_mode'),
+            'sms_provider' => $provider,
+            'mail_enabled' => setting_get('mail_enabled'),
+            'smtp_host_set' => setting_get('smtp_host') !== '',
+        ]);
+        flash('ok', 'Zapisano ustawienia powiadomień formularza. Sekrety nie są zapisywane w dzienniku zdarzeń.');
+        redirect_to(panel_url('settings', ['tab' => 'form']));
+    }
+
     if ($action === 'save_seo') {
         $site['seo']['defaultOgImage'] = trim((string) post('ogImage'));
         $site['seo']['titleTemplate'] = trim((string) post('titleTemplate'));
@@ -525,9 +609,143 @@ layout_head('Ustawienia', 'settings');
 <?php endif; ?>
 
 <?php if ($tab === 'form'): ?>
-  <section class="card">
-    <header class="card__head"><h2>Formularz zgłoszenia</h2></header>
+  <?php
+  $smsCfg = tickets_sms_config();
+  $mailCfg = mailer_config();
+  $smsTemplate = tickets_sms_template();
+  $smsPreview = tickets_sms_message([
+      'number' => 'SK-2026-000123',
+      'name' => 'Anna',
+      'phone' => '+48500613500',
+      'device' => 'Lenovo IdeaPad 5',
+  ], $smsTemplate);
+  $hasSmsToken = setting_get('sms_api_token') !== '';
+  $hasSmtpPass = setting_get('smtp_pass') !== '';
+  ?>
+  <div class="grid grid--sidebar">
+    <section class="card">
+      <header class="card__head"><h2>Powiadomienia o nowych zgłoszeniach</h2></header>
+      <div class="card__body">
+        <div class="help-box" style="margin-bottom:16px">
+          Formularz na stronie zapisuje zgłoszenia w bazie panelu i nadaje numer (SK-rok-numer).
+          O nowym zgłoszeniu informuje SMS do serwisu - domyślnie w <strong>trybie testowym</strong>,
+          czyli bez realnej wysyłki i bez kosztów. E-mail jest opcjonalną kopią i wysyła się tylko
+          po włączeniu poniżej oraz uzupełnieniu danych SMTP.
+        </div>
+        <form method="post" class="form-grid">
+          <?= csrf_field() ?>
+          <input type="hidden" name="action" value="save_notifications">
+
+          <p class="section-title">SMS do serwisu</p>
+          <label class="field field--check">
+            <input type="checkbox" name="sms_test_mode" value="1" <?= $smsCfg['test_mode'] ? 'checked' : '' ?>>
+            <span>Tryb testowy (zalecany) - SMS-y są zapisywane jako „test”, bez połączenia z dostawcą</span>
+          </label>
+          <div class="form-row">
+            <label class="field"><span>Dostawca SMS</span>
+              <select name="sms_provider">
+                <?php foreach (['smsapi' => 'SMSAPI (sms.do)', 'serwersms' => 'SerwerSMS (send_sms.json)'] as $key => $label): ?>
+                  <option value="<?= e($key) ?>" <?= $smsCfg['provider'] === $key ? 'selected' : '' ?>><?= e($label) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </label>
+            <label class="field"><span>Nadawca SMS (opcjonalnie)</span>
+              <input type="text" name="sms_sender" value="<?= e($smsCfg['sender']) ?>" maxlength="30" placeholder="np. StudioKomp">
+              <span class="field__hint">Nazwa nadawcy musi być zatwierdzona u dostawcy. Puste = domyślny nadawca konta.</span>
+            </label>
+          </div>
+          <label class="field"><span>Token API dostawcy SMS</span>
+            <input type="password" name="sms_api_token" autocomplete="new-password" value="" placeholder="<?= $hasSmsToken ? 'Zapisany - pozostaw puste, aby nie zmieniać' : 'Wklej token API' ?>">
+            <span class="field__hint">Sekret jest przechowywany w bazie panelu i nie jest pokazywany. Puste pole = bez zmian.</span>
+          </label>
+          <?php if ($hasSmsToken): ?>
+            <label class="field field--check"><input type="checkbox" name="clear_sms_token" value="1"><span>Usuń zapisany token SMS</span></label>
+          <?php endif; ?>
+          <label class="field"><span>Numer odbiorcy SMS</span>
+            <input type="text" name="sms_recipient" value="<?= e(tickets_display_phone($smsCfg['recipient'])) ?>" inputmode="tel" placeholder="np. 500 613 500">
+            <span class="field__hint">Numer, na który ma trafiać powiadomienie o nowym zgłoszeniu. Może być inny niż numer firmy.</span>
+          </label>
+          <label class="field"><span>Treść SMS (szablon)</span>
+            <textarea name="sms_template" rows="3" maxlength="320"><?= e($smsTemplate) ?></textarea>
+            <span class="field__hint">
+              Placeholdery: <span class="code-inline">{number}</span> numer zgłoszenia,
+              <span class="code-inline">{imie}</span> imię klienta,
+              <span class="code-inline">{sprzet}</span> sprzęt,
+              <span class="code-inline">{telefon}</span> telefon klienta,
+              <span class="code-inline">{link}</span> adres panelu. Treść nie zawiera opisu usterki.
+            </span>
+          </label>
+          <div class="help-box">
+            <strong>Podgląd SMS:</strong><br>
+            <span class="mono"><?= e($smsPreview) ?></span>
+          </div>
+
+          <p class="section-title">E-mail (opcjonalna kopia)</p>
+          <label class="field field--check">
+            <input type="checkbox" name="mail_enabled" value="1" <?= $mailCfg['enabled'] ? 'checked' : '' ?>>
+            <span>Włącz powiadomienia e-mail o nowych zgłoszeniach</span>
+          </label>
+          <div class="form-row form-row--3">
+            <label class="field"><span>Serwer SMTP</span><input type="text" name="smtp_host" value="<?= e($mailCfg['host']) ?>" placeholder="np. smtp.example.com"></label>
+            <label class="field"><span>Port</span><input type="number" name="smtp_port" value="<?= (int) $mailCfg['port'] ?>" min="1" max="65535"></label>
+            <label class="field"><span>Szyfrowanie</span>
+              <select name="smtp_secure">
+                <option value="tls" <?= $mailCfg['secure'] === 'tls' ? 'selected' : '' ?>>STARTTLS (typowo 587)</option>
+                <option value="ssl" <?= $mailCfg['secure'] === 'ssl' ? 'selected' : '' ?>>SSL/TLS (typowo 465)</option>
+                <option value="none" <?= $mailCfg['secure'] === 'none' ? 'selected' : '' ?>>Brak (niedozwolone poza testem lokalnym)</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-row">
+            <label class="field"><span>Użytkownik SMTP</span><input type="text" name="smtp_user" value="<?= e($mailCfg['user']) ?>" autocomplete="off"></label>
+            <label class="field"><span>Hasło SMTP</span>
+              <input type="password" name="smtp_pass" autocomplete="new-password" value="" placeholder="<?= $hasSmtpPass ? 'Zapisane - pozostaw puste, aby nie zmieniać' : 'Hasło lub hasło aplikacji' ?>">
+            </label>
+          </div>
+          <?php if ($hasSmtpPass): ?>
+            <label class="field field--check"><input type="checkbox" name="clear_smtp_pass" value="1"><span>Usuń zapisane hasło SMTP</span></label>
+          <?php endif; ?>
+          <div class="form-row">
+            <label class="field"><span>Adres nadawcy</span><input type="email" name="smtp_from" value="<?= e($mailCfg['from']) ?>" placeholder="np. panel@twojadomena.pl"></label>
+            <label class="field"><span>Nazwa nadawcy</span><input type="text" name="smtp_from_name" value="<?= e($mailCfg['from_name']) ?>"></label>
+          </div>
+          <label class="field"><span>Adres odbiorcy powiadomień</span><input type="email" name="smtp_to" value="<?= e($mailCfg['to']) ?>" placeholder="np. serwis@twojadomena.pl"></label>
+
+          <div class="form-actions"><button class="btn btn--primary" type="submit">Zapisz powiadomienia</button></div>
+        </form>
+      </div>
+    </section>
+    <section class="card">
+      <header class="card__head"><h2>Jak to działa</h2></header>
+      <div class="card__body">
+        <p class="small">
+          Zgłoszenie trafia najpierw do bazy panelu (źródło prawdy), potem do kolejki powiadomień.
+          Worker cron przetwarza kolejkę co minutę i ponawia nieudane wysyłki
+          (1, 5, 15, 60 minut, maksymalnie 5 prób).
+        </p>
+        <p class="small muted" style="margin-top:8px">
+          Każde zgłoszenie ma najwyżej jeden SMS i jeden e-mail - ponowienie formularza nie tworzy duplikatów.
+          W panelu „Zgłoszenia” jest przycisk „Przetwórz kolejkę” do ręcznego uruchomienia.
+        </p>
+        <p class="small muted" style="margin-top:8px">
+          Aby włączyć prawdziwe SMS-y: wyłącz tryb testowy, wskaż dostawcę, wklej token API
+          i wpisz numer odbiorcy. To decyzja właściciela - generuje realne koszty.
+        </p>
+        <p class="small muted" style="margin-top:8px">
+          Stan: SMS <?= $smsCfg['test_mode'] ? 'w trybie testowym' : 'wysyłka aktywna' ?>,
+          e-mail <?= $mailCfg['enabled'] ? 'włączony' : 'wyłączony' ?>.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:16px">
+    <header class="card__head"><h2>Stary formularz (Web3Forms / Netlify) - nieaktywny</h2></header>
     <div class="card__body">
+      <p class="small muted" style="margin-bottom:12px">
+        Formularz na stronie korzysta teraz z własnego endpointu <span class="code-inline">/api/zgloszenie</span>
+        i bazy panelu. Poniższe pola są zachowane dla zgodności i nie wpływają na nowy formularz.
+      </p>
       <form method="post" class="form-grid">
         <?= csrf_field() ?>
         <input type="hidden" name="action" value="save_form">
@@ -542,7 +760,7 @@ layout_head('Ustawienia', 'settings');
         <label class="field"><span>Klucz dostępu (sekret)</span><input type="password" name="accessKey" value="<?= e($site['form']['accessKey'] ?? '') ?>">
           <span class="field__hint">Uwaga: klucz trafia do publicznego HTML (tak działa Web3Forms). Nie jest to hasło serwerowe.</span>
         </label>
-        <div class="form-actions"><button class="btn btn--primary" type="submit">Zapisz formularz</button></div>
+        <div class="form-actions"><button class="btn btn--sm" type="submit">Zapisz stare ustawienia</button></div>
       </form>
     </div>
   </section>

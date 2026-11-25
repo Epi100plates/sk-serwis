@@ -2,33 +2,46 @@
 import site from '../data/site.json';
 
 interface Props {
-  size?: number; // wysokość logo w px
+  size?: number; // wysokość logo w px (desktop/tablet)
+  mobileSize?: number; // wysokość logo w px (<= 899px)
   variant?: 'dark' | 'light'; // zachowane dla kompatybilności (logo jest na grafitowym tle)
   showWordmark?: boolean;
+  trim?: boolean; // wersja przycięta do widocznego tuszu (bez przezroczystego marginesu)
   class?: string;
   label?: string;
 }
 const {
   size = 46,
+  mobileSize = 34,
+  trim = false,
   class: klass = '',
   label = 'Studio-Komp - serwis laptopów we Wrocławiu',
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const href = `${base}/` || '/';
-const logo = site.branding.logoTransparent || site.branding.logo;
-const ratio = site.branding.logoWidth / site.branding.logoHeight;
+const logo = trim
+  ? (site.branding.logoTrim || site.branding.logoTransparent || site.branding.logo)
+  : (site.branding.logoTransparent || site.branding.logo);
+const ratio = trim
+  ? (site.branding.logoTrimWidth || site.branding.logoWidth) / (site.branding.logoTrimHeight || site.branding.logoHeight)
+  : site.branding.logoWidth / site.branding.logoHeight;
 const width = Math.round(size * ratio);
+const mobileWidth = Math.round(mobileSize * ratio);
 ---
 
-<a class:list={['logo', klass]} href={href} aria-label={label}>
+<a
+  class:list={['logo', klass]}
+  href={href}
+  aria-label={label}
+  style={`--logo-h:${size}px;--logo-w:${width}px;--logo-h-m:${mobileSize}px;--logo-w-m:${mobileWidth}px`}
+>
   <img
     class="logo__img"
     src={`${base}${logo}`}
     alt="Studio-Komp - serwis laptopów"
     width={width}
     height={size}
-    style={`height:${size}px;width:${width}px`}
     loading="eager"
     decoding="async"
   />
@@ -44,15 +57,18 @@ const width = Math.round(size * ratio);
 
   .logo__img {
     display: block;
+    height: var(--logo-h);
+    width: var(--logo-w);
     object-fit: contain;
     object-position: left center;
+    max-width: none;
   }
 
+  /* Mobile: mniejsza wersja, zawsze z proporcji (height + width), bez rozciągania. */
   @media (max-width: 899px) {
     .logo__img {
-      height: 34px !important;
-      width: auto !important;
-      max-width: 120px;
+      height: var(--logo-h-m);
+      width: var(--logo-w-m);
     }
   }
 </style>

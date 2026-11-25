@@ -77,7 +77,7 @@ const label = (slug: string) => categoryLabels[slug] ?? slug;
         </div>
       );
       return (
-        <li class:list={['case', i === 0 && 'case--lead']} data-category={item.category}>
+        <li class="case" data-category={item.category}>
           <a class="case__link" href={href} data-track="realization" data-location="realizacje">
             {media}
             {body}
@@ -89,34 +89,43 @@ const label = (slug: string) => categoryLabels[slug] ?? slug;
 </ul>
 
 <style>
+  /* Siatka: telefon 1 kolumna, tablet 2, desktop 3. */
   .cases {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(20px, 3vw, 40px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(18px, 2.4vw, 30px);
+  }
+
+  @media (min-width: 641px) {
+    .cases {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .cases {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
   .case {
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
 
-  .case--lead {
-    grid-column: 1 / -1;
+  /* Atrybut hidden musi wygrać z display: flex (filtry kategorii). */
+  .case[hidden] {
+    display: none !important;
   }
 
   .case__link {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
     height: 100%;
-  }
-
-  .case--lead .case__link {
-    display: grid;
-    grid-template-columns: 1.35fr 1fr;
-    gap: clamp(20px, 3vw, 40px);
-    align-items: end;
+    min-width: 0;
   }
 
   .case__media {
@@ -125,10 +134,6 @@ const label = (slug: string) => categoryLabels[slug] ?? slug;
     background: var(--graphite);
     aspect-ratio: 4 / 3;
     border: 1px solid var(--line);
-  }
-
-  .case--lead .case__media {
-    aspect-ratio: 16 / 9;
   }
 
   .case__media img {
@@ -144,36 +149,39 @@ const label = (slug: string) => categoryLabels[slug] ?? slug;
 
   .case__category {
     position: absolute;
-    left: 14px;
-    top: 14px;
-    padding: 6px 10px;
+    left: 10px;
+    top: 10px;
+    padding: 5px 8px;
     background: var(--yellow);
     color: var(--ink);
-    font-size: 10px;
+    font-size: 9.5px;
     letter-spacing: 0.06em;
     white-space: nowrap;
   }
 
   .case__badge {
     position: absolute;
-    right: 14px;
-    top: 14px;
-    padding: 6px 10px;
+    right: 10px;
+    top: 10px;
+    padding: 5px 8px;
     background: var(--graphite);
     color: var(--on-dark);
-    font-size: 10px;
+    font-size: 9.5px;
     letter-spacing: 0.06em;
   }
 
   .case__body {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    min-width: 0;
   }
 
   .case__title {
-    font-size: clamp(19px, 1.7vw, 24px);
-    letter-spacing: -0.025em;
+    font-size: clamp(17px, 1.15vw, 21px);
+    line-height: 1.16;
+    letter-spacing: -0.02em;
+    overflow-wrap: break-word;
   }
 
   .case__link:hover .case__title {
@@ -184,19 +192,20 @@ const label = (slug: string) => categoryLabels[slug] ?? slug;
   }
 
   .case__summary {
-    font-size: 14.5px;
-    line-height: 1.55;
+    font-size: 13.5px;
+    line-height: 1.5;
     color: var(--muted);
-    max-width: 60ch;
+    max-width: 52ch;
+    overflow-wrap: break-word;
   }
 
   .case__meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px 18px;
+    gap: 6px 14px;
     color: var(--muted-2);
-    font-size: 10.5px;
+    font-size: 10px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     margin-top: 2px;
@@ -228,19 +237,13 @@ const label = (slug: string) => categoryLabels[slug] ?? slug;
     transition: transform var(--fast) var(--ease-out);
   }
 
-  @media (max-width: 860px) {
-    .case--lead .case__link {
-      grid-template-columns: 1fr;
-    }
-
-    .case--lead .case__media {
-      aspect-ratio: 4 / 3;
-    }
-  }
-
+  /* Telefon: skrócony opis (max 3 linie), tytuł i meta bez zmian. */
   @media (max-width: 640px) {
-    .cases {
-      grid-template-columns: 1fr;
+    .case__summary {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 </style>

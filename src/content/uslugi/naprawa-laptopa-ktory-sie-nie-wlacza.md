@@ -8,6 +8,8 @@ teaser: "Zasilacz, bateria, przycisk, płyta - po kolei sprawdzamy, gdzie leży 
 group: "Naprawy"
 order: 70
 featured: true
+tile: true
+tileText: "Sprawdzamy zasilacz pod obciążeniem, gniazdo ładowania, baterię, przycisk i pamięć RAM. Dopiero potem mierzymy sekcje płyty głównej i szukamy zwarć, żeby nie wymieniać podzespołów bez potrzeby."
 priceNote: "Cena po diagnozie - zależy od przyczyny."
 duration: "zwykle z dnia na dzień"
 includes:

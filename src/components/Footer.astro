@@ -41,30 +41,71 @@ const marki = (await getCollection('marki', ({ data }) => (typeof process !== "u
       </div>
 
       <nav class="site-footer__col" aria-label="Usługi">
-        <p class="mono site-footer__label">Usługi</p>
-        <ul>
-          {footerServices.map((s) => (
-            <li><a href={withBase(`/${s.id}/`)}>{s.data.navLabel}</a></li>
-          ))}
-        </ul>
-      </nav>
-
-      <nav class="site-footer__col" aria-label="Informacje">
-        <p class="mono site-footer__label">Informacje</p>
-        <ul>
-          {site.footer.infoLinks.map((l) => (
-            <li><a href={withBase(l.href)}>{l.label}</a></li>
-          ))}
-        </ul>
-        {marki.length > 0 && (
-          <>
-            <p class="mono site-footer__label site-footer__label--second">Marki</p>
+        <div class="site-footer__group" data-accordion>
+          <button
+            type="button"
+            class="site-footer__toggle"
+            data-accordion-toggle
+            aria-expanded="false"
+            aria-controls="footer-uslugi"
+          >
+            <span class="site-footer__toggle-label">Usługi</span>
+            <span class="site-footer__chev" aria-hidden="true"><Icon name="chevron-down" size={16} /></span>
+          </button>
+          <p class="mono site-footer__label">Usługi</p>
+          <div class="site-footer__panel" id="footer-uslugi" data-accordion-panel>
             <ul>
-              {marki.slice(0, 6).map((m) => (
-                <li><a href={withBase(`/${m.id}/`)}>{m.data.brand}</a></li>
+              {footerServices.map((s) => (
+                <li><a href={withBase(`/${s.id}/`)}>{s.data.navLabel}</a></li>
               ))}
             </ul>
-          </>
+          </div>
+        </div>
+      </nav>
+
+      <nav class="site-footer__col site-footer__col--info" aria-label="Informacje i marki">
+        <div class="site-footer__group" data-accordion>
+          <button
+            type="button"
+            class="site-footer__toggle"
+            data-accordion-toggle
+            aria-expanded="false"
+            aria-controls="footer-informacje"
+          >
+            <span class="site-footer__toggle-label">Informacje</span>
+            <span class="site-footer__chev" aria-hidden="true"><Icon name="chevron-down" size={16} /></span>
+          </button>
+          <p class="mono site-footer__label">Informacje</p>
+          <div class="site-footer__panel" id="footer-informacje" data-accordion-panel>
+            <ul>
+              {site.footer.infoLinks.map((l) => (
+                <li><a href={withBase(l.href)}>{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {marki.length > 0 && (
+          <div class="site-footer__group" data-accordion>
+            <button
+              type="button"
+              class="site-footer__toggle"
+              data-accordion-toggle
+              aria-expanded="false"
+              aria-controls="footer-marki"
+            >
+              <span class="site-footer__toggle-label">Marki</span>
+              <span class="site-footer__chev" aria-hidden="true"><Icon name="chevron-down" size={16} /></span>
+            </button>
+            <p class="mono site-footer__label site-footer__label--second">Marki</p>
+            <div class="site-footer__panel" id="footer-marki" data-accordion-panel>
+              <ul class="site-footer__marki">
+                {marki.map((m) => (
+                  <li><a href={withBase(`/${m.id}/`)}>{m.data.brand}</a></li>
+                ))}
+              </ul>
+            </div>
+          </div>
         )}
       </nav>
 
@@ -109,6 +150,25 @@ const marki = (await getCollection('marki', ({ data }) => (typeof process !== "u
       </nav>
     </div>
   </div>
+  <script is:inline>
+    (function () {
+      var s = document.currentScript;
+      var f = s && s.closest ? s.closest('.site-footer') : null;
+      if (!f) return;
+      f.classList.add('is-accordion-ready');
+      f.querySelectorAll('[data-accordion]').forEach(function (group) {
+        var toggle = group.querySelector('[data-accordion-toggle]');
+        var panel = group.querySelector('[data-accordion-panel]');
+        if (!toggle || !panel) return;
+        group.classList.add('is-accordion');
+        toggle.addEventListener('click', function () {
+          var expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!expanded));
+          group.classList.toggle('is-open', !expanded);
+        });
+      });
+    })();
+  </script>
 </footer>
 
 <style>
@@ -123,6 +183,10 @@ const marki = (await getCollection('marki', ({ data }) => (typeof process !== "u
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1.1fr;
     gap: clamp(28px, 4vw, 64px);
+  }
+
+  .site-footer__top > * {
+    min-width: 0;
   }
 
   .site-footer__brand {
@@ -163,22 +227,73 @@ const marki = (await getCollection('marki', ({ data }) => (typeof process !== "u
     margin-top: 24px;
   }
 
+  /* Akordeon mobile - przyciski istnieją w DOM, ale są widoczne tylko z JS. */
+  .site-footer__toggle {
+    display: none;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--dark-line);
+    color: var(--on-dark);
+    text-align: left;
+  }
+
+  .site-footer__toggle-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+
+  .site-footer__chev {
+    display: inline-flex;
+    color: var(--on-dark-muted);
+    transition: transform var(--fast) var(--ease-out);
+  }
+
+  .site-footer__toggle[aria-expanded='true'] .site-footer__chev {
+    transform: rotate(180deg);
+    color: var(--yellow);
+  }
+
   .site-footer__col ul {
     list-style: none;
     display: grid;
     gap: 9px;
+    min-width: 0;
   }
 
   .site-footer__col a {
     color: #d7dad5;
     font-size: 14.5px;
     line-height: 1.35;
+    overflow-wrap: break-word;
   }
 
   .site-footer__col a:hover {
     color: var(--yellow);
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+
+  /* Marki: 9 pozycji w zwartych dwóch kolumnach w obrębie kolumny Informacje. */
+  .site-footer__col .site-footer__marki {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 14px;
+    align-items: start;
+  }
+
+  .site-footer__marki li {
+    min-width: 0;
+  }
+
+  .site-footer__marki a {
+    font-size: 13.5px;
+    line-height: 1.35;
   }
 
   .site-footer__col address {
@@ -237,29 +352,21 @@ const marki = (await getCollection('marki', ({ data }) => (typeof process !== "u
     color: var(--on-dark);
   }
 
-  @media (max-width: 900px) {
-    .site-footer__top {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .site-footer__brand {
-      grid-column: 1 / -1;
-    }
-  }
-
-  /* Mobile: krótka stopka - najważniejsze linki i kontakt. */
+  /* Mobile (<=899px): sekcje jako akordeon, kontakt zawsze widoczny. */
   @media (max-width: 899px) {
     .site-footer {
       padding-block: 34px 16px;
     }
 
     .site-footer__top {
-      gap: 20px 18px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
     }
 
     .site-footer__brand {
       gap: 10px;
       max-width: none;
+      padding-bottom: 18px;
     }
 
     .site-footer__desc {
@@ -275,18 +382,26 @@ const marki = (await getCollection('marki', ({ data }) => (typeof process !== "u
       display: none;
     }
 
-    .site-footer__col:first-of-type {
+    /* Etykiety desktopowe zastępuje akordeon dopiero, gdy JS go aktywuje. */
+    .site-footer.is-accordion-ready .site-footer__group .site-footer__label {
       display: none;
     }
 
-    .site-footer__label {
-      margin-bottom: 10px;
-      font-size: 10px;
+    .site-footer__toggle {
+      display: none;
     }
 
-    .site-footer__label--second,
-    .site-footer__label--second + ul {
+    .site-footer.is-accordion-ready .site-footer__toggle {
+      display: flex;
+    }
+
+    .site-footer__group.is-accordion .site-footer__panel {
       display: none;
+      padding-bottom: 14px;
+    }
+
+    .site-footer__group.is-accordion.is-open .site-footer__panel {
+      display: block;
     }
 
     .site-footer__col ul {
@@ -295,6 +410,24 @@ const marki = (await getCollection('marki', ({ data }) => (typeof process !== "u
 
     .site-footer__col a {
       font-size: 13px;
+    }
+
+    .site-footer__col .site-footer__marki {
+      gap: 6px 16px;
+    }
+
+    .site-footer__marki a {
+      font-size: 13px;
+    }
+
+    .site-footer__col--contact {
+      padding-top: 14px;
+      border-top: 1px solid var(--dark-line);
+    }
+
+    .site-footer__col--contact .site-footer__label {
+      margin-bottom: 10px;
+      font-size: 10px;
     }
 
     .site-footer__hours {
@@ -309,12 +442,6 @@ const marki = (await getCollection('marki', ({ data }) => (typeof process !== "u
 
     .site-footer__legal {
       gap: 14px;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .site-footer__top {
-      grid-template-columns: 1fr;
     }
   }
 </style>

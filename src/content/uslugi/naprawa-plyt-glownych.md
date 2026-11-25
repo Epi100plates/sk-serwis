@@ -8,6 +8,8 @@ teaser: "Pomiary, usuwanie zwarć i naprawa sekcji zasilania - bez wymiany całe
 group: "Elektronika"
 order: 60
 featured: true
+tile: true
+tileText: "Mierzymy napięcia i pobór prądu w kolejnych sekcjach płyty, szukamy zwarć i układów grzejących się ponad normę. Naprawiamy sekcję zasilania, układy ładowania, ścieżki oraz elementy uszkodzone korozją."
 priceNote: "Naprawa płyty głównej po zwarciu: 600-800 zł. Inne usterki wyceniamy po diagnostyce."
 duration: "zwykle z dnia na dzień"
 includes:

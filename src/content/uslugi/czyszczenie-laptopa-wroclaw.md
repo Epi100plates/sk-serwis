@@ -8,6 +8,8 @@ teaser: "Rozbiórka, czyszczenie chłodzenia, nowa pasta i testy temperatur - zw
 group: "Konserwacja"
 order: 10
 featured: true
+tile: true
+tileText: "Rozbieramy laptopa, demontujemy radiator i wentylator, usuwamy kurz i osady. Nakładamy nową pastę termoprzewodzącą na procesor i kartę graficzną, składamy całość i testujemy temperatury pod obciążeniem."
 priceFrom: "200-250 zł"
 priceNote: "Cena zależy od modelu i konstrukcji chłodzenia."
 duration: "zwykle następnego dnia"

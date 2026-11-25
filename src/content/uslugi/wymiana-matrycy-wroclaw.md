@@ -8,6 +8,8 @@ teaser: "Dobór panelu pod model, wymiana i testy obrazu - bez wymiany całego l
 group: "Naprawy"
 order: 30
 featured: true
+tile: true
+tileText: "Sprawdzamy przekątną, rozdzielczość, typ panelu i złącze, potem dobieramy matrycę pod model. Rozbieramy pokrywę, wymieniamy panel, podłączamy taśmę i testujemy obraz, podświetlenie oraz jasność."
 priceFrom: "600-700 zł"
 priceNote: "Cena matrycy zależy od modelu, przekątnej i typu panelu. Typowo 600-700 zł, kwotę podajemy przed zamówieniem części."
 duration: "zwykle z dnia na dzień"

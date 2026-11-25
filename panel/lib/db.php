@@ -225,9 +225,101 @@ CREATE TABLE IF NOT EXISTS settings (
 );
 SQL);
 
+    // --- Zgłoszenia serwisowe z formularza (publiczny endpoint /api/zgloszenie) ---
+    // Numer zgłoszenia: SK-YYYY-000123 (sekwencja roczna, generowana w transakcji).
+    $pdo->exec(<<<SQL
+CREATE TABLE IF NOT EXISTS tickets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    number TEXT NOT NULL UNIQUE,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    device TEXT NOT NULL DEFAULT '',
+    problem TEXT NOT NULL,
+    source_page TEXT NOT NULL DEFAULT '',
+    ip_hash TEXT NOT NULL DEFAULT '',
+    user_agent TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'new',
+    consent_at TEXT NOT NULL DEFAULT '',
+    consent_version TEXT NOT NULL DEFAULT '',
+    client_token TEXT NOT NULL DEFAULT '',
+    archived INTEGER NOT NULL DEFAULT 0,
+    notes TEXT NOT NULL DEFAULT ''
+);
+SQL);
+    $pdo->exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_tickets_number ON tickets(number)');
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_tickets_created ON tickets(created_at)');
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_tickets_status ON tickets(status, created_at)');
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_tickets_phone ON tickets(phone)');
+
+    // Historia statusów/następstw (kto i kiedy zmienił status).
+    $pdo->exec(<<<SQL
+CREATE TABLE IF NOT EXISTS ticket_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ticket_id INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    note TEXT NOT NULL DEFAULT '',
+    username TEXT NOT NULL DEFAULT 'system',
+    created_at TEXT NOT NULL,
+    FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE
+);
+SQL);
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_ticket_history_ticket ON ticket_history(ticket_id, id)');
+
+    // Kolejka powiadomień: jeden wiersz = jedna wiadomość (SMS/e-mail) na zgłoszenie.
+    // UNIQUE(ticket_id, channel, template) gwarantuje brak duplikatów przy ponowieniu formularza.
+    $pdo->exec(<<<SQL
+CREATE TABLE IF NOT EXISTS notifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ticket_id INTEGER NOT NULL,
+    channel TEXT NOT NULL,
+    provider TEXT NOT NULL DEFAULT '',
+    recipient TEXT NOT NULL DEFAULT '',
+    template TEXT NOT NULL,
+    payload TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'pending',
+    attempts INTEGER NOT NULL DEFAULT 0,
+    last_error TEXT NOT NULL DEFAULT '',
+    provider_message_id TEXT NOT NULL DEFAULT '',
+    delivery_status TEXT NOT NULL DEFAULT '',
+    next_attempt_at TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    UNIQUE(ticket_id, channel, template),
+    FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE
+);
+SQL);
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_notifications_queue ON notifications(status, next_attempt_at)');
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_notifications_ticket ON notifications(ticket_id, id)');
+
+    // Limit tempa formularza: 3 zgłoszenia / 10 minut / IP-hash.
+    $pdo->exec(<<<SQL
+CREATE TABLE IF NOT EXISTS form_rate (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ip_hash TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+SQL);
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_form_rate ON form_rate(ip_hash, created_at)');
+
     // Migracje lekkie (dodawanie kolumn w przyszłości)
     db_ensure_column($pdo, 'events', 'element', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'events', 'referrer_host', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'source_page', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'user_agent', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'consent_at', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'consent_version', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'client_token', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'archived', 'INTEGER NOT NULL DEFAULT 0');
+    db_ensure_column($pdo, 'tickets', 'notes', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'ticket_history', 'note', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'notifications', 'provider', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'notifications', 'delivery_status', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'notifications', 'next_attempt_at', 'TEXT');
+
+    // Unikalny token klienta (idempotencja formularza) dopiero po migracji kolumny.
+    $pdo->exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_tickets_client_token ON tickets(client_token)');
 }
 
 function db_ensure_column(PDO $pdo, string $table, string $column, string $definition): void

@@ -8,6 +8,8 @@ teaser: "Regeneracja zawiasów, odbudowa mocowań i ochrona matrycy - bez wymian
 group: "Naprawy"
 order: 90
 featured: false
+tile: true
+tileText: "Oceniamy zawiasy i mocowania w obudowie, czyścimy je i regulujemy lub dobieramy nowe. Odbudowujemy pęknięte punkty podparcia, ustawiamy klapę i sprawdzamy, czy matryca i taśma nie są naprężone."
 priceNote: "Cena po obejrzeniu sprzętu - zależy od konstrukcji zawiasów i stopnia uszkodzenia"
 duration: "zwykle z dnia na dzień"
 includes:

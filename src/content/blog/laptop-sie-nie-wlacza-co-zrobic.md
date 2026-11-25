@@ -2,8 +2,10 @@
 title: "Laptop się nie włącza: co zrobić samemu w 10 minut"
 description: "Laptop nie reaguje na przycisk zasilania? Sprawdź zasilacz, gniazdo i diody, zrób reset i podłącz zewnętrzny monitor. Wyjaśniamy, kiedy to płyta główna."
 pubDate: 2026-10-28
+updatedDate: 2026-11-25
 category: "Naprawa"
 service: "naprawa-laptopa-ktory-sie-nie-wlacza"
+readingTime: 4
 faq:
   - question: "Czy reset przytrzymaniem przycisku zasilania kasuje dane?"
     answer: "Nie. Przytrzymanie przycisku przez 20-30 sekund odcina zasilanie i rozładowuje kondensatory na płycie, ale nie dotyka dysku ani plików. Zdjęcia, dokumenty i system zostają na miejscu. Tylko nie próbuj wyjmować wbudowanej baterii samodzielnie."
@@ -13,43 +15,41 @@ faq:
     answer: "Zwykle jest gotowa tego samego dnia. Sprawdzamy zasilacz, gniazdo, pobór prądu i reakcję płyty na minimalną konfigurację. Dzwonimy z wynikiem i wyceną, zanim cokolwiek zostanie wymienione."
 ---
 
-Naciskasz przycisk zasilania i nic się nie dzieje. Żadnej diody, żadnego dźwięku wentylatora, tylko cisza. Zanim zawieziesz laptopa do serwisu we Wrocławiu, poświęć dziesięć minut na kilka sprawdzeń. Część takich przypadków kończy się na zasilaczu albo zawieszonym kontrolerze zasilania, a nie na płycie głównej. Poniżej jest kolejność działań, która odsiewa najprostsze przyczyny, i lista objawów, które trzeba umieć rozpoznać.
+Naciskasz przycisk zasilania i nic. Żadnej diody, żadnego szumu wentylatora. Zanim zawieziesz laptopa do serwisu, poświęć dziesięć minut na kilka sprawdzeń. Spora część takich przypadków kończy się na zasilaczu albo zawieszonym kontrolerze zasilania.
 
 ## Zasilacz, kabel i gniazdo
 
-Podłącz zasilacz bezpośrednio do gniazdka w ścianie, z pominięciem listwy z wyłącznikiem, i sprawdź, czy wtyczka wchodzi do laptopa do końca. Na wielu zasilaczach jest mała dioda, która świeci po podłączeniu do prądu. Jeśli nie świeci, usterki szukaj po stronie zasilacza lub kabla, a nie laptopa. Drugi test to delikatne poruszenie wtyczką w gniazdku laptopa przy jednoczesnej obserwacji diody ładowania.
+Podłącz zasilacz bezpośrednio do gniazdka w ścianie, z pominięciem listwy z wyłącznikiem, i sprawdź, czy wtyczka wchodzi do laptopa do końca. Większość zasilaczy ma diodę, która świeci po podłączeniu do prądu. Jeśli nie świeci, usterki szukaj po stronie zasilacza lub kabla.
 
-Mruganie albo gaśnięcie diody przy ruchu oznacza luźne lub uszkodzone gniazdo. Obejrzyj też kabel przy samej wtyczce, bo załamania i przetarcia dają dokładnie takie objawy jak awaria komputera. Jeśli masz w domu drugi zasilacz o identycznych parametrach i tej samej końcówce, podłącz go na próbę. Zgodność napięcia i polaryzacji jest warunkiem koniecznym, więc nie eksperymentuj z zasilaczem od innego modelu, jeśli nie masz pewności.
+Poruszaj delikatnie wtyczką w gniazdku laptopa i obserwuj diodę ładowania. Mruganie albo gaśnięcie przy ruchu oznacza luźne lub uszkodzone gniazdo. Obejrzyj też kabel przy samej wtyczce, bo załamania i przetarcia dają objawy jak awaria komputera. Drugi zasilacz o identycznych parametrach i tej samej końcówce też warto podłączyć na próbę.
 
-Osobno sprawdź zachowanie z baterią. Laptop z wyjmowalną baterią uruchom wyłącznie na zasilaczu, po wyjęciu akumulatora. Jeśli w tej konfiguracji startuje, problem leży w baterii albo w układzie ładowania, a nie w płycie. To jedna z najszybszych prób, jakie możesz wykonać bez narzędzi.
-
-Zanim uznasz, że laptop nie startuje, odłącz od niego wszystko: pendrive, kartę pamięci, mysz, hub USB i stację dokującą. Wadliwy nośnik albo hub potrafi zatrzymać start komputera na etapie wykrywania urządzeń. Zostaw tylko zasilacz i spróbuj włączyć laptop jeszcze raz.
+Zanim uznasz, że laptop nie startuje, odłącz wszystko: pendrive, kartę pamięci, mysz, hub USB i stację dokującą. Wadliwy nośnik potrafi zatrzymać start na etapie wykrywania urządzeń. Zostaw tylko zasilacz i spróbuj włączyć laptop jeszcze raz.
 
 ## Reset przytrzymaniem przycisku
 
-Odłącz zasilacz, a jeśli laptop ma wyjmowalną baterię, wyjmij ją. Przytrzymaj przycisk zasilania przez 20-30 sekund, następnie podłącz sam zasilacz i spróbuj włączyć komputer. Ten zabieg rozładowuje kondensatory na płycie i resetuje kontroler zasilania, który po nagłym odcięciu prądu czasem zostaje w błędnym stanie. W wielu przypadkach laptop, który wcześniej nie reagował, po takim resecie startuje normalnie.
+Odłącz zasilacz, a jeśli laptop ma wyjmowalną baterię, wyjmij ją. Przytrzymaj przycisk zasilania przez 20-30 sekund, następnie podłącz sam zasilacz i spróbuj włączyć komputer. Ten zabieg rozładowuje kondensatory na płycie i resetuje kontroler zasilania, który po nagłym odcięciu prądu czasem zostaje w błędnym stanie.
 
-Dane są bezpieczne. Twardy reset nie dotyka dysku, systemu ani plików, więc zdjęcia i dokumenty zostają na miejscu. Baterii wbudowanej nie próbuj wyjmować samodzielnie, bo w większości nowych laptopów wymaga to rozkręcenia obudowy i odłączenia taśmy. Jeśli po resecie komputer nadal milczy, nie powtarzaj próby kilkanaście razy pod rząd. Jeden lub dwa podejścia wystarczą, żeby ocenić reakcję.
+Dane są bezpieczne, bo twardy reset nie dotyka dysku, systemu ani plików. Baterii wbudowanej nie próbuj wyjmować samodzielnie, bo w większości nowych laptopów wymaga to rozkręcenia obudowy i odłączenia taśmy. Jeśli po resecie komputer nadal milczy, nie powtarzaj próby kilkanaście razy pod rząd.
 
 ## Zewnętrzny monitor pokaże, czy komputer żyje
 
-Podłącz laptopa kablem HDMI lub DisplayPort do monitora albo telewizora i włącz oba urządzenia. Jeśli na zewnętrznym ekranie pojawi się obraz, płyta główna i system pracują, a problem dotyczy matrycy, taśmy albo podświetlenia. Wtedy nie ma sensu szukać usterki zasilania, tylko obejrzeć ekran i jego połączenie z płytą. Takie przypadki opisuje usługa [wymiany matrycy](/wymiana-matrycy-wroclaw/).
+Podłącz laptopa kablem HDMI lub DisplayPort do monitora albo telewizora. Jeśli na zewnętrznym ekranie pojawi się obraz, płyta główna i system pracują, a problem dotyczy matrycy, taśmy albo podświetlenia. Takie przypadki opisuje usługa [wymiany matrycy](/wymiana-matrycy-wroclaw/).
 
-Brak sygnału na monitorze w połączeniu z ciszą w obudowie zawęża pole do zasilania i płyty głównej. Jeśli natomiast słychać wentylator, ale obraz nie pojawia się nigdzie, elektronika próbuje wystartować i zatrzymuje się na inicjalizacji. To już objaw, który w domowych warunkach trudno rozwinąć dalej bez pomiarów.
+Brak sygnału na monitorze w połączeniu z ciszą w obudowie zawęża pole do zasilania i płyty głównej. Jeśli słychać wentylator, ale obraz nie pojawia się nigdzie, elektronika próbuje wystartować i zatrzymuje się na inicjalizacji.
 
 ## Co oznaczają poszczególne objawy
 
 ### Dioda miga
 
-Miganie diody w seriach to często kod diagnostyczny producenta. Policz mignięcia i powtórzenia, a potem podaj tę informację w serwisie, bo skraca to diagnostykę. Wielu producentów koduje w ten sposób błąd pamięci, zasilania albo brak poprawnego startu płyty. Świecenie diody bez przerwy przy podłączonym zasilaczu oznacza zwykle, że laptop ładuje się, ale nie potrafi wystartować.
+Miganie diody w seriach to często kod diagnostyczny producenta. Policz mignięcia i powtórzenia, a potem podaj tę informację w serwisie. Wielu producentów koduje w ten sposób błąd pamięci, zasilania albo brak poprawnego startu płyty. Świecenie bez przerwy oznacza zwykle, że laptop ładuje się, ale nie potrafi wystartować.
 
 ### Wentylator startuje i gaśnie
 
-Wentylator rusza na sekundę, potem zapada cisza, i tak w kółko. To sygnał, że napięcie dochodzi do płyty i komputer podejmuje próbę startu, ale przerywa ją na wczesnym etapie. Częste przyczyny to uszkodzona pamięć, problem z układem graficznym albo zwarcie w sekcji zasilania. Takie zachowanie wymaga pomiarów, bo wymiana podzespołów na wyczucie zwykle nic nie zmienia.
+Wentylator rusza na sekundę, potem zapada cisza, i tak w kółko. To sygnał, że napięcie dochodzi do płyty, ale start przerywa się na wczesnym etapie. Częste przyczyny to uszkodzona pamięć, problem z układem graficznym albo zwarcie w sekcji zasilania.
 
 ### Zupełna cisza
 
-Brak diod, brak wentylatora i brak reakcji na przycisk oznaczają, że zasilanie nie dochodzi do płyty albo płyta nie podaje dalej napięć. Winne bywa gniazdo, układ ładowania lub sama płyta główna. Zanim padnie jakakolwiek diagnoza, trzeba wykluczyć zasilacz i zmierzyć pobór prądu, co robi się już w serwisie.
+Brak diod, brak wentylatora i brak reakcji na przycisk oznaczają, że zasilanie nie dochodzi do płyty albo płyta nie podaje dalej napięć. Winne bywa gniazdo, układ ładowania lub sama płyta główna. Najpierw trzeba wykluczyć zasilacz i zmierzyć pobór prądu.
 
 ## Czego nie rób
 
@@ -59,20 +59,18 @@ Brak diod, brak wentylatora i brak reakcji na przycisk oznaczają, że zasilanie
 - nie wkładaj laptopa do piekarnika i nie susz go suszarką
 - nie trzymaj przycisku wciśniętego na siłę, żeby wymusić start
 
-Piekarnik i suszarka to pomysły z poradników o zalanych laptopach i tam też wyrządzają szkody. W przypadku laptopa, który po prostu nie startuje, podgrzewanie obudowy odkształca plastik, a w skrajnym przypadku uszkadza matrycę i taśmy. Podobnie z siłowym ruszaniem gniazda: uszkodzenie mechaniczne jest droższe w naprawie niż wymiana samego gniazda.
-
 ## Kiedy to płyta główna
 
-Płyta główna jest realnym podejrzanym, gdy zasilanie dochodzi, ładowanie działa, wentylator startuje, a komputer nie wyświetla obrazu ani na matrycy, ani na monitorze. Podobnie przy powtarzających się restartach bez obrazu oraz przy uszkodzeniach po zalaniu lub zwarciu. W takich przypadkach potrzebne są pomiary napięć i kontrola sekcji zasilania, a nie wymiana kolejnych części. Naprawą takich uszkodzeń zajmujemy się w osobnym dziale: [naprawa płyt głównych](/naprawa-plyt-glownych/).
+Płyta jest realnym podejrzanym, gdy zasilanie dochodzi, ładowanie działa, wentylator startuje, a komputer nie wyświetla obrazu ani na matrycy, ani na monitorze. Podobnie przy powtarzających się restartach bez obrazu oraz przy uszkodzeniach po zalaniu lub zwarciu. Wtedy potrzebne są pomiary napięć i kontrola sekcji zasilania. Takie uszkodzenia opisuje strona [naprawa płyt głównych](/naprawa-plyt-glownych/).
 
-Bywa też inaczej: płyta jest sprawna, a winny jest przycisk zasilania, taśma klawiatury albo kontroler. Dlatego diagnostykę zaczynamy od najprostszych elementów, a nie od najdroższej naprawy. Dla Ciebie oznacza to, że nie musisz od razu zakładać najgorszego scenariusza.
+Bywa też inaczej: płyta jest sprawna, a winny jest przycisk zasilania albo taśma klawiatury. Dlatego diagnostykę zaczynamy od najprostszych elementów.
 
-Osobny sygnał to upadek. Laptop, który po upadku nie startuje, może mieć uszkodzone gniazdo, pęknięty laminat płyty albo oderwane elementy. Wtedy tym bardziej nie warto naciskać przycisku wielokrotnie, bo każde włączenie może pogłębić zwarcie.
+Osobny sygnał to upadek. Laptop, który po upadku nie startuje, może mieć uszkodzone gniazdo, pęknięty laminat płyty albo oderwane elementy. Nie warto wtedy naciskać przycisku wielokrotnie, bo każde włączenie może pogłębić zwarcie.
 
-## Kiedy przyjechać do serwisu we Wrocławiu
+## Kiedy przyjechać do serwisu
 
-Jeśli po sprawdzeniu zasilacza, resecie i teście z monitorem laptop nadal nie startuje, dalsze próby w domu niewiele dadzą. W Studio-Komp przy Kotlarskiej 14 diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Nie musisz się umawiać: przyjdź w godzinach 7:00-15:00 od poniedziałku do piątku albo zadzwoń pod 500 613 500 i opisz objawy.
+Jeśli po sprawdzeniu zasilacza, resecie i teście z monitorem laptop nadal nie startuje, dalsze próby w domu niewiele dadzą. Diagnostyka jest bezpłatna przy naprawie, a bez naprawy kosztuje 150-250 zł. Przyjdź na Kotlarską 14 w godzinach 7:00-15:00 od poniedziałku do piątku albo zadzwoń pod 500 613 500.
 
-Przygotuj też krótką notatkę: kiedy problem się pojawił, czy poprzedzało go zdarzenie, czy laptop wydaje jakieś dźwięki i czy dioda świeci. Te informacje skracają diagnostykę i pozwalają szybciej wykluczyć najprostsze przyczyny.
+Przygotuj krótką notatkę: kiedy problem się pojawił, czy poprzedzało go zdarzenie, czy laptop wydaje dźwięki i czy dioda świeci. Przynieś zasilacz i podaj hasło do systemu, jeśli laptop je ma.
 
-Całą usługę opisuje strona [naprawa laptopa, który się nie włącza](/naprawa-laptopa-ktory-sie-nie-wlacza/), a szczegóły wizyty znajdziesz na stronie [diagnostyki laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli okaże się, że naprawa nie ma sensu, powiemy to wprost po pomiarach, zamiast wciskać wymianę płyty. Przynieś ze sobą zasilacz i podaj hasło do systemu, jeśli laptop je ma.
+Usługę opisuje strona [naprawa laptopa, który się nie włącza](/naprawa-laptopa-ktory-sie-nie-wlacza/), a szczegóły wizyty znajdziesz przy [diagnostyce laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli naprawa nie ma sensu, powiemy to wprost po pomiarach. Stawki są w [cenniku](/cennik/).

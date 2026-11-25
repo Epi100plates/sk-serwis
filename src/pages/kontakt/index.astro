@@ -102,6 +102,12 @@ const schema = [
             Wolisz napisać niż dzwonić? Zostaw zgłoszenie - oddzwonimy
             w godzinach pracy serwisu. Jeśli sprawa jest pilna, zadzwoń od razu.
           </p>
+          <p class="form-layout__note">
+            Zgłoszenie trafia do systemu serwisu i otrzyma numer, który zobaczysz
+            po wysłaniu. Nie wysyłamy do klienta SMS-ów potwierdzających -
+            kontaktujemy się telefonicznie. Zasady przetwarzania danych opisuje
+            <a href="/polityka-prywatnosci/">polityka prywatności</a>.
+          </p>
           <ul class="form-layout__list">
             <li><Icon name="check" size={15} strokeWidth={2} /> Diagnoza bezpłatna przy zlecenej naprawie</li>
             <li><Icon name="check" size={15} strokeWidth={2} /> Naprawy zwykle z dnia na dzień</li>
@@ -227,6 +233,19 @@ const schema = [
 
   .form-layout__lead {
     max-width: 40ch;
+  }
+
+  .form-layout__note {
+    max-width: 46ch;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .form-layout__note a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .form-layout__list {

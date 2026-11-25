@@ -116,12 +116,13 @@ chmod 440 /etc/sudoers.d/studio-komp
 log "Wylaczenie starego panelu Decap (jesli dziala)"
 systemctl disable --now studio-komp-cms.service >/dev/null 2>&1 || true
 
-log "Cron: opinie Google + porzadki"
+log "Cron: opinie Google + porzadki + kolejka powiadomien formularza"
 cat > /etc/cron.d/studio-komp <<'CRON'
 SHELL=/bin/sh
 PATH=/usr/local/bin:/usr/bin:/bin
 17 */6 * * * skcms /usr/bin/php /srv/studio-komp/panel/bin/reviews-refresh.php >> /srv/studio-komp-cms/data/logs/reviews.log 2>&1
 23 3 * * * skcms /usr/bin/php /srv/studio-komp/panel/bin/cleanup.php >> /srv/studio-komp-cms/data/logs/cleanup.log 2>&1
+* * * * * skcms /usr/bin/php /srv/studio-komp/panel/bin/tickets-worker.php >> /srv/studio-komp-cms/data/logs/tickets.log 2>&1
 CRON
 chmod 644 /etc/cron.d/studio-komp
 
@@ -151,5 +152,6 @@ log "Weryfikacja"
 curl -sS -o /dev/null -w 'strona: %{http_code}\n' http://127.0.0.1:8088/ || true
 curl -sS -o /dev/null -w 'panel: %{http_code}\n' http://127.0.0.1:8088/panel/ || true
 curl -sS -o /dev/null -w 'api: %{http_code}\n' -X POST http://127.0.0.1:8088/api/e || true
+curl -sS -o /dev/null -w 'form-token: %{http_code}\n' http://127.0.0.1:8088/api/form-token || true
 
 log "GOTOWE"

@@ -35,9 +35,12 @@ const props = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content={site.branding.themeColor} />
     <Seo {...props} />
-    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
-    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
-    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <!-- Ikony: wersjonowane query (v=2), bo przeglądarki agresywnie cache'ują favicon.ico -->
+    <link rel="icon" href={withBase('/favicon.ico?v=2')} sizes="any" />
+    <link rel="icon" href={withBase('/favicon-32.png?v=2')} type="image/png" sizes="32x32" />
+    <link rel="icon" href={withBase('/favicon-16.png?v=2')} type="image/png" sizes="16x16" />
+    <link rel="icon" href={withBase('/favicon.svg?v=2')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png?v=2')} sizes="180x180" />
     <link rel="manifest" href={withBase('/site.webmanifest')} />
     <link rel="sitemap" type="application/xml" href={withBase('/sitemap-index.xml')} />
     <meta name="format-detection" content="telephone=no" />

@@ -85,6 +85,9 @@
         "yellow": "#ffd400",
         "logo": "/brand/studio-komp-logo.png",
         "logoTransparent": "/brand/studio-komp-logo-transparent.png",
+        "logoTrim": "/brand/studio-komp-logo-trim.png",
+        "logoTrimWidth": 1386,
+        "logoTrimHeight": 246,
         "logoWidth": 1494,
         "logoHeight": 504,
         "themeColor": "#2d343a"

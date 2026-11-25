@@ -144,6 +144,9 @@ require_once __DIR__ . '/lib/media.php';
 require_once __DIR__ . '/lib/analytics.php';
 require_once __DIR__ . '/lib/redirects.php';
 require_once __DIR__ . '/lib/reviews.php';
+require_once __DIR__ . '/lib/tickets.php';
+require_once __DIR__ . '/lib/sms.php';
+require_once __DIR__ . '/lib/mailer.php';
 
 if (PHP_SAPI !== 'cli') {
     auth_start_session();

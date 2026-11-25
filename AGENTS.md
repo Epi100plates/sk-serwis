@@ -60,9 +60,9 @@ src/
   components/templates/  szablony: ServiceTemplate, BrandTemplate, PageTemplate
   content/
     uslugi/              16 podstron usług (Markdown + frontmatter)
-    blog/                15 opublikowanych + 27 szkiców artykułów (draft: true)
-    marki/               10 podstron marek (ASUS, Lenovo, Apple, Dell, HP, Acer, MSI,
-                         Samsung, Toshiba, Microsoft Surface)
+    blog/                15 opublikowanych + 25 szkiców artykułów (draft: true)
+    marki/               9 podstron marek (ASUS, Lenovo, Apple, Dell, HP, Acer, MSI,
+                         Samsung, Toshiba)
     strony/              dowolne podstrony tworzone z panelu (na start brak)
   data/                  site.json, cennik.json, opinie.json, faq.json,
                          realizacje.json (generowany z panelu), landing.json, wideo.json
@@ -84,13 +84,14 @@ panel/                   panel CMS (PHP, serwowany z /srv/studio-komp/panel)
   index.php              router (login, pulpit, sekcje)
   lib/                   db, auth (hash, CSRF, 2FA, limity), content (frontmatter),
                          publish (kolejka/wersje), media (upload+WebP), analytics,
-                         redirects (walidacja+generowanie plików), reviews, realizacje
+                         redirects (walidacja+generowanie plików), reviews, realizacje,
+                         tickets (zgłoszenia), sms (SMSAPI/SerwerSMS), mailer (SMTP)
   pages/                 widoki: dashboard, analytics, content, editor, realizacje,
-                         kategorie, media, redirects, reviews, settings, publish,
-                         users, profile, audit, preview, help, login
-  api/e.php              endpoint pomiaru (sendBeacon)
+                         kategorie, media, redirects, reviews, zgloszenia, settings,
+                         publish, users, profile, audit, preview, help, login
+  api/                   e.php (pomiar), form-token.php + form.php (formularz zgłoszeń)
   bin/                   create-admin, setup-panel, export-content, reviews-refresh,
-                         cleanup, self-check
+                         cleanup, self-check, tickets-worker (kolejka powiadomień)
   assets/                admin.css, admin.js
 deploy/
   publish.ps1            build lokalny + wysyłka na VPS (kolejka z panelu)
@@ -101,7 +102,7 @@ deploy/
   install-publisher-task.ps1  rejestracja zadania Windows co 5 min
   nginx/sk.mati-it.pl.conf    konfiguracja nginx-sk
 scripts/                 QA: shot, measure, qa-panel, qa-panel-write, qa-events,
-                         check-live, check-portable, relativize, pack-www
+                         qa-inst2, check-live, check-portable, relativize, pack-www
 docs/                    dokumentacja wdrożeń, designu, QA; ten plik
 ```
 
@@ -111,8 +112,8 @@ docs/                    dokumentacja wdrożeń, designu, QA; ten plik
 
 ### Strona główna (`src/pages/index.astro`)
 
-Kolejność sekcji: hero → pasek marek → opinie → (desktop) ekspres → usługi z
-ilustracjami → (desktop) przewagi/proces → cennik + komunikat diagnostyki →
+Kolejność sekcji: hero → pasek marek → opinie → (desktop) ekspres → kafelki usług →
+(desktop) przewagi/proces → cennik + komunikat diagnostyki →
 (desktop) realizacje → FAQ → kontakt z mapą.
 
 - **Hero**: H1 „Twój laptop w dobrych rękach.”, lead, przyciski „Zadzwoń: 500 613 500”
@@ -121,19 +122,23 @@ ilustracjami → (desktop) przewagi/proces → cennik + komunikat diagnostyki �
 - **Diagnoza 0 zł**: komunikat „Diagnoza 0 zł przy naprawie*” + pełne
   wyjaśnienie w `site.diagnosis`; powtarzany w hero (desktop), cenniku, FAQ,
   podstronach usług i markach. Nigdy samo „0 zł” bez gwiazdki i wyjaśnienia.
-- **Usługi**: `ServicesShowcase` — lista z ilustracjami (desktop) / krótka lista
-  (mobile). Każda pozycja prowadzi na podstronę usługi.
-- **Marki**: `BrandStrip` — linki do 10 podstron marek.
+- **Usługi**: `ServicesShowcase` — siatka prostokątnych kafelków: 3 kolumny
+  (≥1024 px), 2 (641-1023 px), 2 lub 1 na telefonie (poniżej 380 px jedna).
+  Kafelek domyślnie pokazuje zdjęcie i tytuł; po najechaniu (hover) lub
+  kliknięciu/Enter rozwija się opis procesu i link do podstrony usługi.
+  Na telefonie widocznych jest 6 kafelków + „Wszystkie usługi”.
+  Usługi na kafelki wybiera się w panelu (pole `tile`, opis `tileText`).
+- **Marki**: `BrandStrip` — linki do 9 podstron marek.
 - **Opinie**: `Reviews` — na desktopie 3 prawdziwe cytaty z Google i ocena;
   na mobile kompaktowy pasek (ocena + „Opinie Google”).
 - **Mapa**: `MapCard` — Google Maps osadzone **automatycznie** (bez klucza API,
   `output=embed`), pinezka Kotlarska 14, przycisk „Wyznacz trasę” i link do
   wizytówki z dokładnym URL.
-- **Mobile**: strona główna ma ok. **4,3 ekranu** (390×844) zamiast dawnych ~11.
+- **Mobile**: strona główna ma ok. **4,8 ekranu** (390×844), maksymalnie 5.
   Sekcje ekspres/przewagi/proces/realizacje są ukryte na telefonie (desktop-only),
-  cennik pokazuje 3 pozycje, FAQ 3 pytania, stopka i opinie są skrócone.
-  Hamulec: nie zwiększać ponownie liczby sekcji na mobile bez pomiaru
-  `pnpm measure`.
+  cennik pokazuje 3 pozycje, FAQ 3 pytania, stopka i opinie są skrócone,
+  sekcja usług pokazuje 6 kafelków. Hamulec: nie zwiększać ponownie liczby
+  sekcji na mobile bez pomiaru `pnpm measure`.
 - **Liczniki/animacje**: brak ciężkich bibliotek; jedyne JS to menu, CMP,
   analityka, mapa, slider przed/po, filtry realizacji, lightbox, formularz.
 
@@ -142,38 +147,58 @@ ilustracjami → (desktop) przewagi/proces → cennik + komunikat diagnostyki �
 - Górna belka ma tło **grafitu `#2d343a`** (kolor z tła logo), jasny tekst i
   żółty akcent. Menu: Usługi | Cennik | Opinie | Poradnik | Realizacje | Kontakt,
   logo po lewej, telefon po prawej. Na mobile: burger + numer w pasku dolnym.
-- Stopka: grafit, logo, opis, telefon, kolumny Usługi/Informacje/Marki/Kontakt,
-  „Ustawienia cookies”, polityka prywatności.
+- Stopka: grafit, logo, opis, telefon, kolumny Usługi/Informacje (z listą
+  marek w dwóch kolumnach)/Kontakt, „Ustawienia cookies”, polityka prywatności.
+  Na telefonie (≤899 px) sekcje są akordeonem: Usługi, Informacje i Marki
+  domyślnie zwinięte, kolumna kontaktowa zawsze widoczna. Bez JS treść jest
+  widoczna, a przyciski akordeonu ukryte (progressive enhancement).
 
 ### Logo i kolory
 
 - Źródło: `assets-src/logo-source.jpg` (498×168). Tło **#2D343A**, żółty
   **#FFD400**, jasny tekst #F5F6F5. Assety: `public/brand/studio-komp-logo*.png`,
-  wersja transparentna na ciemne tła, `studio-komp-mark-square.png`, favicony.
+  wersja transparentna na ciemne tła, wersja przycięta do widocznego tuszu
+  `studio-komp-logo-trim.png` (nagłówek), `studio-komp-mark-square.png`,
+  favicony SK (`scripts/favicon.mjs` kadruje sam znak z logo).
+- Nagłówek: logo przycięte, wysokość 38 px (telefon 30 px), proporcje z pliku
+  (1386×246) - bez rozciągania. Stopka i LP używają wersji z marginesem.
+- Favicony: `favicon.ico` (16/32/48), `favicon-16.png`, `favicon-32.png`,
+  `favicon.svg`, `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png`,
+  `brand/sk-mark.png` (1024). W HTML linki mają `?v=2` (cache-busting).
 - Tokeny: `--graphite: #2d343a`, `--yellow: #ffd400`, `--ink: #242a30`.
   Nie używać czystej czerni jako głównego ciemnego koloru.
 
 ### Realizacje
 
 - Dane: `src/data/realizacje.json` (generowany z panelu, źródło prawdy = SQLite).
-- Lista `/realizacje/` z filtrami kategorii (JS), podstrony
-  `/realizacje/<slug>/` z opisem problemu, diagnozy, naprawy, wyniku, galerią
-  i opcjonalnym sliderem **przed/po** (`BeforeAfter.astro`).
+- Lista `/realizacje/` z filtrami kategorii: siatka 3 kolumny (≥1024 px),
+  2 (641-1023 px), 1 na telefonie; filtry ukrywają kafelki przez `[hidden]`
+  (reguła `.case[hidden] { display: none !important; }`), „Wszystkie”
+  przywraca pełny zbiór, aktywny przycisk ma `is-active` i `aria-pressed`.
+  Pusta kategoria pokazuje komunikat zamiast pustej siatki.
+- Podstrony `/realizacje/<slug>/`: normalny kontener (bez `container--narrow`),
+  desktop 2 kolumny (treść + sticky aside), tablet 1 kolumna z aside pod treścią,
+  telefon 1 kolumna z aside nad treścią; galeria 3/2/1 kolumny; slider
+  **przed/po** (`BeforeAfter.astro`).
 - Kategorie: Chłodzenie, Wydajność, Matryce, Gniazda, Obudowy, Zalania,
   Płyty główne, Inne — edytowalne w panelu.
 
 ### Marki
 
-- 10 podstron `/serwis-<marka>-wroclaw/` z unikalnym H1, meta, wstępem,
+- 9 podstron `/serwis-<marka>-wroclaw/` z unikalnym H1, meta, wstępem,
   typowymi problemami, naprawami, modelami, FAQ, linkami do usług i CTA.
+  Marka Microsoft Surface została usunięta z listy i z podstron (decyzja
+  właściciela); adres `/serwis-microsoft-surface-wroclaw/` ma 301 na `/uslugi/`.
 - Oznaczone w panelu `review: pending` (do zatwierdzenia przez właściciela),
   ale opublikowane. Nie są autoryzowanym serwisem producentów — treści tego
   nie sugerują.
 
 ### Poradnik
 
-- 15 artykułów publicznych + 27 szkiców markowych (`draft: true`). Szkice nie
+- 15 artykułów publicznych + 25 szkiców markowych (`draft: true`). Szkice nie
   trafiają na produkcję; są widoczne w podglądzie `/podglad/`.
+- Wszystkie 15 opublikowanych artykułów przeszło audyt językowy (2026-11-25),
+  ceny w tekstach są zgodne z `src/data/cennik.json`.
 
 ---
 
@@ -243,7 +268,8 @@ w podkatalogu), `PREVIEW=1` (build z wersjami roboczymi do `dist-preview/`).
 - Uprawnienia: repo i dane należą do użytkownika `skcms`; nginx czyta jako
   `www-data`; panel zapisuje przez PHP-FPM jako `skcms`.
 - Setup: `bash /srv/studio-komp/deploy/setup-cms.sh` (idempotentny).
-- Cron: `/etc/cron.d/studio-komp` — opinie co 6 h, porządki codziennie 3:23.
+- Cron: `/etc/cron.d/studio-komp` — opinie co 6 h, porządki codziennie 3:23,
+  worker kolejki powiadomień formularza co minutę (`tickets-worker.php`).
 
 ---
 
@@ -273,6 +299,7 @@ w podkatalogu), `PREVIEW=1` (build z wersjami roboczymi do `dist-preview/`).
 | Media | upload (MIME + rozmiar + SVG sanityzacja), miniatury WebP, ALT/tytuł/opis/kategoria, wyszukiwanie, usuwanie |
 | Przekierowania | 301/302, walidacja protokołów, wykrywanie pętli, generowanie plików nginx/_redirects/.htaccess |
 | Opinie | cache oceny/liczby, odświeżanie Places API, przenoszenie do `site.json`, linki |
+| Zgłoszenia | lista z filtrami/wyszukiwaniem, liczniki statusów, szczegóły, historia, kolejka powiadomień SMS/e-mail z ponawianiem, eksport CSV (admin/editor; usuwanie tylko admin) |
 | Ustawienia | kontakt, strona główna, menu/stopka, opinie, cennik, FAQ, analityka, formularz, SEO |
 | Publikacja | kolejka, status, log, lista wersji, rollback |
 | Podgląd | kolejka builda podglądu, URL `/podglad/` (basic auth) |
@@ -321,8 +348,9 @@ na plik) i do gita (`Panel: ...`).
 - **Kliknięcie dojazdu (`directions_click`)** — kliknięcie linku do mapy/trasy.
 - **`map_click`** — kliknięcie w link mapy/wizytówki.
 - **Wysłany formularz (`contact_form_submit`)** — zdarzenie submit (próba).
-- **Konwersja (`generate_lead`)** — potwierdzone wysłanie formularza (sukces
-  Web3Forms) — to nie to samo co kliknięcie telefonu.
+- **Konwersja (`generate_lead`)** — potwierdzone przyjęcie zgłoszenia przez
+  `/api/zgloszenie` (sukces), nie próba wysłania formularza — to nie to samo co
+  kliknięcie telefonu.
 - **CTA_click / service_click / price_click / review_click / realization_click /
   article_click** — kliknięcia w odpowiednie elementy; mierzone z atrybutów
   `data-track` i analizy href.
@@ -355,6 +383,7 @@ obejmują tylko użytkowników z zgodą analityczną i że GA4/Ads nie są podł
   (`SITE_URL`), docelowo studio-komp.pl — bez zmian DNS.
 - **Sitemap**: `@astrojs/sitemap`, wyklucza LP, politykę, OG, 404, dziekujemy.
   Marki i realizacje są w sitemapie. `sitemap-index.xml` + `sitemap-0.xml`.
+  Usunięta podstrona marki Surface ma 301 na `/uslugi/`.
 - **Robots**: `src/pages/robots.txt.ts` (host + sitemap).
 - **Dane strukturalne**: LocalBusiness/ProfessionalService, WebSite, Service,
   FAQPage, BreadcrumbList, Article, Brand. Godziny, geo, aggregateRating z site.json.
@@ -405,7 +434,10 @@ raporcie końcowym.
   Osadzony iframe może ustawiać cookies Google przed decyzją użytkownika.
   Jeśli właściciel chce pełnej zgodności, należy włączyć wariant „mapa po
   zgodzie funkcjonalnej” (kod gotowy do modyfikacji w `MapCard.astro`).
-- Formularz: dane trafiają do Web3Forms (lub Netlify), nie do bazy analityki.
+- Formularz: dane trafiają do własnego endpointu `/api/zgloszenie` i bazy panelu
+  (tabele `tickets`, `notifications`), nie do bazy analityki. Opcjonalnie
+  powiadomienie SMS do serwisu (domyślnie tryb testowy bez wysyłki) i kopia
+  e-mail przez SMTP. Szczegóły: `docs/formularz-zgloszen.md`.
 - Analityka własna nie przechowuje treści formularzy, numerów telefonów ani
   pełnych IP.
 
@@ -423,7 +455,7 @@ raporcie końcowym.
 | Microsoft Clarity | kod gotowy, **brak ID** | wpisać ID |
 | Search Console | po stronie właściciela | weryfikacja domeny |
 | Web3Forms | kod gotowy | klucz dostępu w Ustawieniach |
-| SMS API | **tylko dokumentacja future goals** | konto SMSAPI/inne, decyzja właściciela |
+| SMS API | zaimplementowane: SMSAPI / SerwerSMS, **domyślnie tryb testowy** (bez wysyłki) | token API, numer odbiorcy, decyzja właściciela o realnej wysyłce (`docs/formularz-zgloszen.md`) |
 
 ### Opinie Google — decyzja
 
@@ -550,6 +582,13 @@ Limit: max 6 SMS-ów na naprawę; log wysyłek; brak wysyłki bez zgody.
 | 2026-11-25 | CMP z kategoriami + Consent Mode v2, GA4/GTM/Ads/Clarity warunkowo, polityka prywatności zaktualizowana. |
 | 2026-11-25 | Publikacja: build lokalny + atomowe wersje na VPS, kolejka z panelu, zadanie Windows co 5 min, rollback. |
 | 2026-11-25 | Wdrożenie na https://sk.mati-it.pl (release 20261125-112433+), panel aktywny, Decap wyłączony. |
+| 2026-11-25 | Formularz zgłoszeń: własny endpoint `/api/form-token` i `/api/zgloszenie` (walidacja, token double-submit, honeypot, filtr botów, limit 3/10 min), zapis w SQLite panelu z numerem `SK-ROK-000123`, historia statusów, kolejka powiadomień SMS (SMSAPI/SerwerSMS, domyślnie tryb testowy bez wysyłki) i opcjonalny e-mail SMTP z retry, panel Zgłoszenia, worker cron co minutę, dokumentacja `docs/formularz-zgloszen.md`. |
+| 2026-11-25 | Instrukcja aktualizacyjna nr 2: logo w nagłówku większe (wersja przycięta do tuszu, 38 px / 30 px mobile) i favicony wyłącznie ze znakiem SK (ICO 16/32/48, 16/32/180/192/512, SVG, manifest, cache-busting `?v=2`). |
+| 2026-11-25 | Instrukcja nr 2: wszystkie długie myślniki U+2013/U+2014 w treściach, meta, danych CMS i panelu zamienione na `-`; nowe ceny (czyszczenie laptopa i stacjonarnego 200-250 zł, instalacja i konfiguracja systemu 250 zł z opisem „ze sterownikami”, wymiana matrycy 600-700 zł) ujednolicone w cenniku, usługach, FAQ, stronie głównej, landingach i poradniku. |
+| 2026-11-25 | Instrukcja nr 2: usunięto Microsoft Surface z listy marek, podstron marek i szkiców (301 z `/serwis-microsoft-surface-wroclaw/` na `/uslugi/`). |
+| 2026-11-25 | Instrukcja nr 2: sekcja „Co najczęściej naprawiamy” przebudowana na 9 prostokątnych kafelków (3/2/1-2 kolumny) ze zdjęciem i tytułem, opisem procesu po hover/kliknięciu, obsługą klawiatury i limitem 6 kafelków na mobile; panel: pola `tile`, `tileTitle`, `tileText`, `image`, `order` w edytorze usług. |
+| 2026-11-25 | Instrukcja nr 2: naprawione filtry realizacji (CSS `[hidden]`), siatka 3/2/1 bez wyróżnionego kafelka, szerszy desktopowy widok szczegółów realizacji (zwykły kontener, 2 kolumny, galeria 3 kolumny), stopka z listą marek w dwóch kolumnach i akordeonem na mobile. |
+| 2026-11-25 | Instrukcja nr 2: audyt językowy wszystkich 15 opublikowanych artykułów poradnika (krótsze, konkretniejsze teksty, bez schematów marketingowych, poprawione ceny), bez zmian wyglądu listy `/poradnik/`. |
 
 ---
 
@@ -571,6 +610,7 @@ $env:SITE_URL='https://sk.mati-it.pl'; $env:PANEL_USER='...'; $env:PANEL_PASS='.
 node scripts/qa-panel.mjs        # wszystkie widoki + mobile + błędy JS
 node scripts/qa-panel-write.mjs  # zapisy: strona, przekierowanie, media, ustawienia
 node scripts/qa-events.mjs       # CMP, mapa, zdarzenia, brak tagów bez zgody
+node scripts/qa-inst2.mjs        # kafelki, realizacje, stopka, ceny, myślniki, ikony
 node scripts/check-live.mjs      # crawl live (sitemap, 301, 404)
 ```
 
@@ -583,13 +623,13 @@ runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check.php
 ## O. Znane ograniczenia i rzeczy do zrobienia przez właściciela
 
 1. **ID analityki** — GA4/GTM/Ads/Clarity puste; wpisać w panelu.
-2. **Klucz Web3Forms** — puste; bez niego formularz nie wyśle zgłoszenia.
+2. **Formularz zgłoszeń** — działa bez zewnętrznych kluczy (zapis w bazie panelu); do włączenia prawdziwych powiadomień SMS/e-mail patrz punkt 10.
 3. **Klucz Google Places API** — opcjonalny; bez niego ocena/liczba opinii ręczna.
 4. **Ceny „… zł”** w cenniku — uzupełnić po ustaleniu.
 5. **Zdjęcia realizacji/usług** — obecnie ilustracje techniczne; wgrać prawdziwe
    zdjęcia przez panel Media i przypisać.
-6. **Artykuły markowe** — 27 szkiców do przeglądu i publikacji w panelu.
+6. **Artykuły markowe** — 25 szkiców do przeglądu i publikacji w panelu.
 7. **Mapa a zgody** — patrz sekcja J (decyzja właściciela).
 8. **Kopie bazy panelu** — dodać backup SQLite (np. cron + kopia poza VPS).
 9. **2FA** — zalecane włączenie po pierwszym logowaniu.
-10. **SMTP/e-mail** — brak; formularz korzysta z Web3Forms.
+10. **SMS i SMTP formularza** — powiadomienia działają w trybie testowym (bez wysyłki); aby włączyć prawdziwe SMS-y: konto u dostawcy, token, numer odbiorcy i wyłączenie trybu testowego w Ustawieniach → Formularz. E-mail opcjonalny (dane SMTP).

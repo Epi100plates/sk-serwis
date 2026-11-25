@@ -8,6 +8,8 @@ teaser: "Rozbiórka, mycie płyty i usuwanie elektrokorozji - im szybciej, tym l
 group: "Elektronika"
 order: 50
 featured: true
+tile: true
+tileText: "Rozbieramy laptopa, oglądamy płytę pod kątem zacieków i nalotu, myjemy ją z resztek cieczy i usuwamy elektrokorozję. Uszkodzone elementy naprawiamy lub wymieniamy, a na końcu testujemy sprzęt pod obciążeniem."
 priceFrom: "450-800 zł"
 priceNote: "Cena zależy od cieczy, zakresu uszkodzeń i koniecznych części."
 duration: "zwykle z dnia na dzień"

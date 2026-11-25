@@ -51,13 +51,41 @@ Panel: **https://sk.mati-it.pl/panel/** (docelowo `https://studio-komp.pl/panel/
 - Nie wymyślaj cen — jeśli nie znasz, zostaw „… zł” albo „wycena po diagnozie”.
 
 ### Publikacja
-
 1. Po zapisaniu zmian kliknij **Publikuj** (górny pasek) lub **Publikacja →
    Poproś o publikację**.
 2. Publikację wykona komputer właściciela (zadanie „Studio-Komp Publish” co
    5 minut) albo ręcznie: `pnpm publish:remote`.
 3. Status i log zobaczysz w sekcji **Publikacja**.
 4. Rollback: **Publikacja → Wersje → Przywróć**.
+
+## Zgłoszenia z formularza
+
+Zgłoszenia z formularza na /kontakt/ trafiają do panelu w sekcji **Zgłoszenia**.
+Każde ma numer w formacie `SK-2026-000123`, dane klienta, historię statusów
+i historię powiadomień.
+
+- Statusy: Nowe, Odczytane, W trakcie kontaktu, Zrealizowane, Zamknięte.
+  Zmiana statusu wymaga notatki i zapisuje się w historii.
+- Powiadomienia: SMS do serwisu i opcjonalnie e-mail. Domyślnie działa
+  **tryb testowy** - wiadomości nie są wysyłane, tylko zapisywane w kolejce.
+- Aby włączyć prawdziwe SMS-y: Ustawienia → Formularz: wybierz dostawcę
+  (SMSAPI lub SerwerSMS), wpisz token, nadawcę i numer odbiorcy, wyłącz tryb
+  testowy. Potrzebne jest aktywne konto u dostawcy.
+- Aby włączyć e-mail: Ustawienia → Formularz: dane SMTP i adres odbiorcy.
+- Kolejka jest przetwarzana automatycznie co minutę (cron). Przy błędzie
+  wiadomość jest ponawiana. Przycisk „Ponów” wysyła ją od razu.
+
+## Kafelki usług i ceny
+
+- Sekcja „Co najczęściej naprawiamy” na stronie głównej to kafelki. W Treści →
+  Usługi zaznacz **„Kafelek w sekcji Co najczęściej naprawiamy”**, uzupełnij
+  „Tytuł kafelka” i „Opis kafelka”, wybierz zdjęcie (Media) oraz ustaw
+  „Kolejność”. Opis jest widoczny po najechaniu myszą albo kliknięciu kafelka.
+- Ceny edytujesz w jednym miejscu: Ustawienia → Cennik. Ta sama wartość jest
+  używana na stronie głównej, w cenniku, na podstronach usług i w FAQ
+  (jeśli tekst FAQ podaje cenę, popraw ją też w Ustawienia → FAQ).
+- Lista marek w stopce i na stronie głównej pochodzi z Treści → Marki.
+  Marka Microsoft Surface została wycofana z oferty - nie dodawaj jej ponownie.
 
 ## Zasady bezpieczeństwa treści
 

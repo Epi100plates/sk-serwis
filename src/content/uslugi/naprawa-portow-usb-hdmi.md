@@ -8,6 +8,8 @@ teaser: "Wymiana portów USB, HDMI i USB-C, odbudowa ścieżek i testy po napraw
 group: "Elektronika"
 order: 120
 featured: false
+tile: true
+tileText: "Oglądamy porty pod lupą i sprawdzamy połączenia z płytą. Uszkodzony port wylutowujemy, a wyrwane pady i ścieżki odbudowujemy. Testujemy transmisję danych, obraz i zasilanie na kilku urządzeniach."
 priceNote: "Wycena po sprawdzeniu płyty"
 duration: "zwykle z dnia na dzień"
 includes:

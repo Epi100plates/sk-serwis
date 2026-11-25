@@ -2,28 +2,22 @@
 import Icon from './Icon.astro';
 import site from '../data/site.json';
 
-interface Props {
-  netlify?: boolean;
-}
-const { netlify = true } = Astro.props;
-const hasKey = Boolean(site.form.accessKey);
+const sourcePage = Astro.url.pathname;
 ---
 
 <form
   class="repair-form"
   name="zgloszenie-naprawy"
-  method="POST"
-  action={netlify ? '/dziekujemy/' : site.form.endpoint}
-  data-netlify={netlify ? 'true' : undefined}
-  netlify-honeypot="bot-field"
+  method="post"
+  action="/api/zgloszenie"
   data-repair-form
-  data-access-key={site.form.accessKey}
+  data-track="form_submit"
 >
-  {
-    netlify && !hasKey && (
-      <input type="hidden" name="form-name" value="zgloszenie-naprawy" />
-    )
-  }
+  <input type="hidden" name="token" value="" data-form-token />
+  <input type="hidden" name="ts" value="" data-form-ts />
+  <input type="hidden" name="client_token" value="" data-form-client-token />
+  <input type="hidden" name="source_page" value={sourcePage} />
+
   <p class="repair-form__honeypot" aria-hidden="true">
     <label>Nie wypełniaj tego pola <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
   </p>
@@ -31,7 +25,17 @@ const hasKey = Boolean(site.form.accessKey);
   <div class="repair-form__row">
     <div class="field">
       <label for="rf-name">Imię</label>
-      <input id="rf-name" name="imie" type="text" autocomplete="given-name" required />
+      <input
+        id="rf-name"
+        name="imie"
+        type="text"
+        autocomplete="given-name"
+        minlength="2"
+        maxlength="80"
+        aria-describedby="rf-name-error"
+        required
+      />
+      <p class="field__error" id="rf-name-error" data-error-for="imie" hidden></p>
     </div>
     <div class="field">
       <label for="rf-phone">Telefon</label>
@@ -42,14 +46,25 @@ const hasKey = Boolean(site.form.accessKey);
         inputmode="tel"
         autocomplete="tel"
         placeholder="np. 600 000 000"
+        maxlength="16"
+        aria-describedby="rf-phone-error"
         required
       />
+      <p class="field__error" id="rf-phone-error" data-error-for="telefon" hidden></p>
     </div>
   </div>
 
   <div class="field">
     <label for="rf-device">Model laptopa lub komputera</label>
-    <input id="rf-device" name="sprzet" type="text" placeholder="np. Lenovo IdeaPad 5" />
+    <input
+      id="rf-device"
+      name="sprzet"
+      type="text"
+      placeholder="np. Lenovo IdeaPad 5"
+      maxlength="120"
+      aria-describedby="rf-device-error"
+    />
+    <p class="field__error" id="rf-device-error" data-error-for="sprzet" hidden></p>
   </div>
 
   <div class="field">
@@ -58,19 +73,24 @@ const hasKey = Boolean(site.form.accessKey);
       id="rf-problem"
       name="usterka"
       rows="4"
+      minlength="10"
+      maxlength="2000"
       placeholder="Opisz objawy: kiedy się zaczęły, czy laptop był zalany lub upuszczony."
+      aria-describedby="rf-problem-error"
       required
     ></textarea>
+    <p class="field__error" id="rf-problem-error" data-error-for="usterka" hidden></p>
   </div>
 
   <div class="field field--check">
     <label class="check">
-      <input type="checkbox" name="zgoda" required />
+      <input type="checkbox" name="zgoda" value="1" aria-describedby="rf-consent-error" required />
       <span>
         Zgadzam się na kontakt w sprawie zgłoszenia i przetwarzanie danych
         w tym celu. Szczegóły w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
       </span>
     </label>
+    <p class="field__error" id="rf-consent-error" data-error-for="zgoda" hidden></p>
   </div>
 
   <div class="repair-form__submit">
@@ -82,54 +102,234 @@ const hasKey = Boolean(site.form.accessKey);
     </p>
   </div>
 
-  <p class="form-status" data-form-status role="status" hidden></p>
+  <p class="form-status" data-form-status role="status" aria-live="polite" hidden></p>
 </form>
 
 <script>
-  const form = document.querySelector<HTMLFormElement>('[data-repair-form]');
-  const statusEl = form?.querySelector<HTMLElement>('[data-form-status]');
+  type RepairFormElement = HTMLFormElement & {
+    querySelector<E extends Element = Element>(selectors: string): E | null;
+  };
 
-  function showStatus(message: string, state: 'ok' | 'error') {
-    if (!statusEl) return;
-    statusEl.hidden = false;
-    statusEl.dataset.state = state;
-    statusEl.textContent = message;
-  }
+  const form = document.querySelector<RepairFormElement>('[data-repair-form]');
 
-  form?.addEventListener('submit', async (event) => {
-    window.skTrack?.('form_submit', { form: 'zgloszenie-naprawy' });
-    const accessKey = form.dataset.accessKey;
-    if (!accessKey) return; // Netlify Forms (albo wysyłka natywna)
+  if (form) {
+    const statusEl = form.querySelector<HTMLElement>('[data-form-status]');
+    const tokenInput = form.querySelector<HTMLInputElement>('[data-form-token]');
+    const tsInput = form.querySelector<HTMLInputElement>('[data-form-ts]');
+    const clientTokenInput = form.querySelector<HTMLInputElement>('[data-form-client-token]');
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const CLIENT_TOKEN_KEY = 'sk_form_client_token';
+    const LEAD_TOKEN_KEY = 'sk_form_lead_token';
+    const FIELD_NAMES = ['imie', 'telefon', 'sprzet', 'usterka', 'zgoda'];
 
-    event.preventDefault();
-    const data = new FormData(form);
-    data.append('access_key', accessKey);
-    data.append('subject', 'Nowe zgłoszenie naprawy - studio-komp.pl');
-    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    if (btn) btn.disabled = true;
+    let inflight = false;
+    let tokenLoading: Promise<boolean> | null = null;
 
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: data,
-      });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      form.reset();
-      showStatus(
-        'Dziękujemy. Odezwiemy się w godzinach pracy serwisu. Jeśli sprawa jest pilna - zadzwoń: 500 613 500.',
-        'ok'
-      );
-      window.dispatchEvent(new CustomEvent('sk:form-success', { detail: { form: 'zgloszenie-naprawy' } }));
-      window.skTrack?.('generate_lead', { form: 'zgloszenie-naprawy' });
-    } catch {
-      showStatus(
-        'Nie udało się wysłać formularza. Zadzwoń pod 500 613 500 - szybciej zajmiemy się zgłoszeniem.',
-        'error'
-      );
-    } finally {
-      if (btn) btn.disabled = false;
+    function showStatus(message: string, state: 'ok' | 'error') {
+      if (!statusEl) return;
+      statusEl.hidden = false;
+      statusEl.dataset.state = state;
+      statusEl.textContent = message;
     }
-  });
+
+    function clearErrors() {
+      form.querySelectorAll<HTMLElement>('[data-error-for]').forEach((el) => {
+        el.hidden = true;
+        el.textContent = '';
+      });
+      form.querySelectorAll<HTMLElement>('[aria-invalid="true"]').forEach((el) => {
+        el.removeAttribute('aria-invalid');
+      });
+    }
+
+    function setFieldError(field: string, message: string) {
+      const errorEl = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+      if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.hidden = false;
+      }
+      const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
+      if (input) input.setAttribute('aria-invalid', 'true');
+    }
+
+    function setFieldErrors(errors: Record<string, string>) {
+      const fields = Object.keys(errors).filter((field) => FIELD_NAMES.includes(field));
+      fields.forEach((field) => setFieldError(field, errors[field]));
+      const firstField = fields[0];
+      if (firstField) {
+        form.querySelector<HTMLElement>(`[name="${firstField}"]`)?.focus();
+      }
+    }
+
+    function normalizePhone(value: string): string {
+      let digits = value.replace(/\D+/g, '');
+      if (digits.startsWith('0048')) digits = digits.slice(4);
+      else if (digits.length === 11 && digits.startsWith('48')) digits = digits.slice(2);
+      else if (digits.length === 10 && digits.startsWith('0')) digits = digits.slice(1);
+      return /^[1-9]\d{8}$/.test(digits) ? '+48' + digits : '';
+    }
+
+    function randomToken(): string {
+      const bytes = new Uint8Array(16);
+      if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+        window.crypto.getRandomValues(bytes);
+      } else {
+        for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+      }
+      return Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    /**
+     * Idempotencja: jeden token na formularz (przetrwa odświeżenie strony),
+     * nowy token dopiero po potwierdzonym zgłoszeniu.
+     */
+    function getClientToken(forceNew = false): string {
+      try {
+        if (forceNew) sessionStorage.removeItem(CLIENT_TOKEN_KEY);
+        let token = sessionStorage.getItem(CLIENT_TOKEN_KEY);
+        if (!token || !/^[a-z0-9]{8,64}$/i.test(token)) {
+          token = randomToken();
+          sessionStorage.setItem(CLIENT_TOKEN_KEY, token);
+        }
+        return token;
+      } catch {
+        return randomToken();
+      }
+    }
+
+    async function loadFormToken(): Promise<boolean> {
+      try {
+        const res = await fetch('/api/form-token', {
+          credentials: 'same-origin',
+          cache: 'no-store',
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) return false;
+        const data = await res.json();
+        if (!data || typeof data.token !== 'string' || data.token === '') return false;
+        if (tokenInput) tokenInput.value = data.token;
+        if (tsInput) tsInput.value = String(data.ts ?? '');
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function ensureFormToken(): Promise<boolean> {
+      const ts = Number(tsInput?.value || 0);
+      const age = ts > 0 ? Date.now() / 1000 - ts : Infinity;
+      if (tokenInput?.value && age >= 0 && age < 6900) return Promise.resolve(true);
+      if (!tokenLoading) {
+        tokenLoading = loadFormToken().finally(() => {
+          tokenLoading = null;
+        });
+      }
+      return tokenLoading;
+    }
+
+    if (clientTokenInput) clientTokenInput.value = getClientToken();
+    void ensureFormToken();
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (inflight) return;
+
+      window.skTrack?.('form_submit', { form: 'zgloszenie-naprawy' });
+      clearErrors();
+
+      const phoneInput = form.querySelector<HTMLInputElement>('[name="telefon"]');
+      const problemInput = form.querySelector<HTMLTextAreaElement>('[name="usterka"]');
+
+      if (phoneInput && !normalizePhone(phoneInput.value)) {
+        setFieldError('telefon', 'Podaj numer telefonu w formacie 9 cyfr (np. 600 000 000).');
+        phoneInput.focus();
+        showStatus('Popraw numer telefonu i wyślij ponownie.', 'error');
+        return;
+      }
+      if (problemInput && problemInput.value.trim().length < 10) {
+        setFieldError('usterka', 'Opis usterki jest za krótki - napisz co najmniej 10 znaków.');
+        problemInput.focus();
+        showStatus('Uzupełnij opis usterki i wyślij ponownie.', 'error');
+        return;
+      }
+
+      await ensureFormToken();
+
+      inflight = true;
+      if (submitButton) submitButton.disabled = true;
+      showStatus('Wysyłanie zgłoszenia...', 'ok');
+
+      const clientToken = getClientToken();
+      if (clientTokenInput) clientTokenInput.value = clientToken;
+
+      try {
+        const data = new FormData(form);
+        data.set('client_token', clientToken);
+        data.set('token', tokenInput?.value ?? '');
+        data.set('ts', tsInput?.value ?? '');
+
+        const res = await fetch('/api/zgloszenie', {
+          method: 'POST',
+          body: data,
+          credentials: 'same-origin',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            Accept: 'application/json',
+          },
+        });
+
+        let payload: any = null;
+        try {
+          payload = await res.json();
+        } catch {
+          payload = null;
+        }
+
+        if (!res.ok || !payload || payload.ok !== true) {
+          const errors = (payload && payload.errors) || {};
+          if (errors.form) {
+            showStatus(String(errors.form), 'error');
+          } else if (Object.keys(errors).length > 0) {
+            setFieldErrors(errors);
+            showStatus('Popraw zaznaczone pola i wyślij ponownie.', 'error');
+          } else {
+            showStatus('Nie udało się wysłać formularza. Zadzwoń pod 500 613 500 - szybciej zajmiemy się zgłoszeniem.', 'error');
+          }
+          return;
+        }
+
+        const number = String(payload.number || '');
+        form.reset();
+        if (clientTokenInput) clientTokenInput.value = getClientToken(true);
+        void ensureFormToken();
+
+        showStatus(
+          `Dziękujemy. Zgłoszenie zostało przyjęte, jego numer to ${number}. Odezwiemy się w godzinach pracy serwisu. Jeśli sprawa jest pilna - zadzwoń: 500 613 500.`,
+          'ok'
+        );
+
+        // Zdarzenie generate_lead tylko raz na potwierdzone zgłoszenie (bez duplikatów przy retry).
+        let alreadyReported = false;
+        try {
+          alreadyReported = sessionStorage.getItem(LEAD_TOKEN_KEY) === clientToken;
+          sessionStorage.setItem(LEAD_TOKEN_KEY, clientToken);
+        } catch {
+          alreadyReported = false;
+        }
+        if (payload.duplicate !== true && !alreadyReported) {
+          window.dispatchEvent(new CustomEvent('sk:form-success', { detail: { form: 'zgloszenie-naprawy' } }));
+        }
+      } catch {
+        showStatus(
+          'Nie udało się wysłać formularza. Sprawdź połączenie i spróbuj ponownie albo zadzwoń pod 500 613 500.',
+          'error'
+        );
+      } finally {
+        inflight = false;
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  }
 </script>
 
 <style>
@@ -151,6 +351,17 @@ const hasKey = Boolean(site.form.accessKey);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 18px;
+  }
+
+  .field__error {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--error);
+  }
+
+  .field [aria-invalid='true'] {
+    border-color: var(--error);
   }
 
   .field--check {

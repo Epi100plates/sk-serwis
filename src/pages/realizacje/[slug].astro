@@ -63,7 +63,7 @@ const schema = [
 >
   <article class="case-detail">
     <header class="case-detail__head">
-      <div class="container container--narrow">
+      <div class="container">
         <Breadcrumbs items={[{ label: 'Realizacje', href: '/realizacje/' }, { label: item.title }]} />
         <p class="case-detail__meta mono">
           {category?.label && <span>{category.label}</span>}
@@ -77,22 +77,22 @@ const schema = [
       </div>
     </header>
 
-    <div class="container container--narrow">
-      {item.beforeAfter && (
-        <BeforeAfter
-          before={withBase(item.beforeAfter.before)}
-          after={withBase(item.beforeAfter.after)}
-        />
-      )}
-
-      {!item.beforeAfter && item.image && (
-        <figure class="case-detail__figure">
-          <img src={withBase(item.image)} alt={item.title} width="1200" height="800" loading="eager" decoding="async" />
-        </figure>
-      )}
-
+    <div class="container">
       <div class="case-detail__grid">
         <div class="case-detail__body">
+          {item.beforeAfter && (
+            <BeforeAfter
+              before={withBase(item.beforeAfter.before)}
+              after={withBase(item.beforeAfter.after)}
+            />
+          )}
+
+          {!item.beforeAfter && item.image && (
+            <figure class="case-detail__figure">
+              <img src={withBase(item.image)} alt={item.title} width="1200" height="800" loading="eager" decoding="async" />
+            </figure>
+          )}
+
           {item.problem && (
             <section class="case-block">
               <h2>Problem</h2>
@@ -236,16 +236,17 @@ const schema = [
 
   .case-detail__title {
     margin-top: 16px;
-    max-width: 24ch;
+    max-width: 32ch;
     font-size: clamp(32px, 4.6vw, 64px);
   }
 
   .case-detail__lead {
     margin-top: 18px;
+    max-width: 64ch;
   }
 
   .case-detail__figure {
-    margin: 0 0 40px;
+    margin: 0 0 28px;
     border: 1px solid var(--line);
     background: var(--graphite);
   }
@@ -257,10 +258,14 @@ const schema = [
 
   .case-detail__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
-    gap: clamp(32px, 5vw, 72px);
+    grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.7fr);
+    gap: clamp(32px, 4vw, 64px);
     align-items: start;
     padding-bottom: clamp(40px, 6vw, 72px);
+  }
+
+  .case-detail__body {
+    min-width: 0;
   }
 
   .case-block {
@@ -277,7 +282,7 @@ const schema = [
     font-size: 16px;
     line-height: 1.65;
     color: #2a2e2b;
-    max-width: 68ch;
+    max-width: 72ch;
   }
 
   .case-block--result {
@@ -413,18 +418,26 @@ const schema = [
     color: #fff;
   }
 
-  @media (max-width: 900px) {
+  /* Tablet (641-1023px): jedna kolumna, aside pod treścią. */
+  @media (max-width: 1023px) {
     .case-detail__grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
     }
 
     .case-detail__aside {
       position: static;
-      order: -1;
     }
 
     .case-gallery {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Telefon (<=640px): jedna kolumna, aside nad treścią. */
+  @media (max-width: 640px) {
+    .case-detail__aside {
+      order: -1;
     }
   }
 </style>

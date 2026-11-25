@@ -1,0 +1,788 @@
+<?php
+/**
+ * Zgłoszenia serwisowe: walidacja, zapis w transakcji, numer zgłoszenia,
+ * historia statusów, kolejka powiadomień (SMS/e-mail), limity tempa.
+ * Plik nie zależy od sesji panelu - używany też przez publiczne API
+ * (/api/zgloszenie) oraz przez worker cron.
+ */
+
+const TICKET_STATUSES = [
+    'new' => 'Nowe',
+    'read' => 'Odczytane',
+    'in_progress' => 'W trakcie kontaktu',
+    'done' => 'Zrealizowane',
+    'closed' => 'Zamknięte',
+];
+
+const TICKET_CONSENT_VERSION = '2026-11-25';
+
+/** Maksymalna liczba prób dostarczenia powiadomienia. */
+const TICKET_NOTIFY_MAX_ATTEMPTS = 5;
+
+/** Backoff po nieudanej próbie (w minutach), indeks = numer próby - 1. */
+const TICKET_NOTIFY_BACKOFF_MINUTES = [1, 5, 15, 60];
+
+/** Domyślna treść SMS - bez opisu usterki i bez danych wrażliwych. */
+const TICKET_SMS_TEMPLATE_DEFAULT = 'Studio-Komp: nowe zgloszenie nr {number}. {imie}, {sprzet}, tel. {telefon}. Szczegoly w panelu: {link}';
+
+const TICKET_NOTIFY_CHANNELS = ['sms', 'email'];
+
+/* ------------------------------------------------------------------ logi */
+
+/**
+ * Log techniczny zgłoszeń. Celowo bez imienia, telefonu i treści usterki.
+ */
+function tickets_log(string $message): void
+{
+    $dir = rtrim((string) cfg('data_dir'), '/') . '/logs';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0770, true);
+    }
+    $line = '[' . date('Y-m-d H:i:s') . '] ' . str_replace(["\r", "\n"], ' ', $message) . "\n";
+    @file_put_contents($dir . '/tickets.log', $line, FILE_APPEND | LOCK_EX);
+}
+
+/* ------------------------------------------------------------- etykiety */
+
+function ticket_status_label(string $status): string
+{
+    return TICKET_STATUSES[$status] ?? $status;
+}
+
+function ticket_status_tone(string $status): string
+{
+    $map = [
+        'new' => 'warn',
+        'read' => 'info',
+        'in_progress' => 'info',
+        'done' => 'ok',
+        'closed' => 'muted',
+    ];
+    return $map[$status] ?? 'muted';
+}
+
+function ticket_notification_status_label(string $status): string
+{
+    $map = [
+        'pending' => 'W kolejce',
+        'sent' => 'Wysłane',
+        'failed' => 'Błąd',
+        'skipped' => 'Pominięte',
+        'test' => 'Tryb testowy',
+    ];
+    return $map[$status] ?? $status;
+}
+
+function ticket_notification_status_tone(string $status): string
+{
+    $map = [
+        'pending' => 'warn',
+        'sent' => 'ok',
+        'failed' => 'err',
+        'skipped' => 'muted',
+        'test' => 'info',
+    ];
+    return $map[$status] ?? 'muted';
+}
+
+/* ------------------------------------------------------------ normalizacja */
+
+/**
+ * Usuwa HTML, encje, znaki kontrolne i nadmiar białych znaków.
+ * Dla $multiline zachowuje akapity (pojedyncze znaki nowej linii).
+ */
+function tickets_normalize_text(string $value, int $max = 0, bool $multiline = false): string
+{
+    if (!mb_check_encoding($value, 'UTF-8')) {
+        $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+    }
+    $value = str_replace(["\r\n", "\r"], "\n", $value);
+    $value = strip_tags($value);
+    $value = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $value = strip_tags($value);
+    $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value) ?? '';
+
+    if ($multiline) {
+        $value = preg_replace('/[ \t]+/u', ' ', $value) ?? $value;
+        $value = preg_replace('/ *\n */u', "\n", $value) ?? $value;
+        $value = preg_replace('/\n{3,}/u', "\n\n", $value) ?? $value;
+        $value = trim($value);
+    } else {
+        $value = preg_replace('/\s+/u', ' ', $value) ?? $value;
+        $value = trim($value);
+    }
+
+    if ($max > 0) {
+        $value = mb_substr($value, 0, $max, 'UTF-8');
+    }
+    return $value;
+}
+
+/**
+ * Normalizuje polski numer telefonu do postaci +48XXXXXXXXX.
+ * Zwraca pusty string, gdy numer jest niepoprawny.
+ */
+function tickets_normalize_phone(string $phone): string
+{
+    $digits = preg_replace('/\D+/', '', $phone) ?? '';
+    if ($digits === '') {
+        return '';
+    }
+    if (str_starts_with($digits, '0048')) {
+        $digits = substr($digits, 4);
+    } elseif (strlen($digits) === 11 && str_starts_with($digits, '48')) {
+        $digits = substr($digits, 2);
+    } elseif (strlen($digits) === 10 && str_starts_with($digits, '0')) {
+        $digits = substr($digits, 1);
+    }
+    if (!preg_match('/^[1-9]\d{8}$/', $digits)) {
+        return '';
+    }
+    return '+48' . $digits;
+}
+
+/** Numer krajowy do treści SMS: 600 613 500. */
+function tickets_phone_national(string $phone): string
+{
+    $digits = preg_replace('/\D+/', '', $phone) ?? '';
+    if (str_starts_with($digits, '48') && strlen($digits) === 11) {
+        $digits = substr($digits, 2);
+    }
+    if (strlen($digits) !== 9) {
+        return $phone;
+    }
+    return substr($digits, 0, 3) . ' ' . substr($digits, 3, 3) . ' ' . substr($digits, 6, 3);
+}
+
+/** Numer do wyświetlenia w panelu: +48 600 613 500. */
+function tickets_display_phone(string $phone): string
+{
+    $digits = preg_replace('/\D+/', '', $phone) ?? '';
+    if (str_starts_with($digits, '48') && strlen($digits) === 11) {
+        $digits = substr($digits, 2);
+    }
+    if (strlen($digits) !== 9) {
+        return $phone;
+    }
+    return '+48 ' . substr($digits, 0, 3) . ' ' . substr($digits, 3, 3) . ' ' . substr($digits, 6, 3);
+}
+
+/** Zamiana polskich znaków na ASCII - SMS w GSM-7 jest tańszy i krótszy. */
+function tickets_sms_ascii(string $value): string
+{
+    $map = [
+        'ą' => 'a', 'ć' => 'c', 'ę' => 'e', 'ł' => 'l', 'ń' => 'n', 'ó' => 'o', 'ś' => 's', 'ź' => 'z', 'ż' => 'z',
+        'Ą' => 'A', 'Ć' => 'C', 'Ę' => 'E', 'Ł' => 'L', 'Ń' => 'N', 'Ó' => 'O', 'Ś' => 'S', 'Ź' => 'Z', 'Ż' => 'Z',
+        "\u{2013}" => '-', "\u{2014}" => '-', "\u{00A0}" => ' ',
+    ];
+    return strtr($value, $map);
+}
+
+/* --------------------------------------------------------------- filtry */
+
+function tickets_is_bot(string $userAgent): bool
+{
+    if ($userAgent === '') {
+        return true;
+    }
+    return (bool) preg_match('/bot|crawl|spider|slurp|bingpreview|facebookexternalhit|headless|python-requests|curl|wget|monitor|uptime|lighthouse|scrapy|httpclient/i', $userAgent);
+}
+
+/* ------------------------------------------------------------- walidacja */
+
+/**
+ * Walidacja i normalizacja zgłoszenia.
+ * @return array{ok:bool,errors:array<string,string>,data:array<string,string>}
+ */
+function tickets_validate(array $input): array
+{
+    $errors = [];
+
+    $name = tickets_normalize_text((string) ($input['name'] ?? ''));
+    $nameLength = mb_strlen($name, 'UTF-8');
+    if ($name === '') {
+        $errors['imie'] = 'Podaj imię.';
+    } elseif ($nameLength < 2) {
+        $errors['imie'] = 'Imię jest za krótkie - wpisz co najmniej 2 znaki.';
+    } elseif ($nameLength > 80) {
+        $errors['imie'] = 'Imię może mieć maksymalnie 80 znaków.';
+    }
+
+    $phoneRaw = trim((string) ($input['phone'] ?? ''));
+    $phone = tickets_normalize_phone($phoneRaw);
+    if ($phoneRaw === '') {
+        $errors['telefon'] = 'Podaj numer telefonu.';
+    } elseif ($phone === '') {
+        $errors['telefon'] = 'Podaj numer telefonu w formacie 9 cyfr (np. 600 000 000).';
+    }
+
+    $device = tickets_normalize_text((string) ($input['device'] ?? ''));
+    if (mb_strlen($device, 'UTF-8') > 120) {
+        $errors['sprzet'] = 'Nazwa sprzętu może mieć maksymalnie 120 znaków.';
+    }
+
+    $problem = tickets_normalize_text((string) ($input['problem'] ?? ''), 0, true);
+    $problemLength = mb_strlen($problem, 'UTF-8');
+    if ($problem === '') {
+        $errors['usterka'] = 'Opisz, co się dzieje ze sprzętem.';
+    } elseif ($problemLength < 10) {
+        $errors['usterka'] = 'Opis usterki jest za krótki - napisz co najmniej 10 znaków.';
+    } elseif ($problemLength > 2000) {
+        $errors['usterka'] = 'Opis usterki może mieć maksymalnie 2000 znaków.';
+    }
+
+    $consent = $input['consent'] ?? false;
+    $consentOk = in_array($consent, [true, 1, '1', 'on', 'true', 'yes'], true);
+    if (!$consentOk) {
+        $errors['zgoda'] = 'Zgoda na kontakt w sprawie zgłoszenia jest wymagana.';
+    }
+
+    $sourcePage = tickets_normalize_text((string) ($input['source_page'] ?? ''));
+    if ($sourcePage !== '' && ($sourcePage[0] !== '/' || mb_strlen($sourcePage, 'UTF-8') > 160)) {
+        $sourcePage = '';
+    }
+
+    $data = [
+        'name' => $name,
+        'phone' => $phone,
+        'device' => $device,
+        'problem' => $problem,
+        'source_page' => $sourcePage,
+    ];
+
+    return [
+        'ok' => $errors === [],
+        'errors' => $errors,
+        'data' => $data,
+    ];
+}
+
+/* ------------------------------------------------------------- limit tempa */
+
+/**
+ * Sprawdza limit i zapisuje próbę. Limit: 3 zgłoszenia / 10 minut / IP-hash.
+ * Zliczane są wszystkie próby wysłania formularza (także odrzucone przez walidację).
+ */
+function tickets_rate_limit_ok(int $limit = 3, int $windowMinutes = 10): bool
+{
+    $pdo = db();
+    $ipHash = security_ip_hash();
+    $since = (new DateTimeImmutable("-{$windowMinutes} minutes"))->format('Y-m-d H:i:s');
+
+    $st = $pdo->prepare('SELECT COUNT(*) FROM form_rate WHERE ip_hash = ? AND created_at >= ?');
+    $st->execute([$ipHash, $since]);
+    if ((int) $st->fetchColumn() >= $limit) {
+        tickets_log('rate limit: odrzucono próbę formularza (limit ' . $limit . '/' . $windowMinutes . ' min)');
+        return false;
+    }
+
+    $pdo->prepare('INSERT INTO form_rate (ip_hash, created_at) VALUES (?, ?)')->execute([$ipHash, now()]);
+    return true;
+}
+
+/** Usuwa stare wpisy limitu tempa (wywoływane przez worker). */
+function tickets_cleanup_rate(): int
+{
+    $st = db()->prepare('DELETE FROM form_rate WHERE created_at < ?');
+    $st->execute([(new DateTimeImmutable('-2 days'))->format('Y-m-d H:i:s')]);
+    return $st->rowCount();
+}
+
+/* ---------------------------------------------------------- zapis zgłoszenia */
+
+function tickets_next_number(PDO $pdo): string
+{
+    $year = (new DateTimeImmutable('now', new DateTimeZone('Europe/Warsaw')))->format('Y');
+    $st = $pdo->prepare("SELECT COALESCE(MAX(CAST(SUBSTR(number, 9) AS INTEGER)), 0) FROM tickets WHERE SUBSTR(number, 4, 4) = ?");
+    $st->execute([$year]);
+    $next = (int) $st->fetchColumn() + 1;
+    return sprintf('SK-%s-%06d', $year, $next);
+}
+
+function tickets_generate_client_token(): string
+{
+    return bin2hex(random_bytes(16));
+}
+
+/**
+ * Tworzy zgłoszenie w transakcji: ticket + historia + kolejka powiadomień.
+ * Idempotencja: ten sam client_token zwraca istniejące zgłoszenie (bez duplikatu).
+ *
+ * @return array{ok:bool,errors:array<string,string>,id?:int,number?:string,duplicate?:bool}
+ */
+function tickets_create(array $data, string $clientToken): array
+{
+    $validated = tickets_validate($data);
+    if (!$validated['ok']) {
+        return ['ok' => false, 'errors' => $validated['errors']];
+    }
+
+    $clientToken = trim($clientToken);
+    if (!preg_match('/^[A-Za-z0-9_-]{8,64}$/', $clientToken)) {
+        $clientToken = tickets_generate_client_token();
+    }
+
+    $clean = $validated['data'];
+    $consentAt = now();
+    $userAgent = mb_substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 300, 'UTF-8');
+    $ipHash = function_exists('security_ip_hash') ? security_ip_hash() : '';
+
+    $pdo = db();
+
+    // Idempotencja: powtórzone żądanie z tym samym client_token nie tworzy nowego wpisu.
+    $existing = tickets_find_by_token($clientToken);
+    if ($existing) {
+        tickets_log('formularz: powtórzone żądanie dla zgłoszenia ' . $existing['number']);
+        return [
+            'ok' => true,
+            'id' => (int) $existing['id'],
+            'number' => (string) $existing['number'],
+            'duplicate' => true,
+        ];
+    }
+
+    $attempts = 0;
+    while (true) {
+        $attempts++;
+        try {
+            $pdo->beginTransaction();
+            $number = tickets_next_number($pdo);
+            $now = now();
+
+            $st = $pdo->prepare(
+                'INSERT INTO tickets (number, created_at, updated_at, name, phone, device, problem, source_page, ip_hash, user_agent, status, consent_at, consent_version, client_token)
+                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+            );
+            $st->execute([
+                $number,
+                $now,
+                $now,
+                $clean['name'],
+                $clean['phone'],
+                $clean['device'],
+                $clean['problem'],
+                $clean['source_page'],
+                $ipHash,
+                $userAgent,
+                'new',
+                $consentAt,
+                TICKET_CONSENT_VERSION,
+                $clientToken,
+            ]);
+            $ticketId = (int) $pdo->lastInsertId();
+
+            $pdo->prepare('INSERT INTO ticket_history (ticket_id, status, note, username, created_at) VALUES (?,?,?,?,?)')
+                ->execute([$ticketId, 'new', 'Zgłoszenie przyjęte z formularza.', 'system', $now]);
+
+            $ticket = $clean + ['id' => $ticketId, 'number' => $number];
+            tickets_enqueue_notifications($pdo, $ticketId, $ticket);
+
+            $pdo->commit();
+            tickets_log('formularz: utworzono zgłoszenie ' . $number);
+            return ['ok' => true, 'id' => $ticketId, 'number' => $number, 'duplicate' => false];
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            // Kolizja numeru (równoległe zgłoszenia) - ponów z nowym numerem.
+            if ($attempts < 5 && str_contains($e->getMessage(), 'UNIQUE')) {
+                usleep(random_int(20000, 80000));
+                continue;
+            }
+            tickets_log('formularz: błąd zapisu zgłoszenia (' . get_class($e) . ')');
+            throw $e;
+        }
+    }
+}
+
+function tickets_find_by_token(string $clientToken): ?array
+{
+    if ($clientToken === '') {
+        return null;
+    }
+    $st = db()->prepare('SELECT id, number, created_at FROM tickets WHERE client_token = ? LIMIT 1');
+    $st->execute([$clientToken]);
+    $row = $st->fetch();
+    return $row ?: null;
+}
+
+function tickets_by_id(int $id): ?array
+{
+    $st = db()->prepare('SELECT * FROM tickets WHERE id = ? LIMIT 1');
+    $st->execute([$id]);
+    $row = $st->fetch();
+    return $row ?: null;
+}
+
+function tickets_history(int $ticketId): array
+{
+    $st = db()->prepare('SELECT * FROM ticket_history WHERE ticket_id = ? ORDER BY id ASC');
+    $st->execute([$ticketId]);
+    return $st->fetchAll();
+}
+
+function tickets_notifications(int $ticketId): array
+{
+    $st = db()->prepare('SELECT * FROM notifications WHERE ticket_id = ? ORDER BY id ASC');
+    $st->execute([$ticketId]);
+    return $st->fetchAll();
+}
+
+/** Liczniki zgłoszeń wg statusów (bez zarchiwizowanych). */
+function tickets_counts(): array
+{
+    $counts = array_fill_keys(array_keys(TICKET_STATUSES), 0);
+    $rows = db()->query('SELECT status, COUNT(*) AS c FROM tickets WHERE archived = 0 GROUP BY status')->fetchAll();
+    foreach ($rows as $row) {
+        if (isset($counts[$row['status']])) {
+            $counts[$row['status']] = (int) $row['c'];
+        }
+    }
+    $counts['all'] = array_sum($counts);
+    return $counts;
+}
+
+/* --------------------------------------------------- kolejka powiadomień */
+
+/**
+ * Kolejkuje powiadomienia o nowym zgłoszeniu (SMS do serwisu + opcjonalnie e-mail).
+ * UNIQUE(ticket_id, channel, template) gwarantuje najwyżej jedną wiadomość danego
+ * rodzaju na zgłoszenie - ponowienie formularza nie tworzy duplikatów.
+ */
+function tickets_enqueue_notifications(PDO $pdo, int $ticketId, array $ticket): void
+{
+    $now = now();
+    $smsRecipient = trim(setting_get('sms_recipient'));
+    $smsProvider = setting_get('sms_provider', 'smsapi');
+    if (!in_array($smsProvider, ['smsapi', 'serwersms'], true)) {
+        $smsProvider = 'smsapi';
+    }
+    $mailRecipient = trim(setting_get('smtp_to'));
+
+    $smsPayload = json_encode([
+        'template' => 'new_ticket',
+        'number' => (string) ($ticket['number'] ?? ''),
+        'message' => tickets_sms_masked_preview($ticket),
+    ], JSON_UNESCAPED_UNICODE);
+
+    $mailPayload = json_encode([
+        'template' => 'new_ticket',
+        'number' => (string) ($ticket['number'] ?? ''),
+    ], JSON_UNESCAPED_UNICODE);
+
+    $st = $pdo->prepare(
+        'INSERT OR IGNORE INTO notifications (ticket_id, channel, provider, recipient, template, payload, status, attempts, created_at, updated_at, next_attempt_at)
+         VALUES (?,?,?,?,?,?,?,0,?,?,?)'
+    );
+    $st->execute([$ticketId, 'sms', $smsProvider, $smsRecipient, 'new_ticket', $smsPayload, 'pending', $now, $now, $now]);
+    $st->execute([$ticketId, 'email', 'smtp', $mailRecipient, 'new_ticket', $mailPayload, 'pending', $now, $now, $now]);
+}
+
+/** Podgląd SMS z zamaskowanymi danymi - trafia wyłącznie do kolumny payload. */
+function tickets_sms_masked_preview(array $ticket): string
+{
+    $name = (string) ($ticket['name'] ?? '');
+    $first = $name === '' ? '?' : mb_substr($name, 0, 1, 'UTF-8') . '***';
+    $phone = (string) ($ticket['phone'] ?? '');
+    $digits = preg_replace('/\D+/', '', $phone) ?? '';
+    $last = $digits === '' ? '***' : '***' . substr($digits, -3);
+    $number = (string) ($ticket['number'] ?? '');
+    return mb_substr('SMS nr ' . $number . ' do ' . $first . ', tel. ' . $last, 0, 120, 'UTF-8');
+}
+
+/** Szablon SMS z ustawień (pusty = domyślny). */
+function tickets_sms_template(): string
+{
+    $template = trim(setting_get('sms_template'));
+    if ($template === '') {
+        $template = TICKET_SMS_TEMPLATE_DEFAULT;
+    }
+    return $template;
+}
+
+/** Adres panelu ze zgłoszeniami - używany w treści SMS. */
+function tickets_panel_tickets_url(): string
+{
+    $base = rtrim((string) cfg('site_url'), '/');
+    return $base . rtrim((string) cfg('panel_path', '/panel'), '/') . '/zgloszenia';
+}
+
+/**
+ * Renderuje treść SMS na podstawie szablonu i danych zgłoszenia.
+ * Treść nie zawiera opisu usterki.
+ */
+function tickets_sms_message(array $ticket, ?string $template = null): string
+{
+    $template = $template ?? tickets_sms_template();
+    $device = trim((string) ($ticket['device'] ?? ''));
+    $vars = [
+        '{number}' => (string) ($ticket['number'] ?? ''),
+        '{imie}' => (string) ($ticket['name'] ?? ''),
+        '{sprzet}' => $device !== '' ? $device : 'sprzet',
+        '{telefon}' => tickets_phone_national((string) ($ticket['phone'] ?? '')),
+        '{link}' => tickets_panel_tickets_url(),
+    ];
+    $message = strtr($template, $vars);
+    $message = tickets_sms_ascii($message);
+    $message = preg_replace('/\s+/u', ' ', $message) ?? $message;
+    return mb_substr(trim($message), 0, 459, 'UTF-8');
+}
+
+/** Temat i treść e-maila powiadomienia (HTML + plain). */
+function tickets_mail_body(array $ticket): array
+{
+    $number = (string) ($ticket['number'] ?? '');
+    $subject = 'Nowe zgloszenie ' . $number . ' - ' . (string) ($ticket['name'] ?? '');
+    $url = tickets_panel_tickets_url();
+    $rows = [
+        'Numer' => $number,
+        'Imię' => (string) ($ticket['name'] ?? ''),
+        'Telefon' => tickets_display_phone((string) ($ticket['phone'] ?? '')),
+        'Sprzęt' => (string) ($ticket['device'] ?? '') !== '' ? (string) $ticket['device'] : '-',
+        'Opis usterki' => (string) ($ticket['problem'] ?? ''),
+        'Strona źródłowa' => (string) ($ticket['source_page'] ?? '') !== '' ? (string) $ticket['source_page'] : '-',
+        'Data' => (string) ($ticket['created_at'] ?? now()),
+    ];
+    $htmlRows = '';
+    $textRows = '';
+    foreach ($rows as $label => $value) {
+        $htmlRows .= '<tr><th style="text-align:left;padding:6px 10px;border-bottom:1px solid #e5e5e5;white-space:nowrap;vertical-align:top">'
+            . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '</th><td style="padding:6px 10px;border-bottom:1px solid #e5e5e5">'
+            . nl2br(htmlspecialchars($value, ENT_QUOTES, 'UTF-8')) . '</td></tr>';
+        $textRows .= $label . ': ' . $value . "\n";
+    }
+    $html = '<!doctype html><html lang="pl"><head><meta charset="utf-8"><title>'
+        . htmlspecialchars($subject, ENT_QUOTES, 'UTF-8') . '</title></head><body style="font-family:Arial,sans-serif;color:#242a30">'
+        . '<h2 style="font-size:18px">Nowe zgłoszenie serwisowe ' . htmlspecialchars($number, ENT_QUOTES, 'UTF-8') . '</h2>'
+        . '<table style="border-collapse:collapse;font-size:14px">' . $htmlRows . '</table>'
+        . '<p style="font-size:14px"><a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '">Otwórz zgłoszenia w panelu</a></p>'
+        . '<p style="font-size:12px;color:#777">Wiadomość wygenerowana automatycznie przez panel Studio-Komp. To powiadomienie wewnętrzne, nie marketing.</p>'
+        . '</body></html>';
+    $text = "Nowe zgłoszenie serwisowe {$number}\n\n" . $textRows . "\nPanel: {$url}\n";
+    return ['subject' => $subject, 'html' => $html, 'text' => $text];
+}
+
+/**
+ * Przetwarza kolejkę powiadomień (worker cron lub przycisk w panelu).
+ * Pobiera wpisy pending/failed z next_attempt_at <= now, maks. 1 próba na wpis w przebiegu.
+ *
+ * @return array{processed:int,sent:int,test:int,skipped:int,failed:int}
+ */
+function tickets_process_queue(int $limit = 20): array
+{
+    $summary = ['processed' => 0, 'sent' => 0, 'test' => 0, 'skipped' => 0, 'failed' => 0];
+    $pdo = db();
+    $now = now();
+
+    $st = $pdo->prepare(
+        "SELECT * FROM notifications
+         WHERE status IN ('pending', 'failed') AND attempts < ? AND (next_attempt_at IS NULL OR next_attempt_at <= ?)
+         ORDER BY id ASC LIMIT " . max(1, min(100, $limit))
+    );
+    $st->execute([TICKET_NOTIFY_MAX_ATTEMPTS, $now]);
+    $queue = $st->fetchAll();
+
+    $smsConfig = tickets_sms_config();
+    $mailConfig = mailer_config();
+
+    foreach ($queue as $notification) {
+        $summary['processed']++;
+        $ticket = tickets_by_id((int) $notification['ticket_id']);
+        if (!$ticket) {
+            tickets_notification_update((int) $notification['id'], [
+                'status' => 'failed',
+                'attempts' => TICKET_NOTIFY_MAX_ATTEMPTS,
+                'last_error' => 'Brak zgłoszenia w bazie.',
+                'next_attempt_at' => null,
+            ]);
+            $summary['failed']++;
+            tickets_log('kolejka: pominięto powiadomienie #' . $notification['id'] . ' - brak zgłoszenia');
+            continue;
+        }
+
+        if ($notification['channel'] === 'sms') {
+            $recipient = trim((string) $notification['recipient']);
+            if ($recipient === '') {
+                $recipient = trim($smsConfig['recipient']);
+            }
+            $result = sms_send($recipient, tickets_sms_message($ticket), $smsConfig);
+        } elseif ($notification['channel'] === 'email') {
+            $recipient = trim((string) $notification['recipient']);
+            if ($recipient === '') {
+                $recipient = trim($mailConfig['to']);
+            }
+            $mail = tickets_mail_body($ticket);
+            $result = mailer_send($recipient, $mail['subject'], $mail['html'], $mail['text']);
+        } else {
+            $result = ['ok' => false, 'error' => 'Nieznany kanał powiadomienia.'];
+        }
+
+        $attempts = (int) $notification['attempts'] + 1;
+        $fields = [
+            'attempts' => $attempts,
+            'provider' => (string) ($notification['channel'] === 'sms' ? ($smsConfig['provider'] ?? '') : 'smtp'),
+            'recipient' => (string) $recipient,
+        ];
+
+        if (!empty($result['test'])) {
+            $fields += [
+                'status' => 'test',
+                'delivery_status' => 'test',
+                'last_error' => '',
+                'provider_message_id' => '',
+                'next_attempt_at' => null,
+            ];
+            $summary['test']++;
+            tickets_log('kolejka: powiadomienie #' . $notification['id'] . ' (SMS) - tryb testowy, bez wysyłki');
+        } elseif (!empty($result['skipped'])) {
+            $fields += [
+                'status' => 'skipped',
+                'delivery_status' => 'skipped',
+                'last_error' => mb_substr((string) ($result['error'] ?? 'Pominięto.'), 0, 300, 'UTF-8'),
+                'next_attempt_at' => null,
+            ];
+            $summary['skipped']++;
+            tickets_log('kolejka: powiadomienie #' . $notification['id'] . ' pominięte (' . $notification['channel'] . ')');
+        } elseif (!empty($result['ok'])) {
+            $fields += [
+                'status' => 'sent',
+                'delivery_status' => mb_substr((string) ($result['delivery_status'] ?? 'sent'), 0, 40, 'UTF-8'),
+                'last_error' => '',
+                'provider_message_id' => mb_substr((string) ($result['provider_message_id'] ?? ''), 0, 120, 'UTF-8'),
+                'next_attempt_at' => null,
+            ];
+            $summary['sent']++;
+            tickets_log('kolejka: powiadomienie #' . $notification['id'] . ' (' . $notification['channel'] . ') wysłane');
+        } else {
+            $summary['failed']++;
+            $fields['last_error'] = mb_substr((string) ($result['error'] ?? 'Nieznany błąd wysyłki.'), 0, 300, 'UTF-8');
+            $fields['status'] = 'failed';
+            $fields['delivery_status'] = 'failed';
+            $fields['next_attempt_at'] = tickets_next_attempt_at($attempts);
+            if ($fields['next_attempt_at'] === null) {
+                $fields['provider_message_id'] = '';
+            }
+            tickets_log('kolejka: powiadomienie #' . $notification['id'] . ' (' . $notification['channel'] . ') - błąd, próba ' . $attempts);
+        }
+
+        tickets_notification_update((int) $notification['id'], $fields);
+    }
+
+    return $summary;
+}
+
+/**
+ * Data następnej próby wg backoff (1, 5, 15, 60 min) lub null po wyczerpaniu prób.
+ */
+function tickets_next_attempt_at(int $attempts): ?string
+{
+    if ($attempts >= TICKET_NOTIFY_MAX_ATTEMPTS) {
+        return null;
+    }
+    $index = max(0, min(count(TICKET_NOTIFY_BACKOFF_MINUTES) - 1, $attempts - 1));
+    $minutes = TICKET_NOTIFY_BACKOFF_MINUTES[$index];
+    return (new DateTimeImmutable("+{$minutes} minutes"))->format('Y-m-d H:i:s');
+}
+
+function tickets_notification_update(int $id, array $fields): void
+{
+    $allowed = ['status', 'attempts', 'last_error', 'provider_message_id', 'delivery_status', 'next_attempt_at', 'provider', 'recipient'];
+    $set = [];
+    $params = [];
+    foreach ($allowed as $key) {
+        if (array_key_exists($key, $fields)) {
+            $set[] = $key . ' = ?';
+            $params[] = $fields[$key];
+        }
+    }
+    if (!$set) {
+        return;
+    }
+    $set[] = 'updated_at = ?';
+    $params[] = now();
+    $params[] = $id;
+    db()->prepare('UPDATE notifications SET ' . implode(', ', $set) . ' WHERE id = ?')->execute($params);
+}
+
+/**
+ * Ręczne ponowienie powiadomienia z panelu (reset liczników i statusu).
+ * @return array{ok:bool,error?:string}
+ */
+function tickets_retry_notification(int $notificationId): array
+{
+    $st = db()->prepare('SELECT * FROM notifications WHERE id = ? LIMIT 1');
+    $st->execute([$notificationId]);
+    $row = $st->fetch();
+    if (!$row) {
+        return ['ok' => false, 'error' => 'Nie znaleziono powiadomienia.'];
+    }
+    if ($row['status'] === 'sent') {
+        return ['ok' => false, 'error' => 'Ta wiadomość została już wysłana.'];
+    }
+    tickets_notification_update($notificationId, [
+        'status' => 'pending',
+        'attempts' => 0,
+        'last_error' => '',
+        'delivery_status' => '',
+        'next_attempt_at' => now(),
+    ]);
+    tickets_log('panel: ręczne ponowienie powiadomienia #' . $notificationId);
+    return ['ok' => true];
+}
+
+/* -------------------------------------------------------- zmiana statusu */
+
+/**
+ * Zmienia status zgłoszenia i dopisuje wpis do historii.
+ * @return array{ok:bool,error?:string}
+ */
+function tickets_change_status(int $ticketId, string $status, string $note, string $username): array
+{
+    if (!isset(TICKET_STATUSES[$status])) {
+        return ['ok' => false, 'error' => 'Nieprawidłowy status.'];
+    }
+    $ticket = tickets_by_id($ticketId);
+    if (!$ticket) {
+        return ['ok' => false, 'error' => 'Nie znaleziono zgłoszenia.'];
+    }
+    $note = tickets_normalize_text($note, 500, true);
+    $username = tickets_normalize_text($username, 60) ?: 'system';
+    $now = now();
+
+    $pdo = db();
+    $pdo->beginTransaction();
+    try {
+        $pdo->prepare('UPDATE tickets SET status = ?, updated_at = ? WHERE id = ?')->execute([$status, $now, $ticketId]);
+        $pdo->prepare('INSERT INTO ticket_history (ticket_id, status, note, username, created_at) VALUES (?,?,?,?,?)')
+            ->execute([$ticketId, $status, $note, $username, $now]);
+        $pdo->commit();
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        tickets_log('panel: błąd zmiany statusu zgłoszenia #' . $ticketId);
+        return ['ok' => false, 'error' => 'Nie udało się zapisać statusu.'];
+    }
+    return ['ok' => true];
+}
+
+/** Usuwa zgłoszenie razem z historią i powiadomieniami (tylko administrator). */
+function tickets_delete(int $ticketId): bool
+{
+    $pdo = db();
+    $pdo->beginTransaction();
+    try {
+        $pdo->prepare('DELETE FROM notifications WHERE ticket_id = ?')->execute([$ticketId]);
+        $pdo->prepare('DELETE FROM ticket_history WHERE ticket_id = ?')->execute([$ticketId]);
+        $pdo->prepare('DELETE FROM tickets WHERE id = ?')->execute([$ticketId]);
+        $pdo->commit();
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        tickets_log('panel: błąd usuwania zgłoszenia #' . $ticketId);
+        return false;
+    }
+    tickets_log('panel: usunięto zgłoszenie #' . $ticketId);
+    return true;
+}

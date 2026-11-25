@@ -13,6 +13,9 @@ const uslugi = defineCollection({
     group: z.enum(['Konserwacja', 'Naprawy', 'Elektronika', 'System i dane']),
     order: z.number().default(50),
     featured: z.boolean().default(false),
+    tile: z.boolean().default(false), // kafelek w sekcji „Co najczęściej naprawiamy”
+    tileTitle: z.string().optional(), // puste = navLabel
+    tileText: z.string().optional(), // opis procesu naprawy na kafelku (20-35 słów)
     priceFrom: z.string().optional(),
     priceNote: z.string().optional(),
     duration: z.string().optional(),
