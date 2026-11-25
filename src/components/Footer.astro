@@ -5,13 +5,13 @@ import { getCollection } from 'astro:content';
 import { withBase } from '../lib/url';
 import site from '../data/site.json';
 
-const uslugi = (await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft)).sort(
+const uslugi = (await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft)).sort(
   (a, b) => a.data.order - b.data.order
 );
 const footerServices = uslugi.slice(0, 8);
 const year = new Date().getFullYear();
 
-const marki = (await getCollection('marki', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft)).sort(
+const marki = (await getCollection('marki', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft)).sort(
   (a, b) => a.data.order - b.data.order
 );
 ---

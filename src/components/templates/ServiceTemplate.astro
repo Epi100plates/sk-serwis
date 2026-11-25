@@ -17,7 +17,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 
-const all = await getCollection('uslugi', ({ data: d }: any) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !d.draft);
+const all = await getCollection('uslugi', ({ data: d }: any) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !d.draft);
 const related = all.filter((s: any) => data.related.includes(s.id));
 
 const chips = [

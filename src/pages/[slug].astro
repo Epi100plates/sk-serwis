@@ -8,12 +8,12 @@ import PageTemplate from '../components/templates/PageTemplate.astro';
 // Ten sam poziom URL obsługuje: podstrony usług (istniejące SEO), podstrony
 // marek (/serwis-asus-wroclaw/) oraz dowolne podstrony utworzone w panelu.
 export const getStaticPaths = (async () => {
-  const services = await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
-  const brands = await getCollection('marki', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
+  const services = await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft);
+  const brands = await getCollection('marki', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft);
 
   let pages: any[] = [];
   try {
-    pages = await getCollection('strony', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
+    pages = await getCollection('strony', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft);
   } catch {
     pages = [];
   }

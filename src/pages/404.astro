@@ -4,7 +4,7 @@ import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../lib/url';
 
-const services = (await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft))
+const services = (await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft))
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 6);
 ---

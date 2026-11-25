@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import site from '../data/site.json';
 
 const analytics = site.analytics;
-const uslugi = await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
+const uslugi = await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft);
 
 /**
  * Konfiguracja dla skryptu analityki — trafia do HTML jako JSON (data-config),

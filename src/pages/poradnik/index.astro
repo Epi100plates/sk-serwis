@@ -7,7 +7,7 @@ import Icon from '../../components/Icon.astro';
 import { breadcrumbSchema } from '../../lib/schema';
 import { withBase } from '../../lib/url';
 
-const posts = (await getCollection('blog', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft)).sort(
+const posts = (await getCollection('blog', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 

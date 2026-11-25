@@ -194,7 +194,7 @@ const schema = [
           </a>
         </div>
       </div>
-      <CaseGrid items={realizacje.items.filter((i) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !i.draft)} limit={5} categoryLabels={categoryLabels} />
+      <CaseGrid items={realizacje.items.filter((i) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !i.draft)} limit={5} categoryLabels={categoryLabels} />
     </div>
   </section>
 

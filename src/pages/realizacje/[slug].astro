@@ -15,7 +15,7 @@ import { withBase } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
   return realizacje.items
-    .filter((i) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !i.draft)
+    .filter((i) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !i.draft)
     .map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }) satisfies GetStaticPaths;
 
@@ -24,7 +24,7 @@ const categories = [...realizacje.categories].sort((a, b) => a.order - b.order);
 const category = categories.find((c) => c.slug === item.category);
 const labelBySlug = Object.fromEntries(categories.map((c) => [c.slug, c.label]));
 const others = realizacje.items
-  .filter((i) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !i.draft && i.slug !== item.slug)
+  .filter((i) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !i.draft && i.slug !== item.slug)
   .slice(0, 3);
 
 const device = item.device || [item.brand, item.model].filter(Boolean).join(' ');
@@ -34,7 +34,7 @@ const seoDescription =
   item.seo?.description ||
   `${item.title} — ${device}. ${item.summary} Serwis laptopów Studio-Komp, Kotlarska 14, Wrocław.`;
 
-const services = await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
+const services = await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft);
 const relatedServices = services.slice(0, 3);
 
 const schema = [

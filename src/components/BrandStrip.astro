@@ -19,7 +19,7 @@ const fallback = [
 
 let brands: { label: string; href: string | null }[] = [];
 try {
-  const marki = (await getCollection('marki', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft)).sort(
+  const marki = (await getCollection('marki', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft)).sort(
     (a, b) => a.data.order - b.data.order
   );
   brands = marki.map((m) => ({ label: m.data.brand, href: `/${m.id}/` }));

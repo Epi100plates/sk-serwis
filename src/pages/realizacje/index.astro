@@ -9,7 +9,7 @@ import { breadcrumbSchema } from '../../lib/schema';
 
 const categories = [...realizacje.categories].sort((a, b) => a.order - b.order);
 const labelBySlug = Object.fromEntries(categories.map((c) => [c.slug, c.label]));
-const items = realizacje.items.filter((i) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !i.draft);
+const items = realizacje.items.filter((i) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !i.draft);
 
 const schema = [
   breadcrumbSchema([

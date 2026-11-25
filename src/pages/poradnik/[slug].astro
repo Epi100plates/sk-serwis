@@ -11,7 +11,7 @@ import { withBase } from '../../lib/url';
 import site from '../../data/site.json';
 
 export const getStaticPaths = (async () => {
-  const posts = await getCollection('blog', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
+  const posts = await getCollection('blog', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft);
   return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }) satisfies GetStaticPaths;
 
@@ -25,10 +25,10 @@ const minutes = Math.max(3, Math.round(words / 200));
 const fmt = (d: Date) =>
   d.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
 
-const services = await getCollection('uslugi', ({ data: d }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !d.draft);
+const services = await getCollection('uslugi', ({ data: d }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !d.draft);
 const service = services.find((s) => s.id === data.service);
 
-const posts = (await getCollection('blog', ({ data: d }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !d.draft)).sort(
+const posts = (await getCollection('blog', ({ data: d }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !d.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 const relatedPosts = posts

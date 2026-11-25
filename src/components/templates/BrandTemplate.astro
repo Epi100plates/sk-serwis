@@ -17,11 +17,11 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 
-const services = await getCollection('uslugi', ({ data: d }: any) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !d.draft);
+const services = await getCollection('uslugi', ({ data: d }: any) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !d.draft);
 const related = data.services
   .map((slug: string) => services.find((s: any) => s.id === slug))
   .filter(Boolean);
-const allBrands = await getCollection('marki', ({ data: d }: any) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !d.draft);
+const allBrands = await getCollection('marki', ({ data: d }: any) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !d.draft);
 const otherBrands = allBrands.filter((m: any) => m.id !== entry.id);
 
 const chips = [
