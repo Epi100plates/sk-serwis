@@ -142,57 +142,98 @@ function yaml_parse_simple(string $yaml): array
     $data = [];
     $lines = preg_split('/\r?\n/', $yaml);
     $count = count($lines);
-    for ($i = 0; $i < $count; $i++) {
+    $i = 0;
+
+    while ($i < $count) {
         $line = $lines[$i];
-        if ($line === '' || preg_match('/^\s*#/', $line)) {
+        if (trim($line) === '' || str_starts_with(ltrim($line), '#')) {
+            $i++;
             continue;
         }
         if (!preg_match('/^([A-Za-z0-9_]+):\s*(.*)$/', $line, $m)) {
+            $i++;
             continue;
         }
         $key = $m[1];
         $rest = trim($m[2]);
 
-        if ($rest === '') {
-            // lista lub mapa zagnieżdżona
-            $items = [];
-            $j = $i + 1;
-            while ($j < $count && (preg_match('/^\s+-\s+/', $lines[$j]) || preg_match('/^\s{2,}[A-Za-z0-9_]+:/', $lines[$j]))) {
-                $sub = $lines[$j];
-                if (preg_match('/^\s+-\s+(.*)$/', $sub, $sm)) {
-                    $value = $sm[1];
-                    if (preg_match('/^([A-Za-z0-9_]+):\s*(.*)$/', trim($value), $mm)) {
-                        $item = [trim($mm[1]) => yaml_scalar($mm[2])];
-                        $k = $j + 1;
-                        while ($k < $count && preg_match('/^\s{4,}([A-Za-z0-9_]+):\s*(.*)$/', $lines[$k], $km)) {
-                            $item[trim($km[1])] = yaml_scalar($km[2]);
-                            $k++;
-                        }
-                        $items[] = $item;
-                        $j = $k - 1;
-                    } else {
-                        $items[] = yaml_scalar($value);
-                        $j++;
-                    }
-                } elseif (preg_match('/^\s{2,}([A-Za-z0-9_]+):\s*(.*)$/', $sub, $mm)) {
-                    $map = [];
-                    $k = $j;
-                    while ($k < $count && preg_match('/^\s{2,}([A-Za-z0-9_]+):\s*(.*)$/', $lines[$k], $km)) {
-                        $map[trim($km[1])] = yaml_scalar($km[2]);
-                        $k++;
-                    }
-                    $items[] = $map;
-                    $j = $k - 1;
-                }
-                $j++;
-            }
-            $data[$key] = $items;
-            $i = $j - 1;
+        if ($rest !== '') {
+            $data[$key] = yaml_scalar($rest);
+            $i++;
             continue;
         }
 
-        $data[$key] = yaml_scalar($rest);
+        // Blok listy/mapy - kazda pozycja zuzywana dokladnie raz.
+        $i++;
+        $items = [];
+        while ($i < $count) {
+            $blockLine = $lines[$i];
+            if (trim($blockLine) === '') {
+                $i++;
+                continue;
+            }
+            $indent = strlen($blockLine) - strlen(ltrim($blockLine));
+            if ($indent === 0) {
+                break;
+            }
+            $body = ltrim($blockLine);
+
+            if (preg_match('/^-\s*(.*)$/', $body, $lm)) {
+                $value = trim($lm[1]);
+                if (preg_match('/^([A-Za-z0-9_]+):\s*(.*)$/', $value, $mm)) {
+                    $item = [trim($mm[1]) => yaml_scalar($mm[2])];
+                    $i++;
+                    while ($i < $count) {
+                        $cont = $lines[$i];
+                        if (trim($cont) === '') {
+                            $i++;
+                            continue;
+                        }
+                        $contIndent = strlen($cont) - strlen(ltrim($cont));
+                        if ($contIndent <= $indent) {
+                            break;
+                        }
+                        if (preg_match('/^([A-Za-z0-9_]+):\s*(.*)$/', ltrim($cont), $cm)) {
+                            $item[trim($cm[1])] = yaml_scalar($cm[2]);
+                        }
+                        $i++;
+                    }
+                    $items[] = $item;
+                } else {
+                    $items[] = yaml_scalar($value);
+                    $i++;
+                }
+                continue;
+            }
+
+            if (preg_match('/^([A-Za-z0-9_]+):\s*(.*)$/', $body, $mm)) {
+                $item = [trim($mm[1]) => yaml_scalar($mm[2])];
+                $i++;
+                while ($i < $count) {
+                    $cont = $lines[$i];
+                    if (trim($cont) === '') {
+                        $i++;
+                        continue;
+                    }
+                    $contIndent = strlen($cont) - strlen(ltrim($cont));
+                    if ($contIndent <= $indent) {
+                        break;
+                    }
+                    if (preg_match('/^([A-Za-z0-9_]+):\s*(.*)$/', ltrim($cont), $cm)) {
+                        $item[trim($cm[1])] = yaml_scalar($cm[2]);
+                    }
+                    $i++;
+                }
+                $items[] = $item;
+                continue;
+            }
+
+            $i++;
+        }
+
+        $data[$key] = $items;
     }
+
     return $data;
 }
 

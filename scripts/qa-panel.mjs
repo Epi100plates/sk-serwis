@@ -77,10 +77,30 @@ result.editor = await page.evaluate(() => ({
 const mobile = await context.newPage();
 await mobile.setViewportSize({ width: 390, height: 844 });
 await mobile.goto(BASE + '/panel/', { waitUntil: 'domcontentloaded' });
-result.mobile = await mobile.evaluate(() => ({
-  burgerVisible: !!document.querySelector('[data-sidebar-toggle]') && getComputedStyle(document.querySelector('[data-sidebar-toggle]')).display !== 'none',
-  overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-}));
+result.mobile = await mobile.evaluate(() => {
+  const doc = document.documentElement;
+  const vw = doc.clientWidth;
+  const offenders = [];
+  for (const el of document.querySelectorAll('body *')) {
+    const r = el.getBoundingClientRect();
+    if (r.width === 0) continue;
+    if (r.right > vw + 1) {
+      const style = getComputedStyle(el);
+      if (style.position === 'fixed') continue;
+      offenders.push({
+        tag: el.tagName.toLowerCase(),
+        cls: (el.className || '').toString().slice(0, 60),
+        right: Math.round(r.right),
+        w: Math.round(r.width),
+      });
+    }
+  }
+  return {
+    burgerVisible: !!document.querySelector('[data-sidebar-toggle]') && getComputedStyle(document.querySelector('[data-sidebar-toggle]')).display !== 'none',
+    overflow: doc.scrollWidth - vw,
+    offenders: offenders.slice(0, 10),
+  };
+});
 await mobile.screenshot({ path: `${OUT}/panel-mobile.png`, fullPage: true, animations: 'disabled' });
 
 console.log(JSON.stringify(result, null, 2));
