@@ -255,6 +255,14 @@ SQL);
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_tickets_status ON tickets(status, created_at)');
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_tickets_phone ON tickets(phone)');
 
+    // Licznik numerów zgłoszeń per rok - numer nie wraca do obiegu po usunięciu.
+    $pdo->exec(<<<SQL
+CREATE TABLE IF NOT EXISTS ticket_counters (
+    year TEXT PRIMARY KEY,
+    last INTEGER NOT NULL DEFAULT 0
+);
+SQL);
+
     // Historia statusów/następstw (kto i kiedy zmienił status).
     $pdo->exec(<<<SQL
 CREATE TABLE IF NOT EXISTS ticket_history (

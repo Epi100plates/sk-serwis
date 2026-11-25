@@ -329,9 +329,20 @@ function tickets_cleanup_rate(): int
 function tickets_next_number(PDO $pdo): string
 {
     $year = (new DateTimeImmutable('now', new DateTimeZone('Europe/Warsaw')))->format('Y');
-    $st = $pdo->prepare("SELECT COALESCE(MAX(CAST(SUBSTR(number, 9) AS INTEGER)), 0) FROM tickets WHERE SUBSTR(number, 4, 4) = ?");
+
+    // Licznik roczny w tabeli ticket_counters: numery nie wracają do obiegu po
+    // usunięciu zgłoszenia. Przy pierwszym użyciu roku licznik startuje od
+    // najwyższego numeru, jaki już istnieje w bazie.
+    $pdo->prepare(
+        'INSERT OR IGNORE INTO ticket_counters (year, last)
+         VALUES (?, COALESCE((SELECT MAX(CAST(SUBSTR(number, 9) AS INTEGER)) FROM tickets WHERE SUBSTR(number, 4, 4) = ?), 0))'
+    )->execute([$year, $year]);
+    $pdo->prepare('UPDATE ticket_counters SET last = last + 1 WHERE year = ?')->execute([$year]);
+
+    $st = $pdo->prepare('SELECT last FROM ticket_counters WHERE year = ? LIMIT 1');
     $st->execute([$year]);
-    $next = (int) $st->fetchColumn() + 1;
+    $next = (int) $st->fetchColumn();
+
     return sprintf('SK-%s-%06d', $year, $next);
 }
 

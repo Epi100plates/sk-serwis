@@ -135,6 +135,29 @@ check('worker nie łączył się z dostawcą (tryb testowy)', ($ready[0]['status
 
 $ticket = tickets_by_id($ticketId) ?? [];
 
+/* --- 4b. Numeracja zgłoszeń nie wraca do obiegu ------------------------- */
+
+$numberingTicket = static function (string $token): array {
+    return tickets_create([
+        'name' => 'Numeracja Test',
+        'phone' => '601 000 111',
+        'device' => 'Test numeracji',
+        'problem' => 'Sprawdzenie, że numer zgłoszenia nie wraca do obiegu.',
+        'source_page' => '/kontakt/',
+        'consent' => 1,
+    ], $token);
+};
+$sequence = static fn (string $number): int => (int) substr($number, 8);
+
+$a = $numberingTicket('numbering-a-' . time());
+$numberA = (string) ($a['number'] ?? '');
+tickets_delete((int) ($a['id'] ?? 0));
+$b = $numberingTicket('numbering-b-' . time());
+$numberB = (string) ($b['number'] ?? '');
+check('numer po usunięciu nie wraca do obiegu', $sequence($numberB) > $sequence($numberA), $numberA . ' -> ' . $numberB);
+check('numer ma format SK-ROK-000000', preg_match('/^SK-\d{4}-\d{6}$/', $numberB) === 1, $numberB);
+tickets_delete((int) ($b['id'] ?? 0));
+
 /* --- 5. Model widoku ---------------------------------------------------- */
 
 ticket_set_public_note($ticketId, 'Wymieniamy matrycę, część dojedzie w czwartek.');
