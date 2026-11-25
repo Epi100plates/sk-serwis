@@ -68,6 +68,8 @@ AGENTS.md       pełna dokumentacja techniczna i future goals
 - [docs/wdrozenie-vps.md](docs/wdrozenie-vps.md) — VPS, tunnel, publikacja, rollback.
 - [docs/status-klienta.md](docs/status-klienta.md) - publiczna strona statusu
   naprawy (`/status/<token>/`): token, etapy, SMS do klienta, panel, nginx.
+- [docs/github-repozytoria.md](docs/github-repozytoria.md) - podział projektu na
+  dwa repozytoria GitHub (strona serwisu i strona dla klienta) i komendy push.
 - [docs/edycja.md](docs/edycja.md) — instrukcja obsługi panelu dla właściciela.
 - [docs/wdrozenie-hosting-www.md](docs/wdrozenie-hosting-www.md) — pakiet na
   hosting klasyczny (ZIP, podkatalog /sk/).
