@@ -289,6 +289,23 @@ function security_ip_hash(): string
             $salt = (string) file_get_contents($saltFile);
         }
     }
-    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    $ip = client_ip();
     return hash('sha256', $salt . '|' . $ip . '|' . date('Y-m-d'));
+}
+
+/**
+ * Adres klienta z uwzglednieniem Cloudflare Tunnel.
+ * Ruch do nginx-sk przychodzi wylacznie z cloudflared (127.0.0.1), dlatego
+ * naglowek CF-Connecting-IP jest zaufany tylko dla zadan lokalnych z CF-Ray.
+ */
+function client_ip(): string
+{
+    $remote = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $cf = (string) ($_SERVER['HTTP_CF_CONNECTING_IP'] ?? '');
+    $viaCf = !empty($_SERVER['HTTP_CF_RAY']) || !empty($_SERVER['HTTP_CF_VISITOR']);
+    $isLocal = in_array($remote, ['127.0.0.1', '::1', ''], true);
+    if ($viaCf && $isLocal && $cf !== '' && filter_var($cf, FILTER_VALIDATE_IP)) {
+        return $cf;
+    }
+    return $remote;
 }
