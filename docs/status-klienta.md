@@ -445,6 +445,23 @@ zdarzeń (`ticket_public_note`, `ticket_tracking_refresh`).
 
 ---
 
+### Sprawdzone w panelu (2026-11-25)
+
+Przejście przez interfejs (nie tylko warstwę danych), na lokalnej kopii panelu
+z tymczasową bazą:
+
+1. Zapis nowych treści w Ustawienia -> Formularz powoduje, że
+   `tickets_client_sms_message()` zwraca **nowy tekst** z podstawionymi
+   placeholderami, np. `(tel. 500 613 500)` i linkiem do strony statusu;
+   polskie znaki są zamieniane na ASCII, długość mieści się w limicie
+   (przykład: 206 znaków).
+2. Odznaczenie **„Wysyłaj SMS do klienta”** i zapis: nowe zgłoszenie ma w
+   kolejce tylko powiadomienia serwisu (`new_ticket`), **bez** `client_accepted`.
+   Po ponownym zaznaczeniu `client_accepted` wraca.
+3. Wcześniej sprawdzone na tym samym środowisku: „Nowy link” unieważnia stary
+   (stary adres 404, nowy 200), notatka publiczna pojawia się na stronie statusu,
+   a zmiana statusu na „Zrealizowane” kolejkuje `client_ready`.
+
 ## 8. Wdrożenie na VPS
 
 Kolejność (VPS: `/srv/studio-komp`, dane: `/srv/studio-komp-cms/data`):
