@@ -10,12 +10,12 @@ const schema = [
   ]),
 ];
 
-const updated = '24 listopada 2026';
+const updated = '25 listopada 2026';
 ---
 
 <Base
   title="Polityka prywatności | Studio-Komp"
-  description="Zasady przetwarzania danych osobowych i wykorzystywania plików cookies w serwisie studio-komp.pl."
+  description="Zasady przetwarzania danych osobowych i wykorzystywania plików cookies w serwisie Studio-Komp (studio-komp.pl, sk.mati-it.pl)."
   canonicalPath="/polityka-prywatnosci/"
   noindex={true}
   schema={schema}
@@ -28,43 +28,54 @@ const updated = '24 listopada 2026';
       <h2>1. Administrator danych</h2>
       <p>
         Administratorem danych osobowych zbieranych za pośrednictwem strony
-        studio-komp.pl jest Studio-Komp, Kotlarska 14, 50-150 Wrocław, telefon
+        Studio-Komp jest Studio-Komp, Kotlarska 14, 50-150 Wrocław, telefon
         500 613 500 (dalej: „Serwis”).
       </p>
 
       <h2>2. Jakie dane zbieramy</h2>
       <ul>
         <li>dane podane w formularzu zgłoszenia naprawy: imię, numer telefonu, model sprzętu, opis usterki;</li>
-        <li>dane techniczne związane z korzystaniem ze strony: adres IP, typ urządzenia i przeglądarki, odwiedzone podstrony, źródło wejścia — w zakresie wynikającym z narzędzi analitycznych;</li>
-        <li>dane zapisywane w plikach cookies i podobnych technologiach.</li>
+        <li>dane techniczne związane z korzystaniem ze strony: typ urządzenia (telefon / komputer / tablet), odwiedzone podstrony, źródło wejścia (np. Google, reklama, wejście bezpośrednie), przybliżony czas wizyty;</li>
+        <li>identyfikatory techniczne w plikach cookies i pamięci przeglądarki — wyłącznie w zakresie opisanym w sekcji 7.</li>
       </ul>
+      <p>
+        W własnym systemie statystyk <strong>nie zapisujemy pełnych adresów IP</strong>,
+        imion, numerów telefonu ani treści formularzy. Adres IP jest przetwarzany
+        wyłącznie w formie skróconej (hash z solą zmienianą codziennie) i tylko
+        po to, aby ograniczyć nadużycia (limit zapytań). Nie tworzymy profili
+        użytkowników ani nie stosujemy fingerprintingu urządzeń.
+      </p>
 
       <h2>3. Cele i podstawy przetwarzania</h2>
       <ul>
         <li>kontakt w sprawie zgłoszenia naprawy i przygotowanie wyceny — art. 6 ust. 1 lit. b RODO (czynności niezbędne do zawarcia umowy);</li>
         <li>obsługa naprawy i rozliczenie — art. 6 ust. 1 lit. b i c RODO;</li>
-        <li>analityka ruchu i poprawa działania strony — art. 6 ust. 1 lit. f RODO (uzasadniony interes), a w przypadku reklam i narzędzi wymagających zgody — art. 6 ust. 1 lit. a RODO;</li>
+        <li>statystyki odwiedzin i poprawa działania strony — art. 6 ust. 1 lit. f RODO (uzasadniony interes), a dla narzędzi zewnętrznych wymagających zgody — art. 6 ust. 1 lit. a RODO;</li>
         <li>dochodzenie lub obrona przed roszczeniami — art. 6 ust. 1 lit. f RODO.</li>
       </ul>
 
-      <h2>4. Odbiorcy danych</h2>
+      <h2>4. Odbiorcy danych i narzędzia</h2>
       <p>
         Dane mogą być przekazywane podmiotom obsługującym stronę i jej
-        infrastrukturę: dostawcy hostingu, dostawcom narzędzi analitycznych
-        i reklamowych (Google Ireland Limited — Google Analytics, Google Ads,
-        Google Search Console), dostawcy usługi obsługi formularza
-        kontaktowego oraz podmiotom świadczącym usługi księgowe i prawne.
-        Przekazywanie danych poza EOG odbywa się na podstawie standardowych
-        klauzul umownych.
+        infrastrukturę. Poniżej lista narzędzi faktycznie używanych przez stronę:
       </p>
+      <ul>
+        <li><strong>Hosting i sieć:</strong> dostawca serwera (Mikrus) oraz Cloudflare (tunel i ochrona ruchu) — dane techniczne połączenia, logi bezpieczeństwa;</li>
+        <li><strong>Własny system statystyk (pierwszo-stronny):</strong> zdarzenia i odsłony zapisywane w bazie na serwerze Serwisu — bez przekazywania do zewnętrznych dostawców;</li>
+        <li><strong>Google Analytics 4 / Google Tag Manager / Google Ads</strong> (Google Ireland Limited) — tylko jeśli zostały skonfigurowane i po wyrażeniu zgody; dane mogą być przekazywane poza EOG na podstawie standardowych klauzul umownych;</li>
+        <li><strong>Microsoft Clarity</strong> (Microsoft Corporation) — opcjonalnie, tylko po zgodzie analitycznej; nagrania sesji z maskowaniem pól formularzy;</li>
+        <li><strong>Google Maps</strong> (Google Ireland Limited) — osadzona mapa w sekcji kontaktu;</li>
+        <li><strong>Web3Forms</strong> — dostawca obsługi formularza zgłoszenia (przekazanie treści zgłoszenia na skrzynkę Serwisu), albo formularz natywny hostingu;</li>
+        <li>podmioty świadczące usługi księgowe i prawne — w zakresie niezbędnym.</li>
+      </ul>
 
       <h2>5. Okres przechowywania</h2>
-      <p>
-        Dane ze zgłoszeń przechowujemy przez czas potrzebny do obsługi
-        zapytania, a następnie do przedawnienia ewentualnych roszczeń. Dane
-        analityczne — zgodnie z konfiguracją narzędzi (zwykle do 26 miesięcy).
-        Dane rozliczeniowe — przez okres wymagany przepisami podatkowymi.
-      </p>
+      <ul>
+        <li>dane ze zgłoszeń — przez czas potrzebny do obsługi zapytania, a następnie do przedawnienia ewentualnych roszczeń;</li>
+        <li>własne statystyki — do 400 dni, po czym są automatycznie usuwane;</li>
+        <li>dane analityczne Google — zgodnie z konfiguracją (zwykle do 14 miesięcy w GA4, o ile włączono retencję);</li>
+        <li>dane rozliczeniowe — przez okres wymagany przepisami podatkowymi.</li>
+      </ul>
 
       <h2>6. Twoje prawa</h2>
       <p>
@@ -77,25 +88,86 @@ const updated = '24 listopada 2026';
         w siedzibie serwisu.
       </p>
 
-      <h2>7. Pliki cookies</h2>
+      <h2>7. Pliki cookies i pamięć przeglądarki</h2>
       <p>
-        Strona korzysta z niezbędnych plików cookies (zapewniających
-        działanie strony i zapamiętanie decyzji o zgodzie) oraz — po Twojej
-        zgodzie — z plików cookies analitycznych i reklamowych Google.
-        Zgodę możesz w każdej chwili zmienić, korzystając z przycisku
-        „Ustawienia cookies” w stopce strony.
+        Strona używa czterech kategorii technologii. Kategorie opcjonalne
+        (analityczne, marketingowe, funkcjonalne) są domyślnie wyłączone.
+        Swoją decyzję możesz zmienić w każdej chwili przyciskiem
+        „Ustawienia cookies” w stopce.
+      </p>
+      <div class="cookie-table-wrap">
+        <table class="cookie-table">
+          <thead>
+            <tr><th>Nazwa / technologia</th><th>Kategoria</th><th>Cel</th><th>Okres</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>sk_consent_v2</code> (localStorage)</td>
+              <td>niezbędne</td>
+              <td>zapamiętanie Twojej decyzji o cookies</td>
+              <td>do wyczyszczenia przeglądarki</td>
+            </tr>
+            <tr>
+              <td><code>__cf_bm</code> (Cloudflare)</td>
+              <td>niezbędne</td>
+              <td>ochrona przed botami i atakami</td>
+              <td>ok. 30 minut</td>
+            </tr>
+            <tr>
+              <td><code>sk_vid</code>, <code>sk_sid</code></td>
+              <td>analityczne</td>
+              <td>własne statystyki: rozpoznanie powracającego użytkownika w ramach jednej sesji (bez danych osobowych)</td>
+              <td>12 miesięcy / do zamknięcia przeglądarki</td>
+            </tr>
+            <tr>
+              <td><code>_ga</code>, <code>_ga_*</code></td>
+              <td>analityczne</td>
+              <td>Google Analytics 4 — statystyki ruchu (jeśli skonfigurowane)</td>
+              <td>do 2 lat</td>
+            </tr>
+            <tr>
+              <td><code>_gcl_au</code> i podobne</td>
+              <td>marketingowe</td>
+              <td>pomiar skuteczności reklam Google Ads (jeśli skonfigurowane)</td>
+              <td>do 90 dni</td>
+            </tr>
+            <tr>
+              <td><code>_clck</code>, <code>_clsk</code></td>
+              <td>analityczne</td>
+              <td>Microsoft Clarity — mapy ciepła i nagrania sesji (opcjonalnie, po zgodzie)</td>
+              <td>do 1 roku</td>
+            </tr>
+            <tr>
+              <td>Google Maps (iframe)</td>
+              <td>funkcjonalne</td>
+              <td>osadzona mapa z lokalizacją serwisu; Google może ustawić własne cookies (np. <code>NID</code>)</td>
+              <td>zgodnie z polityką Google</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Mapa Google ładuje się automatycznie — zdecydowaliśmy się na to, by
+        ułatwić klientom dojazd. Jeśli nie chcesz, aby Google zapisywało pliki
+        cookies, zablokuj osadzone mapy w ustawieniach przeglądarki lub
+        skorzystaj z trybu prywatnego. Link do wizytówki Google Maps działa
+        również bez osadzonej mapy.
       </p>
       <p>
-        Narzędzia analityczne uruchamiamy dopiero po wyrażeniu zgody.
-        W trybie domyślnym Google Consent Mode ustawia wszystkie kategorie
-        zgód na „denied”.
+        Zgodnie z Google Consent Mode v2 wszystkie kategorie zgód są domyślnie
+        ustawione na „denied”. Narzędzia zewnętrzne uruchamiają się dopiero po
+        Twojej decyzji. Własny system statystyk zapisuje wyłącznie zdarzenia
+        objęte zgodą analityczną.
       </p>
 
       <h2>8. Bezpieczeństwo</h2>
       <p>
         Strona działa w protokole HTTPS. Dostęp do danych ze zgłoszeń mają
-        wyłącznie osoby obsługujące serwis. Stosujemy środki techniczne
-        i organizacyjne odpowiednie do charakteru przetwarzanych danych.
+        wyłącznie osoby obsługujące serwis. Panel zarządzania treścią jest
+        chroniony hasłem i opcjonalnie dwuskładnikowym logowaniem (2FA),
+        a dane dostępowe nie są publikowane w kodzie strony. Stosujemy środki
+        techniczne i organizacyjne odpowiednie do charakteru przetwarzanych
+        danych.
       </p>
 
       <h2>9. Postanowienia końcowe</h2>
@@ -125,5 +197,44 @@ const updated = '24 listopada 2026';
   .prose h2 {
     font-size: clamp(21px, 2vw, 26px);
     margin-top: 2.2em;
+  }
+
+  .cookie-table-wrap {
+    margin: 1.4em 0;
+    overflow-x: auto;
+  }
+
+  .cookie-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .cookie-table th,
+  .cookie-table td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  .cookie-table th {
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .cookie-table code {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .cookie-table {
+      font-size: 12px;
+      min-width: 560px;
+    }
   }
 </style>

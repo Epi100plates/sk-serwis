@@ -1,171 +1,82 @@
-# Edycja strony — instrukcja dla właściciela
+# Panel CMS — instrukcja dla właściciela
 
-Strona jest statyczna (Astro), ale treść jest oddzielona od kodu. Możesz ją zmieniać
-w panelu w przeglądarce albo w plikach. Publikacja (build + wgranie) odbywa się
-**na Twoim komputerze** — serwer hostuje tylko gotową stronę i panel.
+Panel: **https://sk.mati-it.pl/panel/** (docelowo `https://studio-komp.pl/panel/`).
 
-## Co gdzie leży
+## Pierwsze logowanie
 
-| Co chcesz zmienić | Plik |
-| --- | --- |
-| Telefon, adres, godziny, ocena i liczba opinii, ekspres, analityka | `src/data/site.json` |
-| Ceny i pozycje cennika | `src/data/cennik.json` |
-| Opinie klientów | `src/data/opinie.json` |
-| Realizacje (galeria) | `src/data/realizacje.json` |
-| Wideo | `src/data/wideo.json` |
-| FAQ na stronie głównej | `src/data/faq.json` |
-| Landing page Google Ads | `src/data/landing.json` |
-| Teksty podstron usług | `src/content/uslugi/*.md` |
-| Artykuły poradnika | `src/content/blog/*.md` |
-| Zdjęcia wgrywane w panelu | `public/images/uploads/` |
+1. Otwórz adres panelu.
+2. Login i hasło znajdziesz w pliku na serwerze:
+   `/srv/studio-komp-cms/data/initial-credentials.txt` (dostęp przez SSH).
+3. Po zalogowaniu: **Mój profil → Zmień hasło** i włącz **2FA**.
+4. Usuń plik z hasłem po zapisaniu go w menedżerze haseł.
 
-## Wariant A — panel w przeglądarce
+## Co możesz zrobić w panelu
 
-**Adres:** https://sk.mati-it.pl/edycja/ (stary adres `/admin/` przekierowuje tutaj).
+| Sekcja | Do czego służy |
+|---|---|
+| Pulpit | najważniejsze liczby, szybkie skróty, status publikacji |
+| Analityka | odsłony, użytkownicy, kliknięcia telefonu/dojazdu, źródła, urządzenia |
+| Usługi / Poradnik / Marki / Podstrony | edycja treści, SEO, wersje robocze, historia |
+| Realizacje | dodawanie napraw, kategorie, galerie, slider przed/po |
+| Media | zdjęcia i filmy (ALT, opis, miniatury, kasowanie) |
+| Przekierowania | stare adresy → nowe (301/302) |
+| Opinie Google | ocena/liczba opinii, linki, odświeżanie z API |
+| Ustawienia | telefon, adres, godziny, strona główna, menu, cennik, FAQ, analityka, SEO |
+| Publikacja | kolejka, log, wersje, przywracanie |
+| Podgląd | build podglądu z wersjami roboczymi (`/podglad/`) |
+| Użytkownicy | dodatkowe konta, role, reset hasła/2FA |
+| Pomoc | skrócona instrukcja i zasady |
 
-Przeglądarka pyta o login i hasło (zwykłe okienko „Authentication required”):
+## Najczęstsze zadania
 
-- login: `studio-komp`
-- hasło: wygenerowane przy instalacji, zapisane na Twoim komputerze w
-  `%LOCALAPPDATA%\studio-komp-deploy\edycja-password.txt`
+### Dodanie artykułu
 
-Po zalogowaniu panel od razu pokazuje kolekcje (podstrony usług, poradnik, cennik,
-opinie, realizacje, wideo, dane firmy, landing page). Możesz:
+1. Poradnik → **Dodaj nowy**.
+2. Wypełnij tytuł, opis SEO, datę, kategorię, treść (Markdown).
+3. Zostaw „wersja robocza”, jeśli chcesz najpierw sprawdzić w podglądzie.
+4. Zapisz, sprawdź w **Podgląd**, potem odznacz wersję roboczą i zapisz.
 
-- zmieniać ceny i pozycje cennika,
-- dodawać i edytować opinie,
-- podmieniać zdjęcia realizacji i dodawać filmy YouTube,
-- edytować teksty podstron usług i artykułów poradnika,
-- zmieniać dane firmy (telefon, godziny, adres, analityka),
-- edytować landing page Google Ads.
+### Dodanie realizacji
 
-### Jak działa publikacja
+1. Realizacje → **Dodaj realizację**.
+2. Uzupełnij problem, diagnozę, przebieg naprawy i wynik (bez danych klientów!).
+3. Dodaj zdjęcia w Media i wklej ich ścieżki; dla pary zdjęć włącz slider
+   „przed/po”.
+4. Zapisz — dane automatycznie trafią do pliku strony.
 
-1. Klikasz „Opublikuj” → „Opublikuj teraz”. Zmiana zapisuje się jako commit
-   w repozytorium na serwerze (`/srv/studio-komp`). Panel nie buduje strony
-   (serwer ma 1 vCPU — build Astro zawieszałby całą maszynę).
-2. Na komputerze z projektem uruchamiasz:
+### Zmiana ceny / telefonu / godzin
 
-   ```powershell
-   pnpm deploy
-   ```
+- Ceny: **Ustawienia → Cennik**.
+- Telefon, adres, godziny: **Ustawienia → Kontakt** (zmiana działa w całym serwisie).
+- Nie wymyślaj cen — jeśli nie znasz, zostaw „… zł” albo „wycena po diagnozie”.
 
-   Skrypt pobiera zmiany z panelu, buduje stronę **lokalnie** (kilkanaście sekund)
-   i wgrywa gotowe pliki na serwer.
-3. Strona jest zaktualizowana od razu po zakończeniu `pnpm deploy`.
+### Publikacja
 
-Panel nie może sam opublikować zmian — to celowe: build musi dziać się lokalnie.
-Notka w prawym dolnym rogu panelu przypomina o `pnpm deploy`.
-
-### Zmiana hasła do panelu
-
-Z katalogu projektu na swoim komputerze:
-
-```powershell
-pnpm provision -PanelPassword "nowe-haslo"
-```
-
-(albo usuń plik `%LOCALAPPDATA%\studio-komp-deploy\edycja-password.txt` i uruchom
-`pnpm provision` — wygeneruje nowe hasło). Hasło jest trzymane tylko na serwerze
-(plik `/etc/nginx/sk-edycja.htpasswd`) i na Twoim dysku — nie w repozytorium.
-
-### Gdy panel nie działa
-
-| Objaw | Co sprawdzić |
-| --- | --- |
-| Okno hasła wraca / 401 | hasło z pliku `edycja-password.txt`; zmiana: `pnpm provision -PanelPassword ...` |
-| 502 / „Cannot connect” | `systemctl status studio-komp-cms` i `journalctl -u studio-komp-cms -n 50` na serwerze |
-| Zapis kończy się błędem | `journalctl -u studio-komp-cms -n 50` — najczęściej uprawnienia plików w `/srv/studio-komp` (naprawia `pnpm deploy`) |
-| Panel ładuje się bez listy treści | odśwież stronę; sprawdź, czy `studio-komp-cms` odpowiada |
-
-## Wariant B — edycja plików + publikacja
-
-Dla większych zmian (nowa usługa, nowy artykuł, porządki w treści) wygodniej
-pracować na plikach:
-
-```powershell
-pnpm pull      # najpierw pobierz zmiany zrobione w panelu na serwerze
-pnpm dev       # podgląd na http://127.0.0.1:4321
-# ... edycja plików ...
-pnpm deploy    # commit + push + build lokalny + wgranie na serwer
-```
-
-- `pnpm pull` jest konieczne, jeśli treść była zmieniana w panelu — inaczej push
-  zostanie odrzucony (git nie pozwoli nadpisać cudzych zmian).
-- `pnpm deploy` sam robi `pull` przed buildem, więc zwykle wystarczy samo `pnpm deploy`.
-- Konflikty rozwiązujesz jak w każdym repozytorium git.
-
-## Najczęstsze zmiany
-
-### Zmiana ceny
-
-W `src/data/cennik.json` (albo panel → Cennik) znajdź pozycję po nazwie i zmień
-`price`. Cena nieznana = `"… zł"`.
-
-### Dodanie opinii
-
-Panel → Opinie, albo w `src/data/opinie.json` dodaj obiekt do tablicy `items`:
-
-```json
-{
-  "name": "Anna K.",
-  "rating": 5,
-  "text": "Treść opinii z Google.",
-  "highlight": "Opcjonalne wyróżnione zdanie."
-}
-```
-
-Nie wpisuj opinii, które nie istnieją w Google. Sekcja na stronie linkuje do
-wizytówki — klient może sprawdzić każdą opinię.
-
-### Zmiana liczby opinii lub oceny
-
-W `src/data/site.json` (panel → Dane firmy):
-
-```json
-"reviews": { "rating": 4.9, "count": 550, "countLabel": "550+" }
-```
-
-### Dodanie zdjęcia realizacji
-
-1. Panel → Realizacje → wybierz realizację → „Zdjęcie” (plik trafi do
-   `public/images/uploads/`).
-2. Albo ręcznie: wgraj plik do `public/images/uploads/` i ustaw w
-   `src/data/realizacje.json` pole `"image": "/images/uploads/nazwa.jpg"`.
-3. Puste `image` = grafika techniczna.
-
-### Dodanie filmu
-
-W `src/data/wideo.json` (panel → Wideo) uzupełnij `youtubeId` (np. `dQw4w9WgXcQ`).
-Sekcja „Wideo z warsztatu” pojawi się automatycznie na `/realizacje/`.
-
-### Zmiana godziny pracy
-
-W `src/data/site.json` zmień `hours` (wyświetlanie) oraz `hoursSchema`
-(dane dla Google — format 24h).
-
-### Dodanie nowej usługi
-
-Panel → Podstrony usług → „Podstrona usługi”, albo skopiuj dowolny plik
-z `src/content/uslugi/`, zmień nazwę pliku na nowy adres
-(np. `naprawa-drukarek-wroclaw.md`) i uzupełnij frontmatter. Strona powstanie
-automatycznie pod `/<nazwa-pliku>/`, linki w menu i stopce dodadzą się same.
+1. Po zapisaniu zmian kliknij **Publikuj** (górny pasek) lub **Publikacja →
+   Poproś o publikację**.
+2. Publikację wykona komputer właściciela (zadanie „Studio-Komp Publish” co
+   5 minut) albo ręcznie: `pnpm publish:remote`.
+3. Status i log zobaczysz w sekcji **Publikacja**.
+4. Rollback: **Publikacja → Wersje → Przywróć**.
 
 ## Zasady bezpieczeństwa treści
 
-- Nie usuwaj pól wymaganych we frontmatterze (`title`, `description`, `h1`,
-  `lead`, `teaser`, `group`).
-- Daty w formacie `RRRR-MM-DD`.
-- Linki wewnętrzne pisz z ukośnikiem na końcu: `/cennik/`.
-- Nie dodawaj cen, których nie znasz — pozostaw `"… zł"` lub `"wycena po diagnozie"`.
+- Nie usuwaj wartościowych podstron — ustaw zamiast tego przekierowanie 301.
+- Nie kopiuj tekstów z innych stron.
+- Nie pisz „autoryzowany serwis” — Studio-Komp jest niezależnym serwisem.
+- Zdjęcia tylko własne, z opisem ALT.
+- Publikuj pojedyncze, sprawdzone zmiany.
 
-## Publikacja — podsumowanie
+## Gdy coś nie działa
 
-| Sposób | Co robisz | Co się dzieje |
-| --- | --- | --- |
-| Panel | https://sk.mati-it.pl/edycja/ | commit na serwerze (bez builda) |
-| Publikacja | `pnpm deploy` | pull z panelu → build lokalny → wgranie `dist/` na serwer |
-| Tylko pobranie | `pnpm pull` | ściąga commity z panelu do lokalnego repo |
-| Podgląd lokalny | `pnpm dev` | strona na `http://127.0.0.1:4321` |
+- **Zmiany nie są widoczne?** Sprawdź status publikacji; odśwież stronę z Ctrl+F5.
+- **Zapomniałeś hasła?** Administrator resetuje w Użytkownicy (albo
+  `php panel/bin/create-admin.php --username=admin` na serwerze).
+- **Błąd opinii Google?** Ostatnie dane zostają; sprawdź klucz API i limity.
+- **Awaria strony?** Publikacja → wcześniejsza wersja → Przywróć.
 
-Szczegóły techniczne (usługi, uprawnienia, logi): `docs/wdrozenie-vps.md`.
+## Dla technicznych
+
+Pełna dokumentacja: [AGENTS.md](../AGENTS.md). Konfiguracja serwera:
+`/srv/studio-komp-cms/config.php` (poza repozytorium). Testy treści:
+`php panel/bin/self-check.php`.

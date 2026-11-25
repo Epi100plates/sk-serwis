@@ -1,96 +1,69 @@
-# Studio-Komp — nowa strona serwisu laptopów we Wrocławiu
+# Studio-Komp — strona serwisu laptopów + panel CMS
 
-Kompletna, statyczna strona serwisu laptopów Studio-Komp (Kotlarska 14, Wrocław), zbudowana w Astro 5. Zaprojektowana pod konwersję (telefony, wizyty), lokalne SEO i kampanie Google Ads.
+Statyczna strona serwisu laptopów Studio-Komp (Kotlarska 14, Wrocław) zbudowana
+w Astro 5, z panelem zarządzania treścią w PHP + SQLite. Publikacja odbywa się
+**lokalnie**: komputer buduje stronę i wgrywa gotową wersję na VPS.
 
-**Wersja online (wdrożona): https://sk.mati-it.pl** — VPS + Cloudflare Tunnel, patrz [Wdrożenie na VPS](docs/wdrozenie-vps.md).
+- **Działająca wersja:** https://sk.mati-it.pl
+- **Panel CMS:** https://sk.mati-it.pl/panel/
+- **Dokumentacja dla agentów i właściciela:** [AGENTS.md](AGENTS.md)
 
 ## Szybki start
 
 ```powershell
 pnpm install
-pnpm dev          # http://127.0.0.1:4321
-pnpm build        # statyczna strona w katalogu dist/
-pnpm preview      # podgląd builda
-pnpm deploy       # commit + build lokalny + wgranie na VPS (sk.mati-it.pl)
-pnpm pull         # pobranie zmian zrobionych w panelu /edycja
-pnpm qa:live      # test działającej strony (sitemapa, linki, 301, 404)
+pnpm dev            # http://127.0.0.1:4321
+pnpm build          # statyczna strona w dist/
+pnpm preview        # podgląd builda
+pnpm measure        # pomiar mobile (liczba ekranów, overflow)
+pnpm qa             # Lighthouse/axe (jeśli skonfigurowane)
+
+# publikacja na VPS (build lokalny + atomowa podmiana wersji)
+pnpm publish:remote    # z kolejki panelu
+pnpm publish:now       # natychmiast
+pnpm publish:preview   # podgląd wersji roboczych → /podglad/
+pnpm publisher:install # zadanie Windows co 5 min (automatyczna publikacja)
 ```
 
-Wymagania: Node.js 20+ i pnpm 9+.
+Wymagania: Node.js 20+ / 22, pnpm 9+, Git, OpenSSH, klucz SSH do VPS.
 
 ## Co jest w środku
 
-- **Strona główna** — hero ze „zgłoszeniem serwisowym”, opinie Google, sekcja ekspresu, usługi, przewagi, proces, cennik, realizacje, FAQ, kontakt z mapą.
-- **16 podstron usług SEO** pod czystymi adresami (`/czyszczenie-laptopa-wroclaw/`, `/naprawa-plyt-glownych/`, …).
-- **Poradnik** — 15 artykułów z linkowaniem do usług, FAQ i schema Article.
-- **Cennik** — edytowalny plik JSON, ceny znane z obecnej strony, miejsca na ceny do uzupełnienia.
-- **Opinie** — prawdziwe cytaty z Google + link do wizytówki; brak fikcyjnych opinii.
-- **Realizacje** — galeria z autorskimi ilustracjami technicznymi (łatwe podmienienie na zdjęcia), obsługa wideo YouTube.
-- **Kontakt** — dane NAP, godziny, mapa ładowana po kliknięciu, formularz zgłoszenia.
-- **6 landing page Google Ads** (`/lp/...`) — noindex, zoptymalizowane pod telefon i formularz.
-- **SEO techniczne** — sitemap, robots.txt, canonical, Open Graph, schema LocalBusiness/Service/FAQPage/Article/BreadcrumbList, przekierowania 301 ze starych adresów.
-- **Analityka** — GTM/GA4 + Consent Mode v2, zdarzenia: `call_click`, `directions_click`, `cta_click`, `form_submit`, `generate_lead`.
-- **Panel edycji** — Decap CMS pod `/edycja/`, własny serwer proxy na VPS + hasło (bez Netlify i Git Gateway). Zapis = commit w repo na serwerze; publikacja: `pnpm deploy` (build lokalny).
-- **Identyfikacja** — nowe logo (SVG/PNG), favicon, paleta i typografia; pliki w `public/brand/`.
+- **Strona główna** — hero „Twój laptop w dobrych rękach.”, statystyki (99%,
+  550+, 2013, 0 zł*), marki, opinie Google, usługi z ilustracjami, cennik,
+  realizacje, FAQ, kontakt z mapą ładowaną automatycznie.
+- **16 podstron usług SEO** + **10 podstron marek** + **realizacje z podstronami**
+  (kategorie, galerie, slider przed/po).
+- **Poradnik** — 15 artykułów publicznych + 27 szkiców markowych (do zatwierdzenia).
+- **Cennik, opinie, kontakt, o serwisie, polityka prywatności, LP Google Ads**.
+- **Panel CMS** — treści, media, realizacje, przekierowania, ustawienia,
+  użytkownicy, audyt, publikacja i rollback.
+- **Analityka** — własny pomiar (odsłony + 14 zdarzeń, urządzenia, źródła, UTM)
+  + gotowy Consent Mode v2 pod GA4/GTM/Ads/Clarity.
+- **SEO techniczne** — sitemap, robots, canonical, OG, schema (LocalBusiness,
+  Service, FAQPage, Article, Breadcrumb), 301 ze starych adresów.
+- **Bezpieczeństwo** — logowanie z 2FA, CSRF, limity, bezpieczne sesje,
+  walidacja uploadów, prepared statements, nagłówki.
 
 ## Struktura
 
 ```
-src/
-  components/      komponenty sekcji i UI
-  content/uslugi/  16 podstron usług (Markdown)
-  content/blog/    15 artykułów (Markdown)
-  data/            site.json, cennik.json, opinie.json, realizacje.json, faq.json, wideo.json, landing.json
-  layouts/         Base.astro, LandingLayout.astro
-  lib/             pomocnicze funkcje (URL, schema)
-  pages/           trasy: /, /uslugi/, /[usluga]/, /poradnik/, /cennik/, /lp/[slug]/ itd.
-  styles/          global.css (tokeny, typografia, komponenty bazowe)
-public/
-  edycja/          panel Decap CMS (/edycja/)
-  brand/           logo SVG/PNG
-  images/          OG image, ilustracje realizacji
-  .htaccess        przekierowania i cache dla obecnego hostingu
-  _redirects       301 dla Netlify/Cloudflare
-  robots.txt, sitemap generowany przy buildzie
-docs/
-  audyt-i-strategia.md   audyt starej strony, konkurencja, strategia
-  logo-i-design.md       identyfikacja i system designu
-  edycja.md              instrukcja edycji treści
-  wdrozenie.md           środowisko testowe, publikacja, analityka
-  wdrozenie-vps.md       wdrożona wersja: VPS + Cloudflare Tunnel (sk.mati-it.pl)
-  brief-tresci.md        zasady redakcyjne (dla kolejnych treści)
-deploy/
-  deploy.ps1             publikacja: commit + pull z panelu + build lokalny + wgranie dist/
-  provision.ps1          instalacja/odświeżenie usług panelu i nginx-sk na VPS
-  editor-setup.sh        konfiguracja decap-server + hasła do panelu (VPS)
-  server-setup.sh        konfiguracja nginx-sk i usługi cloudflared na VPS
-  nginx/                 konfiguracja osobnej instancji nginx (127.0.0.1:8088)
+src/            Astro: pages, components, content (usługi/blog/marki/strony), data, styles
+public/         logo, ikony, obrazy, .htaccess, _redirects
+panel/          panel CMS (PHP 8.3 + SQLite) — serwowany pod /panel/
+deploy/         publikacja lokalna + skrypty VPS + konfiguracja nginx
+scripts/        QA: zrzuty ekranu, pomiary, testy panelu i analityki
+docs/           wdrożenia, design, QA
+AGENTS.md       pełna dokumentacja techniczna i future goals
 ```
 
 ## Dokumentacja
 
-- [Audyt i strategia](docs/audyt-i-strategia.md)
-- [Identyfikacja wizualna](docs/logo-i-design.md)
-- [Edycja treści](docs/edycja.md) — panel `/edycja/` i praca na plikach
-- [Wdrożenie](docs/wdrozenie.md)
-- [Wdrożenie na VPS (sk.mati-it.pl)](docs/wdrozenie-vps.md)
-- [Wyniki testów](docs/qa-wyniki.md)
-
-## Stan i uwagi
-
-- Ceny pochodzą z obecnej strony Studio-Komp. Brakujące ceny oznaczono jako `… zł` — do uzupełnienia przez właściciela.
-- Opinie (3 cytaty) pochodzą z wizytówki Google. Liczbę i ocenę aktualizuje się w `src/data/site.json`.
-- Ilustracje realizacji są generowane proceduralnie (skrypt `scripts/generate-art.mjs`) i służą jako placeholdery do czasu dostarczenia zdjęć z warsztatu.
-- Formularz działa przez Netlify Forms lub Web3Forms (wymaga klucza w `site.json`).
-- Strona nie zmienia DNS `studio-komp.pl`, nie publikuje nic na tej domenie i nie usuwa starej wersji — nowa strona stoi pod `sk.mati-it.pl` (szczegóły w `docs/wdrozenie-vps.md`).
-- Wersja testowa w podkatalogu (`BASE_PATH=/nowa/`) automatycznie ustawia `noindex, nofollow`.
-
-## Skrypty pomocnicze
-
-```powershell
-pnpm art      # regeneracja ilustracji realizacji (SVG)
-pnpm brand    # eksport logo PNG 3x
-pnpm icons    # favicon.ico z SVG
-pnpm og       # OG image 1200×630 (wymaga działającego dev servera)
-pnpm shots    # zrzuty ekranu + pomiar przepełnienia layoutu
-```
+- [AGENTS.md](AGENTS.md) — architektura, panel, analityka, bezpieczeństwo, SEO,
+  future goals (status napraw + SMS), historia zmian.
+- [docs/wdrozenie-vps.md](docs/wdrozenie-vps.md) — VPS, tunnel, publikacja, rollback.
+- [docs/edycja.md](docs/edycja.md) — instrukcja obsługi panelu dla właściciela.
+- [docs/wdrozenie-hosting-www.md](docs/wdrozenie-hosting-www.md) — pakiet na
+  hosting klasyczny (ZIP, podkatalog /sk/).
+- [docs/logo-i-design.md](docs/logo-i-design.md) — logo, paleta, typografia.
+- [docs/qa-wyniki.md](docs/qa-wyniki.md) — wyniki testów i audytów.
