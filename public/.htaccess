@@ -14,6 +14,7 @@
   RewriteRule ^mapa$ https://sk.mati-it.pl/kontakt/ [R=301,L]
   RewriteRule ^o-firmie.html$ https://sk.mati-it.pl/o-serwisie/ [R=301,L]
   RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
+  RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
   RewriteRule ^ofertaczyszczenie-i-konserwacja-ukladu-chlodzenia.html$ https://sk.mati-it.pl/czyszczenie-laptopa-wroclaw/ [R=301,L]
 . Ten plik leży poza public/, żeby nie trafił na hosting.
 
@@ -47,6 +48,7 @@ DirectoryIndex index.html
   RewriteRule ^mapa$ https://sk.mati-it.pl/kontakt/ [R=301,L]
   RewriteRule ^mapa$ https://sk.mati-it.pl/kontakt/ [R=301,L]
   RewriteRule ^o-firmie.html$ https://sk.mati-it.pl/o-serwisie/ [R=301,L]
+  RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
   RewriteRule ^oferta$ https://sk.mati-it.pl/uslugi/ [R=301,L]
   RewriteRule ^ofertaczyszczenie-i-konserwacja-ukladu-chlodzenia.html$ https://sk.mati-it.pl/czyszczenie-laptopa-wroclaw/ [R=301,L]
 
