@@ -83,6 +83,7 @@ Pliki:
 | `panel/lib/sms.php` | dostawcy SMS + tryb testowy (bez zmian względem formularza) |
 | `panel/bin/tickets-worker.php` | worker kolejki powiadomień (cron co minutę) |
 | `panel/bin/self-check-status.php` | samokontrola: mapowanie etapów, tokeny, kolejka SMS, model widoku (na katalogu tymczasowym) |
+| `panel/bin/sms-test.php` | ręczny test dostawcy SMS po wyłączeniu trybu testowego (`--to=...`, bez `--send` tylko podgląd) |
 | `panel/pages/zgloszenia.php` | panel: karta „Śledzenie naprawy (dla klienta)” - link, nowy link, publiczna notatka |
 | `panel/pages/settings.php` | Ustawienia -> Formularz: sekcja „SMS do klienta (śledzenie naprawy)” |
 | `public/tracking/status.css` + `public/tracking/fonts/*` | statyczne assety strony statusu (serwowane z roota, nie przez PHP) |
@@ -371,6 +372,14 @@ Domyślnie `sms_test_mode = 1` (wspólny z formularzem):
    `client_accepted` ze statusem `sent`, na telefonie SMS z linkiem.
 5. Zmiana statusu na „Zrealizowane” -> drugi SMS (`client_ready`).
 6. Sprawdzić, że link otwiera stronę statusu, a `?format=json` zwraca dane.
+
+Przed wysłaniem zgłoszenia można sprawdzić sam dostawcę jednym poleceniem
+(bezpieczne: bez `--send` tylko pokazuje konfigurację i treść, nic nie wysyła):
+
+```bash
+runuser -u skcms -- php /srv/studio-komp/panel/bin/sms-test.php --to=600100200
+runuser -u skcms -- php /srv/studio-komp/panel/bin/sms-test.php --to=600100200 --send
+```
 
 ### Koszt
 
