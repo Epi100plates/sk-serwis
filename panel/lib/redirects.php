@@ -161,16 +161,20 @@ function redirects_seed_if_empty(): int
     $seed = [
         ['/o-firmie.html', '/o-serwisie/'],
         ['/oferta/', '/uslugi/'],
+        ['/oferta', '/uslugi/'],
         ['/oferta/czyszczenie-i-konserwacja-ukladu-chlodzenia.html', '/czyszczenie-laptopa-wroclaw/'],
         ['/cennik.html', '/cennik/'],
         ['/galeria.html', '/realizacje/'],
         ['/kontakt.html', '/kontakt/'],
         ['/aktualnosci/', '/poradnik/'],
+        ['/aktualnosci', '/poradnik/'],
         ['/aktualnosci/index.html', '/poradnik/'],
         ['/aktualnosci/dlaczego-warto-nas-wybrac.html', '/o-serwisie/'],
         ['/aktualnosci/strona-w-przebudowie.html', '/poradnik/'],
         ['/googleads/', '/lp/naprawa-laptopow/'],
+        ['/googleads', '/lp/naprawa-laptopow/'],
         ['/mapa/', '/kontakt/'],
+        ['/mapa', '/kontakt/'],
     ];
     $st = db()->prepare('INSERT INTO redirects (old_path, target_url, status_code, enabled, note, hits, created_at, updated_at) VALUES (?,?,301,1,?,0,?,?)');
     foreach ($seed as $row) {
