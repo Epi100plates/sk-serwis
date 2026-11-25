@@ -1,7 +1,7 @@
 <?php
 /**
  * Warstwa bazy danych panelu (SQLite).
- * Schemat jest idempotentny — db_init() można wywoływać przy każdym żądaniu.
+ * Schemat jest idempotentny - db_init() można wywoływać przy każdym żądaniu.
  */
 
 function db(): PDO

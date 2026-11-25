@@ -114,7 +114,7 @@ layout_head('Mój profil', '');
           <div class="form-actions"><button class="btn btn--primary" type="submit">Włącz 2FA</button></div>
         </form>
       <?php else: ?>
-        <p class="small muted">2FA nie jest włączone. Zalecamy włączenie — panel zarządza całą stroną.</p>
+        <p class="small muted">2FA nie jest włączone. Zalecamy włączenie - panel zarządza całą stroną.</p>
         <form method="post" style="margin-top:12px">
           <?= csrf_field() ?>
           <input type="hidden" name="action" value="enable_2fa_start">

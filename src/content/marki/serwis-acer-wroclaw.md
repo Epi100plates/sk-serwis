@@ -1,6 +1,6 @@
 ---
 brand: "Acer"
-title: "Serwis Acer Wrocław — naprawa laptopów Acer | Studio-Komp"
+title: "Serwis Acer Wrocław - naprawa laptopów Acer | Studio-Komp"
 description: "Serwis Acer Wrocław: naprawa Aspire, Swift, Nitro, Predator i TravelMate. Gniazda zasilania, przegrzewanie, matryce, zawiasy. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis laptopów Acer we Wrocławiu"
 lead: "Acer sprzedaje dużo laptopów budżetowych, które po dwóch, trzech latach trafiają do serwisu z gniazdem zasilania, zawiasem albo matrycą. Równie często naprawiamy gamingowe Nitro i Predatory, gdzie problemem jest chłodzenie."
@@ -75,6 +75,6 @@ Naprawa laptopów Acer bywa też kwestią wyboru zakresu: czasem taniej jest wym
 
 ## Gdzie nas znajdziesz
 
-Zapraszamy na Kotlarską 14 we Wrocławiu. Działamy od 2013 roku, od poniedziałku do piątku w godzinach 7:00–15:00, bez konieczności umawiania wizyty. Pod telefonem 500 613 500 można opisać objawy i dowiedzieć się, czy warto przywozić laptopa.
+Zapraszamy na Kotlarską 14 we Wrocławiu. Działamy od 2013 roku, od poniedziałku do piątku w godzinach 7:00-15:00, bez konieczności umawiania wizyty. Pod telefonem 500 613 500 można opisać objawy i dowiedzieć się, czy warto przywozić laptopa.
 
 Zobacz też [naprawa laptopów](/naprawa-laptopow-wroclaw/), [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/), [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/) oraz [wymiana matrycy](/wymiana-matrycy-wroclaw/). Jeśli to możliwe, przywieź ładowarkę: sprawdzenie z zasilaczem od laptopa skraca diagnostykę. Mamy 550+ opinii w Google, między innymi za to, że mówimy o cenie przed naprawą.

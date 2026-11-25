@@ -1,14 +1,14 @@
 ---
-title: "Wymiana klawiatury laptopa — Wrocław, cena i czas"
+title: "Wymiana klawiatury laptopa - Wrocław, cena i czas"
 navLabel: "Wymiana klawiatury"
 description: "Nie działa kilka klawiszy, klawiatura się klei albo przestała świecić? Dobieramy klawiaturę do modelu i wymieniamy w serwisie we Wrocławiu. Kotlarska 14."
 h1: "Wymiana klawiatury w laptopie we Wrocławiu"
 lead: "Klawisze przestały działać, kleją się albo po zalaniu nie wracają do pozycji? Wymieniamy klawiaturę dopasowaną do modelu i sprawdzamy, czy nie kryje się za tym większe uszkodzenie."
-teaser: "Uszkodzone klawisze, zalana lub podświetlana klawiatura — wymiana dopasowana do modelu laptopa."
+teaser: "Uszkodzone klawisze, zalana lub podświetlana klawiatura - wymiana dopasowana do modelu laptopa."
 group: "Naprawy"
 order: 110
 featured: false
-priceNote: "Cena zależy od modelu — klawiatura dobierana jest do konkretnego laptopa"
+priceNote: "Cena zależy od modelu - klawiatura dobierana jest do konkretnego laptopa"
 duration: "zwykle z dnia na dzień"
 includes:
   - "Sprawdzenie, które klawisze i funkcje nie działają"

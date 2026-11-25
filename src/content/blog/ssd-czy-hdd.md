@@ -76,6 +76,6 @@ Jeśli potrzebujesz dużej przestrzeni na archiwum zdjęć i filmów, a laptop m
 
 Wymianę dysku i przeniesienie systemu wykonujemy w ramach [przyspieszania laptopa we Wrocławiu](/przyspieszanie-laptopa-wroclaw/). Sprawdzamy, jaki interfejs obsługuje laptop, dobieramy dysk i przenosimy dane bez utraty plików. Jeśli stary dysk jest uszkodzony i nie da się z niego skopiować danych, zajmujemy się też [odzyskiwaniem danych](/odzyskiwanie-danych-wroclaw/). Cennik usług znajdziesz w [cenniku](/cennik/).
 
-Nie musisz się umawiać. Przyjdź na Kotlarską 14 w godzinach 7:00–15:00 albo zadzwoń pod 500 613 500 i powiedz, jaki masz laptop. Często już po modelu wiadomo, czy wymiana dysku jest możliwa.
+Nie musisz się umawiać. Przyjdź na Kotlarską 14 w godzinach 7:00-15:00 albo zadzwoń pod 500 613 500 i powiedz, jaki masz laptop. Często już po modelu wiadomo, czy wymiana dysku jest możliwa.
 
 Wymiana dysku w serwisie obejmuje też sprawdzenie, czy system startuje z nowego nośnika i czy dane są kompletne. To moment, w którym wychodzą problemy ukryte na starym dysku.

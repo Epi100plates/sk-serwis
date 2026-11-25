@@ -6,7 +6,7 @@ category: "Naprawa"
 service: "naprawa-laptopa-ktory-sie-nie-wlacza"
 faq:
   - question: "Czy reset przytrzymaniem przycisku zasilania kasuje dane?"
-    answer: "Nie. Przytrzymanie przycisku przez 20–30 sekund odcina zasilanie i rozładowuje kondensatory na płycie, ale nie dotyka dysku ani plików. Zdjęcia, dokumenty i system zostają na miejscu. Tylko nie próbuj wyjmować wbudowanej baterii samodzielnie."
+    answer: "Nie. Przytrzymanie przycisku przez 20-30 sekund odcina zasilanie i rozładowuje kondensatory na płycie, ale nie dotyka dysku ani plików. Zdjęcia, dokumenty i system zostają na miejscu. Tylko nie próbuj wyjmować wbudowanej baterii samodzielnie."
   - question: "Laptop nie reaguje na ładowarkę. Czy to zawsze uszkodzona płyta główna?"
     answer: "Nie. Najczęściej winne jest gniazdo zasilania, kabel albo sam zasilacz. Płyta główna to zwykle ostatnia możliwość, którą potwierdzamy pomiarami w serwisie. Bez pomiarów wymiana płyty jest zgadywaniem."
   - question: "Ile trwa diagnostyka laptopa, który się nie włącza?"
@@ -27,7 +27,7 @@ Zanim uznasz, że laptop nie startuje, odłącz od niego wszystko: pendrive, kar
 
 ## Reset przytrzymaniem przycisku
 
-Odłącz zasilacz, a jeśli laptop ma wyjmowalną baterię, wyjmij ją. Przytrzymaj przycisk zasilania przez 20–30 sekund, następnie podłącz sam zasilacz i spróbuj włączyć komputer. Ten zabieg rozładowuje kondensatory na płycie i resetuje kontroler zasilania, który po nagłym odcięciu prądu czasem zostaje w błędnym stanie. W wielu przypadkach laptop, który wcześniej nie reagował, po takim resecie startuje normalnie.
+Odłącz zasilacz, a jeśli laptop ma wyjmowalną baterię, wyjmij ją. Przytrzymaj przycisk zasilania przez 20-30 sekund, następnie podłącz sam zasilacz i spróbuj włączyć komputer. Ten zabieg rozładowuje kondensatory na płycie i resetuje kontroler zasilania, który po nagłym odcięciu prądu czasem zostaje w błędnym stanie. W wielu przypadkach laptop, który wcześniej nie reagował, po takim resecie startuje normalnie.
 
 Dane są bezpieczne. Twardy reset nie dotyka dysku, systemu ani plików, więc zdjęcia i dokumenty zostają na miejscu. Baterii wbudowanej nie próbuj wyjmować samodzielnie, bo w większości nowych laptopów wymaga to rozkręcenia obudowy i odłączenia taśmy. Jeśli po resecie komputer nadal milczy, nie powtarzaj próby kilkanaście razy pod rząd. Jeden lub dwa podejścia wystarczą, żeby ocenić reakcję.
 
@@ -71,7 +71,7 @@ Osobny sygnał to upadek. Laptop, który po upadku nie startuje, może mieć usz
 
 ## Kiedy przyjechać do serwisu we Wrocławiu
 
-Jeśli po sprawdzeniu zasilacza, resecie i teście z monitorem laptop nadal nie startuje, dalsze próby w domu niewiele dadzą. W Studio-Komp przy Kotlarskiej 14 diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Nie musisz się umawiać: przyjdź w godzinach 7:00–15:00 od poniedziałku do piątku albo zadzwoń pod 500 613 500 i opisz objawy.
+Jeśli po sprawdzeniu zasilacza, resecie i teście z monitorem laptop nadal nie startuje, dalsze próby w domu niewiele dadzą. W Studio-Komp przy Kotlarskiej 14 diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Nie musisz się umawiać: przyjdź w godzinach 7:00-15:00 od poniedziałku do piątku albo zadzwoń pod 500 613 500 i opisz objawy.
 
 Przygotuj też krótką notatkę: kiedy problem się pojawił, czy poprzedzało go zdarzenie, czy laptop wydaje jakieś dźwięki i czy dioda świeci. Te informacje skracają diagnostykę i pozwalają szybciej wykluczyć najprostsze przyczyny.
 

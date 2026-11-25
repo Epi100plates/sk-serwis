@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-// robots.txt generowany przy buildzie — adres sitemapy zależy od SITE_URL,
+// robots.txt generowany przy buildzie - adres sitemapy zależy od SITE_URL,
 // więc ten sam kod obsługuje studio-komp.pl i sk.mati-it.pl.
 export const GET: APIRoute = ({ site }) => {
   const origin = (site ?? new URL('https://studio-komp.pl')).href.replace(/\/$/, '');

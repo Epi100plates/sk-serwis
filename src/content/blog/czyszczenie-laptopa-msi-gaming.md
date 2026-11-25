@@ -20,13 +20,13 @@ Laptop MSI Gaming pracuje w warunkach, które szybko zużywają układ chłodzen
 
 Ciepło z procesora i karty graficznej trafia do ciepłowodów, potem do radiatora, a stamtąd wydmuchują je wentylatory. Każdy z tych elementów ma ograniczoną sprawność. Kurz tworzy na żeberkach zbity filc, który blokuje przepływ powietrza. Pasta między układem a radiatorem z czasem wysycha i przestaje przewodzić ciepło tak jak na początku.
 
-Efektem jest błędne koło: skoro ciepło nie ucieka, wentylatory kręcą się szybciej, żeby wymusić przepływ. Hałas rośnie, temperatury też, a procesor zaczyna obniżać taktowanie. W grach widać to jako spadki klatek, w pracy — jako zwolnienie po kilkunastu minutach.
+Efektem jest błędne koło: skoro ciepło nie ucieka, wentylatory kręcą się szybciej, żeby wymusić przepływ. Hałas rośnie, temperatury też, a procesor zaczyna obniżać taktowanie. W grach widać to jako spadki klatek, w pracy - jako zwolnienie po kilkunastu minutach.
 
 ## Co obejmuje czyszczenie w serwisie
 
 Konserwacja nie polega na przedmuchaniu kratek. W serwisie laptop jest rozbierany, a układ chłodzenia demontowany. Radiator i wentylatory czyszczone są osobno, żeby usunąć kurz z wąskich szczelin, do których nie dociera sprężone powietrze. Stara pasta zostaje usunięta z procesora i układu graficznego, a na jej miejsce wchodzi nowa.
 
-Do tego dochodzi sprawdzenie padów termoprzewodzących na sekcji zasilania i pamięciach. Pady odpalają ciepło z mniejszych elementów i po latach twardnieją, pękają albo się odkształcają. Jeśli straciły kontakt, wymieniamy je na nowe o właściwej grubości — zbyt grube albo zbyt cienkie pogarszają chłodzenie zamiast pomagać.
+Do tego dochodzi sprawdzenie padów termoprzewodzących na sekcji zasilania i pamięciach. Pady odpalają ciepło z mniejszych elementów i po latach twardnieją, pękają albo się odkształcają. Jeśli straciły kontakt, wymieniamy je na nowe o właściwej grubości - zbyt grube albo zbyt cienkie pogarszają chłodzenie zamiast pomagać.
 
 Na koniec sprawdzamy stan wentylatorów. Łożyska po latach potrafią hałasować, a wtedy samo czyszczenie nie usunie dźwięku; potrzebna jest wymiana wentylatora. Oglądamy też stan kratek wlotowych i wylotowych, bo bywają odkształcone po upadku.
 
@@ -56,6 +56,6 @@ Diagnostyka jest bezpłatna przy zlecanej naprawie. Jeśli po diagnozie nie zdec
 
 ## Jak często czyścić i kiedy przyjechać
 
-Przy codziennym graniu i pracy zwykle wystarczy konserwacja raz na rok albo dwa lata. W mieszkaniu ze zwierzętami i w zakurzonym otoczeniu — częściej. Sygnałami, że czas przyjechać, są: głośny wentylator przy lekkich zadaniach, spadek wydajności pod obciążeniem, wyłączenia w grach i gorąca obudowa nad klawiaturą.
+Przy codziennym graniu i pracy zwykle wystarczy konserwacja raz na rok albo dwa lata. W mieszkaniu ze zwierzętami i w zakurzonym otoczeniu - częściej. Sygnałami, że czas przyjechać, są: głośny wentylator przy lekkich zadaniach, spadek wydajności pod obciążeniem, wyłączenia w grach i gorąca obudowa nad klawiaturą.
 
-Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00–15:00, albo zadzwoń pod 500 613 500. Warto przeczytać też artykuł o [wymianie pasty termoprzewodzącej](/poradnik/kiedy-wymienic-paste-termoprzewodzaca/), jeśli chcesz zrozumieć, po czym poznać, że pasta straciła właściwości.
+Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500. Warto przeczytać też artykuł o [wymianie pasty termoprzewodzącej](/poradnik/kiedy-wymienic-paste-termoprzewodzaca/), jeśli chcesz zrozumieć, po czym poznać, że pasta straciła właściwości.

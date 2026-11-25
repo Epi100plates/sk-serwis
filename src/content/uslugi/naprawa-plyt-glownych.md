@@ -1,14 +1,14 @@
 ---
-title: "Naprawa płyt głównych Wrocław — zwarcia i zasilanie"
+title: "Naprawa płyt głównych Wrocław - zwarcia i zasilanie"
 navLabel: "Naprawa płyt głównych"
 description: "Naprawa płyt głównych we Wrocławiu: pomiary napięć, usuwanie zwarć, naprawa sekcji zasilania i uszkodzeń po zalaniu. Wycena po diagnozie."
 h1: "Naprawa płyt głównych we Wrocławiu"
 lead: "Laptop nie włącza się, nie ładuje albo wyłącza się pod obciążeniem? Sprawdzamy płytę pomiarami i naprawiamy to, co faktycznie jest uszkodzone."
-teaser: "Pomiary, usuwanie zwarć i naprawa sekcji zasilania — bez wymiany całej płyty."
+teaser: "Pomiary, usuwanie zwarć i naprawa sekcji zasilania - bez wymiany całej płyty."
 group: "Elektronika"
 order: 60
 featured: true
-priceNote: "Naprawa płyty głównej po zwarciu: 600–800 zł. Inne usterki wyceniamy po diagnostyce."
+priceNote: "Naprawa płyty głównej po zwarciu: 600-800 zł. Inne usterki wyceniamy po diagnostyce."
 duration: "zwykle z dnia na dzień"
 includes:
   - "Diagnostyka z pomiarami napięć"
@@ -60,10 +60,10 @@ Podłączamy płytę do zasilania z ograniczeniem prądu i mierzymy napięcia w 
 
 ## Cena
 
-Naprawa płyty głównej po zwarciu to 600–800 zł. Kwota zależy od zakresu uszkodzenia i tego, jakie elementy trzeba wymienić. Inne usterki wyceniamy indywidualnie po diagnostyce, bo trudno zgadywać z góry, co siedzi w środku. Cenę znasz przed rozpoczęciem pracy i decydujesz, czy naprawiamy. Przy prostszych usterkach możliwa jest usługa ekspresowa z dopłatą 150 zł, o ile nie trzeba zamawiać części. Zbiorcze stawki znajdziesz w [cenniku](/cennik/).
+Naprawa płyty głównej po zwarciu to 600-800 zł. Kwota zależy od zakresu uszkodzenia i tego, jakie elementy trzeba wymienić. Inne usterki wyceniamy indywidualnie po diagnostyce, bo trudno zgadywać z góry, co siedzi w środku. Cenę znasz przed rozpoczęciem pracy i decydujesz, czy naprawiamy. Przy prostszych usterkach możliwa jest usługa ekspresowa z dopłatą 150 zł, o ile nie trzeba zamawiać części. Zbiorcze stawki znajdziesz w [cenniku](/cennik/).
 
 ## Dlaczego naprawa bywa tańsza niż wymiana płyty
 
 Nowa płyta to często koszt zbliżony do wartości całego używanego laptopa. Do starszych i mniej popularnych modeli trudno ją dostać, a szukanie zgodnej zajmuje czas. Naprawa konkretnego fragmentu zwykle kosztuje mniej i pozwala zachować wszystkie pozostałe podzespoły. Zdarza się jednak, że to wymiana jest lepszym wyborem i wtedy mówimy o tym bez owijania. Osobno sprawdzamy też elementy, które często udają awarię płyty, na przykład [gniazdo zasilania](/naprawa-gniazda-zasilania/) i [uszkodzenia po zalaniu](/naprawa-laptopa-po-zalaniu/).
 
-Przyjedź na Kotlarską 14 we Wrocławiu bez umawiania, od poniedziałku do piątku w godzinach 7:00–15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Wstępnie ocenimy, czy to sprawa dla elektronika, i umówimy termin. Jeśli laptop przestał się włączać, opisz to przez telefon — powiemy, co sprawdzić na początku.
+Przyjedź na Kotlarską 14 we Wrocławiu bez umawiania, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Wstępnie ocenimy, czy to sprawa dla elektronika, i umówimy termin. Jeśli laptop przestał się włączać, opisz to przez telefon - powiemy, co sprawdzić na początku.

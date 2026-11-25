@@ -1,4 +1,4 @@
-/* Panel Studio-Komp — interakcje (bez zależności). */
+/* Panel Studio-Komp - interakcje (bez zależności). */
 (function () {
   'use strict';
 

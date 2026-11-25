@@ -1,7 +1,7 @@
 <?php
 /**
  * Lista treści wybranego typu (uslugi, blog, marki, strony).
- * Adres: /panel/content/<typ> — tabs typów, liczniki, wyszukiwanie (GET q),
+ * Adres: /panel/content/<typ> - tabs typów, liczniki, wyszukiwanie (GET q),
  * filtr statusu (GET status=draft|published|all) i usuwanie (POST + CSRF).
  */
 

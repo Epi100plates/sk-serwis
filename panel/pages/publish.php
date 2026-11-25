@@ -48,9 +48,9 @@ layout_head('Publikacja', 'publish');
         <div class="help-box">
           <strong>Build wykonuje się na komputerze z projektem, nie na serwerze.</strong>
           <ol>
-            <li>W panelu klikasz „Poproś o publikację" — żądanie trafia do kolejki.</li>
+            <li>W panelu klikasz „Poproś o publikację" - żądanie trafia do kolejki.</li>
             <li>Komputer publikujący (zadanie „Studio-Komp Publish") wykrywa żądanie, pobiera najnowszą treść z repozytorium, buduje stronę i wgrywa gotowe pliki.</li>
-            <li>Serwer przełącza nową wersję atomowo — użytkownicy nigdy nie widzą połowicznego wdrożenia.</li>
+            <li>Serwer przełącza nową wersję atomowo - użytkownicy nigdy nie widzą połowicznego wdrożenia.</li>
             <li>Panel pokazuje status, log i listę wersji do przywrócenia.</li>
           </ol>
         </div>
@@ -89,7 +89,7 @@ layout_head('Publikacja', 'publish');
                 <tr><th style="width:200px">Status ostatniego żądania</th><td><?= e($state['status']) ?></td></tr>
                 <tr><th>Zgłoszone</th><td><?= e(format_date($state['requested_at'])) ?> (<?= e($state['requested_by']) ?>)</td></tr>
                 <tr><th>Zakończone</th><td><?= e(format_date((string) ($state['finished_at'] ?? ''))) ?></td></tr>
-                <tr><th>Wersja</th><td><?= e((string) ($state['release'] ?? '—')) ?></td></tr>
+                <tr><th>Wersja</th><td><?= e((string) ($state['release'] ?? '-')) ?></td></tr>
                 <?php if (!empty($state['error'])): ?><tr><th>Błąd</th><td><span class="badge badge--err"><?= e($state['error']) ?></span></td></tr><?php endif; ?>
               </tbody>
             </table>
@@ -111,7 +111,7 @@ layout_head('Publikacja', 'publish');
       <header class="card__head"><h2>Log ostatniego builda</h2></header>
       <div class="card__body card__body--flush">
         <?php if ($log === ''): ?>
-          <div class="empty">Brak logu — publikacja nie była jeszcze uruchamiana z tego panelu.</div>
+          <div class="empty">Brak logu - publikacja nie była jeszcze uruchamiana z tego panelu.</div>
         <?php else: ?>
           <pre class="code-inline" style="display:block;white-space:pre-wrap;padding:14px;font-size:12px;line-height:1.5;max-height:420px;overflow:auto"><?= e($log) ?></pre>
         <?php endif; ?>

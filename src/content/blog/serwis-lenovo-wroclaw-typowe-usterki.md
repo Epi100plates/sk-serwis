@@ -6,21 +6,21 @@ category: "Naprawa"
 service: "naprawa-laptopow-wroclaw"
 faq:
   - question: "Czy naprawiacie ThinkPady i Legiony, które nie są na gwarancji?"
-    answer: "Tak, niezależnie od gwarancji. Jesteśmy niezależnym serwisem i nie mamy autoryzacji Lenovo — naprawiamy na częściach dobranych do modelu i sprawdzonych zamiennikach. Jeśli sprzęt jest na gwarancji, warto najpierw sprawdzić, czy usterka jest nią objęta."
+    answer: "Tak, niezależnie od gwarancji. Jesteśmy niezależnym serwisem i nie mamy autoryzacji Lenovo - naprawiamy na częściach dobranych do modelu i sprawdzonych zamiennikach. Jeśli sprzęt jest na gwarancji, warto najpierw sprawdzić, czy usterka jest nią objęta."
   - question: "Dlaczego Lenovo przestał ładować baterię?"
-    answer: "Najczęściej winny jest port USB-C albo gniazdo DC, uszkodzony zasilacz lub sama bateria. Warto sprawdzić też tryb konserwacji baterii w Lenovo Vantage, który celowo zatrzymuje ładowanie na około 55–60 procentach. Jeśli to nie to, potrzebne są pomiary układu ładowania."
+    answer: "Najczęściej winny jest port USB-C albo gniazdo DC, uszkodzony zasilacz lub sama bateria. Warto sprawdzić też tryb konserwacji baterii w Lenovo Vantage, który celowo zatrzymuje ładowanie na około 55-60 procentach. Jeśli to nie to, potrzebne są pomiary układu ładowania."
   - question: "Czy wymiana zawiasów w IdeaPadzie wymaga nowej obudowy?"
     answer: "Nie zawsze. Jeśli mocowania w pokrywie matrycy są pęknięte, sam zawias nie wystarczy, a uszkodzone gniazda śrub wymagają naprawy albo wymiany elementu obudowy. Oceniamy to po rozbiórce i podajemy zakres prac przed rozpoczęciem."
 draft: true
 ---
 
-Lenovo to jedna z najczęściej naprawianych marek w naszym serwisie, ale pod jedną nazwą kryją się konstrukcje bardzo różne. IdeaPad to budżetowy sprzęt do domu, ThinkPad — biznesowy, z naciskiem na klawiaturę i trwałość, Yoga — konwertowalny z dotykowym ekranem, a Legion — gamingowy z wydajnym chłodzeniem. Każda z tych serii ma własne słabe punkty i inny sposób rozbiórki. Poniżej zbieramy usterki, które widzimy najczęściej, oraz to, jak je diagnozujemy.
+Lenovo to jedna z najczęściej naprawianych marek w naszym serwisie, ale pod jedną nazwą kryją się konstrukcje bardzo różne. IdeaPad to budżetowy sprzęt do domu, ThinkPad - biznesowy, z naciskiem na klawiaturę i trwałość, Yoga - konwertowalny z dotykowym ekranem, a Legion - gamingowy z wydajnym chłodzeniem. Każda z tych serii ma własne słabe punkty i inny sposób rozbiórki. Poniżej zbieramy usterki, które widzimy najczęściej, oraz to, jak je diagnozujemy.
 
 ## Typowe usterki według serii
 
 W IdeaPadach najczęściej zawodzą zawiasy, porty zasilania i klawiatury. To sprzęt często kupowany do nauki i pracy w domu, więc trafia do serwisu po kilku latach intensywnego używania. Ekran potrafi zacząć migać albo gasnąć przy zmianie kąta, co wskazuje na taśmę matrycy.
 
-ThinkPady psują się rzadziej, ale gdy już, to zwykle w tych samych miejscach: klawiatura, zawiasy, porty i układ ładowania. Wiele modeli ma wyjmowaną baterię zewnętrzną, co bywa wygodne przy diagnostyce zasilania. Starsi użytkownicy ThinkPadów doceniają też TrackPoint — jego przyciski i moduł również wymagają czasem naprawy.
+ThinkPady psują się rzadziej, ale gdy już, to zwykle w tych samych miejscach: klawiatura, zawiasy, porty i układ ładowania. Wiele modeli ma wyjmowaną baterię zewnętrzną, co bywa wygodne przy diagnostyce zasilania. Starsi użytkownicy ThinkPadów doceniają też TrackPoint - jego przyciski i moduł również wymagają czasem naprawy.
 
 Yogi i inne modele konwertowalne mają zawiasy obrotowe 360 stopni, które po latach luzują się, oraz ekran dotykowy z osobną warstwą cyfryzującą. Uszkodzenie dotyku przy sprawnej matrycy to inna naprawa niż pęknięty wyświetlacz.
 
@@ -30,9 +30,9 @@ W Legionach najczęściej spotykamy zapchane chłodzenie, zużytą pastę, wyrob
 
 Lenovo ma kilka rozwiązań zasilania. Starsze i gamingowe modele używają okrągłej wtyczki DC, nowsze IdeaPady i Yogi ładują się przez USB-C Power Delivery. W obu przypadkach pierwszy test to podmiana zasilacza i kabla na sprawdzony, o odpowiedniej mocy. Kabel USB-C od telefonu nie zawsze obsługuje ładowanie laptopa, mimo że wtyczka pasuje.
 
-Zanim uznasz ładowanie za usterkę, zajrzyj do Lenovo Vantage. Tryb konserwacji baterii celowo zatrzymuje ładowanie w okolicach 55–60 procent, żeby wydłużyć życie ogniwa, a system pokazuje wtedy, że bateria nie jest ładowana. To normalne zachowanie, nie awaria. Podobnie działa tryb szybkiego ładowania i limity ustawiane w systemie.
+Zanim uznasz ładowanie za usterkę, zajrzyj do Lenovo Vantage. Tryb konserwacji baterii celowo zatrzymuje ładowanie w okolicach 55-60 procent, żeby wydłużyć życie ogniwa, a system pokazuje wtedy, że bateria nie jest ładowana. To normalne zachowanie, nie awaria. Podobnie działa tryb szybkiego ładowania i limity ustawiane w systemie.
 
-Z drugiej strony szybkie rozładowywanie, nagłe wyłączenia przy 20–30 procentach albo obudowa wybrzuszona nad klawiaturą to sygnały zużytej lub spuchniętej baterii. Takiej baterii nie należy dalej używać — wymaga wymiany, a nie „reanimacji” w systemie.
+Z drugiej strony szybkie rozładowywanie, nagłe wyłączenia przy 20-30 procentach albo obudowa wybrzuszona nad klawiaturą to sygnały zużytej lub spuchniętej baterii. Takiej baterii nie należy dalej używać - wymaga wymiany, a nie „reanimacji” w systemie.
 
 ## Zawiasy, obudowa i matryca
 
@@ -56,10 +56,10 @@ Zaczynamy od wywiadu i oględzin, potem mierzymy pobór prądu i sprawdzamy zasi
 
 Wiele usterek da się naprawić bez wymiany całej płyty: wymiana portu, gniazda, kontrolera ładowania, tranzystorów MOSFET, bezpieczników albo uszkodzonych ścieżek. Dzięki temu naprawa bywa tańsza niż zakup płyty, zwłaszcza w starszych modelach, gdzie nowa część jest niedostępna. Jeśli uszkodzenie jest rozległe, a naprawa nieopłacalna, mówimy to wprost po wycenie.
 
-Diagnostyka jest bezpłatna, jeśli zlecasz naprawę. Jeśli rezygnujesz, jest płatna — o koszcie informujemy przed rozpoczęciem. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile potrzebna część jest dostępna.
+Diagnostyka jest bezpłatna, jeśli zlecasz naprawę. Jeśli rezygnujesz, jest płatna - o koszcie informujemy przed rozpoczęciem. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile potrzebna część jest dostępna.
 
 ## Kiedy przyjechać do serwisu we Wrocławiu
 
-Z laptopem Lenovo przyjdź na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00–15:00. Nie musisz się umawiać. Możesz też zadzwonić pod 500 613 500 i opisać objawy — podpowiemy, czy warto przywozić sprzęt od razu, czy problem da się wykluczyć na miejscu.
+Z laptopem Lenovo przyjdź na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Nie musisz się umawiać. Możesz też zadzwonić pod 500 613 500 i opisać objawy - podpowiemy, czy warto przywozić sprzęt od razu, czy problem da się wykluczyć na miejscu.
 
-Przynieś zasilacz i podaj hasło do systemu, jeśli laptop je ma. Zakres napraw opisuje strona [naprawy laptopów](/naprawa-laptopow-wroclaw/), a szczegóły pierwszej wizyty — [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli dane na dysku są dla Ciebie najważniejsze, powiedz o tym przy przyjęciu, zanim zaczniemy cokolwiek rozkręcać.
+Przynieś zasilacz i podaj hasło do systemu, jeśli laptop je ma. Zakres napraw opisuje strona [naprawy laptopów](/naprawa-laptopow-wroclaw/), a szczegóły pierwszej wizyty - [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli dane na dysku są dla Ciebie najważniejsze, powiedz o tym przy przyjęciu, zanim zaczniemy cokolwiek rozkręcać.

@@ -173,7 +173,7 @@ layout_head('Pulpit', 'dashboard');
             <?php foreach ($recentAudit as $a): ?>
               <li>
                 <strong><?= e($a['action']) ?></strong>
-                <span class="muted small"><?= e($a['target']) ?> — <?= e($a['username'] ?: '—') ?>, <?= e(format_date($a['created_at'])) ?></span>
+                <span class="muted small"><?= e($a['target']) ?> - <?= e($a['username'] ?: '-') ?>, <?= e(format_date($a['created_at'])) ?></span>
               </li>
             <?php endforeach; ?>
           </ul>
@@ -208,7 +208,7 @@ layout_head('Pulpit', 'dashboard');
           <?php if ($hbAge !== null && $hbAge < 600): ?>
             <?= status_badge('ok') ?> online (<?= (int) round($hbAge / 60) ?> min temu)
           <?php else: ?>
-            <?= status_badge('muted') ?> brak sygnału — buildy wykonuje komputer z projektem
+            <?= status_badge('muted') ?> brak sygnału - buildy wykonuje komputer z projektem
           <?php endif; ?>
         </p>
         <p class="small muted" style="margin-top:10px">

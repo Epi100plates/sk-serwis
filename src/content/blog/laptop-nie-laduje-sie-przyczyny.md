@@ -39,13 +39,13 @@ W laptopach z USB-C zamiast klasycznego gniazda problem objawia się inaczej: po
 
 ## Bateria i układ ładowania
 
-Bateria po kilku latach traci pojemność, ale rzadko powoduje, że laptop w ogóle nie ładuje. Typowe objawy zużytego ogniwa to nagłe wyłączenia przy 20–30 procentach, ładowanie do pełna w kilka minut i bardzo krótki czas pracy po odłączeniu zasilacza.
+Bateria po kilku latach traci pojemność, ale rzadko powoduje, że laptop w ogóle nie ładuje. Typowe objawy zużytego ogniwa to nagłe wyłączenia przy 20-30 procentach, ładowanie do pełna w kilka minut i bardzo krótki czas pracy po odłączeniu zasilacza.
 
 Inaczej wygląda awaria układu ładowania. Laptop pracuje na zasilaczu, ale procent stoi, a system nie widzi ładowania. Odpowiadają za to kontroler ładowania, mosfety i bezpieczniki na płycie, które padają po zwarciu, przepięciu albo zalaniu. Taka usterka wymaga pomiarów na płycie, a nie wymiany baterii na wyczucie.
 
 Warto też sprawdzić, czy bateria jest dobrze osadzona w złączu. W części laptopów pakiet jest wypinany i po latach styki się utleniają. Wyjęcie i ponowne wpięcie baterii, po odłączeniu zasilacza, potrafi przywrócić ładowanie bez żadnej naprawy.
 
-Zanim uznasz to za awarię, sprawdź ustawienia zasilania. Wiele laptopów ma tryb ochrony baterii, który zatrzymuje ładowanie na 60–80 procentach. To normalne zachowanie, a nie usterka, i warto o tym wiedzieć przed wizytą w serwisie.
+Zanim uznasz to za awarię, sprawdź ustawienia zasilania. Wiele laptopów ma tryb ochrony baterii, który zatrzymuje ładowanie na 60-80 procentach. To normalne zachowanie, a nie usterka, i warto o tym wiedzieć przed wizytą w serwisie.
 
 Diagnostyka nie polega na wymianie części na wyczucie. Każdy pomiar zawęża listę podejrzanych elementów, a to skraca naprawę i obniża jej koszt.
 
@@ -77,4 +77,4 @@ Jeśli laptop nie reaguje wcale, szukamy zwarcia w obwodzie zasilania i sprawdza
 
 Jeśli po sprawdzeniu zasilacza i kabla problem zostaje, kolejny krok to pomiary na płycie. [Naprawa gniazda zasilania](/naprawa-gniazda-zasilania/) to najczęstsza przyczyna problemów z ładowaniem, a wymiana gniazda kosztuje 350 zł. Jeśli laptop nie włącza się w ogóle, diagnostykę warto rozszerzyć; opisaliśmy ją przy [naprawie laptopa, który się nie włącza](/naprawa-laptopa-ktory-sie-nie-wlacza/).
 
-Diagnostyka jest bezpłatna przy zleceniu naprawy. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, jeśli część jest dostępna. Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00–15:00 albo zadzwoń pod 500 613 500. Aktualne stawki znajdziesz w [cenniku](/cennik/).
+Diagnostyka jest bezpłatna przy zleceniu naprawy. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, jeśli część jest dostępna. Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00-15:00 albo zadzwoń pod 500 613 500. Aktualne stawki znajdziesz w [cenniku](/cennik/).

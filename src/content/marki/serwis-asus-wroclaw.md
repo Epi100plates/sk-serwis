@@ -1,6 +1,6 @@
 ---
 brand: "ASUS"
-title: "Serwis ASUS Wrocław — naprawa laptopów ASUS | Studio-Komp"
+title: "Serwis ASUS Wrocław - naprawa laptopów ASUS | Studio-Komp"
 description: "Serwis ASUS Wrocław: naprawa laptopów ASUS ZenBook, VivoBook, TUF Gaming i ROG. Gniazda zasilania, przegrzewanie, matryce. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis laptopów ASUS we Wrocławiu"
 lead: "ASUS sprzedaje laptopy od tanich VivoBooków po ciężkie modele ROG, więc trafiają do nas konstrukcje bardzo różne. Nie zakładamy z góry, co jest zepsute: najpierw pomiary, potem decyzja, co wymienić."
@@ -75,6 +75,6 @@ Naprawa laptopów ASUS obejmuje też czynności, które nie są wymianą podzesp
 
 ## Gdzie nas znajdziesz
 
-Pracujemy przy Kotlarskiej 14 we Wrocławiu od 2013 roku. Nie trzeba się umawiać: wystarczy przyjść w godzinach 7:00–15:00 od poniedziałku do piątku albo zadzwonić pod 500 613 500 i opisać objawy. Mamy 550+ opinii w Google, bo stawiamy na jasną wycenę przed naprawą.
+Pracujemy przy Kotlarskiej 14 we Wrocławiu od 2013 roku. Nie trzeba się umawiać: wystarczy przyjść w godzinach 7:00-15:00 od poniedziałku do piątku albo zadzwonić pod 500 613 500 i opisać objawy. Mamy 550+ opinii w Google, bo stawiamy na jasną wycenę przed naprawą.
 
 Jeśli szukasz szerszego zakresu, zobacz [naprawa laptopów](/naprawa-laptopow-wroclaw/), [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/), [wymiana matrycy](/wymiana-matrycy-wroclaw/) oraz [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/).

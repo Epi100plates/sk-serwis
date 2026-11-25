@@ -16,7 +16,7 @@ if (is_post()) {
         $role = in_array(post('role'), ['admin', 'editor'], true) ? post('role') : 'editor';
         $errors = [];
         if (!preg_match('/^[a-z0-9._-]{3,40}$/', $username)) {
-            $errors[] = 'Login: 3–40 znaków (małe litery, cyfry, . _ -).';
+            $errors[] = 'Login: 3-40 znaków (małe litery, cyfry, . _ -).';
         }
         if (strlen($password) < 12) {
             $errors[] = 'Hasło musi mieć co najmniej 12 znaków.';
@@ -137,8 +137,8 @@ layout_head('Użytkownicy', 'users');
           <label class="field"><span>Hasło (min. 12 znaków)</span><input type="password" name="password" required minlength="12" autocomplete="new-password"></label>
           <label class="field"><span>Rola</span>
             <select name="role">
-              <option value="admin">Administrator — pełny dostęp</option>
-              <option value="editor" selected>Redaktor — treści, media, realizacje, publikacja</option>
+              <option value="admin">Administrator - pełny dostęp</option>
+              <option value="editor" selected>Redaktor - treści, media, realizacje, publikacja</option>
             </select>
           </label>
           <div class="form-actions"><button class="btn btn--primary" type="submit">Dodaj konto</button></div>

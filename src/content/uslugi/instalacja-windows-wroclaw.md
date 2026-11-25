@@ -1,15 +1,15 @@
 ---
-title: "Instalacja Windows we Wrocławiu — cena i czas"
+title: "Instalacja i konfiguracja systemu we Wrocławiu - cena i czas"
 navLabel: "Instalacja Windows"
-description: "Instalacja Windows we Wrocławiu: system, sterowniki, aktualizacje i podstawowa konfiguracja. 250–500 zł, zwykle z dnia na dzień. Kotlarska 14."
-h1: "Instalacja Windows i konfiguracja systemu we Wrocławiu"
+description: "Instalacja Windows we Wrocławiu: system, sterowniki, aktualizacje i podstawowa konfiguracja. 250 zł, zwykle z dnia na dzień. Kotlarska 14."
+h1: "Instalacja i konfiguracja systemu we Wrocławiu"
 lead: "Komputer startuje coraz dłużej, wyskakują błędy, a programy działają opornie? Instalacja Windows od zera bywa najszybszą drogą do sprawnego sprzętu. Sprawdzamy też, czy problem nie leży w podzespołach."
-teaser: "Instalacja Windows, sterowniki, aktualizacje i konfiguracja po instalacji — zwykle w jeden dzień."
+teaser: "Instalacja Windows, sterowniki, aktualizacje i konfiguracja po instalacji - zwykle w jeden dzień."
 group: "System i dane"
 order: 140
 featured: false
-priceFrom: "250–500 zł"
-priceNote: "Cena zależy od systemu, licencji i zakresu konfiguracji"
+priceFrom: "250 zł"
+priceNote: "Instalacja systemu ze sterownikami, aktualizacjami i podstawową konfiguracją."
 duration: "zwykle z dnia na dzień"
 includes:
   - "Instalacja systemu Windows i konfiguracja konta"
@@ -38,7 +38,7 @@ Komputer startuje coraz dłużej, wyskakują błędy, a programy działają opor
 
 ## Kiedy reinstalacja Windows ma sens
 
-Świeża instalacja pomaga, gdy system jest niestabilny, zawiesza się albo nie przyjmuje aktualizacji. Ma sens po wymianie dysku, po usunięciu poważnego złośliwego oprogramowania i wtedy, gdy komputer przeszedł z rąk do rąk. Osobna sytuacja to sprzęt kupiony z drugiej ręki: czysta instalacja usuwa ślady poprzedniego właściciela i daje pewny start. Nie pomoże natomiast, jeśli problem leży w przegrzewaniu albo uszkodzonym podzespole. W takich przypadkach najpierw sprawdzamy sprzęt. Do serwisu trafiają też komputery, na których system działa, ale codzienna praca jest udręką: długie uruchamianie, zawieszanie przeglądarki, brak miejsca na dysku. Nie każdy wolny komputer potrzebuje reinstalacji — czasem wystarczy wymiana dysku na SSD i porządki w systemie.
+Świeża instalacja pomaga, gdy system jest niestabilny, zawiesza się albo nie przyjmuje aktualizacji. Ma sens po wymianie dysku, po usunięciu poważnego złośliwego oprogramowania i wtedy, gdy komputer przeszedł z rąk do rąk. Osobna sytuacja to sprzęt kupiony z drugiej ręki: czysta instalacja usuwa ślady poprzedniego właściciela i daje pewny start. Nie pomoże natomiast, jeśli problem leży w przegrzewaniu albo uszkodzonym podzespole. W takich przypadkach najpierw sprawdzamy sprzęt. Do serwisu trafiają też komputery, na których system działa, ale codzienna praca jest udręką: długie uruchamianie, zawieszanie przeglądarki, brak miejsca na dysku. Nie każdy wolny komputer potrzebuje reinstalacji - czasem wystarczy wymiana dysku na SSD i porządki w systemie.
 
 ## Co obejmuje usługa
 
@@ -63,4 +63,4 @@ Potrzebujesz działającej licencji Windows. Jeśli komputer miał system fabryc
 
 Instalacja z aktualizacjami i sterownikami zajmuje zwykle jeden dzień. Po zakończeniu sprawdzamy działanie systemu, sieci, dźwięku i portów. Po instalacji sprawdzamy też, czy system pobiera aktualizacje bez błędów i czy nie brakuje sterownika do drukarki lub kamery. Ustawiamy to, co potrzebne do codziennej pracy, i pokazujemy, gdzie szukać kopii zapasowej. Jeśli komputer ma zwalniać, a nie tylko dostać nowy system, zobacz [przyspieszanie laptopa](/przyspieszanie-laptopa-wroclaw/).
 
-Instalacja Windows kosztuje 250–500 zł, zależnie od systemu, licencji i zakresu konfiguracji. Przynieś komputer na Kotlarską 14 bez umawiania albo zadzwoń pod 500 613 500. Jeśli dane są zagrożone, najpierw zobacz [odzyskiwanie danych](/odzyskiwanie-danych-wroclaw/).
+Instalacja i konfiguracja systemu kosztuje 250 zł. Cena obejmuje system, sterowniki, aktualizacje i podstawową konfigurację. Przynieś komputer na Kotlarską 14 bez umawiania albo zadzwoń pod 500 613 500. Jeśli dane są zagrożone, najpierw zobacz [odzyskiwanie danych](/odzyskiwanie-danych-wroclaw/).

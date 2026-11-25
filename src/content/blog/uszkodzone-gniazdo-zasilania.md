@@ -83,4 +83,4 @@ Przy pracy na kanapie kabel często jest zgięty pod kątem prostym, co męczy w
 
 Gniazdo rzadko naprawia się samo, a zwlekanie zwiększa ryzyko uszkodzenia płyty. [Wymiana gniazda zasilania](/naprawa-gniazda-zasilania/) to najczęstsza naprawa mechaniczna, jaką wykonujemy. Jeśli podejrzewasz, że zwarcie poszło dalej, przeczytaj o [naprawie płyt głównych](/naprawa-plyt-glownych/).
 
-Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00–15:00 albo zadzwoń pod 500 613 500 i opisz objawy. Diagnostyka jest bezpłatna przy zleceniu naprawy, a stawki pozostałych usług znajdziesz w [cenniku](/cennik/).
+Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00-15:00 albo zadzwoń pod 500 613 500 i opisz objawy. Diagnostyka jest bezpłatna przy zleceniu naprawy, a stawki pozostałych usług znajdziesz w [cenniku](/cennik/).

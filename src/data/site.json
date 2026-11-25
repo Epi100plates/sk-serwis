@@ -20,8 +20,8 @@
     "mapZoom": 17,
     "hours": [
         {
-            "label": "Poniedziałek – piątek",
-            "value": "7:00 – 15:00",
+            "label": "Poniedziałek - piątek",
+            "value": "7:00 - 15:00",
             "open": true
         },
         {
@@ -92,7 +92,7 @@
     "diagnosis": {
         "title": "Diagnoza 0 zł przy naprawie*",
         "stat": "0 zł*",
-        "text": "Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Jeśli po diagnozie zrezygnujesz z naprawy, obowiązuje opłata za diagnostykę — jej wysokość podamy przed rozpoczęciem pracy."
+        "text": "Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Jeśli po diagnozie zrezygnujesz z naprawy, obowiązuje opłata za diagnostykę - jej wysokość podamy przed rozpoczęciem pracy."
     },
     "home": {
         "hero": {
@@ -170,7 +170,7 @@
         ]
     },
     "footer": {
-        "description": "Serwis laptopów i komputerów we Wrocławiu. Od 2013 roku naprawiamy sprzęt prywatny i firmowy — zwykle z dnia na dzień.",
+        "description": "Serwis laptopów i komputerów we Wrocławiu. Od 2013 roku naprawiamy sprzęt prywatny i firmowy - zwykle z dnia na dzień.",
         "infoLinks": [
             {
                 "href": "/uslugi/",

@@ -1,14 +1,14 @@
 ---
-title: "Laptop się nie włącza — naprawa we Wrocławiu"
+title: "Laptop się nie włącza - naprawa we Wrocławiu"
 navLabel: "Laptop się nie włącza"
 description: "Laptop się nie włącza? Sprawdzamy zasilacz, baterię, przycisk i płytę główną. Diagnostyka we Wrocławiu, cena po diagnozie, zależna od przyczyny."
-h1: "Laptop się nie włącza — sprawdzamy przyczynę we Wrocławiu"
+h1: "Laptop się nie włącza - sprawdzamy przyczynę we Wrocławiu"
 lead: "Czarny ekran, brak reakcji na przycisk, migająca dioda? To nie zawsze oznacza padniętą płytę. Zaczynamy od najprostszych przyczyn."
-teaser: "Zasilacz, bateria, przycisk, płyta — po kolei sprawdzamy, gdzie leży problem."
+teaser: "Zasilacz, bateria, przycisk, płyta - po kolei sprawdzamy, gdzie leży problem."
 group: "Naprawy"
 order: 70
 featured: true
-priceNote: "Cena po diagnozie — zależy od przyczyny."
+priceNote: "Cena po diagnozie - zależy od przyczyny."
 duration: "zwykle z dnia na dzień"
 includes:
   - "Sprawdzenie zasilacza i baterii"
@@ -65,4 +65,4 @@ Koszt zależy od przyczyny, dlatego nie podajemy ceny przed diagnozą. Wymiana z
 
 Skoro laptop nie startuje, nie masz dostępu do plików. Jeśli dane są ważne, powiedz o tym przy przyjęciu sprzętu. Dysk można wyjąć i sprawdzić poza laptopem, a pliki skopiować jeszcze przed naprawą. Dzięki temu nie czekasz na finał naprawy, żeby zabezpieczyć dokumenty, zdjęcia albo projekty. Jeśli nośnik okaże się uszkodzony, opowiemy o możliwościach odzyskania danych.
 
-Przyjedź na Kotlarską 14 bez umawiania, od poniedziałku do piątku w godzinach 7:00–15:00, albo zadzwoń pod 500 613 500 i opisz, co się dzieje. Przez telefon często da się wstępnie ocenić, czy problem jest prosty, czy wymaga pełnej diagnostyki. Jeśli podejrzewasz uszkodzone gniazdo ładowania, sprawdź [naprawę gniazda zasilania](/naprawa-gniazda-zasilania/).
+Przyjedź na Kotlarską 14 bez umawiania, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz, co się dzieje. Przez telefon często da się wstępnie ocenić, czy problem jest prosty, czy wymaga pełnej diagnostyki. Jeśli podejrzewasz uszkodzone gniazdo ładowania, sprawdź [naprawę gniazda zasilania](/naprawa-gniazda-zasilania/).

@@ -1,6 +1,6 @@
 <?php
 /**
- * Realizacje — lista i edytor w jednym pliku.
+ * Realizacje - lista i edytor w jednym pliku.
  *
  * Router przekazuje:
  *   /panel/realizacje           → lista
@@ -162,7 +162,7 @@ layout_head('Realizacje', 'realizacje');
                 </div>
               </td>
               <td><?= e($rpCategoryLabel) ?></td>
-              <td><?= $rpDevice !== '' ? e($rpDevice) : '—' ?></td>
+              <td><?= $rpDevice !== '' ? e($rpDevice) : '-' ?></td>
               <td class="nowrap"><?= e(format_date((string) $rpItem['realization_date'], false)) ?></td>
               <td><?= status_badge((string) $rpItem['status']) ?></td>
               <td class="nowrap">
@@ -444,7 +444,7 @@ function realizacje_panel_render_form(array $form, array $errors, array $categor
               <label class="field">
                 <span>Ilustracja zapasowa (art)</span>
                 <input type="text" name="art" value="<?= e($form['art'] ?? '') ?>" maxlength="80" placeholder="np. case-board">
-                <span class="field__hint">Plik <span class="mono">/images/realizacje/&lt;art&gt;.svg</span> — używany, gdy brak zdjęcia.</span>
+                <span class="field__hint">Plik <span class="mono">/images/realizacje/&lt;art&gt;.svg</span> - używany, gdy brak zdjęcia.</span>
               </label>
             </div>
           </div>
@@ -466,7 +466,7 @@ function realizacje_panel_render_form(array $form, array $errors, array $categor
                   <a class="btn btn--sm" href="<?= e(panel_url('media', ['pick' => 'image'])) ?>" target="_blank" rel="noopener">Wybierz zdjęcie</a>
                   <a class="btn btn--sm" href="<?= e(panel_url('media', ['pick' => 'gallery'])) ?>" target="_blank" rel="noopener">Wybierz do galerii</a>
                 </div>
-                <span class="field__hint">Otwiera bibliotekę w nowej karcie — skopiuj ścieżkę i wklej ją powyżej lub w galerii.</span>
+                <span class="field__hint">Otwiera bibliotekę w nowej karcie - skopiuj ścieżkę i wklej ją powyżej lub w galerii.</span>
               </div>
             </div>
 

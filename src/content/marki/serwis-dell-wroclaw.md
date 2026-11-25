@@ -1,6 +1,6 @@
 ---
 brand: "Dell"
-title: "Serwis Dell Wrocław — naprawa laptopów Dell | Studio-Komp"
+title: "Serwis Dell Wrocław - naprawa laptopów Dell | Studio-Komp"
 description: "Serwis Dell Wrocław: naprawa XPS, Latitude, Inspiron, Vostro i Precision. Zasilanie, przegrzewanie, matryce, baterie. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis laptopów Dell we Wrocławiu"
 lead: "Dell to marka, która trafia do nas głównie z firm i od użytkowników XPS-ów. Część usterek wynika z eksploatacji, część z ciasnej obudowy, w której każdy milimetr ma znaczenie. Diagnozujemy jedno i drugie."
@@ -77,7 +77,7 @@ Naprawa laptopów Dell nie kończy się na wymianie części. Po pracach sprawdz
 
 ## Gdzie nas znajdziesz
 
-Działamy przy Kotlarskiej 14 we Wrocławiu, od 2013 roku. Godziny pracy to 7:00–15:00 od poniedziałku do piątku, bez zapisów. Telefon 500 613 500 pomoże ustalić, czy naprawa wchodzi w grę i czy warto przywieźć laptopa od razu.
+Działamy przy Kotlarskiej 14 we Wrocławiu, od 2013 roku. Godziny pracy to 7:00-15:00 od poniedziałku do piątku, bez zapisów. Telefon 500 613 500 pomoże ustalić, czy naprawa wchodzi w grę i czy warto przywieźć laptopa od razu.
 
 Warto zabrać zasilacz: pomiar z zasilaczem klienta daje pełny obraz poboru mocy. Przy XPS-ach sprawdzamy też stan powłoki wokół klawiatury, bo to typowy ślad zużycia i klienci często pytają, czy da się go poprawić.
 

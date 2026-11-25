@@ -1,5 +1,5 @@
 ---
-title: "Naprawa portów USB i HDMI we Wrocławiu — elektronika"
+title: "Naprawa portów USB i HDMI we Wrocławiu - elektronika"
 navLabel: "Naprawa portów USB/HDMI"
 description: "Port USB nie wykrywa urządzeń, HDMI nie daje obrazu, a port rusza się w obudowie? Wymieniamy porty i odbudowujemy ścieżki. Wrocław, Kotlarska 14."
 h1: "Uszkodzone porty USB i HDMI: naprawa we Wrocławiu"
@@ -62,4 +62,4 @@ Nie podajemy ceny z góry, bo zależy od tego, czy port jest osobnym elementem, 
 
 Jeśli port nie jest krytyczny, hub USB albo stacja dokująca potrafi odsunąć naprawę w czasie. To rozwiązanie dla osoby, która potrzebuje więcej portów, a nie naprawy jednego uszkodzonego. Uwaga na tanie huby: potrafią obciążać port ponad normę. Hub nie zastąpi jednak naprawy, jeśli port jest wyrwany i zwiera piny. Przy wyrwanym porcie i zwarciach lepiej nie ryzykować.
 
-Wyrwany port zasilania to osobna sprawa, zajmujemy się nim na stronie [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/). Z laptopem przyjedź na Kotlarską 14 bez umawiania, od poniedziałku do piątku w godzinach 7:00–15:00. Zadzwoń pod 500 613 500, jeśli chcesz najpierw opisać objawy.
+Wyrwany port zasilania to osobna sprawa, zajmujemy się nim na stronie [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/). Z laptopem przyjedź na Kotlarską 14 bez umawiania, od poniedziałku do piątku w godzinach 7:00-15:00. Zadzwoń pod 500 613 500, jeśli chcesz najpierw opisać objawy.

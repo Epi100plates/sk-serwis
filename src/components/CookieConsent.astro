@@ -17,7 +17,7 @@ const privacyUrl = withBase('/polityka-prywatnosci/');
     <div class="cookie-bar__copy">
       <p class="mono cookie-bar__title" id="cookie-bar-title">Pliki cookies</p>
       <p class="cookie-bar__text" id="cookie-bar-text">
-        Używamy plików cookies, żeby strona działała poprawnie, a — po Twojej zgodzie —
+        Używamy plików cookies, żeby strona działała poprawnie, a - po Twojej zgodzie -
         żeby mierzyć ruch i skuteczność reklam. Niezbędne cookies są zawsze włączone.
         Możesz zaakceptować wszystkie, wybrać tylko niezbędne albo ustawić kategorie
         samodzielnie. Szczegóły w <a href={privacyUrl}>polityce prywatności</a>.
@@ -71,7 +71,7 @@ const privacyUrl = withBase('/polityka-prywatnosci/');
           <span class="cookie-cat__tag mono">opcjonalne</span>
         </label>
         <p class="cookie-cat__desc">
-          Pomagają zrozumieć, jak korzystasz ze strony — które podstrony są
+          Pomagają zrozumieć, jak korzystasz ze strony - które podstrony są
           odwiedzane i jakich usług szukasz. Uruchamiamy je tylko po Twojej zgodzie.
         </p>
       </li>
@@ -172,7 +172,7 @@ const privacyUrl = withBase('/polityka-prywatnosci/');
         return migrated;
       }
     } catch {
-      /* localStorage może być zablokowany — traktujemy jak brak decyzji */
+      /* localStorage może być zablokowany - traktujemy jak brak decyzji */
     }
     return null;
   }
@@ -225,7 +225,7 @@ const privacyUrl = withBase('/polityka-prywatnosci/');
     try {
       localStorage.setItem(KEY, JSON.stringify(state));
     } catch {
-      /* brak zapisu — zgoda obowiązuje tylko w tej sesji */
+      /* brak zapisu - zgoda obowiązuje tylko w tej sesji */
     }
     hideBar();
     closeSettings();

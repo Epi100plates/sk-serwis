@@ -6,7 +6,7 @@ const analytics = site.analytics;
 const uslugi = await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft);
 
 /**
- * Konfiguracja dla skryptu analityki — trafia do HTML jako JSON (data-config),
+ * Konfiguracja dla skryptu analityki - trafia do HTML jako JSON (data-config),
  * dzięki czemu sam skrypt inline zostaje mały (budżet 4 KB).
  * Puste pole = "nie ładuj": żadnych fałszywych ID (GTM/GA4/Clarity).
  */

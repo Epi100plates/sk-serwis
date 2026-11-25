@@ -1,6 +1,6 @@
 <?php
 /**
- * Kategorie realizacji — CRUD z walidacją i ochroną przed usunięciem
+ * Kategorie realizacji - CRUD z walidacją i ochroną przed usunięciem
  * kategorii, do której przypisane są realizacje.
  */
 
@@ -146,7 +146,7 @@ layout_head('Kategorie realizacji', 'realizacje');
                     <?= csrf_field() ?>
                     <input type="hidden" name="do" value="delete">
                     <input type="hidden" name="id" value="<?= $rpCategoryId ?>">
-                    <button class="btn btn--sm btn--danger" type="submit" data-confirm="Usunąć kategorię „<?= e($rpCategory['label']) ?>”?<?= $rpCategoryCount > 0 ? ' Kategoria ma przypisane realizacje — usuwanie zostanie odrzucone.' : '' ?>">Usuń</button>
+                    <button class="btn btn--sm btn--danger" type="submit" data-confirm="Usunąć kategorię „<?= e($rpCategory['label']) ?>”?<?= $rpCategoryCount > 0 ? ' Kategoria ma przypisane realizacje - usuwanie zostanie odrzucone.' : '' ?>">Usuń</button>
                   </form>
                 </td>
               </tr>

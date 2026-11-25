@@ -1,7 +1,7 @@
 <?php
 /**
  * Biblioteka mediów: upload, podgląd, metadane, usuwanie i tryb wyboru
- * pliku (?pick=… — proste wklejanie ścieżki do formularza realizacji).
+ * pliku (?pick=… - proste wklejanie ścieżki do formularza realizacji).
  */
 
 require_once __DIR__ . '/../views/layout.php';
@@ -22,7 +22,7 @@ function media_panel_url(string $pick = '', array $query = []): string
 }
 
 /**
- * Ścieżka miniatury (WebP) albo oryginału — do podglądu na karcie.
+ * Ścieżka miniatury (WebP) albo oryginału - do podglądu na karcie.
  */
 function media_panel_thumb(array $record): string
 {
@@ -311,7 +311,7 @@ layout_head('Media', 'media');
     <div class="help-box">
       <strong>Formaty i limity</strong>
       <p class="small" style="margin-top:6px">
-        JPG, PNG, WebP, AVIF, GIF, SVG, MP4, WebM — do 12 MB. Miniatury WebP powstają
+        JPG, PNG, WebP, AVIF, GIF, SVG, MP4, WebM - do 12 MB. Miniatury WebP powstają
         automatycznie po wgraniu. Pliki SVG są sprawdzane pod kątem skryptów.
       </p>
       <p class="small" style="margin-top:8px">

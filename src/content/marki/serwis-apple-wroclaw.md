@@ -1,6 +1,6 @@
 ---
 brand: "Apple"
-title: "Serwis Apple Wrocław — naprawa MacBooków | Studio-Komp"
+title: "Serwis Apple Wrocław - naprawa MacBooków | Studio-Komp"
 description: "Serwis Apple Wrocław: naprawa MacBooków Air i Pro. Wymiana baterii, matryce, klawiatury, ładowanie USB-C, czyszczenie. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis MacBooków we Wrocławiu"
 lead: "MacBooki mają kilka powtarzalnych słabych punktów: klejoną baterię, taśmę matrycy i klawiatury z określonych roczników. Naprawiamy je bez obietnic, że każda usterka jest do usunięcia, i bez opierania się na autoryzacji producenta, której nie mamy."
@@ -73,6 +73,6 @@ Przy bardzo starych MacBookach sprawdzamy, czy naprawa ma ekonomiczny sens. Klaw
 
 ## Gdzie nas znajdziesz
 
-Nasz warsztat znajdziesz przy Kotlarskiej 14 we Wrocławiu i pracuje on od 2013 roku. Zapraszamy od poniedziałku do piątku w godzinach 7:00–15:00, bez wcześniejszego umawiania. Numer telefonu to 500 613 500; przy opisie usterki warto podać model i rok.
+Nasz warsztat znajdziesz przy Kotlarskiej 14 we Wrocławiu i pracuje on od 2013 roku. Zapraszamy od poniedziałku do piątku w godzinach 7:00-15:00, bez wcześniejszego umawiania. Numer telefonu to 500 613 500; przy opisie usterki warto podać model i rok.
 
 Zobacz też [naprawa laptopów](/naprawa-laptopow-wroclaw/), [wymiana matrycy](/wymiana-matrycy-wroclaw/), [naprawa po zalaniu](/naprawa-laptopa-po-zalaniu/) i [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/). Naszych klientów z 550+ opinii w Google zapraszamy na tę samą zasadę: cena znana przed naprawą.

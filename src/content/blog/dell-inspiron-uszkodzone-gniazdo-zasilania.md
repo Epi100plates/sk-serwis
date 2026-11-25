@@ -1,5 +1,5 @@
 ---
-title: "Dell Inspiron: uszkodzone gniazdo zasilania — naprawa"
+title: "Dell Inspiron: uszkodzone gniazdo zasilania - naprawa"
 description: "Uszkodzone gniazdo zasilania w Dell Inspiron: jak rozpoznać usterkę, kiedy gniazdo jest lutowane do płyty, a kiedy to osobny moduł, i jak wygląda naprawa."
 pubDate: 2026-11-14
 draft: true
@@ -14,7 +14,7 @@ faq:
     answer: "Wymiana gniazda zasilania kosztuje 350 zł z nowym gniazdem i testem ładowania. Jeśli uszkodzenie objęło ścieżki lub układ ładowania, zakres i cenę ustalamy po diagnozie."
 ---
 
-Kabel ładowania działa tylko wtedy, gdy wtyczka wisi pod odpowiednim kątem, a dioda gaśnie przy każdym ruchu laptopa. To najczęstszy obraz uszkodzonego gniazda zasilania w Dell Inspiron. Gniazdo jest elementem mechanicznym, który przenosi całą siłę szarpania kablem, więc z czasem pęka — a wraz z nim luty i ścieżki na płycie. Wymiana jest krótką naprawą, ale odwlekanie jej zwiększa ryzyko droższego uszkodzenia płyty.
+Kabel ładowania działa tylko wtedy, gdy wtyczka wisi pod odpowiednim kątem, a dioda gaśnie przy każdym ruchu laptopa. To najczęstszy obraz uszkodzonego gniazda zasilania w Dell Inspiron. Gniazdo jest elementem mechanicznym, który przenosi całą siłę szarpania kablem, więc z czasem pęka - a wraz z nim luty i ścieżki na płycie. Wymiana jest krótką naprawą, ale odwlekanie jej zwiększa ryzyko droższego uszkodzenia płyty.
 
 ## Jak objawia się uszkodzone gniazdo
 
@@ -26,13 +26,13 @@ Objawy są dość powtarzalne i łatwo je pomylić z awarią zasilacza. Warto wi
 - laptop ładuje się coraz krócej, a wtyczka bywa ciepła,
 - plastik wokół gniazda jest odbarwiony lub nadtopiony.
 
-Dwa ostatnie sygnały oznaczają, że laptopa nie należy dalej używać. Odłącz zasilacz i przywieź sprzęt do serwisu — dalsze ładowanie może pogłębić zwarcie.
+Dwa ostatnie sygnały oznaczają, że laptopa nie należy dalej używać. Odłącz zasilacz i przywieź sprzęt do serwisu - dalsze ładowanie może pogłębić zwarcie.
 
 ## Gniazdo lutowane do płyty czy osobny moduł
 
 Inspirony nie są jednolite pod tym względem. Starsze i tańsze modele często mają gniazdo wlutowane bezpośrednio w płytę główną. Wtedy naprawa wymaga wylutowania elementu hot airem, oczyszczenia pól lutowniczych i wlutowania nowego gniazda, a potem sprawdzenia, czy nie uszkodziły się ścieżki zasilania.
 
-W innych konstrukcjach gniazdo siedzi na osobnej płytce — module połączonym z płytą główną taśmą lub złączem. Taki moduł wymienia się w całości, bez lutowania, co zwykle skraca naprawę. Czasem na tej samej płytce znajduje się dodatkowy port, na przykład USB, i wtedy wymienia się cały zespół.
+W innych konstrukcjach gniazdo siedzi na osobnej płytce - module połączonym z płytą główną taśmą lub złączem. Taki moduł wymienia się w całości, bez lutowania, co zwykle skraca naprawę. Czasem na tej samej płytce znajduje się dodatkowy port, na przykład USB, i wtedy wymienia się cały zespół.
 
 Który wariant masz, ustalamy po numerze modelu i po obejrzeniu wnętrza. To rozróżnienie jest ważne także dlatego, że w obu przypadkach obowiązuje ten sam objaw, a różnica w naprawie jest spora.
 
@@ -48,7 +48,7 @@ Jest też scenariusz, który wygląda niewinnie: laptop ładuje po dociśnięciu
 
 Naprawa zaczyna się od rozbiórki i oględzin. Sprawdzamy, czy uszkodzone są tylko luty gniazda, czy także ścieżki i układ ładowania. Przy gnieździe lutowanym zdejmujemy starą część, oczyszczamy pola, wlutowujemy nową i zabezpieczamy mechanicznie. Przy module podmieniamy płytkę razem z taśmą i sprawdzamy, czy nowy element dobrze siedzi w obudowie.
 
-Po złożeniu testujemy ładowanie w kilku stanach: na wyłączonym laptopie, w spoczynku i pod obciążeniem. Sprawdzamy pobór prądu i temperaturę wtyczki po kilkunastu minutach ładowania. Na koniec oceniamy, czy wtyczka nie ma luzu — nowe gniazdo powinno trzymać pewnie.
+Po złożeniu testujemy ładowanie w kilku stanach: na wyłączonym laptopie, w spoczynku i pod obciążeniem. Sprawdzamy pobór prądu i temperaturę wtyczki po kilkunastu minutach ładowania. Na koniec oceniamy, czy wtyczka nie ma luzu - nowe gniazdo powinno trzymać pewnie.
 
 Jeśli po wymianie laptop nadal nie ładuje, szukamy przyczyny dalej: w układzie ładowania, baterii albo w zasilaczu. Klient dowiaduje się o tym przed wykonaniem kolejnej pracy.
 
@@ -68,4 +68,4 @@ Standardowo naprawa jest gotowa z dnia na dzień. Usługa ekspresowa z dopłatą
 
 Tania ładowarka z luźną wtyczką wyrabia gniazdo szybciej niż oryginalny zasilacz. Jeśli laptop stoi w jednym miejscu, stacja dokująca albo ładowarka USB-C ogranicza liczbę wkładań i wyjmowań.
 
-Gniazdo rzadko wraca do sprawności samo, a zwlekanie zwiększa ryzyko uszkodzenia płyty. Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00–15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Przeczytaj też artykuł o [uszkodzonym gnieździe zasilania](/poradnik/uszkodzone-gniazdo-zasilania/), jeśli chcesz porównać swoje objawy z typowym przebiegiem usterki.
+Gniazdo rzadko wraca do sprawności samo, a zwlekanie zwiększa ryzyko uszkodzenia płyty. Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Przeczytaj też artykuł o [uszkodzonym gnieździe zasilania](/poradnik/uszkodzone-gniazdo-zasilania/), jeśli chcesz porównać swoje objawy z typowym przebiegiem usterki.

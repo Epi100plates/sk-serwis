@@ -29,10 +29,10 @@ const others = realizacje.items
 
 const device = item.device || [item.brand, item.model].filter(Boolean).join(' ');
 const gallery = (item.gallery ?? []).filter((g) => g.src);
-const seoTitle = item.seo?.title || `${item.title} — realizacja serwisu | Studio-Komp`;
+const seoTitle = item.seo?.title || `${item.title} - realizacja serwisu | Studio-Komp`;
 const seoDescription =
   item.seo?.description ||
-  `${item.title} — ${device}. ${item.summary} Serwis laptopów Studio-Komp, Kotlarska 14, Wrocław.`;
+  `${item.title} - ${device}. ${item.summary} Serwis laptopów Studio-Komp, Kotlarska 14, Wrocław.`;
 
 const services = await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft);
 const relatedServices = services.slice(0, 3);
@@ -145,7 +145,7 @@ const schema = [
             <p class="aside-box__note">
               {site.address.street}, {site.address.city}
               <br />
-              pon–pt 7:00–15:00, bez umawiania
+              pon-pt 7:00-15:00, bez umawiania
             </p>
             <a class="btn btn--primary btn--block" href={`tel:${site.phoneTel}`} data-track="call" data-location="realizacja-cta">
               <Icon name="phone" size={17} /> Zadzwoń

@@ -67,6 +67,6 @@ Jeśli laptop jest nowy i nie ma jeszcze dwóch lat, przyczyna hałasu prawie za
 
 ## Kiedy przyjechać na wymianę pasty we Wrocławiu
 
-Jeśli laptop jest głośny, gorący i traci wydajność pod obciążeniem, przynieś go do Studio-Komp przy Kotlarskiej 14. Nie musisz się umawiać, wystarczy przyjść w godzinach 7:00–15:00 od poniedziałku do piątku. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę, a konserwacja zwykle jest gotowa następnego dnia.
+Jeśli laptop jest głośny, gorący i traci wydajność pod obciążeniem, przynieś go do Studio-Komp przy Kotlarskiej 14. Nie musisz się umawiać, wystarczy przyjść w godzinach 7:00-15:00 od poniedziałku do piątku. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę, a konserwacja zwykle jest gotowa następnego dnia.
 
 Zakres prac i ceny znajdziesz na stronie [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/) oraz w [cenniku](/cennik/). Jeśli nie wiesz, czy problemem jest pasta, czy coś innego, zadzwoń pod 500 613 500 i opisz objawy. Po oględzinach powiemy, czy wystarczy czyszczenie, czy potrzebna jest wymiana pasty.

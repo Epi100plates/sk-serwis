@@ -104,7 +104,7 @@ const hasKey = Boolean(site.form.accessKey);
     event.preventDefault();
     const data = new FormData(form);
     data.append('access_key', accessKey);
-    data.append('subject', 'Nowe zgłoszenie naprawy — studio-komp.pl');
+    data.append('subject', 'Nowe zgłoszenie naprawy - studio-komp.pl');
     const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     if (btn) btn.disabled = true;
 
@@ -116,14 +116,14 @@ const hasKey = Boolean(site.form.accessKey);
       if (!res.ok) throw new Error('HTTP ' + res.status);
       form.reset();
       showStatus(
-        'Dziękujemy. Odezwiemy się w godzinach pracy serwisu. Jeśli sprawa jest pilna — zadzwoń: 500 613 500.',
+        'Dziękujemy. Odezwiemy się w godzinach pracy serwisu. Jeśli sprawa jest pilna - zadzwoń: 500 613 500.',
         'ok'
       );
       window.dispatchEvent(new CustomEvent('sk:form-success', { detail: { form: 'zgloszenie-naprawy' } }));
       window.skTrack?.('generate_lead', { form: 'zgloszenie-naprawy' });
     } catch {
       showStatus(
-        'Nie udało się wysłać formularza. Zadzwoń pod 500 613 500 — szybciej zajmiemy się zgłoszeniem.',
+        'Nie udało się wysłać formularza. Zadzwoń pod 500 613 500 - szybciej zajmiemy się zgłoszeniem.',
         'error'
       );
     } finally {

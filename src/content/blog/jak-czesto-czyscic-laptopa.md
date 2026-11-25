@@ -10,14 +10,14 @@ faq:
   - question: "Czy sprężone powietrze w aerozolu wystarczy zamiast serwisu?"
     answer: "Zwykle nie. Aerozol wciśnięty w kratkę potrafi wepchnąć kurz głębiej, rozkręcić wirnik ponad jego obroty i nie usuwa osadu z żeberek radiatora. Efekt jest krótkotrwały, a ryzyko uszkodzenia realne."
   - question: "Jak często czyścić laptopa używanego codziennie do pracy?"
-    answer: "Przy normalnym użytkowaniu w domu lub biurze zwykle co 1,5–2 lata. W mieszkaniu ze zwierzętami, przy paleniu albo w zapylonym otoczeniu nawet co 12 miesięcy. O terminie decydują objawy, nie sam kalendarz."
+    answer: "Przy normalnym użytkowaniu w domu lub biurze zwykle co 1,5-2 lata. W mieszkaniu ze zwierzętami, przy paleniu albo w zapylonym otoczeniu nawet co 12 miesięcy. O terminie decydują objawy, nie sam kalendarz."
 ---
 
 Laptop nie ma filtra, który zatrzyma kurz przed radiatorem. Wszystko, co unosi się w powietrzu w pokoju, przechodzi przez wentylator i osiada na żeberkach. Tempo tego procesu zależy od miejsca, w którym pracujesz, dlatego sztywne „co dwa lata" bywa mylące. Jeden laptop po trzech latach ma czysty radiator, inny po roku jest zapchany szczelnie. Poniżej masz realne interwały i objawy, które mówią więcej niż kalendarz, a na końcu podpowiedź, kiedy przywieźć sprzęt do serwisu we Wrocławiu.
 
 ## Interwały zależne od warunków
 
-Punktem wyjścia jest normalne użytkowanie w domu lub biurze: laptop stojący na biurku, bez zwierząt, bez palenia, w przeciętnym zapyleniu. W takich warunkach konserwacja raz na 1,5–2 lata wystarcza, żeby chłodzenie pracowało poprawnie. Jeśli laptop jest używany codziennie po kilka godzin, bliżej dolnej granicy tego przedziału.
+Punktem wyjścia jest normalne użytkowanie w domu lub biurze: laptop stojący na biurku, bez zwierząt, bez palenia, w przeciętnym zapyleniu. W takich warunkach konserwacja raz na 1,5-2 lata wystarcza, żeby chłodzenie pracowało poprawnie. Jeśli laptop jest używany codziennie po kilka godzin, bliżej dolnej granicy tego przedziału.
 
 Jest jeszcze kwestia remontów i porządków. Po malowaniu, szlifowaniu ścian albo generalnym sprzątaniu w powietrzu jest znacznie więcej pyłu, a laptop pracujący w tym czasie wciąga go do środka szybciej niż zwykle. Po takim remoncie warto przyjrzeć się kratkom i przyspieszyć konserwację.
 
@@ -67,7 +67,7 @@ Nie jedz nad klawiaturą, bo okruchy trafiają do wnętrza i przyciągają wilgo
 
 ## Kiedy zaplanować konserwację we Wrocławiu
 
-Studio-Komp przyjmuje laptopy przy Kotlarskiej 14, od poniedziałku do piątku w godzinach 7:00–15:00. Nie musisz się umawiać. Diagnostyka jest bezpłatna, jeśli zlecasz naprawę, a przy czyszczeniu powiemy, czy wystarczy konserwacja, czy potrzebna jest dodatkowa naprawa.
+Studio-Komp przyjmuje laptopy przy Kotlarskiej 14, od poniedziałku do piątku w godzinach 7:00-15:00. Nie musisz się umawiać. Diagnostyka jest bezpłatna, jeśli zlecasz naprawę, a przy czyszczeniu powiemy, czy wystarczy konserwacja, czy potrzebna jest dodatkowa naprawa.
 
 Konserwacja to też okazja, żeby sprawdzić stan wentylatora, taśm i pasty. Przy okazji rozbiórki widać, czy któryś element wymaga wymiany, zanim się zepsuje. Dzięki temu kolejna wizyta jest mniej niespodziewana, a laptop rzadziej trafia do serwisu z powodu usterki, której można było uniknąć.
 

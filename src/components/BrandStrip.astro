@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Icon from './Icon.astro';
 import { withBase } from '../lib/url';
 
-// Marki z kolekcji (CMS). Gdy brak podstron — statyczna lista bez linków.
+// Marki z kolekcji (CMS). Gdy brak podstron - statyczna lista bez linków.
 const fallback = [
   'ASUS',
   'Lenovo',
@@ -14,7 +14,6 @@ const fallback = [
   'MSI',
   'Samsung',
   'Toshiba',
-  'Microsoft Surface',
 ];
 
 let brands: { label: string; href: string | null }[] = [];

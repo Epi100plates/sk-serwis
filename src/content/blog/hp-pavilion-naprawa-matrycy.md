@@ -1,5 +1,5 @@
 ---
-title: "HP Pavilion: naprawa matrycy — objawy, dobór i wymiana"
+title: "HP Pavilion: naprawa matrycy - objawy, dobór i wymiana"
 description: "Naprawa matrycy w HP Pavilion: jak odróżnić uszkodzony panel od taśmy, jak dobieramy ekran po modelu i złączu oraz jak wygląda wymiana i testy obrazu."
 pubDate: 2026-11-14
 draft: true
@@ -14,7 +14,7 @@ faq:
     answer: "Zwykle jeden dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest dostępna."
 ---
 
-Ekran w HP Pavilion pęka najczęściej po nacisku na pokrywę, po zamknięciu laptopa z przedmiotem na klawiaturze albo po upadku. Zdarza się też, że obraz gaśnie bez widocznego uszkodzenia — wtedy przyczyną bywa taśma albo podświetlenie. W obu przypadkach wymiana matrycy jest zwykle najprostszą drogą do sprawnego laptopa, ale wymaga doboru panelu pod konkretny model. Poniżej wyjaśniamy, jak to wygląda w praktyce.
+Ekran w HP Pavilion pęka najczęściej po nacisku na pokrywę, po zamknięciu laptopa z przedmiotem na klawiaturze albo po upadku. Zdarza się też, że obraz gaśnie bez widocznego uszkodzenia - wtedy przyczyną bywa taśma albo podświetlenie. W obu przypadkach wymiana matrycy jest zwykle najprostszą drogą do sprawnego laptopa, ale wymaga doboru panelu pod konkretny model. Poniżej wyjaśniamy, jak to wygląda w praktyce.
 
 ## Jakie matryce siedzą w Pavilionach
 
@@ -30,7 +30,7 @@ Najważniejszy test wykonujemy bez rozbierania laptopa. Podłączamy go do zewn�
 
 Brak obrazu przy działającym laptopie bywa też skutkiem luźnej taśmy, którą wystarczy poprawić. Zdarza się to po upadku albo po nieudanej próbie samodzielnej wymiany.
 
-Jeśli obraz jest widoczny tylko pod kątem albo gaśnie po kilku sekundach, sprawdzamy połączenie taśmy przy panelu, zanim zamówimy nowy ekran — czasem wystarcza ponowne osadzenie złącza. Każdy taki przypadek oglądamy indywidualnie, bo objawy bywają podobne przy różnych usterkach.
+Jeśli obraz jest widoczny tylko pod kątem albo gaśnie po kilku sekundach, sprawdzamy połączenie taśmy przy panelu, zanim zamówimy nowy ekran - czasem wystarcza ponowne osadzenie złącza. Każdy taki przypadek oglądamy indywidualnie, bo objawy bywają podobne przy różnych usterkach.
 
 ## Dobór panelu po modelu i złączu
 
@@ -39,16 +39,16 @@ Matryca musi pasować fizycznie i elektrycznie. Sprawdzamy:
 - przekątną i proporcje ekranu,
 - rozdzielczość natywną,
 - typ panelu i powłokę, na przykład IPS czy TN, matową lub błyszczącą,
-- złącze, liczbę pinów i układ taśmy — eDP albo LVDS,
+- złącze, liczbę pinów i układ taśmy - eDP albo LVDS,
 - to, czy ekran jest dotykowy, oraz sposób mocowania w pokrywie.
 
 Na tej podstawie szukamy paneli dostępnych na rynku i podajemy warianty wraz z cenami. Przy ekranach dotykowych i OLED liczy się numer części, bo zamienniki mogą różnić się sterownikiem i pełną funkcjonalnością. Szczegóły doboru opisujemy na stronie [wymiana matrycy we Wrocławiu](/wymiana-matrycy-wroclaw/).
 
 ## Przebieg wymiany i testy
 
-Wymiana zaczyna się od zdjęcia ramki. Odłączamy taśmę sygnałową i zasilanie podświetlenia, wyjmujemy panel z mocowań i wkładamy nowy w te same punkty. Taśmę układamy w prowadnicach, żeby nie była napięta przy zamykaniu pokrywy — to jeden z powodów, dla których ekrany padają ponownie. Na koniec składamy ramkę i przykręcamy całość.
+Wymiana zaczyna się od zdjęcia ramki. Odłączamy taśmę sygnałową i zasilanie podświetlenia, wyjmujemy panel z mocowań i wkładamy nowy w te same punkty. Taśmę układamy w prowadnicach, żeby nie była napięta przy zamykaniu pokrywy - to jeden z powodów, dla których ekrany padają ponownie. Na koniec składamy ramkę i przykręcamy całość.
 
-Testy obejmują obraz w kilku rozdzielczościach, równomierność podświetlenia, regulację jasności i zachowanie obrazu przy zmianie kąta. Sprawdzamy, czy w obszarze roboczym nie ma martwych pikseli, i porównujemy obraz z zewnętrznym monitorem. Przy okazji oglądamy zawiasy — w Pavilionach to częste źródło problemów, bo pękający plastik naciąga taśmę i potrafi uszkodzić panel. Jeśli zawiasy są zużyte, wymieniamy je razem z matrycą. Osobno opisujemy to na stronie [naprawa zawiasów](/naprawa-zawiasow/).
+Testy obejmują obraz w kilku rozdzielczościach, równomierność podświetlenia, regulację jasności i zachowanie obrazu przy zmianie kąta. Sprawdzamy, czy w obszarze roboczym nie ma martwych pikseli, i porównujemy obraz z zewnętrznym monitorem. Przy okazji oglądamy zawiasy - w Pavilionach to częste źródło problemów, bo pękający plastik naciąga taśmę i potrafi uszkodzić panel. Jeśli zawiasy są zużyte, wymieniamy je razem z matrycą. Osobno opisujemy to na stronie [naprawa zawiasów](/naprawa-zawiasow/).
 
 ## Cena, czas i ekspres
 
@@ -58,4 +58,4 @@ Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. 
 
 ## Kiedy przyjechać
 
-Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00–15:00, albo zadzwoń pod 500 613 500 i podaj model laptopa. Wstępnie sprawdzimy, czy panel jest dostępny, i podamy kwotę. Jeśli chcesz najpierw porównać objawy, przeczytaj artykuł o [pękniętej matrycy](/poradnik/peknieta-matryca-czy-mozna-naprawic/).
+Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i podaj model laptopa. Wstępnie sprawdzimy, czy panel jest dostępny, i podamy kwotę. Jeśli chcesz najpierw porównać objawy, przeczytaj artykuł o [pękniętej matrycy](/poradnik/peknieta-matryca-czy-mozna-naprawic/).

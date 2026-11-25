@@ -72,4 +72,4 @@ if ($failures) {
     exit(1);
 }
 
-echo "OK — parser i serializator YAML są stabilne.\n";
+echo "OK - parser i serializator YAML są stabilne.\n";

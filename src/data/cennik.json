@@ -1,5 +1,5 @@
 {
-  "lead": "Każdą usterkę wyceniamy indywidualnie po diagnozie. Poniżej ceny najczęstszych napraw — dokładną kwotę podajemy przed rozpoczęciem pracy, bez zaskoczeń na koniec.",
+  "lead": "Każdą usterkę wyceniamy indywidualnie po diagnozie. Poniżej ceny najczęstszych napraw - dokładną kwotę podajemy przed rozpoczęciem pracy, bez zaskoczeń na koniec.",
   "expressSurcharge": 150,
   "groups": [
     {
@@ -22,12 +22,12 @@
       "items": [
         {
           "name": "Czyszczenie i konserwacja laptopa",
-          "price": "od 200 zł",
+          "price": "200-250 zł",
           "note": "Rozbiórka, czyszczenie chłodzenia, wymiana pasty termoprzewodzącej, testy temperatur."
         },
         {
           "name": "Czyszczenie komputera stacjonarnego",
-          "price": "… zł",
+          "price": "200-250 zł",
           "note": "Cena zależy od obudowy i układu chłodzenia."
         }
       ]
@@ -36,13 +36,13 @@
       "title": "System i dane",
       "items": [
         {
-          "name": "Instalacja systemu Windows / macOS / Linux",
-          "price": "250–500 zł",
-          "note": "Z kierownikami, aktualizacjami i podstawową konfiguracją. Zależy od systemu i licencji."
+          "name": "Instalacja i konfiguracja systemu",
+          "price": "250 zł",
+          "note": "Instalacja systemu ze sterownikami, aktualizacjami i podstawową konfiguracją."
         },
         {
           "name": "Odzyskiwanie danych",
-          "price": "300–800 zł",
+          "price": "300-800 zł",
           "note": "Zależy od nośnika i stopnia uszkodzenia. Wyceniamy po sprawdzeniu dysku."
         },
         {
@@ -57,12 +57,12 @@
       "items": [
         {
           "name": "Naprawa laptopa po zalaniu",
-          "price": "450–800 zł",
+          "price": "450-800 zł",
           "note": "Cena zależy od cieczy, zakresu uszkodzeń i koniecznych części."
         },
         {
           "name": "Naprawa płyty głównej po zwarciu",
-          "price": "600–800 zł",
+          "price": "600-800 zł",
           "note": "Diagnostyka z pomiarami i naprawa na poziomie elementów."
         },
         {
@@ -72,8 +72,8 @@
         },
         {
           "name": "Wymiana matrycy",
-          "price": "… zł",
-          "note": "Cena matrycy zależy od modelu, przekątnej i typu panelu — podajemy przed zamówieniem."
+          "price": "600-700 zł",
+          "note": "Cena matrycy zależy od modelu, przekątnej i typu panelu - podajemy przed zamówieniem."
         },
         {
           "name": "Wymiana klawiatury",
@@ -103,5 +103,5 @@
       ]
     }
   ],
-  "_note": "Cennik do samodzielnej edycji. Ceny nieznane zostaw jako '… zł' — na stronie pokażą się bez wymyślania kwoty. 'od' oznacza cenę minimalną."
+  "_note": "Cennik do samodzielnej edycji. Ceny nieznane zostaw jako '… zł' - na stronie pokażą się bez wymyślania kwoty. 'od' oznacza cenę minimalną."
 }

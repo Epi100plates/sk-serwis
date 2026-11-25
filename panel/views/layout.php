@@ -30,7 +30,7 @@ function layout_head(string $title, string $active = ''): void
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title><?= e($title) ?> — Panel Studio-Komp</title>
+  <title><?= e($title) ?> - Panel Studio-Komp</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="<?= e(base_path()) ?>/assets/admin.css?v=<?= (int) $cssVer ?>">
 </head>
@@ -85,7 +85,7 @@ function layout_foot(): void
     ?>
     </main>
     <footer class="admin-foot">
-      <span>Studio-Komp — panel treści. Statystyki pochodzą z własnego pomiaru (tylko użytkownicy z zgodą analityczną).</span>
+      <span>Studio-Komp - panel treści. Statystyki pochodzą z własnego pomiaru (tylko użytkownicy z zgodą analityczną).</span>
     </footer>
   </div>
 </div>
@@ -143,7 +143,7 @@ function format_bytes(int $bytes): string
 function format_date(string $value, bool $withTime = true): string
 {
     if ($value === '') {
-        return '—';
+        return '-';
     }
     try {
         $dt = new DateTimeImmutable($value);

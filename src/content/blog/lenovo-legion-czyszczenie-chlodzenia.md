@@ -8,7 +8,7 @@ faq:
   - question: "Jak często czyścić chłodzenie w Legionie?"
     answer: "Przy graniu kilka razy w tygodniu pierwsze czyszczenie po około roku. W mieszkaniu ze zwierzętami również co 12 miesięcy. Laptop używany okazjonalnie wytrzyma do dwóch lat, ale o terminie decydują temperatury i głośność, nie kalendarz."
   - question: "Czy samodzielne czyszczenie Legionu jest bezpieczne?"
-    answer: "Samo odkurzenie kratek — tak. Pełne czyszczenie wymaga zdjęcia dolnej pokrywy, odłączenia baterii i demontażu radiatorów, a przy tym łatwo uszkodzić taśmy i zatrzaski. Dochodzi dobór pasty i padów termicznych, więc bez doświadczenia lepiej oddać sprzęt do serwisu."
+    answer: "Samo odkurzenie kratek - tak. Pełne czyszczenie wymaga zdjęcia dolnej pokrywy, odłączenia baterii i demontażu radiatorów, a przy tym łatwo uszkodzić taśmy i zatrzaski. Dochodzi dobór pasty i padów termicznych, więc bez doświadczenia lepiej oddać sprzęt do serwisu."
   - question: "Dlaczego Legion hałasuje, choć nic nie robię?"
     answer: "Zapchany radiator sprawia, że wentylatory muszą pracować na wyższych obrotach nawet przy lekkim obciążeniu. Drugą przyczyną bywa tryb wydajności ustawiony na stałe albo proces w tle. Jeśli szum nie ustępuje po zamknięciu programów, chłodzenie wymaga sprawdzenia."
 draft: true
@@ -24,9 +24,9 @@ Kolejne objawy to wyłączenia pod obciążeniem, restart bez ostrzeżenia i ros
 
 ## Jak zbudowane jest chłodzenie Legion
 
-W Legionach chłodzenie składa się z dwóch wentylatorów, radiatorów z żeberkami i ciepłowodów, które odbierają ciepło od procesora i karty graficznej. Powietrze wpada od spodu i z boków, a wydmuchiwane jest tyłem oraz przez kratki po bokach obudowy. Taka konstrukcja działa dobrze, dopóki kurz nie zatka żeberek — wtedy opór przepływu rośnie, a wentylatory muszą kręcić się szybciej, żeby odprowadzić to samo ciepło.
+W Legionach chłodzenie składa się z dwóch wentylatorów, radiatorów z żeberkami i ciepłowodów, które odbierają ciepło od procesora i karty graficznej. Powietrze wpada od spodu i z boków, a wydmuchiwane jest tyłem oraz przez kratki po bokach obudowy. Taka konstrukcja działa dobrze, dopóki kurz nie zatka żeberek - wtedy opór przepływu rośnie, a wentylatory muszą kręcić się szybciej, żeby odprowadzić to samo ciepło.
 
-Legion ma też tryby pracy, które zmieniają limity mocy i obroty wentylatorów. Kombinacja Fn+Q przełącza profile — w nowszych modelach nazywane Quiet, Balanced i Performance, a tryb wydajności bywa dostępny tylko przy zasilaniu z sieci. Ustawienia znajdziesz również w Lenovo Vantage. Warto wiedzieć, że profil Performance nie zastąpi czystego chłodzenia: przy zapchanym radiatorze podnosi obroty, ale temperatury i tak zostają wysokie.
+Legion ma też tryby pracy, które zmieniają limity mocy i obroty wentylatorów. Kombinacja Fn+Q przełącza profile - w nowszych modelach nazywane Quiet, Balanced i Performance, a tryb wydajności bywa dostępny tylko przy zasilaniu z sieci. Ustawienia znajdziesz również w Lenovo Vantage. Warto wiedzieć, że profil Performance nie zastąpi czystego chłodzenia: przy zapchanym radiatorze podnosi obroty, ale temperatury i tak zostają wysokie.
 
 ## Co obejmuje czyszczenie w serwisie
 
@@ -44,10 +44,10 @@ Podobnie jest z padami. Mają one określoną grubość, a zbyt gruby pad pogars
 
 Podstawą jest twarde, płaskie podłoże i kilka centymetrów wolnej przestrzeni z tyłu oraz po bokach obudowy. Legion na łóżku, kocu czy poduszce zasysa własne, ogrzane powietrze i zapycha się szybciej. Kratki wlotowe odkurzaj delikatnie miękką końcówką odkurzacza, bez wkładania czegokolwiek do środka. Sprężone powietrze w aerozolu wciśnięte w kratkę wepchnie kurz głębiej i rozkręci wirnik ponad jego obroty.
 
-W Vantage sprawdź tryb pracy i ustawienia baterii. Tryb konserwacji baterii zatrzymuje ładowanie w okolicach 55–60 procent, co jest normalne i nie oznacza usterki. Jeśli grasz na zasilaczu, włącz profil wydajności, a przy pracy biurowej wróć do cichszego — to obniża temperatury i zużycie. Nie podkręcaj podzespołów bez wiedzy o limitach, bo dodatkowe ciepło pogarsza sytuację, której i tak nie rozwiązuje zapchany radiator.
+W Vantage sprawdź tryb pracy i ustawienia baterii. Tryb konserwacji baterii zatrzymuje ładowanie w okolicach 55-60 procent, co jest normalne i nie oznacza usterki. Jeśli grasz na zasilaczu, włącz profil wydajności, a przy pracy biurowej wróć do cichszego - to obniża temperatury i zużycie. Nie podkręcaj podzespołów bez wiedzy o limitach, bo dodatkowe ciepło pogarsza sytuację, której i tak nie rozwiązuje zapchany radiator.
 
 ## Kiedy przyjechać do serwisu we Wrocławiu
 
-Jeśli po odkurzeniu kratek Legion nadal głośno pracuje, temperatury są wysokie, a wydajność spada po kilkunastu minutach, potrzebne jest pełne czyszczenie z rozbiórką. Przynieś laptop i zasilacz na Kotlarską 14 we Wrocławiu. Pracujemy od poniedziałku do piątku w godzinach 7:00–15:00, bez umawiania. Telefon: 500 613 500.
+Jeśli po odkurzeniu kratek Legion nadal głośno pracuje, temperatury są wysokie, a wydajność spada po kilkunastu minutach, potrzebne jest pełne czyszczenie z rozbiórką. Przynieś laptop i zasilacz na Kotlarską 14 we Wrocławiu. Pracujemy od poniedziałku do piątku w godzinach 7:00-15:00, bez umawiania. Telefon: 500 613 500.
 
-Diagnostyka jest bezpłatna, jeśli zlecasz naprawę — inaczej jest płatna, a o koszcie informujemy przed jej rozpoczęciem. Zakres prac opisuje strona [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/), a jeśli podejrzewasz usterkę podzespołów, zajrzyj do opisu [diagnostyki laptopa](/diagnostyka-laptopa-wroclaw/). Ekspres z dopłatą 150 zł pozwala odebrać sprzęt tego samego dnia, o ile części są dostępne.
+Diagnostyka jest bezpłatna, jeśli zlecasz naprawę - inaczej jest płatna, a o koszcie informujemy przed jej rozpoczęciem. Zakres prac opisuje strona [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/), a jeśli podejrzewasz usterkę podzespołów, zajrzyj do opisu [diagnostyki laptopa](/diagnostyka-laptopa-wroclaw/). Ekspres z dopłatą 150 zł pozwala odebrać sprzęt tego samego dnia, o ile części są dostępne.

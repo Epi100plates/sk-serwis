@@ -2,9 +2,9 @@
 title: "Naprawa gniazda zasilania laptopa we Wrocławiu"
 navLabel: "Naprawa gniazda zasilania"
 description: "Gniazdo zasilania w laptopie lata, ładuje tylko po poruszeniu wtyczką? Wymieniamy gniazdo i odbudowujemy ścieżki. Wrocław, Kotlarska 14, 350 zł."
-h1: "Gniazdo zasilania w laptopie — naprawa we Wrocławiu"
+h1: "Gniazdo zasilania w laptopie - naprawa we Wrocławiu"
 lead: "Laptop ładuje się tylko wtedy, gdy przytrzymasz wtyczkę pod odpowiednim kątem? To typowy objaw wyrwanego gniazda. Wymieniamy je razem z odbudową mocowań i ścieżek."
-teaser: "Wyrwane gniazdo, luźna wtyczka, brak ładowania. Odbudowa ścieżek i testy — zwykle z dnia na dzień."
+teaser: "Wyrwane gniazdo, luźna wtyczka, brak ładowania. Odbudowa ścieżek i testy - zwykle z dnia na dzień."
 group: "Naprawy"
 order: 80
 featured: false
@@ -67,4 +67,4 @@ Wymiana gniazda zasilania kosztuje 350 zł. Standardowy czas to jeden dzień, po
 
 Kilka prostych nawyków wystarczy, żeby gniazdo wytrzymało dłużej. Wyciągaj wtyczkę, trzymając za obudowę wtyku, a nie za kabel. Nie przenoś włączonego laptopa z podłączonym zasilaczem, zwłaszcza gdy kabel jest napięty. Postaw laptopa na twardej powierzchni tak, żeby wtyczka nie opierała się o stół ani o podłokietnik.
 
-Jeśli gniazdo już się rusza, nie próbuj go dokręcać ani usztywniać taśmą. To odsuwa naprawę w czasie, ale zwiększa ryzyko uszkodzenia płyty. Lepiej przywieź laptopa na Kotlarską 14 — pracujemy od poniedziałku do piątku w godzinach 7:00–15:00, bez umawiania. Zadzwoń pod 500 613 500, jeśli chcesz najpierw opisać objawy. Więcej o pozostałych naprawach przeczytasz na stronie [naprawa laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/).
+Jeśli gniazdo już się rusza, nie próbuj go dokręcać ani usztywniać taśmą. To odsuwa naprawę w czasie, ale zwiększa ryzyko uszkodzenia płyty. Lepiej przywieź laptopa na Kotlarską 14 - pracujemy od poniedziałku do piątku w godzinach 7:00-15:00, bez umawiania. Zadzwoń pod 500 613 500, jeśli chcesz najpierw opisać objawy. Więcej o pozostałych naprawach przeczytasz na stronie [naprawa laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/).

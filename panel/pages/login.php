@@ -25,7 +25,7 @@ if (current_user()) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>Logowanie — Panel Studio-Komp</title>
+  <title>Logowanie - Panel Studio-Komp</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="<?= e(base_path()) ?>/assets/admin.css?v=1">
 </head>

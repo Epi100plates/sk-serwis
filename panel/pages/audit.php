@@ -57,7 +57,7 @@ layout_head('Dziennik zdarzeń', '');
           <?php foreach ($rows as $row): ?>
             <tr>
               <td class="nowrap small"><?= e(format_date($row['created_at'])) ?></td>
-              <td><?= e($row['username'] ?: '—') ?></td>
+              <td><?= e($row['username'] ?: '-') ?></td>
               <td><strong><?= e($row['action']) ?></strong></td>
               <td class="mono small"><?= e($row['target']) ?></td>
               <td class="small muted truncate"><?= e($row['details']) ?></td>

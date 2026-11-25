@@ -1,10 +1,10 @@
 {
-  "_note": "Opinie pochodzą z wizytówki Google Studio-Komp. Nowe opinie dodawaj ręcznie w tym pliku — sekcja na stronie aktualizuje się przy kolejnym wdrożeniu.",
+  "_note": "Opinie pochodzą z wizytówki Google Studio-Komp. Nowe opinie dodawaj ręcznie w tym pliku - sekcja na stronie aktualizuje się przy kolejnym wdrożeniu.",
   "items": [
     {
       "name": "Jakub M.",
       "rating": 5,
-      "text": "Panowie zrobili z moim sprzętem coś pomiędzy chirurgią plastyczną a wskrzeszeniem Łazarza — szybko, profesjonalnie, a przy okazji tak sympatycznie, że miałem ochotę zostawić im ciasto. Odpowiedzieli na każde pytanie (nawet te głupie) i dorzucili porady na przyszłość.",
+      "text": "Panowie zrobili z moim sprzętem coś pomiędzy chirurgią plastyczną a wskrzeszeniem Łazarza - szybko, profesjonalnie, a przy okazji tak sympatycznie, że miałem ochotę zostawić im ciasto. Odpowiedzieli na każde pytanie (nawet te głupie) i dorzucili porady na przyszłość.",
       "highlight": "Laptop był trupem. Teraz robi więcej niż ja po trzech kawach."
     },
     {
@@ -15,7 +15,7 @@
     {
       "name": "Александр П.",
       "rating": 5,
-      "text": "Bardzo mili i pomocni ludzie — wszystko zrobili szybko, dokładnie i profesjonalnie. Kontakt z nimi był przyjemny, można swobodnie porozmawiać i wszystko jasno wyjaśniają."
+      "text": "Bardzo mili i pomocni ludzie - wszystko zrobili szybko, dokładnie i profesjonalnie. Kontakt z nimi był przyjemny, można swobodnie porozmawiać i wszystko jasno wyjaśniają."
     }
   ]
 }

@@ -17,7 +17,7 @@ Przeglądarka z dziesięcioma kartami, komunikator i arkusz kalkulacyjny wystarc
 
 ## Kiedy RAM realnie pomaga
 
-Pamięć operacyjna trzyma dane programów, z którymi pracujesz w danej chwili. Gdy brakuje miejsca, system zaczyna przenosić dane na dysk, a to operacja wielokrotnie wolniejsza. Objawy: dysk pracuje bez przerwy, laptop zamarza przy przełączaniu okien, a użycie pamięci w menedżerze zadań dochodzi do 90–100 procent.
+Pamięć operacyjna trzyma dane programów, z którymi pracujesz w danej chwili. Gdy brakuje miejsca, system zaczyna przenosić dane na dysk, a to operacja wielokrotnie wolniejsza. Objawy: dysk pracuje bez przerwy, laptop zamarza przy przełączaniu okien, a użycie pamięci w menedżerze zadań dochodzi do 90-100 procent.
 
 Więcej pamięci pomaga przy wielu kartach przeglądarki, wirtualizacji, dużych arkuszach, programach graficznych i kompilacji kodu. Ma też znaczenie, gdy w tle działają aktualizacje i synchronizacja plików, bo system musi wtedy utrzymać w pamięci więcej procesów.
 
@@ -76,4 +76,4 @@ Wymiana pamięci nie zastąpi konserwacji. Jeśli laptop dusi się przez tempera
 
 Dobór pamięci i montaż wykonujemy w ramach [przyspieszania laptopa we Wrocławiu](/przyspieszanie-laptopa-wroclaw/). Sprawdzamy, czy laptop ma wolny slot, jaki typ pamięci obsługuje i czy warto łączyć ją z wymianą dysku. [Diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/) pomaga ustalić, co realnie ogranicza wydajność. Stawki usług są w [cenniku](/cennik/).
 
-Nie musisz się umawiać. Przyjdź na Kotlarską 14 w godzinach 7:00–15:00 albo zadzwoń pod 500 613 500 i podaj model laptopa. Sprawdzimy, czy rozbudowa jest możliwa i czy ma sens.
+Nie musisz się umawiać. Przyjdź na Kotlarską 14 w godzinach 7:00-15:00 albo zadzwoń pod 500 613 500 i podaj model laptopa. Sprawdzimy, czy rozbudowa jest możliwa i czy ma sens.

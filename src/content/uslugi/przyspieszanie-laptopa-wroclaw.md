@@ -1,14 +1,14 @@
 ---
-title: "Przyspieszanie laptopa Wrocław — SSD, RAM i czyszczenie"
+title: "Przyspieszanie laptopa Wrocław - SSD, RAM i czyszczenie"
 navLabel: "Przyspieszanie laptopów"
 description: "Przyspieszanie laptopa we Wrocławiu: diagnostyka wąskiego gardła, dobór SSD i RAM, klonowanie systemu bez utraty danych i czyszczenie. Wycena po diagnozie."
 h1: "Przyspieszanie laptopa we Wrocławiu"
 lead: "Laptop startuje minutę, a przeglądarka zacina się przy kilku kartach? Sprawdzamy, co go blokuje, i dobieramy modernizację do tego, jak naprawdę pracujesz."
-teaser: "Diagnostyka, SSD, RAM, klonowanie danych i czyszczenie — jedno zamiast kilku osobnych wizyt."
+teaser: "Diagnostyka, SSD, RAM, klonowanie danych i czyszczenie - jedno zamiast kilku osobnych wizyt."
 group: "System i dane"
 order: 40
 featured: true
-priceNote: "Cena zależy od tego, co trzeba wymienić — wyceniamy po diagnozie."
+priceNote: "Cena zależy od tego, co trzeba wymienić - wyceniamy po diagnozie."
 duration: "zwykle z dnia na dzień"
 includes:
   - "Diagnostyka wąskiego gardła"
@@ -58,7 +58,7 @@ Wymiana dysku na SSD daje największą różnicę w codziennej pracy. System i p
 
 ## Czyszczenie jako część przyspieszania
 
-Nowy dysk nie pomoże, jeśli procesor dławi się z powodu temperatur. Dlatego przy modernizacji sprawdzamy też chłodzenie. Czyszczenie układu chłodzenia z wymianą pasty termoprzewodzącej zaczyna się od 200 zł i często jest tym elementem, który przywraca laptopowi dawną kulturę pracy. Więcej o tym zakresie przeczytasz na stronie [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/).
+Nowy dysk nie pomoże, jeśli procesor dławi się z powodu temperatur. Dlatego przy modernizacji sprawdzamy też chłodzenie. Czyszczenie układu chłodzenia z wymianą pasty termoprzewodzącej wynosi 200-250 zł i często jest tym elementem, który przywraca laptopowi dawną kulturę pracy. Więcej o tym zakresie przeczytasz na stronie [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/).
 
 ## Realne efekty
 
@@ -68,4 +68,4 @@ Po modernizacji zmienia się przede wszystkim odczucie pracy: system uruchamia s
 
 Modernizacja nie ma sensu w dwóch przypadkach. Pierwszy to sprzęt, w którym procesor jest zbyt słaby do Twoich zadań, a pamięć jest wlutowana w płytę, więc nie da się jej rozbudować. Drugi to laptopy, które nie spełniają wymagań aktualnego systemu i producent nie wspiera już ich sterowników. Wtedy dołożenie dysku poprawi komfort na chwilę, ale nie rozwiąże problemu. W takiej sytuacji powiemy wprost, że lepiej odłożyć pieniądze na nowy sprzęt, i pomożemy bezpiecznie przenieść dane.
 
-Przyjedź na Kotlarską 14 we Wrocławiu bez umawiania, w godzinach 7:00–15:00 od poniedziałku do piątku, albo zadzwoń pod 500 613 500. Po diagnozie dostaniesz konkretną listę tego, co warto wymienić, i wycenę. Jeśli dodatkowo potrzebujesz nowego systemu, sprawdź [instalację Windows](/instalacja-windows-wroclaw/), bo często łączymy ją z modernizacją w jednej wizycie.
+Przyjedź na Kotlarską 14 we Wrocławiu bez umawiania, w godzinach 7:00-15:00 od poniedziałku do piątku, albo zadzwoń pod 500 613 500. Po diagnozie dostaniesz konkretną listę tego, co warto wymienić, i wycenę. Jeśli dodatkowo potrzebujesz nowego systemu, sprawdź [instalację Windows](/instalacja-windows-wroclaw/), bo często łączymy ją z modernizacją w jednej wizycie.

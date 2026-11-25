@@ -39,10 +39,10 @@ Ceny w naszym cenniku są jawne i dotyczą najczęstszych napraw. Kwoty poniżej
 
 - czyszczenie i konserwacja laptopa: od 200 zł
 - wymiana gniazda zasilania: 350 zł
-- naprawa laptopa po zalaniu: 450–800 zł
-- naprawa płyty głównej po zwarciu: 600–800 zł
-- instalacja systemu Windows, macOS lub Linux: 250–500 zł
-- odzyskiwanie danych: 300–800 zł
+- naprawa laptopa po zalaniu: 450-800 zł
+- naprawa płyty głównej po zwarciu: 600-800 zł
+- instalacja systemu Windows, macOS lub Linux: 250-500 zł
+- odzyskiwanie danych: 300-800 zł
 
 Pozostałe naprawy wyceniamy po diagnozie i zawsze przed rozpoczęciem pracy. Nie podajemy zaniżonej kwoty na start, żeby przyciągnąć telefon, bo taka cena nic nie znaczy. Wolisz wiedzieć, na co się piszesz.
 
@@ -68,10 +68,10 @@ Zapytaj też o czas. Naprawa tego samego dnia ma inną wartość niż tydzień o
 
 Granica jest prosta do policzenia. Jeśli koszt naprawy zbliża się do wartości sprawnego laptopa albo do ceny nowego sprzętu o podobnych możliwościach, naprawa przestaje mieć sens. Dotyczy to zwłaszcza starszych modeli z uszkodzoną matrycą i płytą jednocześnie. Wtedy lepiej powiedzieć klientowi wprost, że nie warto, zamiast ciągnąć naprawę za wszelką cenę.
 
-Osobna sytuacja to dane. Jeśli dysk padł, a w środku są dokumenty i zdjęcia, odzyskiwanie danych za 300–800 zł może być warte więcej niż sam laptop. W takich przypadkach priorytetem jest kopia, a nie stan sprzętu.
+Osobna sytuacja to dane. Jeśli dysk padł, a w środku są dokumenty i zdjęcia, odzyskiwanie danych za 300-800 zł może być warte więcej niż sam laptop. W takich przypadkach priorytetem jest kopia, a nie stan sprzętu.
 
 ## Kiedy przyjechać po konkretną wycenę we Wrocławiu
 
-Studio-Komp pracuje przy Kotlarskiej 14, od poniedziałku do piątku w godzinach 7:00–15:00, bez umawiania. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Przed rozpoczęciem pracy dostajesz konkretną kwotę i wiesz, co jest w niej zawarte. Jeśli naprawa okaże się nieopłacalna, usłyszysz to od razu.
+Studio-Komp pracuje przy Kotlarskiej 14, od poniedziałku do piątku w godzinach 7:00-15:00, bez umawiania. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Przed rozpoczęciem pracy dostajesz konkretną kwotę i wiesz, co jest w niej zawarte. Jeśli naprawa okaże się nieopłacalna, usłyszysz to od razu.
 
 Zakres usług opisuje strona [naprawy laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/), a pełne stawki znajdziesz w [cenniku](/cennik/). Jeśli nie wiesz, od czego zacząć, przeczytaj o [diagnostyce laptopa](/diagnostyka-laptopa-wroclaw/) albo zadzwoń pod 500 613 500 i opisz objawy.

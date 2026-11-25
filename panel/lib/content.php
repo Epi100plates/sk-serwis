@@ -4,7 +4,7 @@
  * pliki JSON z danymi strony (site, cennik, opinie, faq, ...).
  *
  * Panel jest źródłem prawdy dla treści, ale publikacja odbywa się przez lokalny
- * build — dlatego każdy zapis trafia od razu do repozytorium Git na VPS.
+ * build - dlatego każdy zapis trafia od razu do repozytorium Git na VPS.
  */
 
 function content_types(): array
@@ -22,16 +22,16 @@ function content_types(): array
             'url_prefix' => '/',
             'icon' => 'tools',
             'fields' => [
-                ['key' => 'title', 'label' => 'Tytuł SEO (meta title)', 'type' => 'text', 'required' => true, 'hint' => 'Bez nazwy firmy — dopiszemy ją w szablonie.'],
+                ['key' => 'title', 'label' => 'Tytuł SEO (meta title)', 'type' => 'text', 'required' => true, 'hint' => 'Bez nazwy firmy - dopiszemy ją w szablonie.'],
                 ['key' => 'navLabel', 'label' => 'Nazwa w menu', 'type' => 'text', 'required' => true],
-                ['key' => 'description', 'label' => 'Opis SEO (meta description)', 'type' => 'textarea', 'required' => true, 'hint' => '140–160 znaków.'],
+                ['key' => 'description', 'label' => 'Opis SEO (meta description)', 'type' => 'textarea', 'required' => true, 'hint' => '140-160 znaków.'],
                 ['key' => 'h1', 'label' => 'Nagłówek H1', 'type' => 'text', 'required' => true],
                 ['key' => 'lead', 'label' => 'Lead pod H1', 'type' => 'textarea', 'required' => true],
                 ['key' => 'teaser', 'label' => 'Krótki opis do listy usług', 'type' => 'text', 'required' => true],
                 ['key' => 'group', 'label' => 'Kategoria', 'type' => 'select', 'options' => ['Konserwacja', 'Naprawy', 'Elektronika', 'System i dane'], 'required' => true],
                 ['key' => 'order', 'label' => 'Kolejność', 'type' => 'number', 'default' => 50],
                 ['key' => 'featured', 'label' => 'Pokazuj na stronie głównej', 'type' => 'bool'],
-                ['key' => 'priceFrom', 'label' => 'Cena od', 'type' => 'text', 'hint' => 'np. „od 200 zł” — puste, jeśli nieznana.'],
+                ['key' => 'priceFrom', 'label' => 'Cena od', 'type' => 'text', 'hint' => 'np. „od 200 zł” - puste, jeśli nieznana.'],
                 ['key' => 'priceNote', 'label' => 'Uwaga o cenie', 'type' => 'text'],
                 ['key' => 'duration', 'label' => 'Czas realizacji', 'type' => 'text'],
                 ['key' => 'image', 'label' => 'Zdjęcie/ilustracja', 'type' => 'media'],
@@ -309,7 +309,7 @@ function serialize_frontmatter(array $data, string $body): string
                 }
             }
             if (!$isList) {
-                // mapa — potraktuj jak listę par (nieużywane w schematach)
+                // mapa - potraktuj jak listę par (nieużywane w schematach)
             }
         } elseif ($value === null) {
             $out .= "$key: null\n";
@@ -325,7 +325,7 @@ function serialize_frontmatter(array $data, string $body): string
 
 function content_dir(string $type): string
 {
-    // Statyczna mapa katalogów — NIE wolno tu wołać content_types(),
+    // Statyczna mapa katalogów - NIE wolno tu wołać content_types(),
     // bo content_types() korzysta z list_content() i powstałaby rekurencja.
     $dirs = [
         'uslugi' => 'src/content/uslugi',
@@ -538,7 +538,7 @@ function git_commit(string $message, array $paths = []): void
     if ($code !== 0) {
         log_panel('git commit nie powiódł się: ' . implode(' ', $output));
     } else {
-        setting_set('last_git_commit', now() . ' — ' . $message);
+        setting_set('last_git_commit', now() . ' - ' . $message);
     }
 }
 

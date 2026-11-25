@@ -1,7 +1,7 @@
 <?php
 /**
  * Opinie Google: cache w bazie + opcjonalne odświeżanie przez Places API.
- * Strona publiczna nie odpytuje Google przy żądaniu — dane trafiają do SQLite,
+ * Strona publiczna nie odpytuje Google przy żądaniu - dane trafiają do SQLite,
  * a po zatwierdzeniu do src/data/site.json przy najbliższym buildzie.
  */
 

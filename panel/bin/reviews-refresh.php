@@ -11,7 +11,7 @@ if (PHP_SAPI !== 'cli') {
 require __DIR__ . '/../bootstrap.php';
 
 if (reviews_api_key() === '') {
-    echo "Brak klucza Google Places API w konfiguracji — pomijam.\n";
+    echo "Brak klucza Google Places API w konfiguracji - pomijam.\n";
     exit(0);
 }
 

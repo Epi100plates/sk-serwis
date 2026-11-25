@@ -1,6 +1,6 @@
 ---
 brand: "Samsung"
-title: "Serwis Samsung Wrocław — naprawa laptopów Samsung | Studio-Komp"
+title: "Serwis Samsung Wrocław - naprawa laptopów Samsung | Studio-Komp"
 description: "Serwis Samsung Wrocław: naprawa Galaxy Book, Notebook 9 i Odyssey. Baterie, matryce, ładowanie USB-C, klawiatury. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis laptopów Samsung we Wrocławiu"
 lead: "Laptopy Samsung nie są w Polsce tak popularne jak Lenovo czy HP, więc część podzespołów trzeba zamawiać pod konkretny model. Naprawiamy je z uczciwym terminem: najpierw oceniamy dostępność części, potem mówimy, kiedy sprzęt będzie gotowy."
@@ -77,6 +77,6 @@ Naprawa laptopów Samsung wymaga cierpliwości przy doborze podzespołów. Gdy e
 
 ## Gdzie nas znajdziesz
 
-Znajdziesz nas przy Kotlarskiej 14 we Wrocławiu, na miejscu od 2013 roku. Zapraszamy od poniedziałku do piątku w godzinach 7:00–15:00, bez zapisów. Telefon 500 613 500 pozwala wstępnie ustalić, czy część do Twojego modelu jest osiągalna. Do serwisu warto zabrać ładowarkę USB-C, której używasz na co dzień.
+Znajdziesz nas przy Kotlarskiej 14 we Wrocławiu, na miejscu od 2013 roku. Zapraszamy od poniedziałku do piątku w godzinach 7:00-15:00, bez zapisów. Telefon 500 613 500 pozwala wstępnie ustalić, czy część do Twojego modelu jest osiągalna. Do serwisu warto zabrać ładowarkę USB-C, której używasz na co dzień.
 
 Zajrzyj też na [naprawa laptopów](/naprawa-laptopow-wroclaw/), [naprawa po zalaniu](/naprawa-laptopa-po-zalaniu/), [wymiana matrycy](/wymiana-matrycy-wroclaw/) i [wymiana klawiatury](/wymiana-klawiatury-laptopa/). Mamy 550+ opinii w Google, bo przy trudnych modelach też mówimy jasno, na czym stoimy.

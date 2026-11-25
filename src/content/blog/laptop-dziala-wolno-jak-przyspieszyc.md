@@ -6,7 +6,7 @@ category: "Wydajność"
 service: "przyspieszanie-laptopa-wroclaw"
 faq:
   - question: "Czy instalacja systemu od nowa przyspieszy laptopa?"
-    answer: "Często tak, jeśli problemem jest zaśmiecony system, a nie sprzęt. Reinstalacja usuwa zbędne programy i konflikty, ale nie pomoże na wolny dysk HDD ani na przegrzewanie. Kosztuje 250–500 zł."
+    answer: "Często tak, jeśli problemem jest zaśmiecony system, a nie sprzęt. Reinstalacja usuwa zbędne programy i konflikty, ale nie pomoże na wolny dysk HDD ani na przegrzewanie. Kosztuje 250-500 zł."
   - question: "Czy wymiana dysku na SSD naprawdę daje efekt?"
     answer: "Tak, to najbardziej odczuwalna modernizacja w starszym laptopie. System uruchamia się szybciej, programy otwierają się bez czekania, a dysk przestaje być wąskim gardłem. Warunkiem jest sprawdzenie, czy model ma odpowiednie złącze."
   - question: "Czy da się dodać pamięć RAM do każdego laptopa?"
@@ -67,7 +67,7 @@ Czyszczenie chłodzenia to druga modernizacja, która często więcej daje niż 
 
 Modernizację warto planować, a nie robić na wyczucie. Najpierw sprawdzamy, który podzespół naprawdę ogranicza wydajność, a potem dobieramy SSD i pamięć. Wymiana części bez diagnozy kończy się wydanymi pieniędzmi bez efektu, więc kolejność ma znaczenie.
 
-Czasem potrzebna jest też reinstalacja systemu. Kosztuje 250–500 zł i ma sens wtedy, gdy system jest zaśmiecony latami instalacji. Jeśli problemem jest sprzęt, nowa instalacja nic nie zmieni.
+Czasem potrzebna jest też reinstalacja systemu. Kosztuje 250-500 zł i ma sens wtedy, gdy system jest zaśmiecony latami instalacji. Jeśli problemem jest sprzęt, nowa instalacja nic nie zmieni.
 
 ## Realne oczekiwania po modernizacji
 
@@ -79,6 +79,6 @@ To ważne, żeby nie obiecywać sobie za dużo. Modernizacja ma sens, gdy laptop
 
 ## Kiedy przyjechać do serwisu we Wrocławiu
 
-Studio-Komp działa przy Kotlarskiej 14, od poniedziałku do piątku w godzinach 7:00–15:00, bez umawiania. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Po sprawdzeniu sprzętu dostajesz konkretną propozycję: co wymienić, ile to potrwa i ile będzie kosztować. Jeśli modernizacja nie ma sensu, usłyszysz to wprost.
+Studio-Komp działa przy Kotlarskiej 14, od poniedziałku do piątku w godzinach 7:00-15:00, bez umawiania. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Po sprawdzeniu sprzętu dostajesz konkretną propozycję: co wymienić, ile to potrwa i ile będzie kosztować. Jeśli modernizacja nie ma sensu, usłyszysz to wprost.
 
 Zakres usługi opisuje strona [przyspieszania laptopa](/przyspieszanie-laptopa-wroclaw/), a ceny znajdziesz w [cenniku](/cennik/). Warto też zadzwonić pod 500 613 500 i opisać objawy, bo często już po rozmowie wiadomo, czy warto przywozić sprzęt. Osobno przeczytaj, [kiedy wymieniać pastę termoprzewodzącą](/poradnik/kiedy-wymienic-paste-termoprzewodzaca/), jeśli podejrzewasz przegrzewanie.

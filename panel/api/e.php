@@ -1,6 +1,6 @@
 <?php
 /**
- * Publiczny endpoint pomiaru (sendBeacon). Bez CSRF — chroniony Origin,
+ * Publiczny endpoint pomiaru (sendBeacon). Bez CSRF - chroniony Origin,
  * limitem tempa i walidacją danych. Nie przechowuje adresów IP w postaci jawnej.
  */
 
@@ -38,7 +38,7 @@ if (!is_array($input)) {
     exit;
 }
 
-// Zgoda jest warunkiem pomiaru — klient wysyła consent: true tylko po zgodzie.
+// Zgoda jest warunkiem pomiaru - klient wysyła consent: true tylko po zgodzie.
 if (empty($input['consent'])) {
     http_response_code(204);
     exit;

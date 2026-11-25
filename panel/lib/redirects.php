@@ -39,7 +39,7 @@ function redirect_validate(array $data): array
     }
 
     if ($old === $target) {
-        $errors[] = 'Adres docelowy jest taki sam jak stary — to pętla.';
+        $errors[] = 'Adres docelowy jest taki sam jak stary - to pętla.';
     }
 
     // Wykrywanie pętli w łańcuchu przekierowań
@@ -118,7 +118,7 @@ function redirects_sync_files(): void
     $rows = db()->query('SELECT old_path, target_url, status_code FROM redirects WHERE enabled = 1 ORDER BY old_path ASC')->fetchAll();
 
     // 1) nginx snippet
-    $nginx = "# Wygenerowane z panelu Studio-Komp — nie edytuj ręcznie.\n# Przekierowania 301/302 obsługiwane przez nginx-sk.\n";
+    $nginx = "# Wygenerowane z panelu Studio-Komp - nie edytuj ręcznie.\n# Przekierowania 301/302 obsługiwane przez nginx-sk.\n";
     foreach ($rows as $row) {
         $nginx .= 'location = ' . $row['old_path'] . ' { return ' . (int) $row['status_code'] . ' ' . $row['target_url'] . "; }\n";
     }

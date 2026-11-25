@@ -288,7 +288,7 @@ layout_head('Ustawienia', 'settings');
       <div class="card__body">
         <p class="small muted">
           Telefon i adres pojawiają się w nagłówku, stopce, na stronie kontaktu, w mapie i w danych
-          strukturalnych Google (LocalBusiness). Zmień je tutaj raz — zaktualizują się wszędzie
+          strukturalnych Google (LocalBusiness). Zmień je tutaj raz - zaktualizują się wszędzie
           po publikacji.
         </p>
       </div>
@@ -467,7 +467,7 @@ layout_head('Ustawienia', 'settings');
         <div class="help-box">
           Aby dodać nową pozycję, skopiuj w pliku <span class="code-inline">src/data/cennik.json</span> istniejący wpis
           (panel obsługuje edycję istniejących pozycji; nowe grupy dodasz przez edytor JSON lub zgłoś to
-          programiście). Ceny nieznane zostaw jako „… zł” — strona nie wymyśla kwot.
+          programiście). Ceny nieznane zostaw jako „… zł” - strona nie wymyśla kwot.
         </div>
         <div class="form-actions"><button class="btn btn--primary" type="submit">Zapisz cennik</button></div>
       </form>
@@ -508,7 +508,7 @@ layout_head('Ustawienia', 'settings');
         <label class="field"><span>GA4 Measurement ID (np. G-XXXXXXX)</span><input type="text" name="ga4" value="<?= e($site['analytics']['ga4'] ?? '') ?>">
           <span class="field__hint">Używane tylko, jeśli GTM jest pusty.</span>
         </label>
-        <label class="field"><span>Google Ads — send_to konwersji</span><input type="text" name="ads" value="<?= e($site['analytics']['adsConversionSendTo'] ?? '') ?>">
+        <label class="field"><span>Google Ads - send_to konwersji</span><input type="text" name="ads" value="<?= e($site['analytics']['adsConversionSendTo'] ?? '') ?>">
           <span class="field__hint">Format AW-XXXXXXX/etykieta. Konwersja „generate_lead” wysyłana po potwierdzonym formularzu.</span>
         </label>
         <label class="field"><span>Microsoft Clarity ID</span><input type="text" name="clarity" value="<?= e($site['analytics']['clarity'] ?? '') ?>">
@@ -516,7 +516,7 @@ layout_head('Ustawienia', 'settings');
         </label>
         <div class="help-box">
           Własny pomiar działa zawsze (bez GA4) i zapisuje zdarzenia w bazie.
-          Narzędzia zewnętrzne uruchamiają się zgodnie z Consent Mode v2 — dopiero po zgodzie użytkownika.
+          Narzędzia zewnętrzne uruchamiają się zgodnie z Consent Mode v2 - dopiero po zgodzie użytkownika.
         </div>
         <div class="form-actions"><button class="btn btn--primary" type="submit">Zapisz analitykę</button></div>
       </form>

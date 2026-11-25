@@ -2,7 +2,7 @@
 /**
  * Analityka: przegląd ruchu, podstrony, źródła, zdarzenia i urządzenia.
  * Wszystkie liczby pochodzą z własnego, pierwszo-stronnego pomiaru (endpoint /api/e).
- * Widok tylko czyta dane — brak POST, brak zmian w bazie.
+ * Widok tylko czyta dane - brak POST, brak zmian w bazie.
  */
 
 if (!function_exists('layout_head')) {
@@ -135,7 +135,7 @@ function ana_source_label(string $source): string
 function ana_event_definitions(): array
 {
     return [
-        'phone_click' => ['Kliknięcie telefonu', 'Kliknięcie w numer telefonu. Nie oznacza zakończonej rozmowy — tylko intencję kontaktu.'],
+        'phone_click' => ['Kliknięcie telefonu', 'Kliknięcie w numer telefonu. Nie oznacza zakończonej rozmowy - tylko intencję kontaktu.'],
         'directions_click' => ['Kliknięcie dojazdu', 'Otwarcie nawigacji lub mapy z adresem serwisu (np. Google Maps, Apple Maps).'],
         'map_click' => ['Kliknięcie mapy', 'Otwarcie mapy z lokalizacją serwisu (osadzona mapa lub link).'],
         'service_click' => ['Kliknięcie usługi', 'Wejście w kartę usługi z listy lub menu.'],
@@ -221,7 +221,7 @@ function ana_nice_max(int $max): array
 }
 
 /**
- * Indeksy etykiet osi X — maksymalnie $max równo rozłożonych punktów.
+ * Indeksy etykiet osi X - maksymalnie $max równo rozłożonych punktów.
  */
 function ana_label_indexes(int $n, int $max = 6): array
 {
@@ -353,9 +353,9 @@ function ana_bar_chart(array $series, array $keys, array $colors, string $title)
         $lastDate = (string) ($chunk[count($chunk) - 1]['date'] ?? '');
         $label = ana_short_date($firstDate);
         if (count($chunk) > 1 && $lastDate !== '') {
-            $label .= '–' . ana_short_date($lastDate);
+            $label .= '-' . ana_short_date($lastDate);
         }
-        $row = ['label' => $label !== '' ? $label : '—'];
+        $row = ['label' => $label !== '' ? $label : '-'];
         foreach ($keys as $key) {
             $row[$key] = 0;
             foreach ($chunk as $day) {
@@ -472,7 +472,7 @@ function ana_device_bars(array $devices, int $total): string
 }
 
 /**
- * Najpopularniejsze podstrony na telefonie — zapytanie tylko do odczytu.
+ * Najpopularniejsze podstrony na telefonie - zapytanie tylko do odczytu.
  */
 function ana_mobile_pages(string $fromSql, string $toSql, int $limit = 10): array
 {
@@ -535,7 +535,7 @@ function ana_page_report(string $page, string $fromSql, string $toSql): array
 }
 
 /**
- * Tabela podstron — wspólna dla Przeglądu i zakładki Podstrony.
+ * Tabela podstron - wspólna dla Przeglądu i zakładki Podstrony.
  */
 function ana_pages_table(array $rows, array $state): string
 {
@@ -688,7 +688,7 @@ $kpiCards = [
         'label' => 'Kliknięcia telefonu',
         'value' => $phoneClicks,
         'hint' => 'kliknięcie w numer, nie rozmowa',
-        'definition' => 'Kliknięcie w numer telefonu. To nie jest zakończona rozmowa — mierzymy intencję kontaktu.',
+        'definition' => 'Kliknięcie w numer telefonu. To nie jest zakończona rozmowa - mierzymy intencję kontaktu.',
         'change' => $changes['phone'] ?? null,
     ],
     [
@@ -702,7 +702,7 @@ $kpiCards = [
         'label' => 'Wysłane formularze',
         'value' => $formSubmits,
         'hint' => 'potwierdzone wysłanie',
-        'definition' => 'Potwierdzone wysłanie formularza kontaktowego — nie samo rozpoczęcie wypełniania.',
+        'definition' => 'Potwierdzone wysłanie formularza kontaktowego - nie samo rozpoczęcie wypełniania.',
         'change' => $changes['forms'] ?? null,
     ],
     [
@@ -819,9 +819,9 @@ layout_head('Analityka', 'analytics');
       <a class="btn btn--sm btn--ghost" href="<?= e(ana_url($state, ['compare' => $compare ? '0' : '1'])) ?>"><?= $compare ? 'Ukryj zmianę %' : 'Porównaj z poprzednim okresem' ?></a>
     </div>
     <p class="small muted" style="margin-top:12px">
-      Zakres: <strong><?= e(format_date($from, false)) ?> – <?= e(format_date($to, false)) ?></strong> (<?= e(ana_days_label($periodDays)) ?>)
+      Zakres: <strong><?= e(format_date($from, false)) ?> - <?= e(format_date($to, false)) ?></strong> (<?= e(ana_days_label($periodDays)) ?>)
       <?php if ($compare): ?>
-        · porównanie z okresem <strong><?= e(format_date($prevFrom, false)) ?> – <?= e(format_date($prevTo, false)) ?></strong>
+        · porównanie z okresem <strong><?= e(format_date($prevFrom, false)) ?> - <?= e(format_date($prevTo, false)) ?></strong>
       <?php endif; ?>
     </p>
   </div>
@@ -836,15 +836,15 @@ layout_head('Analityka', 'analytics');
         <strong>Jak zacząć zbierać statystyki?</strong>
         <ol>
           <li>Otwórz stronę po wdrożeniu: <a href="<?= e($siteUrl) ?>" target="_blank" rel="noopener"><?= e($siteUrl) ?></a>.</li>
-          <li>Zaakceptuj statystyki w banerze cookies — pomiar działa tylko dla użytkowników z zgodą analityczną.</li>
+          <li>Zaakceptuj statystyki w banerze cookies - pomiar działa tylko dla użytkowników z zgodą analityczną.</li>
           <li>Odwiedź kilka podstron (np. cennik i kontakt) na telefonie i na komputerze.</li>
-          <li>Wróć do panelu i odśwież stronę — pierwsze odsłony pojawiają się zwykle w ciągu kilku minut.</li>
+          <li>Wróć do panelu i odśwież stronę - pierwsze odsłony pojawiają się zwykle w ciągu kilku minut.</li>
         </ol>
       </div>
       <p class="small muted" style="margin-top:12px">
         Sprawdź też, czy strona wysyła zdarzenia do <span class="code-inline">/api/e</span>
         (endpoint pierwszego pomiaru) i czy analityka nie została wyłączona w Ustawieniach.
-        Panel nie pokazuje danych z GA4/Ads — te integracje mają własne statystyki.
+        Panel nie pokazuje danych z GA4/Ads - te integracje mają własne statystyki.
       </p>
       <div class="form-actions" style="margin-top:12px">
         <a class="btn btn--sm" href="<?= e(ana_url($state, ['range' => '7', 'from' => null, 'to' => null, 'tab' => 'overview'])) ?>">Pokaż ostatnie 7 dni</a>
@@ -888,7 +888,7 @@ layout_head('Analityka', 'analytics');
         <header class="card__head"><h2>Kontakt i konwersje w czasie</h2></header>
         <div class="card__body">
           <?= ana_line_chart($series, ['phone', 'directions', 'forms', 'conversions'], ['phone' => '#2d343a', 'directions' => '#1f5f99', 'forms' => '#1f7a3f', 'conversions' => '#a15c00'], 'Telefon, dojazd, formularze i konwersje w czasie') ?>
-          <p class="small muted" style="margin-top:8px">Kliknięcia telefonu i dojazdu to intencje kontaktu, formularze i konwersje — potwierdzone zgłoszenia.</p>
+          <p class="small muted" style="margin-top:8px">Kliknięcia telefonu i dojazdu to intencje kontaktu, formularze i konwersje - potwierdzone zgłoszenia.</p>
         </div>
       </section>
     </div>
@@ -990,14 +990,14 @@ layout_head('Analityka', 'analytics');
                     <?php if ((string) ($sourceRow['medium'] ?? '') !== ''): ?>
                       <span class="mono"><?= e($sourceRow['medium']) ?></span>
                     <?php else: ?>
-                      <span class="muted">—</span>
+                      <span class="muted">-</span>
                     <?php endif; ?>
                   </td>
                   <td>
                     <?php if ((string) ($sourceRow['campaign'] ?? '') !== ''): ?>
                       <span class="mono"><?= e($sourceRow['campaign']) ?></span>
                     <?php else: ?>
-                      <span class="muted">—</span>
+                      <span class="muted">-</span>
                     <?php endif; ?>
                   </td>
                   <td class="num"><?= e(ana_num($sourceRow['pageviews'] ?? 0)) ?></td>
@@ -1027,7 +1027,7 @@ layout_head('Analityka', 'analytics');
           <p class="muted small">Brak ruchu z parametrami UTM w wybranym okresie.</p>
           <div class="help-box" style="margin-top:10px">
             Oznaczaj linki w kampaniach parametrami <span class="code-inline">utm_source</span>,
-            <span class="code-inline">utm_medium</span> i <span class="code-inline">utm_campaign</span> —
+            <span class="code-inline">utm_medium</span> i <span class="code-inline">utm_campaign</span> -
             wtedy ruch z kampanii pojawi się w tej sekcji i w tabeli źródeł.
           </div>
         <?php else: ?>
@@ -1050,7 +1050,7 @@ layout_head('Analityka', 'analytics');
                     <?php if ((string) ($utmRow['campaign'] ?? '') !== ''): ?>
                       <strong><?= e($utmRow['campaign']) ?></strong>
                     <?php else: ?>
-                      <span class="muted">— (brak campaign)</span>
+                      <span class="muted">- (brak campaign)</span>
                     <?php endif; ?>
                   </td>
                   <td><span class="mono"><?= e($utmRow['medium'] ?? '') ?></span></td>
@@ -1108,7 +1108,7 @@ layout_head('Analityka', 'analytics');
     <section class="card">
       <header class="card__head"><h2>Definicje zdarzeń</h2></header>
       <div class="card__body">
-        <p class="small muted">Zdarzenia mierzą intencje użytkownika, a nie efekt końcowy. Dlatego kliknięcie telefonu nie jest rozmową, a otwarcie mapy — przyjazdem.</p>
+        <p class="small muted">Zdarzenia mierzą intencje użytkownika, a nie efekt końcowy. Dlatego kliknięcie telefonu nie jest rozmową, a otwarcie mapy - przyjazdem.</p>
         <div class="table-wrap" style="margin-top:10px">
           <table class="table table--compact">
             <thead><tr><th>Zdarzenie</th><th>Nazwa techniczna</th><th>Znaczenie</th></tr></thead>
@@ -1316,7 +1316,7 @@ layout_head('Analityka', 'analytics');
                         <?php elseif ((string) ($pageSourceRow['campaign'] ?? '') !== ''): ?>
                           <span class="mono"><?= e($pageSourceRow['campaign']) ?></span>
                         <?php else: ?>
-                          <span class="muted">—</span>
+                          <span class="muted">-</span>
                         <?php endif; ?>
                       </td>
                       <td class="num"><?= e(ana_num($pageSourceRow['pageviews'] ?? 0)) ?></td>
@@ -1355,7 +1355,7 @@ layout_head('Analityka', 'analytics');
             <?= status_badge('disabled') ?>
           <?php endif; ?>
           <span>
-            <strong><?= e($integration['label']) ?></strong> —
+            <strong><?= e($integration['label']) ?></strong> -
             <?php if ($integration['value'] !== ''): ?>
               <span class="mono"><?= e($integration['value']) ?></span>
             <?php else: ?>
@@ -1371,13 +1371,13 @@ layout_head('Analityka', 'analytics');
         W konfiguracji <span class="code-inline">site.analytics</span> pola
         <span class="code-inline">gtm</span>, <span class="code-inline">ga4</span> i
         <span class="code-inline">ads</span> są puste, więc Google Tag Manager, GA4 i Google Ads
-        nie działają na stronie. Panel nie pokazuje żadnych danych z GA4/Ads — nie ma tu fikcyjnych
+        nie działają na stronie. Panel nie pokazuje żadnych danych z GA4/Ads - nie ma tu fikcyjnych
         liczb; wszystkie statystyki powyżej to wyłącznie własny pomiar.
         Podłącz integracje w <a href="<?= e(panel_url('settings', ['tab' => 'analytics'])) ?>">Ustawieniach</a>.
       </div>
     <?php else: ?>
       <p class="small muted" style="margin-top:8px">
-        Integracje działają na stronie po zgodzie użytkownika. Panel nie importuje danych z GA4/Ads —
+        Integracje działają na stronie po zgodzie użytkownika. Panel nie importuje danych z GA4/Ads -
         pokazuje wyłącznie własny pomiar.
       </p>
     <?php endif; ?>

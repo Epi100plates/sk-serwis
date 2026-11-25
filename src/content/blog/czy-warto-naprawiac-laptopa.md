@@ -21,7 +21,7 @@ Pierwsza liczba to wartość Twojego laptopa, gdyby działał bez zarzutu. Nie c
 
 Porównaj koszt naprawy z wartością sprawnego sprzętu. Jeśli naprawa kosztuje niewielką część tej wartości, zwykle ma sens. Jeśli zbliża się do połowy albo ją przekracza, trzeba się zastanowić poważnie. Gdy przewyższa wartość laptopa, odpowiedź jest prosta: nie naprawiaj. Wyjątkiem są dane, do których wrócimy osobno.
 
-Weźmy dwa przykłady. Czteroletni laptop, który działał dobrze i ma wartość około 1500 zł, z uszkodzonym gniazdem zasilania za 350 zł: naprawa ma sens, bo to niewielka część wartości. Ten sam laptop z uszkodzoną płytą po zwarciu, gdzie naprawa kosztuje 600–800 zł i nie wiadomo, czy to koniec usterek: rachunek zaczyna wyglądać niekorzystnie, zwłaszcza gdy nowy sprzęt kosztuje niewiele więcej.
+Weźmy dwa przykłady. Czteroletni laptop, który działał dobrze i ma wartość około 1500 zł, z uszkodzonym gniazdem zasilania za 350 zł: naprawa ma sens, bo to niewielka część wartości. Ten sam laptop z uszkodzoną płytą po zwarciu, gdzie naprawa kosztuje 600-800 zł i nie wiadomo, czy to koniec usterek: rachunek zaczyna wyglądać niekorzystnie, zwłaszcza gdy nowy sprzęt kosztuje niewiele więcej.
 
 Do rachunku warto dodać koszty, o których łatwo zapomnieć: nowy zasilacz, jeśli stary jest już zużyty, etui, jeśli obudowa się rozpadła, albo przeniesienie danych na nowy sprzęt. Czasem to właśnie te dodatki sprawiają, że naprawa przestaje być opłacalna, choć sama usterka wygląda na tanią.
 
@@ -47,7 +47,7 @@ Naprawa ma też sens, gdy laptop ma dobrą matrycę. Ekran to jeden z najdroższ
 
 ## Kiedy lepiej odpuścić
 
-Odpuść, gdy dwie drogie usterki występują jednocześnie. Uszkodzona matryca i płyta główna w jednym laptopie to koszt, który rzadko ma pokrycie w wartości sprzętu. Podobnie przy zalaniu: koszt naprawy to 450–800 zł, a ryzyko, że płyta okaże się nie do uratowania, jest realne. W starym, tanim laptopie taka naprawa rzadko się opłaca.
+Odpuść, gdy dwie drogie usterki występują jednocześnie. Uszkodzona matryca i płyta główna w jednym laptopie to koszt, który rzadko ma pokrycie w wartości sprzętu. Podobnie przy zalaniu: koszt naprawy to 450-800 zł, a ryzyko, że płyta okaże się nie do uratowania, jest realne. W starym, tanim laptopie taka naprawa rzadko się opłaca.
 
 Odpuść też, gdy cena naprawy przekracza wartość sprawnego egzemplarza. Nie ma sensu pakować w laptopa więcej, niż jest wart, zwłaszcza jeśli za rok może pojawić się kolejna usterka. W takich przypadkach mówimy klientowi wprost, że nie warto i że lepiej przeznaczyć te pieniądze na nowy sprzęt.
 
@@ -55,7 +55,7 @@ Zanim odpuścisz, zapytaj o wartość złomową. Czasem sprawna matryca, obudowa
 
 ## Co z danymi
 
-Dane to osobna kategoria. Jeśli dysk jest sprawny, a laptop nie wstaje z innego powodu, pliki nadal można uratować, nim sprzęt trafi do utylizacji. Jeśli dysk padł, odzyskiwanie danych to 300–800 zł i bywa warte więcej niż sam laptop, bo zdjęcia i dokumenty mają wartość, której nie da się kupić.
+Dane to osobna kategoria. Jeśli dysk jest sprawny, a laptop nie wstaje z innego powodu, pliki nadal można uratować, nim sprzęt trafi do utylizacji. Jeśli dysk padł, odzyskiwanie danych to 300-800 zł i bywa warte więcej niż sam laptop, bo zdjęcia i dokumenty mają wartość, której nie da się kupić.
 
 Zanim zdecydujesz o naprawie, zapytaj, czy dane są bezpieczne. W serwisie zwykle da się je zabezpieczyć albo odzyskać, zanim zajmiemy się elektroniką. Najgorszy scenariusz to oddanie sprzętu bez kopii i nadzieja, że wszystko się uda.
 
@@ -65,6 +65,6 @@ Kopię warto trzymać poza laptopem i poza domem. Drugi dysk w szufladzie chroni
 
 ## Kiedy przyjechać do serwisu we Wrocławiu
 
-Studio-Komp działa przy Kotlarskiej 14 od 2013 roku. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę, a po pomiarach dostajesz konkretną kwotę. Nie musisz się umawiać, wystarczy przyjść w godzinach 7:00–15:00 od poniedziałku do piątku albo zadzwonić pod 500 613 500.
+Studio-Komp działa przy Kotlarskiej 14 od 2013 roku. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę, a po pomiarach dostajesz konkretną kwotę. Nie musisz się umawiać, wystarczy przyjść w godzinach 7:00-15:00 od poniedziałku do piątku albo zadzwonić pod 500 613 500.
 
 Zakres napraw opisuje strona [naprawy laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/), a stawki znajdziesz w [cenniku](/cennik/). Jeśli po diagnozie okaże się, że naprawa się nie opłaca, usłyszysz to wprost. Czasem najlepszą decyzją jest zostawienie laptopa i zajęcie się kopią danych.

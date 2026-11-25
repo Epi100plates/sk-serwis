@@ -35,8 +35,8 @@ layout_head('Podgląd wersji roboczych', 'preview');
       <div class="help-box">
         <strong>Podgląd buduje się lokalnie, tak samo jak produkcja.</strong>
         <ol>
-          <li>Zapisz zmiany (mogą być jako wersje robocze — <span class="code-inline">draft: true</span>).</li>
-          <li>Kliknij „Zbuduj podgląd" — żądanie trafi do komputera publikującego.</li>
+          <li>Zapisz zmiany (mogą być jako wersje robocze - <span class="code-inline">draft: true</span>).</li>
+          <li>Kliknij „Zbuduj podgląd" - żądanie trafi do komputera publikującego.</li>
           <li>Po zakończeniu podgląd jest dostępny pod adresem z ochroną hasłem.</li>
         </ol>
       </div>

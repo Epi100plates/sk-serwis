@@ -36,7 +36,7 @@ Większość mitów pochodzi z czasów ogniw niklowych, które trzeba było roz�
 
 ## Zasady, które realnie wydłużają życie
 
-- utrzymuj zakres 20–80 procent, jeśli nie potrzebujesz pełnego naładowania,
+- utrzymuj zakres 20-80 procent, jeśli nie potrzebujesz pełnego naładowania,
 - nie zostawiaj laptopa w słońcu ani w nagrzanym samochodzie,
 - jeśli laptop stoi w jednym miejscu, korzystaj z trybu ochrony baterii, jeśli producent go przewidział,
 - przy przechowywaniu na dłużej naładuj do około połowy i wyłącz laptopa,
@@ -46,7 +46,7 @@ Największym wrogiem baterii jest ciepło. Laptop stojący na łóżku, z zapcha
 
 ### Jak łączyć pracę na zasilaczu z baterią
 
-Jeśli laptop stoi na biurku, nie ma sensu wyjmować baterii ani cyklicznie jej rozładowywać. Wystarczy włączyć tryb ochrony, jeśli jest dostępny, i zadbać o chłodzenie. Bateria w laptopie pracującym na zasilaczu i tak się starzeje, ale w niższej temperaturze i przy ładowaniu do 60–80 procent zużywa się wolniej.
+Jeśli laptop stoi na biurku, nie ma sensu wyjmować baterii ani cyklicznie jej rozładowywać. Wystarczy włączyć tryb ochrony, jeśli jest dostępny, i zadbać o chłodzenie. Bateria w laptopie pracującym na zasilaczu i tak się starzeje, ale w niższej temperaturze i przy ładowaniu do 60-80 procent zużywa się wolniej.
 
 Jeśli trybu ochrony nie ma, wystarczy od czasu do czasu odłączyć zasilacz i rozładować baterię do około 30 procent. To nie obowiązek, ale pomaga utrzymać wskaźnik wiarygodnym.
 
@@ -60,7 +60,7 @@ Jeśli raport nie pokazuje liczby cykli, nie jest to powód do niepokoju. Wystar
 
 ## Kiedy bateria wymaga wymiany
 
-Wymiana ma sens, gdy czas pracy przestał wystarczać do codziennych zadań, laptop wyłącza się nagle przy 30–40 procentach albo ładuje się do pełna w kilka minut. Jeśli ogniwo jest sprawne, a laptop długo pracuje na zasilaczu, wymiana nie wniesie wiele.
+Wymiana ma sens, gdy czas pracy przestał wystarczać do codziennych zadań, laptop wyłącza się nagle przy 30-40 procentach albo ładuje się do pełna w kilka minut. Jeśli ogniwo jest sprawne, a laptop długo pracuje na zasilaczu, wymiana nie wniesie wiele.
 
 Decyzja nie zależy tylko od procentów. Bateria, która ma 70 procent pojemności, ale wystarcza na cały dzień pracy, nie wymaga wymiany. Bateria z 60 procentami, która wyłącza się przy 40 procentach, wymaga, bo problem jest w ogniwie, nie w pojemności.
 
@@ -80,4 +80,4 @@ Nie wkładaj laptopa ze spuchniętą baterią do plecaka i nie zostawiaj go w sa
 
 Wymianę baterii i ocenę stanu ogniwa wykonujemy w ramach [naprawy laptopów](/naprawa-laptopow-wroclaw/). Przy okazji sprawdzamy, czy wysoka temperatura pracy nie przyspieszyła zużycia; jeśli laptop się grzeje, [czyszczenie chłodzenia](/czyszczenie-laptopa-wroclaw/) ma sens także dla baterii. Cenę wymiany podajemy po diagnozie, a stawki innych usług są w [cenniku](/cennik/).
 
-Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00–15:00 albo zadzwoń pod 500 613 500. Przy spuchniętej baterii nie zwlekaj z wizytą, bo uszkodzenie obudowy i płyty bywa droższe niż sama wymiana ogniwa.
+Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00-15:00 albo zadzwoń pod 500 613 500. Przy spuchniętej baterii nie zwlekaj z wizytą, bo uszkodzenie obudowy i płyty bywa droższe niż sama wymiana ogniwa.

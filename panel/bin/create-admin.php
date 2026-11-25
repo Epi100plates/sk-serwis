@@ -63,7 +63,7 @@ if ($existing) {
 
 $count = (int) db()->query("SELECT COUNT(*) FROM users WHERE role = 'admin'")->fetchColumn();
 $credentialsFile = (string) cfg('data_dir') . '/initial-credentials.txt';
-$content = "Panel Studio-Komp — dane dostepowe\n"
+$content = "Panel Studio-Komp - dane dostepowe\n"
     . "Adres: " . cfg('site_url') . "/panel/\n"
     . "Login: $username\n"
     . "Haslo: $password\n"

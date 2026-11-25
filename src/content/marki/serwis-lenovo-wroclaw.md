@@ -1,6 +1,6 @@
 ---
 brand: "Lenovo"
-title: "Serwis Lenovo Wrocław — naprawa laptopów Lenovo | Studio-Komp"
+title: "Serwis Lenovo Wrocław - naprawa laptopów Lenovo | Studio-Komp"
 description: "Serwis Lenovo Wrocław: naprawa ThinkPadów, IdeaPadów, Legionów i Yog. Zawiasy, klawiatury, przegrzewanie, zasilanie. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis laptopów Lenovo we Wrocławiu"
 lead: "Lenovo to marka z dwóch światów: firmowe ThinkPady projektowane pod serwis i plastikowe IdeaPady dla domu. Oba trafiają do nas regularnie, ale naprawia się je inaczej, a część usterek jest typowa tylko dla jednej serii."
@@ -75,6 +75,6 @@ W starszych ThinkPadach zdarza się, że części nie ma już w normalnej sprzed
 
 ## Gdzie nas znajdziesz
 
-Jesteśmy przy Kotlarskiej 14 we Wrocławiu, na miejscu od 2013 roku. Pracujemy od poniedziałku do piątku w godzinach 7:00–15:00, bez umawiania wizyt. Telefon 500 613 500 przydaje się, gdy chcesz wstępnie ocenić, czy warto przywozić laptopa.
+Jesteśmy przy Kotlarskiej 14 we Wrocławiu, na miejscu od 2013 roku. Pracujemy od poniedziałku do piątku w godzinach 7:00-15:00, bez umawiania wizyt. Telefon 500 613 500 przydaje się, gdy chcesz wstępnie ocenić, czy warto przywozić laptopa.
 
 Zobacz też [naprawa zawiasów](/naprawa-zawiasow/), [wymiana klawiatury](/wymiana-klawiatury-laptopa/), [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/) i [naprawa laptopów](/naprawa-laptopow-wroclaw/). Przy ThinkPadach sprawdzamy też stan portów dokowania, bo to typowe miejsce zużycia. Nasze 550+ opinii w Google dotyczy głównie właśnie takich napraw.

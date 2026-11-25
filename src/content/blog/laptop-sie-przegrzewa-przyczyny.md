@@ -41,7 +41,7 @@ Gry, renderowanie wideo, kilkanaście kart przeglądarki i instalacja aktualizac
 
 Zacznij od obciążenia, nie od temperatury. Menedżer zadań w Windows pokazuje, który program zjada procesor, a to często wyjaśnia hałas bez żadnego pomiaru. Jeśli procesor jest zajęty w kilku procentach, a wentylator wyje, problemem jest przepływ powietrza przez chłodzenie, a nie obciążenie.
 
-Temperatury odczytasz przez czujniki, które udostępnia płyta, przy pomocy programu z zaufanego źródła. Nie instaluj pierwszego lepszego optymalizatora z reklamą na cały ekran, bo takie programy często same obciążają sprzęt. Pod pełnym obciążeniem wiele laptopów pracuje w przedziale 80–90°C i to jest normalne. Sygnałem problemu jest obniżanie taktowania po kilku minutach i wyłączenia pod obciążeniem.
+Temperatury odczytasz przez czujniki, które udostępnia płyta, przy pomocy programu z zaufanego źródła. Nie instaluj pierwszego lepszego optymalizatora z reklamą na cały ekran, bo takie programy często same obciążają sprzęt. Pod pełnym obciążeniem wiele laptopów pracuje w przedziale 80-90°C i to jest normalne. Sygnałem problemu jest obniżanie taktowania po kilku minutach i wyłączenia pod obciążeniem.
 
 Trzeci test nie wymaga żadnego programu. Połóż dłoń nad klawiaturą i przy kratce wylotowej po 20 minutach pracy. Jeśli strumień powietrza z wylotu jest słaby, a obudowa gorąca, układ chłodzenia prawdopodobnie nie przepuszcza powietrza. Silny, ciepły strumień oznacza, że chłodzenie pracuje, a ciepło ma gdzie uciekać.
 
@@ -73,6 +73,6 @@ Po konserwacji porównujemy temperatury z tymi sprzed naprawy i sprawdzamy, czy 
 
 ## Kiedy przywieźć laptopa do serwisu we Wrocławiu
 
-Studio-Komp pracuje przy Kotlarskiej 14, od poniedziałku do piątku w godzinach 7:00–15:00. Nie trzeba się umawiać, wystarczy przyjść z laptopem i zasilaczem. Diagnostyka jest bezpłatna przy zlecanej naprawie, a konserwacja zwykle jest gotowa następnego dnia. Przy nietypowych modelach zadzwoń wcześniej pod 500 613 500 i zapytaj o dostępność części.
+Studio-Komp pracuje przy Kotlarskiej 14, od poniedziałku do piątku w godzinach 7:00-15:00. Nie trzeba się umawiać, wystarczy przyjść z laptopem i zasilaczem. Diagnostyka jest bezpłatna przy zlecanej naprawie, a konserwacja zwykle jest gotowa następnego dnia. Przy nietypowych modelach zadzwoń wcześniej pod 500 613 500 i zapytaj o dostępność części.
 
 Jeśli nie wiesz, czy problemem jest chłodzenie, czy coś innego, zacznij od [diagnostyki laptopa](/diagnostyka-laptopa-wroclaw/). Gdy laptop jest wolny nie tylko przez temperatury, sprawdź też [przyspieszanie laptopa](/przyspieszanie-laptopa-wroclaw/). Pełne stawki znajdziesz w [cenniku](/cennik/).

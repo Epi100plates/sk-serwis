@@ -1,6 +1,6 @@
 ---
 brand: "Toshiba"
-title: "Serwis Toshiba Wrocław — naprawa laptopów Toshiba | Studio-Komp"
+title: "Serwis Toshiba Wrocław - naprawa laptopów Toshiba | Studio-Komp"
 description: "Serwis Toshiba Wrocław: naprawa Satellite, Portégé, Tecra i Qosmio. Zasilanie, zawiasy, matryce, modernizacja dysku. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis laptopów Toshiba we Wrocławiu"
 lead: "Laptopy Toshiba trafiają do nas głównie jako sprzęt kilkuletni, często po rodzicach albo z firmy, która wymienia flotę. Nowych modeli tej marki na rynku praktycznie nie ma, więc naprawa opiera się na tym, co da się jeszcze dostać, i na uczciwej ocenie opłacalności."
@@ -73,6 +73,6 @@ Naprawa laptopów Toshiba to dziś głównie ratowanie sprzętu, który ma jeszc
 
 ## Gdzie nas znajdziesz
 
-Serwis działa przy Kotlarskiej 14 we Wrocławiu, na miejscu od 2013 roku. Przyjmujemy sprzęt od poniedziałku do piątku w godzinach 7:00–15:00, bez zapisów. Telefon 500 613 500 warto wykorzystać, żeby zapytać o dostępność części do konkretnego modelu. Przy starszych Toshibach przydaje się zasilacz: bez niego trudno ocenić stan gniazda.
+Serwis działa przy Kotlarskiej 14 we Wrocławiu, na miejscu od 2013 roku. Przyjmujemy sprzęt od poniedziałku do piątku w godzinach 7:00-15:00, bez zapisów. Telefon 500 613 500 warto wykorzystać, żeby zapytać o dostępność części do konkretnego modelu. Przy starszych Toshibach przydaje się zasilacz: bez niego trudno ocenić stan gniazda.
 
 Zobacz też [naprawa laptopów](/naprawa-laptopow-wroclaw/), [przyspieszanie laptopa](/przyspieszanie-laptopa-wroclaw/), [naprawa zawiasów](/naprawa-zawiasow/) i [odzyskiwanie danych](/odzyskiwanie-danych-wroclaw/). 550+ opinii w Google mamy między innymi za to, że przy starym sprzęcie mówimy wprost, kiedy naprawa się nie opłaca.

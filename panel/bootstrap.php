@@ -1,7 +1,7 @@
 <?php
 /**
  * Bootstrap panelu: konfiguracja, sesja, baza, helpery, ochrona nagłówków.
- * Panel działa wyłącznie po HTTPS (Cloudflare Tunnel) — ciasteczka Secure.
+ * Panel działa wyłącznie po HTTPS (Cloudflare Tunnel) - ciasteczka Secure.
  */
 
 declare(strict_types=1);

@@ -1,5 +1,5 @@
 ---
-title: "Dell Latitude: wymiana matrycy — dobór panelu, objawy i cena"
+title: "Dell Latitude: wymiana matrycy - dobór panelu, objawy i cena"
 description: "Wymiana matrycy w Dell Latitude: dobór panelu po modelu i złączu eDP lub LVDS, objawy uszkodzonego ekranu i taśmy, przebieg naprawy oraz cena i czas."
 pubDate: 2026-11-14
 draft: true
@@ -31,7 +31,7 @@ Uszkodzenie matrycy rozpoznasz po pęknięciu i zaburzonym obrazie w miejscu ude
 - pionowe lub poziome pasy na całym ekranie albo w jego części,
 - brak obrazu przy działającym laptopie: słychać wentylator, świeci dioda, a ekran pozostaje czarny.
 
-Ostatni przypadek wymaga sprawdzenia, czy sygnał dochodzi do panelu. Podłączamy laptop do zewnętrznego monitora, oglądamy taśmę i mierzymy napięcia. Czasem okazuje się, że wystarczy wymienić taśmę, a nie cały panel — i to tańsza naprawa.
+Ostatni przypadek wymaga sprawdzenia, czy sygnał dochodzi do panelu. Podłączamy laptop do zewnętrznego monitora, oglądamy taśmę i mierzymy napięcia. Czasem okazuje się, że wystarczy wymienić taśmę, a nie cały panel - i to tańsza naprawa.
 
 ## Jak dobieramy panel po modelu i złączu
 
@@ -40,7 +40,7 @@ Matryca musi pasować fizycznie i elektrycznie. Sam numer modelu nie wystarcza, 
 - przekątną i proporcje ekranu,
 - rozdzielczość natywną,
 - typ panelu i powłokę, na przykład IPS czy TN, matową lub błyszczącą,
-- złącze, liczbę pinów i układ taśmy — eDP albo LVDS,
+- złącze, liczbę pinów i układ taśmy - eDP albo LVDS,
 - to, czy ekran jest dotykowy, oraz sposób mocowania w pokrywie.
 
 Na tej podstawie szukamy paneli dostępnych na rynku i podajemy warianty wraz z cenami. Przy matrycach dotykowych liczy się numer części, bo zamienniki mogą różnić się sterownikiem i obsługą dotyku. Pełny opis doboru znajdziesz na stronie [wymiana matrycy we Wrocławiu](/wymiana-matrycy-wroclaw/).
@@ -49,16 +49,16 @@ Na tej podstawie szukamy paneli dostępnych na rynku i podajemy warianty wraz z 
 
 Wymiana zaczyna się od zdjęcia ramki i odłączenia taśmy sygnałowej oraz zasilania podświetlenia. Panel wychodzi z mocowań, a nowy trafia w te same punkty. Taśmę układamy w prowadnicach, żeby nie była napięta przy zamykaniu pokrywy. Na koniec składamy całość i przykręcamy ramkę.
 
-Testy obejmują obraz w kilku rozdzielczościach, równomierność podświetlenia, regulację jasności i zachowanie obrazu przy zmianie kąta. Sprawdzamy też, czy nie ma martwych pikseli w obszarze roboczym, i porównujemy obraz z zewnętrznym monitorem. Przy okazji oglądamy zawiasy i taśmę — jeśli są zużyte, wymieniamy je razem z panelem, żeby nie wracać do tej samej naprawy za kilka miesięcy. Osobno opisujemy to na stronie [naprawa zawiasów](/naprawa-zawiasow/).
+Testy obejmują obraz w kilku rozdzielczościach, równomierność podświetlenia, regulację jasności i zachowanie obrazu przy zmianie kąta. Sprawdzamy też, czy nie ma martwych pikseli w obszarze roboczym, i porównujemy obraz z zewnętrznym monitorem. Przy okazji oglądamy zawiasy i taśmę - jeśli są zużyte, wymieniamy je razem z panelem, żeby nie wracać do tej samej naprawy za kilka miesięcy. Osobno opisujemy to na stronie [naprawa zawiasów](/naprawa-zawiasow/).
 
 Przy matrycach sprowadzanych na zamówienie termin dostawy potwierdzamy przed zamówieniem części. Dzięki temu wiesz, kiedy laptop będzie gotowy, i nie zostajesz z otwartą naprawą na czas nieokreślony.
 
 ## Cena, czas i ekspres
 
-Cena zależy od trzech rzeczy: modelu laptopa, przekątnej i typu panelu. Czternastocalowy panel IPS do popularnego Latitude to inna kwota niż matryca dotykowa do modelu premium. Dochodzi robocizna. Dlatego nie podajemy jednej stawki — najpierw sprawdzamy, jaki panel jest w Twoim laptopie, a potem mówimy, ile kosztuje wymiana. Kwotę znasz przed zamówieniem części.
+Cena zależy od trzech rzeczy: modelu laptopa, przekątnej i typu panelu. Czternastocalowy panel IPS do popularnego Latitude to inna kwota niż matryca dotykowa do modelu premium. Dochodzi robocizna. Dlatego nie podajemy jednej stawki - najpierw sprawdzamy, jaki panel jest w Twoim laptopie, a potem mówimy, ile kosztuje wymiana. Kwotę znasz przed zamówieniem części.
 
 Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest dostępna. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna i informujemy o tym przed jej rozpoczęciem. Stawki znajdziesz w [cenniku](/cennik/).
 
 ## Kiedy przyjechać na Kotlarską 14
 
-Pracujemy przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00–15:00. Przyjdź bez umawiania z laptopem i zasilaczem albo zadzwoń pod 500 613 500 i podaj model — wstępnie sprawdzimy, czy panel jest dostępny. Jesteśmy niezależnym serwisem, więc naprawiamy też sprzęt firmowy po gwarancji producenta.
+Pracujemy przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Przyjdź bez umawiania z laptopem i zasilaczem albo zadzwoń pod 500 613 500 i podaj model - wstępnie sprawdzimy, czy panel jest dostępny. Jesteśmy niezależnym serwisem, więc naprawiamy też sprzęt firmowy po gwarancji producenta.

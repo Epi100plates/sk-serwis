@@ -73,6 +73,6 @@ Zanim zaczniesz zmieniać ustawienia, sprawdź najprostsze rzeczy: czy laptop st
 
 Jeśli temperatury są wysokie, a wentylator głośny, potrzebna jest konserwacja chłodzenia: rozbiórka, czyszczenie radiatora i wymiana pasty termoprzewodzącej. [Czyszczenie laptopa we Wrocławiu](/czyszczenie-laptopa-wroclaw/) zaczyna się od 200 zł i zwykle jest gotowe z dnia na dzień.
 
-Jeśli po czyszczeniu laptop nadal zwalnia, sprawdzamy dysk i pamięć w ramach [przyspieszania laptopa](/przyspieszanie-laptopa-wroclaw/). Warto też sprawdzić zasilacz, bo wyłączenia pod obciążeniem nie zawsze wynikają z temperatury. Stawki znajdziesz w [cenniku](/cennik/), a przyjdź bez umawiania w godzinach 7:00–15:00.
+Jeśli po czyszczeniu laptop nadal zwalnia, sprawdzamy dysk i pamięć w ramach [przyspieszania laptopa](/przyspieszanie-laptopa-wroclaw/). Warto też sprawdzić zasilacz, bo wyłączenia pod obciążeniem nie zawsze wynikają z temperatury. Stawki znajdziesz w [cenniku](/cennik/), a przyjdź bez umawiania w godzinach 7:00-15:00.
 
 Nie musisz czekać, aż laptop zacznie się wyłączać, żeby umówić konserwację. Rosnąca temperatura i głośniejszy wentylator to sygnał, że warto przyjechać wcześniej. Zadzwoń pod 500 613 500, opisz objawy i zapytaj o dostępność terminu.

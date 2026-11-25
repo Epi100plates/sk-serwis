@@ -1,5 +1,5 @@
 ---
-title: "HP ProBook: naprawa gniazda zasilania — moduł czy lutowanie"
+title: "HP ProBook: naprawa gniazda zasilania - moduł czy lutowanie"
 description: "Naprawa gniazda zasilania w HP ProBook: kiedy gniazdo jest na osobnym module, a kiedy lutowane do płyty, jakie daje objawy i jak przebiega wymiana."
 pubDate: 2026-11-14
 draft: true
@@ -18,7 +18,7 @@ HP ProBook to laptop firmowy, który często pracuje w terenie i jeździ w torbi
 
 ## Gniazdo w ProBooku: moduł czy lutowanie
 
-ProBook występuje w wielu generacjach i obie konstrukcje są spotykane. W części modeli gniazdo zasilania siedzi na osobnym module — małej płytce połączonej z płytą główną taśmą lub złączem. Taki moduł wymienia się w całości, bez lutowania, co zwykle skraca naprawę i jest bezpieczniejsze dla płyty.
+ProBook występuje w wielu generacjach i obie konstrukcje są spotykane. W części modeli gniazdo zasilania siedzi na osobnym module - małej płytce połączonej z płytą główną taśmą lub złączem. Taki moduł wymienia się w całości, bez lutowania, co zwykle skraca naprawę i jest bezpieczniejsze dla płyty.
 
 W innych konstrukcjach gniazdo jest wlutowane bezpośrednio w płytę główną. Wtedy naprawa wymaga wylutowania elementu hot airem, oczyszczenia pól lutowniczych i wlutowania nowego gniazda. Dochodzi test obciążenia, bo nowy element musi trzymać prąd i nie grzać się.
 
@@ -50,7 +50,7 @@ W firmowym ProBooku liczy się przestój. Dlatego przy wymianie gniazda od razu 
 
 Naprawa zaczyna się od rozbiórki i oględzin. Sprawdzamy, czy uszkodzone są tylko luty gniazda, czy także ścieżki i układ ładowania. Przy module podmieniamy płytkę razem z taśmą i sprawdzamy, czy nowy element dobrze siedzi w obudowie. Przy gnieździe lutowanym zdejmujemy starą część, oczyszczamy pola i wlutowujemy nową.
 
-Po złożeniu testujemy ładowanie w kilku stanach: na wyłączonym laptopie, w spoczynku i pod obciążeniem. Sprawdzamy pobór prądu i temperaturę wtyczki po kilkunastu minutach ładowania. Oceniamy też, czy wtyczka nie ma luzu. Jeśli po wymianie laptop nadal nie ładuje, szukamy przyczyny w układzie ładowania lub baterii — i mówimy o tym przed wykonaniem kolejnej pracy.
+Po złożeniu testujemy ładowanie w kilku stanach: na wyłączonym laptopie, w spoczynku i pod obciążeniem. Sprawdzamy pobór prądu i temperaturę wtyczki po kilkunastu minutach ładowania. Oceniamy też, czy wtyczka nie ma luzu. Jeśli po wymianie laptop nadal nie ładuje, szukamy przyczyny w układzie ładowania lub baterii - i mówimy o tym przed wykonaniem kolejnej pracy.
 
 ## Cena, czas i ekspres
 
@@ -60,6 +60,6 @@ Standardowo naprawa jest gotowa z dnia na dzień. Usługa ekspresowa z dopłatą
 
 ## Profilaktyka i kontakt
 
-Najskuteczniejsza profilaktyka jest mechaniczna: wyjmuj wtyczkę za obudowę, nie ciągnij za kabel, nie noś laptopa z podłączonym zasilaczem i nie pozwól, żeby kabel wisiał na wtyczce. W firmach pomaga stacja dokująca albo drugi zasilacz w drugim miejscu pracy — ogranicza liczbę wkładań i wyjmowań.
+Najskuteczniejsza profilaktyka jest mechaniczna: wyjmuj wtyczkę za obudowę, nie ciągnij za kabel, nie noś laptopa z podłączonym zasilaczem i nie pozwól, żeby kabel wisiał na wtyczce. W firmach pomaga stacja dokująca albo drugi zasilacz w drugim miejscu pracy - ogranicza liczbę wkładań i wyjmowań.
 
-Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00–15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Jeśli chcesz porównać swoje objawy z typowym przebiegiem usterki, przeczytaj artykuł o [uszkodzonym gnieździe zasilania](/poradnik/uszkodzone-gniazdo-zasilania/).
+Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Jeśli chcesz porównać swoje objawy z typowym przebiegiem usterki, przeczytaj artykuł o [uszkodzonym gnieździe zasilania](/poradnik/uszkodzone-gniazdo-zasilania/).

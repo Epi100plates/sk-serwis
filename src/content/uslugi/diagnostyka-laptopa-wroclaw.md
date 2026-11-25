@@ -1,5 +1,5 @@
 ---
-title: "Diagnostyka laptopa we Wrocławiu — co sprawdzamy"
+title: "Diagnostyka laptopa we Wrocławiu - co sprawdzamy"
 navLabel: "Diagnostyka laptopa"
 description: "Diagnostyka laptopa we Wrocławiu: zasilanie, płyta, dysk, pamięć i temperatury. Bezpłatna przy zleconej naprawie. Kotlarska 14, bez umawiania."
 h1: "Diagnostyka laptopa we Wrocławiu: co jest zepsute i ile kosztuje naprawa"
@@ -51,7 +51,7 @@ Przy podejrzeniu uszkodzenia płyty sprawdzamy sekcje zasilania i kontrolery, a 
 
 ## Jak długo trwa diagnostyka we Wrocławiu
 
-Wiele rzeczy da się sprawdzić od razu, przy przyjęciu sprzętu. Inne wymagają rozbiórki, pomiarów albo testów pod obciążeniem. Wtedy mówimy, kiedy będzie wynik. Po przyjęciu sprzętu ustalamy, jakie testy wykonamy i czy potrzebna jest rozbiórka. Jeśli sprzęt zostaje dłużej, informujemy o tym przy przyjęciu. Nie musisz się umawiać: przyjdź w godzinach 7:00–15:00 od poniedziałku do piątku.
+Wiele rzeczy da się sprawdzić od razu, przy przyjęciu sprzętu. Inne wymagają rozbiórki, pomiarów albo testów pod obciążeniem. Wtedy mówimy, kiedy będzie wynik. Po przyjęciu sprzętu ustalamy, jakie testy wykonamy i czy potrzebna jest rozbiórka. Jeśli sprzęt zostaje dłużej, informujemy o tym przy przyjęciu. Nie musisz się umawiać: przyjdź w godzinach 7:00-15:00 od poniedziałku do piątku.
 
 ## Co dostajesz po diagnozie
 

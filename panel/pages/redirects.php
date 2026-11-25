@@ -76,7 +76,7 @@ layout_head('Przekierowania', 'redirects');
           <span class="small muted"><?= count($rows) ?> przekierowań</span>
         </div>
         <?php if (!$rows): ?>
-          <div class="empty">Brak przekierowań. Dodaj pierwsze — np. stare adresy z poprzedniej strony.</div>
+          <div class="empty">Brak przekierowań. Dodaj pierwsze - np. stare adresy z poprzedniej strony.</div>
         <?php else: ?>
           <div class="table-wrap">
             <table class="table table--compact" id="redirects-table">
@@ -145,8 +145,8 @@ layout_head('Przekierowania', 'redirects');
             <label class="field">
               <span>Typ</span>
               <select name="status_code">
-                <option value="301" <?= (int) ($edit['status_code'] ?? 301) === 301 ? 'selected' : '' ?>>301 — trwałe</option>
-                <option value="302" <?= (int) ($edit['status_code'] ?? 301) === 302 ? 'selected' : '' ?>>302 — tymczasowe</option>
+                <option value="301" <?= (int) ($edit['status_code'] ?? 301) === 301 ? 'selected' : '' ?>>301 - trwałe</option>
+                <option value="302" <?= (int) ($edit['status_code'] ?? 301) === 302 ? 'selected' : '' ?>>302 - tymczasowe</option>
               </select>
             </label>
             <label class="field field--check" style="align-self:end">
@@ -181,7 +181,7 @@ layout_head('Przekierowania', 'redirects');
         </ul>
         <p class="small muted" style="margin-top:10px"><?= e($hostingNote) ?></p>
         <p class="small muted" style="margin-top:8px">
-          Nie przekierowuj wielu różnych stron na homepage — to obniża jakość SEO.
+          Nie przekierowuj wielu różnych stron na homepage - to obniża jakość SEO.
           Lepiej wskazać najbliższą tematycznie podstronę.
         </p>
       </div>

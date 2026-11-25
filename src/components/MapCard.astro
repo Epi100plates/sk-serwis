@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import site from '../data/site.json';
 
 interface Props {
-  /** Zachowane dla zgodności z wcześniejszym API — kadruje kartę mapy. */
+  /** Zachowane dla zgodności z wcześniejszym API - kadruje kartę mapy. */
   crop?: boolean;
 }
 
@@ -11,7 +11,7 @@ const { crop = false } = Astro.props;
 
 const mapSrc = site.mapEmbedUrl;
 const addressLabel = `${site.address.street}, ${site.address.postalCode} ${site.address.city}`;
-const frameTitle = 'Mapa Google — Studio-Komp, Kotlarska 14, Wrocław';
+const frameTitle = 'Mapa Google - Studio-Komp, Kotlarska 14, Wrocław';
 const gridId = `mapgrid-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
@@ -176,7 +176,7 @@ const gridId = `mapgrid-${Math.random().toString(36).slice(2, 8)}`;
     }
   }
 
-  /* Etykieta z adresem — nie przechwytuje kliknięć w mapę. */
+  /* Etykieta z adresem - nie przechwytuje kliknięć w mapę. */
   .map-card__pin {
     position: absolute;
     top: 14px;

@@ -1,14 +1,15 @@
 ---
-title: "Wymiana matrycy laptopa we Wrocławiu — cena i czas"
+title: "Wymiana matrycy laptopa we Wrocławiu - cena i czas"
 navLabel: "Wymiana matrycy"
-description: "Wymiana matrycy laptopa we Wrocławiu: dobór panelu pod model i złącze, demontaż, montaż i testy obrazu. Cenę podajemy przed zamówieniem części."
-h1: "Wymiana matrycy w laptopie — Wrocław"
+description: "Wymiana matrycy laptopa we Wrocławiu: dobór panelu pod model i złącze, demontaż, montaż i testy obrazu. Cena zwykle 600-700 zł, kwotę podajemy przed zamówieniem części."
+h1: "Wymiana matrycy w laptopie - Wrocław"
 lead: "Pęknięty ekran, czarne plamy albo pasy na obrazie? Dobieramy matrycę pod Twój model, wymieniamy ją i testujemy obraz. Zwykle z dnia na dzień."
-teaser: "Dobór panelu pod model, wymiana i testy obrazu — bez wymiany całego laptopa."
+teaser: "Dobór panelu pod model, wymiana i testy obrazu - bez wymiany całego laptopa."
 group: "Naprawy"
 order: 30
 featured: true
-priceNote: "Cena matrycy zależy od modelu, przekątnej i typu panelu. Kwotę podajemy przed zamówieniem części."
+priceFrom: "600-700 zł"
+priceNote: "Cena matrycy zależy od modelu, przekątnej i typu panelu. Typowo 600-700 zł, kwotę podajemy przed zamówieniem części."
 duration: "zwykle z dnia na dzień"
 includes:
   - "Dobór matrycy dopasowanej do modelu laptopa"
@@ -65,7 +66,7 @@ Wymiana zaczyna się od rozbiórki pokrywy. Odkręcamy ramkę, odłączamy taśm
 
 ## Cena i czas wymiany we Wrocławiu
 
-Cena zależy od trzech rzeczy: modelu laptopa, przekątnej i typu panelu. Czternastocalowy panel IPS do popularnego modelu to inna kwota niż siedemnastocalowa matryca OLED do sprzętu premium. Dochodzi robocizna. Dlatego nie podajemy jednej stawki: najpierw sprawdzamy, jaki panel jest w Twoim laptopie, a potem mówimy, ile kosztuje wymiana. Kwotę znasz przed zamówieniem części. Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest dostępna. Pełne stawki znajdziesz w [cenniku](/cennik/).
+Wymiana matrycy to zwykle 600-700 zł. Cena zależy od trzech rzeczy: modelu laptopa, przekątnej i typu panelu. Czternastocalowy panel IPS do popularnego modelu to inna kwota niż siedemnastocalowa matryca OLED do sprzętu premium. Dochodzi robocizna. Dlatego widełki 600-700 zł traktujemy jako punkt wyjścia: najpierw sprawdzamy, jaki panel jest w Twoim laptopie, a potem podajemy dokładną kwotę. Kwotę znasz przed zamówieniem części. Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest dostępna. Pełne stawki znajdziesz w [cenniku](/cennik/).
 
 ## Kiedy naprawa ma sens
 
@@ -75,4 +76,4 @@ Wymiana matrycy ma sens, gdy reszta laptopa jest sprawna: działa płyta, dysk, 
 
 Wiele uszkodzeń matrycy wynika z codziennych nawyków. Zamykaj laptopa bez przedmiotów na klawiaturze, otwieraj pokrywę za środek, a nie za róg, i nie naciskaj na ekran palcem. Przy przenoszeniu wkładaj laptopa do etui. Jeśli zawiasy zaczynają chodzić ciężej, nie czekaj, aż naciągną taśmę i uszkodzą panel.
 
-Przyjedź na Kotlarską 14 bez umawiania, od poniedziałku do piątku w godzinach 7:00–15:00, albo zadzwoń pod 500 613 500 i podaj model laptopa. Wstępnie sprawdzimy, czy panel jest dostępny, i podamy kwotę. Więcej o pozostałych naprawach przeczytasz na stronie [naprawa laptopów](/naprawa-laptopow-wroclaw/).
+Przyjedź na Kotlarską 14 bez umawiania, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i podaj model laptopa. Wstępnie sprawdzimy, czy panel jest dostępny, i podamy kwotę. Więcej o pozostałych naprawach przeczytasz na stronie [naprawa laptopów](/naprawa-laptopow-wroclaw/).

@@ -1,6 +1,6 @@
 ---
 brand: "MSI"
-title: "Serwis MSI Wrocław — naprawa laptopów MSI | Studio-Komp"
+title: "Serwis MSI Wrocław - naprawa laptopów MSI | Studio-Komp"
 description: "Serwis MSI Wrocław: naprawa laptopów gamingowych Katana, Raider, Stealth i Prestige. Chłodzenie, termopady, zasilanie, matryce. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis laptopów MSI we Wrocławiu"
 lead: "MSI to przede wszystkim laptopy gamingowe, w których chłodzenie pracuje na granicy swoich możliwości. Naprawa takiego sprzętu to zwykle kwestia temperatur, zasilania i dokładnego doboru termopadów, a nie samej wymiany jednego podzespołu."
@@ -75,6 +75,6 @@ Naprawa laptopów MSI koncentruje się na chłodzeniu i zasilaniu, bo te dwa uk�
 
 ## Gdzie nas znajdziesz
 
-Jesteśmy przy Kotlarskiej 14 we Wrocławiu i pracujemy od 2013 roku. Przyjmujemy sprzęt od poniedziałku do piątku w godzinach 7:00–15:00, bez wcześniejszego umawiania. Telefon 500 613 500 przydaje się, gdy chcesz od razu ustalić, czy usterka kwalifikuje się na ekspres. Warto przywieźć zasilacz, bo bez niego nie sprawdzimy pełnego poboru mocy pod obciążeniem.
+Jesteśmy przy Kotlarskiej 14 we Wrocławiu i pracujemy od 2013 roku. Przyjmujemy sprzęt od poniedziałku do piątku w godzinach 7:00-15:00, bez wcześniejszego umawiania. Telefon 500 613 500 przydaje się, gdy chcesz od razu ustalić, czy usterka kwalifikuje się na ekspres. Warto przywieźć zasilacz, bo bez niego nie sprawdzimy pełnego poboru mocy pod obciążeniem.
 
 Zobacz też [naprawa laptopów](/naprawa-laptopow-wroclaw/), [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/), [naprawa portów USB i HDMI](/naprawa-portow-usb-hdmi/) oraz [wymiana matrycy](/wymiana-matrycy-wroclaw/). 550+ opinii w Google to efekt między innymi jasnych zasad wyceny. Zadzwoń przed przyjazdem: krótka rozmowa o objawach oszczędza czas obu stronom.

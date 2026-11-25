@@ -18,7 +18,7 @@ Laptopy ASUS to dziś kilka różnych rodzin sprzętu: tanie VivoBooki, smukłe 
 
 ## Co najczęściej zawodzi w laptopach ASUS
 
-Zasilanie i ładowanie to najczęstsza kategoria. W starszych modelach z okrągłą wtyczką wysiada gniazdo DC, w nowszych — port USB-C, którym laptop jest jednocześnie ładowany i podłączany do stacji dokującej. Objaw zwykle jest ten sam: ładowanie działa tylko po ustawieniu wtyczki pod kątem albo nie działa wcale. Wymiana gniazda wygląda na drobiazg, ale wymaga wylutowania elementu z płyty, więc domowe próby kończą się zwarciem i droższą naprawą.
+Zasilanie i ładowanie to najczęstsza kategoria. W starszych modelach z okrągłą wtyczką wysiada gniazdo DC, w nowszych - port USB-C, którym laptop jest jednocześnie ładowany i podłączany do stacji dokującej. Objaw zwykle jest ten sam: ładowanie działa tylko po ustawieniu wtyczki pod kątem albo nie działa wcale. Wymiana gniazda wygląda na drobiazg, ale wymaga wylutowania elementu z płyty, więc domowe próby kończą się zwarciem i droższą naprawą.
 
 Drugi typowy problem to zawiasy, szczególnie w tańszych VivoBookach. Plastikowe mocowania pękają, ekran zaczyna się kiwać, a przy dalszym używaniu uszkodzeniu ulega obudowa albo sama matryca. Im szybciej taka usterka trafi do serwisu, tym mniej elementów trzeba wymieniać. Osobno trafiają się matryce z pasami po upadku, klawiatury po zalaniu i wentylatory zapchane kurzem.
 
@@ -34,9 +34,9 @@ Różnice widać też w chłodzeniu. W części modeli ROG producent stosuje cie
 
 Zaczynamy od rozmowy: co się dzieje, kiedy problem się pojawił i czy laptop był zalany lub upuszczony. Potem mierzymy pobór prądu i sprawdzamy zasilacz, bo to najszybszy sposób, żeby oddzielić usterkę ładowania od awarii płyty. Przy zasilaniu oglądamy gniazdo pod kątem luzu i nadtopień.
 
-Kolejny krok to testy płyty: czy startuje, czy podaje napięcia, czy widzi dysk i pamięć. W modelach z wyjmowanym RAM-em sprawdzamy kości osobno, w lutowanych — po pomiarach. Jeśli laptop wstaje, uruchamiamy testy obciążeniowe i obserwujemy temperatury oraz stabilność.
+Kolejny krok to testy płyty: czy startuje, czy podaje napięcia, czy widzi dysk i pamięć. W modelach z wyjmowanym RAM-em sprawdzamy kości osobno, w lutowanych - po pomiarach. Jeśli laptop wstaje, uruchamiamy testy obciążeniowe i obserwujemy temperatury oraz stabilność.
 
-Diagnostyka jest bezpłatna, jeśli zlecasz naprawę. Jeśli nie, jest płatna — kwotę podajemy przed rozpoczęciem, żeby nie było niespodzianek. W prostych przypadkach wynik jest gotowy tego samego dnia.
+Diagnostyka jest bezpłatna, jeśli zlecasz naprawę. Jeśli nie, jest płatna - kwotę podajemy przed rozpoczęciem, żeby nie było niespodzianek. W prostych przypadkach wynik jest gotowy tego samego dnia.
 
 ## Naprawa płyty zamiast wymiany
 
@@ -46,12 +46,12 @@ Bywa jednak odwrotnie. Jeśli uszkodzenie jest rozległe, płyta niedostępna, a
 
 ## Czego nie obiecujemy
 
-Studio-Komp to niezależny serwis. Nie mamy autoryzacji ASUS, Lenovo ani Apple, więc nie twierdzimy, że naprawiamy na częściach producenta — używamy części dobranych do modelu i sprawdzonych zamienników. Nie obiecujemy też, że każdy laptop da się uratować: po zalaniu albo poważnym zwarciu zdarza się, że płyta nie nadaje się do naprawy.
+Studio-Komp to niezależny serwis. Nie mamy autoryzacji ASUS, Lenovo ani Apple, więc nie twierdzimy, że naprawiamy na częściach producenta - używamy części dobranych do modelu i sprawdzonych zamienników. Nie obiecujemy też, że każdy laptop da się uratować: po zalaniu albo poważnym zwarciu zdarza się, że płyta nie nadaje się do naprawy.
 
-Nie odblokowujemy haseł BIOS ani haseł firmware bez potwierdzenia własności sprzętu. Nie odzyskujemy danych z uszkodzonych dysków na miejscu — robimy to w ramach [odzyskiwania danych](/odzyskiwanie-danych-wroclaw/), po osobnej wycenie.
+Nie odblokowujemy haseł BIOS ani haseł firmware bez potwierdzenia własności sprzętu. Nie odzyskujemy danych z uszkodzonych dysków na miejscu - robimy to w ramach [odzyskiwania danych](/odzyskiwanie-danych-wroclaw/), po osobnej wycenie.
 
 ## Kiedy przyjechać do serwisu we Wrocławiu
 
-Jeśli ASUS nie ładuje się, nie włącza, przegrzewa albo ma uszkodzoną obudowę, przyjdź z laptopem i zasilaczem na Kotlarską 14 we Wrocławiu. Pracujemy od poniedziałku do piątku w godzinach 7:00–15:00, bez umawiania. Możesz też zadzwonić pod 500 613 500 i opisać objawy — podpowiemy, czy warto przywozić sprzęt od razu.
+Jeśli ASUS nie ładuje się, nie włącza, przegrzewa albo ma uszkodzoną obudowę, przyjdź z laptopem i zasilaczem na Kotlarską 14 we Wrocławiu. Pracujemy od poniedziałku do piątku w godzinach 7:00-15:00, bez umawiania. Możesz też zadzwonić pod 500 613 500 i opisać objawy - podpowiemy, czy warto przywozić sprzęt od razu.
 
-Zakres napraw opisuje strona [naprawy laptopów](/naprawa-laptopow-wroclaw/), a diagnostyki — [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli zależy Ci na czasie, ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile potrzebna część jest dostępna. Przynieś zasilacz i podaj hasło do systemu, jeśli laptop je ma.
+Zakres napraw opisuje strona [naprawy laptopów](/naprawa-laptopow-wroclaw/), a diagnostyki - [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli zależy Ci na czasie, ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile potrzebna część jest dostępna. Przynieś zasilacz i podaj hasło do systemu, jeśli laptop je ma.

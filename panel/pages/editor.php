@@ -1,6 +1,6 @@
 <?php
 /**
- * Edytor jednej treści (Markdown z frontmatterem) — generyczny dla typów
+ * Edytor jednej treści (Markdown z frontmatterem) - generyczny dla typów
  * z content_types(): uslugi, blog, marki, strony.
  *
  * Adres: /panel/editor/<typ>/<id> (puste id = nowa treść).
@@ -144,7 +144,7 @@ $mediaSource = function (string $value) use ($siteUrl): string {
 /*
  * Defensywny odczyt frontmattera. yaml_parse_simple() z lib/content.php ma
  * znany błąd (podwójne $j++), który gubi co drugą pozycję listy i wiersze
- * zaraz po liście — bez tego edytor wczytałby niepełne dane i nadpisał plik
+ * zaraz po liście - bez tego edytor wczytałby niepełne dane i nadpisał plik
  * uboższą treścią. Ten parser obsługuje dokładnie format, który zapisuje
  * serialize_frontmatter(). Po naprawie lib można go usunąć.
  */
@@ -302,7 +302,7 @@ if (is_post()) {
         redirect_to(panel_url('editor/' . $type . '/' . $requestedId));
     }
 
-    /* Zapis formularza — zebranie wartości z POST (także przy błędach). */
+    /* Zapis formularza - zebranie wartości z POST (także przy błędach). */
     foreach ($fields as $field) {
         $key = (string) $field['key'];
         $fieldType = (string) ($field['type'] ?? 'text');
@@ -387,10 +387,10 @@ if (is_post()) {
     if ($slug === '') {
         $errors[] = 'Podaj adres (slug) treści.';
     } elseif (!valid_slug($slug)) {
-        $errors[] = 'Adres (slug) może zawierać wyłącznie małe litery, cyfry i myślniki (2–81 znaków).';
+        $errors[] = 'Adres (slug) może zawierać wyłącznie małe litery, cyfry i myślniki (2-81 znaków).';
     } elseif ($isNew || $slug !== $requestedId) {
         if (read_content($type, $slug) !== null) {
-            $errors[] = 'Treść o adresie „' . $slug . '” już istnieje — wybierz inny adres.';
+            $errors[] = 'Treść o adresie „' . $slug . '” już istnieje - wybierz inny adres.';
         }
     }
 
@@ -461,7 +461,7 @@ if (is_post()) {
             $savedId = (string) ($result['id'] ?? $savedId);
             flash('ok', 'Zapisano ' . mb_strtolower((string) $definition['label_singular']) . ': ' . $savedId . '.');
             if ($postString('intent') === 'preview') {
-                flash('info', 'Podgląd wymaga zbudowania wersji podglądowej — jeśli link nie działa, zleć publikację w sekcji Publikacja.');
+                flash('info', 'Podgląd wymaga zbudowania wersji podglądowej - jeśli link nie działa, zleć publikację w sekcji Publikacja.');
                 redirect_to($previewUrl($savedId));
             }
             redirect_to(panel_url('editor/' . $type . '/' . $savedId));
@@ -474,7 +474,7 @@ if (is_post()) {
 /* ------------------------------------------------------ dane boczne */
 
 $versions = $isNew ? [] : content_versions($type, $requestedId);
-$modifiedLabel = '—';
+$modifiedLabel = '-';
 if ($record !== null && is_file($record['path'])) {
     $modifiedLabel = format_date(date('Y-m-d H:i:s', (int) filemtime($record['path'])));
 }
@@ -502,7 +502,7 @@ layout_head($isNew ? 'Nowa treść: ' . $definition['label_singular'] : 'Edytuj:
 
 <?php if ($errors): ?>
   <div class="alert alert--err">
-    <strong>Nie zapisano zmian — popraw poniższe błędy:</strong>
+    <strong>Nie zapisano zmian - popraw poniższe błędy:</strong>
     <ul style="margin:6px 0 0; padding-left:18px">
       <?php foreach ($errors as $error): ?>
         <li><?= e($error) ?></li>
@@ -530,7 +530,7 @@ layout_head($isNew ? 'Nowa treść: ' . $definition['label_singular'] : 'Edytuj:
                    data-slug-prefix="<?= e($urlPrefix) ?>">
             <span class="field__hint">
               Adres: <code class="code-inline" data-slug-preview><?= e($publicPath($slug !== '' ? $slug : '…')) ?></code>
-              <?= $isNew ? '— generowany z tytułu, możesz go zmienić.' : '— zmiana przeniesie plik i zmieni adres treści.' ?>
+              <?= $isNew ? '- generowany z tytułu, możesz go zmienić.' : '- zmiana przeniesie plik i zmieni adres treści.' ?>
             </span>
           </label>
 
@@ -559,7 +559,7 @@ layout_head($isNew ? 'Nowa treść: ' . $definition['label_singular'] : 'Edytuj:
               <label class="field">
                 <span><?= e($label) ?><?= $required ? ' *' : '' ?></span>
                 <select name="<?= e($key) ?>"<?= $required ? ' required' : '' ?>>
-                  <option value="">— wybierz —</option>
+                  <option value="">- wybierz -</option>
                   <?php foreach ($optionList as $optionValue => $optionLabel): ?>
                     <?php
                     if (is_int($optionValue)) {
@@ -707,14 +707,14 @@ layout_head($isNew ? 'Nowa treść: ' . $definition['label_singular'] : 'Edytuj:
       <header class="card__head"><h2>Informacje</h2></header>
       <div class="card__body">
         <ul class="list-plain">
-          <li><strong>Adres</strong><span class="mono"><?= e($isNew ? ($slug !== '' ? $publicPath($slug) : '—') : $publicPath($requestedId)) ?></span></li>
+          <li><strong>Adres</strong><span class="mono"><?= e($isNew ? ($slug !== '' ? $publicPath($slug) : '-') : $publicPath($requestedId)) ?></span></li>
           <li><strong>Plik</strong><span class="mono"><?= e($definition['dir'] . '/' . ($isNew ? ($slug !== '' ? $slug : 'slug') : $requestedId) . '.md') ?></span></li>
           <li><strong>Modyfikacja</strong><span><?= e($modifiedLabel) ?></span></li>
-          <li><strong>Ostatni autor</strong><span><?= e($lastAuthor !== '' ? $lastAuthor : '—') ?></span></li>
+          <li><strong>Ostatni autor</strong><span><?= e($lastAuthor !== '' ? $lastAuthor : '-') ?></span></li>
           <li><strong>Status</strong><span><?= !empty($values['draft']) ? status_badge('draft') : status_badge('published') ?></span></li>
         </ul>
         <?php if ($isNew): ?>
-          <p class="small muted" style="margin-top:10px">Nowa treść — pełne informacje pojawią się po pierwszym zapisie.</p>
+          <p class="small muted" style="margin-top:10px">Nowa treść - pełne informacje pojawią się po pierwszym zapisie.</p>
         <?php endif; ?>
       </div>
     </section>
@@ -732,7 +732,7 @@ layout_head($isNew ? 'Nowa treść: ' . $definition['label_singular'] : 'Edytuj:
               <li>
                 <div class="row-title">
                   <strong class="small"><?= e(format_date((string) $version['created_at'])) ?></strong>
-                  <small class="muted"><?= e((string) ($version['username'] !== '' ? $version['username'] : '—')) ?> · <?= e(format_bytes((int) $version['bytes'])) ?></small>
+                  <small class="muted"><?= e((string) ($version['username'] !== '' ? $version['username'] : '-')) ?> · <?= e(format_bytes((int) $version['bytes'])) ?></small>
                 </div>
                 <form method="post" action="<?= e($formAction) ?>" style="margin-left:auto">
                   <?= csrf_field() ?>
@@ -901,7 +901,7 @@ layout_head($isNew ? 'Nowa treść: ' . $definition['label_singular'] : 'Edytuj:
     renderImage();
   });
 
-  /* Autozapis szkicu z admin.js przywraca stary token CSRF — podmień na świeży. */
+  /* Autozapis szkicu z admin.js przywraca stary token CSRF - podmień na świeży. */
   var csrfField = document.querySelector('[data-editor] input[name="_csrf"]');
   if (csrfField) {
     var freshToken = csrfField.value;

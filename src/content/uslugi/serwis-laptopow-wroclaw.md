@@ -1,10 +1,10 @@
 ---
-title: "Serwis laptopów Wrocław — naprawy, czyszczenie, dane"
+title: "Serwis laptopów Wrocław - naprawy, czyszczenie, dane"
 navLabel: "Serwis laptopów Wrocław"
 description: "Serwis laptopów we Wrocławiu: diagnostyka, naprawy, czyszczenie, wymiana podzespołów i systemy. Od 2013 roku, 550+ opinii, 99% napraw z dnia na dzień."
 h1: "Serwis laptopów we Wrocławiu"
-lead: "Naprawy, czyszczenie i modernizacja laptopów w jednym miejscu, na Starym Mieście. Diagnoza, wycena i decyzja — bez umawiania i bez niespodzianek przy odbiorze."
-teaser: "Diagnostyka, naprawy, czyszczenie i systemy — jeden serwis od 2013 roku."
+lead: "Naprawy, czyszczenie i modernizacja laptopów w jednym miejscu, na Starym Mieście. Diagnoza, wycena i decyzja - bez umawiania i bez niespodzianek przy odbiorze."
+teaser: "Diagnostyka, naprawy, czyszczenie i systemy - jeden serwis od 2013 roku."
 group: "Naprawy"
 order: 5
 featured: true
@@ -23,7 +23,7 @@ problems:
   - "Laptop hałasuje, grzeje się i zwalnia"
 faq:
   - question: "Czy trzeba się umawiać?"
-    answer: "Nie. Możesz przyjść w godzinach pracy, od poniedziałku do piątku 7:00–15:00. Sobota i niedziela są zamknięte. Jeśli chcesz najpierw zapytać, czy warto przywozić sprzęt, zadzwoń pod 500 613 500 i opisz objawy."
+    answer: "Nie. Możesz przyjść w godzinach pracy, od poniedziałku do piątku 7:00-15:00. Sobota i niedziela są zamknięte. Jeśli chcesz najpierw zapytać, czy warto przywozić sprzęt, zadzwoń pod 500 613 500 i opisz objawy."
   - question: "Czy diagnoza jest płatna?"
     answer: "Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Jeśli nie, jest płatna, a jej kwotę podajemy przed rozpoczęciem pracy. Dzięki temu wiesz, za co płacisz, zanim zostawisz laptopa."
   - question: "Jakie marki obsługujecie?"
@@ -69,6 +69,6 @@ Naprawiamy Lenovo, Dell, HP, Asus, Acer, MSI, Samsung, Apple, Toshiba, Microsoft
 
 ## Gdzie jesteśmy we Wrocławiu i jak dojechać
 
-Serwis mieści się pod adresem Kotlarska 14, 50-150 Wrocław, na Starym Mieście. Najprościej wpisać ten adres w nawigację. Pracujemy od poniedziałku do piątku w godzinach 7:00–15:00, w sobotę i niedzielę jesteśmy zamknięci. Telefon: 500 613 500. Aktualne stawki znajdziesz w [cenniku](/cennik/), a jeśli chcesz najpierw zapytać o konkretną usterkę, zadzwoń i opisz objawy.
+Serwis mieści się pod adresem Kotlarska 14, 50-150 Wrocław, na Starym Mieście. Najprościej wpisać ten adres w nawigację. Pracujemy od poniedziałku do piątku w godzinach 7:00-15:00, w sobotę i niedzielę jesteśmy zamknięci. Telefon: 500 613 500. Aktualne stawki znajdziesz w [cenniku](/cennik/), a jeśli chcesz najpierw zapytać o konkretną usterkę, zadzwoń i opisz objawy.
 
 Przyjdź bez umawiania albo zadzwoń, zanim przywieziesz sprzęt. Powiemy, czy naprawa jest możliwa, ile potrwa i czy warto w ogóle zaczynać. Jeśli szukasz konkretnej usługi, wejdź w [listę usług](/uslugi/) i wybierz temat, który Cię dotyczy.

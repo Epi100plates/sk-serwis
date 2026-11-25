@@ -1,14 +1,14 @@
 ---
-title: "Naprawa zawiasów laptopa we Wrocławiu — cena i zakres"
+title: "Naprawa zawiasów laptopa we Wrocławiu - cena i zakres"
 navLabel: "Naprawa zawiasów"
 description: "Zawiasy laptopa chodzą z oporem, plastik pęka, klapa się wykrzywia? Odbudowujemy mocowania, regenerujemy zawiasy i ratujemy matrycę. Wrocław, Kotlarska 14."
-h1: "Zawiasy laptopa — naprawa i odbudowa mocowań we Wrocławiu"
+h1: "Zawiasy laptopa - naprawa i odbudowa mocowań we Wrocławiu"
 lead: "Klapa chodzi z oporem, plastik pęka przy zawiasie, a ekran zaczyna się wykrzywiać? To sygnał, że mocowania zawiasów puściły. Regenerujemy zawiasy i odbudowujemy ich osadzenie w obudowie."
-teaser: "Regeneracja zawiasów, odbudowa mocowań i ochrona matrycy — bez wymiany całej klapy, jeśli się da."
+teaser: "Regeneracja zawiasów, odbudowa mocowań i ochrona matrycy - bez wymiany całej klapy, jeśli się da."
 group: "Naprawy"
 order: 90
 featured: false
-priceNote: "Cena po obejrzeniu sprzętu — zależy od konstrukcji zawiasów i stopnia uszkodzenia"
+priceNote: "Cena po obejrzeniu sprzętu - zależy od konstrukcji zawiasów i stopnia uszkodzenia"
 duration: "zwykle z dnia na dzień"
 includes:
   - "Ocena stanu zawiasów i mocowań w obudowie"
@@ -64,4 +64,4 @@ Zawiasy to naprawa, której ceny nie da się podać z góry. Zależy od konstruk
 
 Klapę otwieraj obiema rękami, chwytając za środek, a nie za róg. Nie podnoś laptopa za ekran i nie przenoś go z otwartą klapą w plecaku. Raz w roku sprawdź luz zawiasów: jeśli klapa zaczyna stawiać opór, lepiej zgłosić to wcześniej, zanim plastik pęknie.
 
-Przyjedź na Kotlarską 14 w godzinach 7:00–15:00, bez umawiania. Obejrzymy zawiasy, powiemy, co da się naprawić i ile to potrwa. Jeśli szukasz szerszego zakresu usług, zobacz [naprawę laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/).
+Przyjedź na Kotlarską 14 w godzinach 7:00-15:00, bez umawiania. Obejrzymy zawiasy, powiemy, co da się naprawić i ile to potrwa. Jeśli szukasz szerszego zakresu usług, zobacz [naprawę laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/).

@@ -23,7 +23,7 @@ function realizacje_schema_ensure(): void
 
 function realizacje_note(): string
 {
-    return 'Realizacje zarządzane z panelu /panel (kategorie, galerie, before/after). Ten plik jest generowany automatycznie przy publikacji — nie edytuj ręcznie na produkcji.';
+    return 'Realizacje zarządzane z panelu /panel (kategorie, galerie, before/after). Ten plik jest generowany automatycznie przy publikacji - nie edytuj ręcznie na produkcji.';
 }
 
 /* -------------------------------------------------------------- kategorie */
@@ -117,7 +117,7 @@ function realizacje_category_delete(int $id): void
     $count = (int) $st->fetchColumn();
     if ($count > 0) {
         throw new RuntimeException(
-            'Nie można usunąć kategorii „' . $category['label'] . '” — przypisano do niej '
+            'Nie można usunąć kategorii „' . $category['label'] . '” - przypisano do niej '
             . $count . ' realizacji. Najpierw zmień ich kategorię.'
         );
     }
@@ -481,7 +481,7 @@ function realizacje_export_json(): void
     $json = json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     if ($json === false) {
         if (function_exists('log_panel')) {
-            log_panel('realizacje_export_json: błąd json_encode — ' . json_last_error_msg());
+            log_panel('realizacje_export_json: błąd json_encode - ' . json_last_error_msg());
         }
         return;
     }
@@ -500,7 +500,7 @@ function realizacje_export_json(): void
 
 /**
  * Jeśli tabela realizacje jest pusta, przenosi kategorie i pozycje z JSON
- * repozytorium do bazy (idempotentnie — INSERT OR IGNORE).
+ * repozytorium do bazy (idempotentnie - INSERT OR IGNORE).
  */
 function realizacje_seed_if_empty(): void
 {

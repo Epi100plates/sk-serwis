@@ -28,7 +28,7 @@ Do tego dochodzi otoczenie: laptop stojący na łóżku, kocu albo w wąskiej wn
 
 Undervolt polega na obniżeniu napięcia zasilającego procesor przy zachowaniu taktowania. Niższe napięcie oznacza mniej ciepła, więc temperatury spadają, a wentylatory mogą pracować ciszej. To realna metoda, ale ma status opcji, a nie rozwiązania problemu.
 
-Po pierwsze, undervolt nie usuwa kurzu z radiatora ani nie odnawia pasty. Jeśli chłodzenie jest zapchane, obniżenie napięcia tylko odsunie moment, w którym laptop znów zacznie się przegrzewać. Po drugie, zbyt agresywne obniżenie napięcia powoduje niestabilność: zwisy, błędy i restarty. Po trzecie, nie każdy model i nie każda wersja BIOS-u pozwala na undervolt — producenci często blokują taką możliwość.
+Po pierwsze, undervolt nie usuwa kurzu z radiatora ani nie odnawia pasty. Jeśli chłodzenie jest zapchane, obniżenie napięcia tylko odsunie moment, w którym laptop znów zacznie się przegrzewać. Po drugie, zbyt agresywne obniżenie napięcia powoduje niestabilność: zwisy, błędy i restarty. Po trzecie, nie każdy model i nie każda wersja BIOS-u pozwala na undervolt - producenci często blokują taką możliwość.
 
 Limit temperatury działa inaczej. Ustawienie niższego progu powoduje, że procesor wcześniej obniża taktowanie, więc laptop jest chłodniejszy, ale wolniejszy. To rozwiązanie na kompromis, nie na usterkę. Obie metody mają sens dopiero po konserwacji chłodzenia i najlepiej po sprawdzeniu, jak laptop zachowuje się w testach obciążeniowych. Jeśli nie czujesz się pewnie w tych ustawieniach, lepiej ich nie ruszać.
 
@@ -42,7 +42,7 @@ Pomocny jest też dziennik zdarzeń Windows. Wpis o nagłym wyłączeniu bez zap
 
 ## Co sprawdzić samemu
 
-Zacznij od obciążenia, nie od temperatury. Menedżer zadań pokazuje, który program zjada procesor — to często wyjaśnia hałas bez żadnego pomiaru. Jeśli procesor jest zajęty w kilku procentach, a wentylator wyje, problemem jest przepływ powietrza przez chłodzenie, a nie obciążenie.
+Zacznij od obciążenia, nie od temperatury. Menedżer zadań pokazuje, który program zjada procesor - to często wyjaśnia hałas bez żadnego pomiaru. Jeśli procesor jest zajęty w kilku procentach, a wentylator wyje, problemem jest przepływ powietrza przez chłodzenie, a nie obciążenie.
 
 Temperatury odczytasz przez czujniki udostępniane przez płytę, przy pomocy programu z zaufanego źródła. Nie instaluj pierwszego lepszego optymalizatora z reklamą na cały ekran, bo takie programy często same obciążają sprzęt. Pomiar rób w powtarzalnych warunkach: ten sam program, ta sama czynność, kilka minut pracy przed odczytem.
 
@@ -52,8 +52,8 @@ Sprawdź też kratki wlotowe i wylotowe. Odkurz je delikatnie miękką końcówk
 
 Diagnoza zaczyna się od wywiadu i pomiarów: pobór prądu, temperatury w spoczynku i pod obciążeniem, kultura pracy wentylatorów, zachowanie pod testem obciążeniowym. Podłączamy zewnętrzny monitor, żeby wykluczyć usterkę matrycy, i sprawdzamy stan dysku oraz pamięci.
 
-Jeśli przyczyną jest chłodzenie, wykonujemy konserwację: rozbiórka, czyszczenie radiatorów i wentylatorów, wymiana pasty i sprawdzenie padów. Po złożeniu porównujemy temperatury z tymi sprzed serwisu i testujemy laptop pod obciążeniem. Jeśli wynik nadal jest wysoki, szukamy przyczyny dalej: zużytego wentylatora, zbyt ciasnej obudowy albo ustawień zasilania. Szczegóły konserwacji opisujemy na stronie [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/), a diagnostyki — na stronie [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/).
+Jeśli przyczyną jest chłodzenie, wykonujemy konserwację: rozbiórka, czyszczenie radiatorów i wentylatorów, wymiana pasty i sprawdzenie padów. Po złożeniu porównujemy temperatury z tymi sprzed serwisu i testujemy laptop pod obciążeniem. Jeśli wynik nadal jest wysoki, szukamy przyczyny dalej: zużytego wentylatora, zbyt ciasnej obudowy albo ustawień zasilania. Szczegóły konserwacji opisujemy na stronie [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/), a diagnostyki - na stronie [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/).
 
 ## Kiedy przyjechać na Kotlarską 14
 
-Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00–15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna, o czym informujemy przed jej rozpoczęciem. Usługa ekspresowa to dopłata 150 zł. Stawki znajdziesz w [cenniku](/cennik/). Jeśli chcesz najpierw porównać objawy, przeczytaj artykuł o [laptopie, który wyłącza się podczas grania](/poradnik/dlaczego-laptop-wylacza-sie-podczas-grania/).
+Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna, o czym informujemy przed jej rozpoczęciem. Usługa ekspresowa to dopłata 150 zł. Stawki znajdziesz w [cenniku](/cennik/). Jeśli chcesz najpierw porównać objawy, przeczytaj artykuł o [laptopie, który wyłącza się podczas grania](/poradnik/dlaczego-laptop-wylacza-sie-podczas-grania/).

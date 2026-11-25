@@ -1,6 +1,6 @@
 ---
 brand: "HP"
-title: "Serwis HP Wrocław — naprawa laptopów HP | Studio-Komp"
+title: "Serwis HP Wrocław - naprawa laptopów HP | Studio-Komp"
 description: "Serwis HP Wrocław: naprawa Pavilion, ProBook, EliteBook, Envy i Omen. Zawiasy, przegrzewanie, klawiatury, zasilanie. Kotlarska 14, tel. 500 613 500."
 h1: "Serwis laptopów HP we Wrocławiu"
 lead: "HP sprzedaje laptopy biurowe i domowe pod wieloma nazwami, a każda seria ma swoje słabe miejsce. W ProBookach i EliteBookach to zwykle eksploatacja, w Pavilionach obudowa, w Omenach chłodzenie. Sprawdzamy, z czym naprawdę mamy do czynienia."
@@ -77,6 +77,6 @@ Naprawa laptopów HP to także wymiana samych podzespołów eksploatacyjnych: ba
 
 ## Gdzie nas znajdziesz
 
-Serwis działa pod adresem Kotlarska 14 we Wrocławiu, od 2013 roku. Przyjmujemy laptopa bez wcześniejszego umawiania, od poniedziałku do piątku w godzinach 7:00–15:00. Telefon 500 613 500 warto wykorzystać do wstępnej rozmowy o usterce. Do serwisu przyda się zasilacz, a przy firmowym sprzęcie także informacja, czy laptop był już naprawiany.
+Serwis działa pod adresem Kotlarska 14 we Wrocławiu, od 2013 roku. Przyjmujemy laptopa bez wcześniejszego umawiania, od poniedziałku do piątku w godzinach 7:00-15:00. Telefon 500 613 500 warto wykorzystać do wstępnej rozmowy o usterce. Do serwisu przyda się zasilacz, a przy firmowym sprzęcie także informacja, czy laptop był już naprawiany.
 
 Sprawdź też [naprawa laptopów](/naprawa-laptopow-wroclaw/), [naprawa zawiasów](/naprawa-zawiasow/), [wymiana klawiatury](/wymiana-klawiatury-laptopa/) i [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/). 550+ opinii w Google zbieraliśmy na jasnych zasadach: cena przed naprawą i informacja, gdy naprawa się nie opłaca.

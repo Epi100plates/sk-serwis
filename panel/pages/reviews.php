@@ -48,12 +48,12 @@ layout_head('Opinie Google', 'reviews');
         <div class="kpis" style="grid-template-columns:repeat(3,minmax(0,1fr))">
           <div class="kpi">
             <span class="kpi__label">Ocena w Google</span>
-            <span class="kpi__value"><?= $cache && $cache['rating'] !== null ? number_format((float) $cache['rating'], 1, ',', ' ') : '—' ?></span>
+            <span class="kpi__value"><?= $cache && $cache['rating'] !== null ? number_format((float) $cache['rating'], 1, ',', ' ') : '-' ?></span>
             <span class="kpi__hint"><?= $cache && $cache['fetched_at'] ? 'pobrano ' . e(format_date($cache['fetched_at'])) : 'dane ręczne / brak cache' ?></span>
           </div>
           <div class="kpi">
             <span class="kpi__label">Liczba opinii</span>
-            <span class="kpi__value"><?= $cache && $cache['review_count'] !== null ? number_format((int) $cache['review_count'], 0, ',', ' ') : '—' ?></span>
+            <span class="kpi__value"><?= $cache && $cache['review_count'] !== null ? number_format((int) $cache['review_count'], 0, ',', ' ') : '-' ?></span>
             <span class="kpi__hint"><?= e((string) ($cache['business_name'] ?? '')) ?></span>
           </div>
           <div class="kpi">
@@ -154,13 +154,13 @@ layout_head('Opinie Google', 'reviews');
       <header class="card__head"><h2>Konfiguracja API</h2></header>
       <div class="card__body">
         <ul class="list-plain small">
-          <li><strong>Place ID:</strong> <span class="mono"><?= e($placeId ?: '—') ?></span></li>
+          <li><strong>Place ID:</strong> <span class="mono"><?= e($placeId ?: '-') ?></span></li>
           <li><strong>Klucz API:</strong> <?= $apiKey ? status_badge('ok') . ' ustawiony' : status_badge('warn') . ' brak' ?></li>
           <li><strong>Źródło:</strong> Google Places API (Place Details)</li>
         </ul>
         <p class="small muted" style="margin-top:10px">
           Wymagany klucz z włączonym Places API. Alternatywa (Google Business Profile API)
-          daje więcej danych, ale wymaga weryfikacji firmy i OAuth — szczegóły w
+          daje więcej danych, ale wymaga weryfikacji firmy i OAuth - szczegóły w
           <span class="code-inline">AGENTS.md</span>.
         </p>
       </div>

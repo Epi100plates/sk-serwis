@@ -1,11 +1,11 @@
 /* =========================================================================
-   Studio-Komp — design tokens & base layer
-   Direction: "precyzja" — workshop documentation, hairline grids, calibrated
+   Studio-Komp - design tokens & base layer
+   Direction: "precyzja" - workshop documentation, hairline grids, calibrated
    signal yellow. One bold object per page; everything else stays quiet.
    ========================================================================= */
 
 :root {
-  /* Colour — grafit pochodzi z tła logo (#2d343a), nie używamy czystej czerni */
+  /* Colour - grafit pochodzi z tła logo (#2d343a), nie używamy czystej czerni */
   --ink: #242a30;
   --graphite: #2d343a;
   --graphite-2: #3a424a;
@@ -243,7 +243,7 @@ b {
   line-height: 1.5;
 }
 
-/* Widoczność sekcji zależna od urządzenia — mobile ma być krótkie (3–4 ekrany) */
+/* Widoczność sekcji zależna od urządzenia - mobile ma być krótkie (3-4 ekrany) */
 .desktop-only {
   display: block;
 }
