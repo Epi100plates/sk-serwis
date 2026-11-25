@@ -651,7 +651,7 @@ layout_head($isNew ? 'Nowa treść: ' . $definition['label_singular'] : 'Edytuj:
                   <input type="text" data-media-input name="<?= e($key) ?>" value="<?= e($mediaValue) ?>" placeholder="/images/uploads/…" style="flex:1 1 220px"<?= $required ? ' required' : '' ?>>
                   <a class="btn btn--sm" href="<?= e(panel_url('media')) ?>" target="_blank" rel="noopener">Wybierz z biblioteki mediów ↗</a>
                 </div>
-                <img class="thumb thumb--wide" data-media-preview src="<?= e($mediaPreviewSrc) ?>" alt="Podgląd wybranego pliku"<?= $mediaPreviewSrc === '' ? ' hidden' : '' ?>>
+                <img class="thumb thumb--wide" data-media-preview<?= $mediaPreviewSrc !== '' ? ' src="' . e($mediaPreviewSrc) . '"' : ' hidden' ?> alt="Podgląd wybranego pliku">
                 <span class="field__hint">Wklej ścieżkę pliku z biblioteki mediów albo wybierz go przyciskiem obok.<?= $hint !== '' ? ' ' . e($hint) : '' ?></span>
               </div>
             <?php else: ?>

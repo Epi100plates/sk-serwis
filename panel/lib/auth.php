@@ -47,7 +47,7 @@ function require_login(): void
 {
     if (!current_user()) {
         $next = $_SERVER['REQUEST_URI'] ?? '/panel/';
-        header('Location: ' . panel_url('login.php', ['next' => $next]));
+        header('Location: ' . panel_url('login', ['next' => $next]));
         exit;
     }
 
@@ -57,7 +57,7 @@ function require_login(): void
     if ($now - $last > (int) cfg('idle_timeout', 1800)) {
         auth_logout();
         flash('info', 'Sesja wygasła z powodu bezczynności. Zaloguj się ponownie.');
-        header('Location: ' . panel_url('login.php'));
+        header('Location: ' . panel_url('login'));
         exit;
     }
     $_SESSION['last_seen'] = $now;
