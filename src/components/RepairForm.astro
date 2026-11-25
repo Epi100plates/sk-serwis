@@ -119,6 +119,7 @@ const hasKey = Boolean(site.form.accessKey);
         'Dziękujemy. Odezwiemy się w godzinach pracy serwisu. Jeśli sprawa jest pilna — zadzwoń: 500 613 500.',
         'ok'
       );
+      window.dispatchEvent(new CustomEvent('sk:form-success', { detail: { form: 'zgloszenie-naprawy' } }));
       window.skTrack?.('generate_lead', { form: 'zgloszenie-naprawy' });
     } catch {
       showStatus(

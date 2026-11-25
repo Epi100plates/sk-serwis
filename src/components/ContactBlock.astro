@@ -163,4 +163,46 @@ const {
       flex: 1 1 auto;
     }
   }
+
+  /* Mobile: kontakt ma być krótki i prowadzić do działania. */
+  @media (max-width: 899px) {
+    .contact.section {
+      padding-block: 34px;
+    }
+
+    .contact__text {
+      display: none;
+    }
+
+    .contact__phone-block {
+      margin-top: 16px;
+      padding-top: 12px;
+    }
+
+    .contact__phone {
+      font-size: 40px;
+    }
+
+    .contact__details {
+      display: none;
+    }
+
+    .contact__actions {
+      margin-top: 18px;
+      gap: 8px;
+    }
+
+    .contact__actions .btn {
+      flex: 1 1 100%;
+      min-height: 48px;
+    }
+
+    .contact :global(.map-card) {
+      min-height: 210px !important;
+    }
+
+    .contact :global(.map-card__note) {
+      display: none;
+    }
+  }
 </style>

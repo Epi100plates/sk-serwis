@@ -1,0 +1,157 @@
+---
+interface Props {
+  before: string;
+  after: string;
+  altBefore?: string;
+  altAfter?: string;
+  labelBefore?: string;
+  labelAfter?: string;
+}
+const {
+  before,
+  after,
+  altBefore = 'Stan przed naprawą',
+  altAfter = 'Stan po naprawie',
+  labelBefore = 'Przed',
+  labelAfter = 'Po',
+} = Astro.props;
+---
+
+<div class="ba" data-before-after>
+  <div class="ba__frame">
+    <img class="ba__img ba__img--after" src={after} alt={altAfter} width="1200" height="800" loading="lazy" decoding="async" />
+    <div class="ba__reveal" data-ba-reveal>
+      <img class="ba__img" src={before} alt={altBefore} width="1200" height="800" loading="lazy" decoding="async" />
+    </div>
+    <span class="ba__label ba__label--before mono">{labelBefore}</span>
+    <span class="ba__label ba__label--after mono">{labelAfter}</span>
+    <div class="ba__handle" data-ba-handle aria-hidden="true">
+      <span></span>
+    </div>
+    <input
+      class="ba__range"
+      type="range"
+      min="0"
+      max="100"
+      value="50"
+      step="0.1"
+      aria-label="Suwak porównania przed i po naprawie"
+      data-ba-range
+    />
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-before-after]').forEach((root) => {
+    const range = root.querySelector<HTMLInputElement>('[data-ba-range]');
+    const reveal = root.querySelector<HTMLElement>('[data-ba-reveal]');
+    const handle = root.querySelector<HTMLElement>('[data-ba-handle]');
+    if (!range || !reveal) return;
+    const update = (value: number) => {
+      reveal.style.width = `${value}%`;
+      if (handle) handle.style.left = `${value}%`;
+    };
+    range.addEventListener('input', () => {
+      update(Number(range.value));
+      window.dispatchEvent(
+        new CustomEvent('sk:event', {
+          detail: { name: 'before_after_interaction', params: { value: Math.round(Number(range.value)) } },
+        })
+      );
+    });
+    update(Number(range.value));
+  });
+</script>
+
+<style>
+  .ba {
+    margin-block: 24px;
+  }
+
+  .ba__frame {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--graphite);
+    aspect-ratio: 3 / 2;
+    touch-action: pan-y;
+  }
+
+  .ba__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ba__reveal {
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .ba__reveal .ba__img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+  }
+
+  .ba__range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    z-index: 4;
+    cursor: ew-resize;
+  }
+
+  .ba__handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--yellow);
+    transform: translateX(-1px);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .ba__handle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--yellow);
+    border: 2px solid var(--graphite);
+    transform: translate(-50%, -50%);
+  }
+
+  .ba__label {
+    position: absolute;
+    bottom: 12px;
+    z-index: 3;
+    padding: 5px 9px;
+    background: rgba(45, 52, 58, 0.88);
+    color: var(--on-dark);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .ba__label--before {
+    left: 12px;
+  }
+
+  .ba__label--after {
+    right: 12px;
+  }
+</style>

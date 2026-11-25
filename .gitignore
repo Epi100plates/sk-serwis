@@ -1,9 +1,16 @@
 node_modules/
 dist/
+dist-preview/
 release/
 shots/
 .astro/
 .playwright-mcp/
 *.log
+*.7z
+NUL
 .env
 .env.local
+
+# Konfiguracja panelu z sekretami — tylko na serwerze
+panel/config.php
+panel-config.php

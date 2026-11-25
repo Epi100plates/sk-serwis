@@ -1,74 +1,311 @@
 ---
 import { withBase } from '../lib/url';
+
+const privacyUrl = withBase('/polityka-prywatnosci/');
 ---
 
-<div class="cookie-bar" data-cookie-bar hidden role="dialog" aria-label="Zgoda na pliki cookies">
+<div
+  class="cookie-bar"
+  data-cookie-bar
+  hidden
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-bar-title"
+  aria-describedby="cookie-bar-text"
+>
   <div class="cookie-bar__inner">
-    <p class="cookie-bar__text">
-      Używamy plików cookies do analityki i reklam, żeby lepiej dopasować stronę
-      i mierzyć skuteczność działań. Możesz zaakceptować wszystkie albo wybrać
-      tylko niezbędne. Szczegóły w
-      <a href={withBase('/polityka-prywatnosci/')}>polityce prywatności</a>.
-    </p>
+    <div class="cookie-bar__copy">
+      <p class="mono cookie-bar__title" id="cookie-bar-title">Pliki cookies</p>
+      <p class="cookie-bar__text" id="cookie-bar-text">
+        Używamy plików cookies, żeby strona działała poprawnie, a — po Twojej zgodzie —
+        żeby mierzyć ruch i skuteczność reklam. Niezbędne cookies są zawsze włączone.
+        Możesz zaakceptować wszystkie, wybrać tylko niezbędne albo ustawić kategorie
+        samodzielnie. Szczegóły w <a href={privacyUrl}>polityce prywatności</a>.
+      </p>
+    </div>
     <div class="cookie-bar__actions">
       <button type="button" class="btn btn--primary cookie-bar__btn" data-cookie-accept>
-        Akceptuję
+        Akceptuj wszystkie
       </button>
       <button type="button" class="btn btn--outline cookie-bar__btn" data-cookie-decline>
         Tylko niezbędne
+      </button>
+      <button type="button" class="cookie-bar__settings" data-cookie-open-settings>
+        Ustawienia
       </button>
     </div>
   </div>
 </div>
 
+<div class="cookie-modal" data-cookie-modal hidden role="dialog" aria-modal="true" aria-labelledby="cookie-modal-title">
+  <div class="cookie-modal__backdrop" data-cookie-backdrop></div>
+  <div class="cookie-modal__panel" data-cookie-panel>
+    <button type="button" class="cookie-modal__close" data-cookie-close aria-label="Zamknij ustawienia cookies">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </svg>
+    </button>
+
+    <h2 class="cookie-modal__title" id="cookie-modal-title">Ustawienia plików cookies</h2>
+    <p class="cookie-modal__desc">
+      Zdecyduj, na które kategorie cookies się zgadzasz. Zgody możesz zmienić
+      w każdej chwili przyciskiem „Ustawienia cookies” w stopce.
+    </p>
+
+    <ul class="cookie-cats" role="list">
+      <li class="cookie-cat">
+        <label class="cookie-cat__head" for="cookie-cat-necessary">
+          <input id="cookie-cat-necessary" type="checkbox" checked disabled />
+          <span class="cookie-cat__name">Niezbędne</span>
+          <span class="cookie-cat__tag mono">zawsze włączone</span>
+        </label>
+        <p class="cookie-cat__desc">
+          Zapewniają podstawowe działanie strony: zapamiętanie decyzji o cookies,
+          bezpieczeństwo formularzy i poprawne wyświetlanie. Nie można ich wyłączyć.
+        </p>
+      </li>
+      <li class="cookie-cat">
+        <label class="cookie-cat__head" for="cookie-cat-analytics">
+          <input id="cookie-cat-analytics" type="checkbox" data-cookie-cat="analytics" />
+          <span class="cookie-cat__name">Analityczne</span>
+          <span class="cookie-cat__tag mono">opcjonalne</span>
+        </label>
+        <p class="cookie-cat__desc">
+          Pomagają zrozumieć, jak korzystasz ze strony — które podstrony są
+          odwiedzane i jakich usług szukasz. Uruchamiamy je tylko po Twojej zgodzie.
+        </p>
+      </li>
+      <li class="cookie-cat">
+        <label class="cookie-cat__head" for="cookie-cat-marketing">
+          <input id="cookie-cat-marketing" type="checkbox" data-cookie-cat="marketing" />
+          <span class="cookie-cat__name">Marketingowe</span>
+          <span class="cookie-cat__tag mono">opcjonalne</span>
+        </label>
+        <p class="cookie-cat__desc">
+          Służą do pomiaru skuteczności reklam i remarketingu (np. Google Ads).
+          Włączamy je dopiero po Twojej zgodzie.
+        </p>
+      </li>
+      <li class="cookie-cat">
+        <label class="cookie-cat__head" for="cookie-cat-functional">
+          <input id="cookie-cat-functional" type="checkbox" data-cookie-cat="functional" />
+          <span class="cookie-cat__name">Funkcjonalne</span>
+          <span class="cookie-cat__tag mono">opcjonalne</span>
+        </label>
+        <p class="cookie-cat__desc">
+          Zapamiętują dodatkowe ustawienia, np. ostatnio oglądane usługi, żeby
+          ułatwić powrót do strony. Są całkowicie opcjonalne.
+        </p>
+      </li>
+    </ul>
+
+    <div class="cookie-modal__actions">
+      <button type="button" class="btn btn--primary cookie-modal__save" data-cookie-save>
+        Zapisz wybór
+      </button>
+      <a class="cookie-modal__privacy" href={privacyUrl}>Polityka prywatności</a>
+    </div>
+  </div>
+</div>
+
 <script>
-  const KEY = 'sk_consent';
+  type Consent = {
+    v: 2;
+    necessary: true;
+    analytics: boolean;
+    marketing: boolean;
+    functional: boolean;
+    ts: string;
+  };
+
+  const KEY = 'sk_consent_v2';
+  const LEGACY_KEY = 'sk_consent';
+
   const bar = document.querySelector<HTMLElement>('[data-cookie-bar]');
+  const modal = document.querySelector<HTMLElement>('[data-cookie-modal]');
+  const panel = modal?.querySelector<HTMLElement>('[data-cookie-panel]') ?? null;
+  const acceptBtn = bar?.querySelector<HTMLButtonElement>('[data-cookie-accept]') ?? null;
+  const declineBtn = bar?.querySelector<HTMLButtonElement>('[data-cookie-decline]') ?? null;
+  const openSettingsBtn = bar?.querySelector<HTMLButtonElement>('[data-cookie-open-settings]') ?? null;
+  const saveBtn = modal?.querySelector<HTMLButtonElement>('[data-cookie-save]') ?? null;
+  const closeBtn = modal?.querySelector<HTMLButtonElement>('[data-cookie-close]') ?? null;
+  const backdrop = modal?.querySelector<HTMLElement>('[data-cookie-backdrop]') ?? null;
 
-  function read(): string | null {
+  const analyticsBox = modal?.querySelector<HTMLInputElement>('[data-cookie-cat="analytics"]') ?? null;
+  const marketingBox = modal?.querySelector<HTMLInputElement>('[data-cookie-cat="marketing"]') ?? null;
+  const functionalBox = modal?.querySelector<HTMLInputElement>('[data-cookie-cat="functional"]') ?? null;
+
+  let lastFocus: HTMLElement | null = null;
+  let scrollLocked = false;
+
+  function makeConsent(analytics: boolean, marketing: boolean, functional: boolean): Consent {
+    return {
+      v: 2,
+      necessary: true,
+      analytics,
+      marketing,
+      functional,
+      ts: new Date().toISOString(),
+    };
+  }
+
+  function readStored(): Consent | null {
     try {
-      return localStorage.getItem(KEY);
+      const raw = localStorage.getItem(KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<Consent> | null;
+        if (parsed && parsed.v === 2) {
+          return makeConsent(
+            Boolean(parsed.analytics),
+            Boolean(parsed.marketing),
+            Boolean(parsed.functional)
+          );
+        }
+        return null;
+      }
+      // Migracja decyzji z poprzedniej wersji CMP (klucz sk_consent).
+      const legacy = localStorage.getItem(LEGACY_KEY);
+      if (legacy === 'granted' || legacy === 'denied') {
+        const granted = legacy === 'granted';
+        const migrated = makeConsent(granted, granted, granted);
+        localStorage.setItem(KEY, JSON.stringify(migrated));
+        return migrated;
+      }
     } catch {
-      return null;
+      /* localStorage może być zablokowany — traktujemy jak brak decyzji */
     }
+    return null;
   }
 
-  function store(value: 'granted' | 'denied') {
+  function showBar(): void {
+    if (!bar) return;
+    bar.hidden = false;
+    bar.classList.add('is-visible');
+  }
+
+  function hideBar(): void {
+    if (!bar) return;
+    bar.hidden = true;
+    bar.classList.remove('is-visible');
+  }
+
+  function syncInputs(state: Consent | null): void {
+    if (analyticsBox) analyticsBox.checked = Boolean(state?.analytics);
+    if (marketingBox) marketingBox.checked = Boolean(state?.marketing);
+    if (functionalBox) functionalBox.checked = Boolean(state?.functional);
+  }
+
+  function openSettings(): void {
+    if (!modal) {
+      showBar();
+      return;
+    }
+    lastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    syncInputs(readStored());
+    modal.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    scrollLocked = true;
+    // Fokus na pierwszym przycisku dialogu (przycisk zamknięcia).
+    const firstButton = panel?.querySelector<HTMLButtonElement>('button') ?? closeBtn;
+    firstButton?.focus();
+  }
+
+  function closeSettings(): void {
+    if (!modal) return;
+    modal.hidden = true;
+    if (scrollLocked) {
+      document.documentElement.style.overflow = '';
+      scrollLocked = false;
+    }
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
+    lastFocus = null;
+  }
+
+  function persist(state: Consent): void {
     try {
-      localStorage.setItem(KEY, value);
+      localStorage.setItem(KEY, JSON.stringify(state));
     } catch {
-      /* brak dostępu do localStorage — zgoda tylko na tę sesję */
+      /* brak zapisu — zgoda obowiązuje tylko w tej sesji */
     }
-    window.dispatchEvent(new Event('sk-consent-changed'));
-    if (bar) bar.hidden = true;
+    hideBar();
+    closeSettings();
+    window.dispatchEvent(new CustomEvent<Consent>('sk-consent-changed', { detail: state }));
   }
 
-  if (bar && read() === null) {
-    window.setTimeout(() => {
-      bar.hidden = false;
-    }, 1200);
+  function saveFromModal(): void {
+    persist(
+      makeConsent(Boolean(analyticsBox?.checked), Boolean(marketingBox?.checked), Boolean(functionalBox?.checked))
+    );
   }
 
-  bar?.querySelector('[data-cookie-accept]')?.addEventListener('click', () => store('granted'));
-  bar?.querySelector('[data-cookie-decline]')?.addEventListener('click', () => store('denied'));
+  acceptBtn?.addEventListener('click', () => persist(makeConsent(true, true, true)));
+  declineBtn?.addEventListener('click', () => persist(makeConsent(false, false, false)));
+  openSettingsBtn?.addEventListener('click', openSettings);
+  saveBtn?.addEventListener('click', saveFromModal);
+  closeBtn?.addEventListener('click', closeSettings);
+  backdrop?.addEventListener('click', closeSettings);
 
-  document.querySelectorAll('[data-cookie-settings]').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (bar) bar.hidden = false;
-    });
+  // Otwieranie ustawień z dowolnego miejsca w DOM (także po zmianie DOM w stopce).
+  document.addEventListener('click', (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    const trigger = target?.closest<HTMLElement>('[data-cookie-settings]');
+    if (!trigger) return;
+    event.preventDefault();
+    openSettings();
   });
+
+  document.addEventListener('keydown', (event) => {
+    if (!modal || modal.hidden) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeSettings();
+      return;
+    }
+    if (event.key !== 'Tab' || !panel) return;
+    const focusables = Array.from(
+      panel.querySelectorAll<HTMLElement>('button:not([disabled]), [href], input:not([disabled])')
+    ).filter((el) => el.offsetParent !== null);
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  // Zmiana decyzji w innej karcie przeglądarki.
+  window.addEventListener('storage', (event) => {
+    if (event.key !== KEY && event.key !== LEGACY_KEY) return;
+    const stored = readStored();
+    if (stored) {
+      hideBar();
+      syncInputs(stored);
+    }
+  });
+
+  const initial = readStored();
+  if (initial) {
+    hideBar();
+    window.dispatchEvent(new CustomEvent<Consent>('sk-consent-changed', { detail: initial }));
+  } else {
+    showBar();
+  }
 </script>
 
 <style>
   .cookie-bar {
     position: fixed;
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 120;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    padding: 0 16px 16px;
     pointer-events: none;
   }
 
@@ -78,22 +315,50 @@ import { withBase } from '../lib/url';
 
   .cookie-bar__inner {
     pointer-events: auto;
-    width: min(620px, 100%);
+    width: min(760px, 100%);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px 28px;
+    padding: 18px 20px;
     background: var(--paper);
     border: 1px solid var(--ink);
-    padding: 18px 20px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px 20px;
-    box-shadow: 0 18px 40px -28px rgba(14, 16, 15, 0.5);
+    box-shadow: 0 28px 60px -34px rgba(14, 16, 15, 0.55);
+  }
+
+  .cookie-bar.is-visible .cookie-bar__inner {
+    animation: cookie-rise 320ms var(--ease-out) both;
+  }
+
+  @keyframes cookie-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .cookie-bar__copy {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .cookie-bar__title {
+    color: var(--muted-2);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   .cookie-bar__text {
-    flex: 1 1 280px;
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--muted);
+    max-width: 62ch;
   }
 
   .cookie-bar__text a {
@@ -103,38 +368,214 @@ import { withBase } from '../lib/url';
   }
 
   .cookie-bar__actions {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(148px, 1fr));
     gap: 8px;
-    flex: 1 1 auto;
-    justify-content: flex-end;
+    align-items: stretch;
   }
 
   .cookie-bar__btn {
-    min-height: 40px;
+    min-height: 44px;
     padding-inline: 16px;
-    font-size: 13px;
+    font-size: 13.5px;
     white-space: nowrap;
+  }
+
+  .cookie-bar__settings {
+    grid-column: 1 / -1;
+    min-height: 32px;
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .cookie-bar__settings:hover {
+    color: var(--ink);
+  }
+
+  .cookie-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 130;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+  }
+
+  .cookie-modal[hidden] {
+    display: none;
+  }
+
+  .cookie-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(14, 16, 15, 0.62);
+  }
+
+  .cookie-modal__panel {
+    position: relative;
+    width: min(560px, 100%);
+    max-height: min(88vh, 780px);
+    overflow-y: auto;
+    padding: 26px 24px 22px;
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    box-shadow: 0 40px 90px -44px rgba(14, 16, 15, 0.6);
+    display: grid;
+    gap: 12px;
+  }
+
+  .cookie-modal__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    color: var(--muted);
+  }
+
+  .cookie-modal__close:hover {
+    color: var(--ink);
+    background: var(--surface);
+  }
+
+  .cookie-modal__title {
+    font-size: clamp(21px, 2.4vw, 25px);
+    letter-spacing: -0.02em;
+    padding-right: 44px;
+  }
+
+  .cookie-modal__desc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .cookie-cats {
+    list-style: none;
+    margin: 2px 0 4px;
+    border-top: 1px solid var(--line);
+  }
+
+  .cookie-cat {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cookie-cat__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .cookie-cat__head input {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    accent-color: var(--ink);
+    cursor: pointer;
+  }
+
+  .cookie-cat__head input:disabled {
+    accent-color: var(--muted);
+    cursor: default;
+  }
+
+  .cookie-cat__tag {
+    margin-left: auto;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    font-weight: 400;
+  }
+
+  .cookie-cat__desc {
+    margin-top: 6px;
+    padding-left: 28px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .cookie-modal__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+    padding-top: 4px;
+  }
+
+  .cookie-modal__save {
+    min-height: 48px;
+  }
+
+  .cookie-modal__privacy {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .cookie-modal__privacy:hover {
+    color: var(--ink);
   }
 
   @media (max-width: 899px) {
     .cookie-bar {
       bottom: calc(74px + env(safe-area-inset-bottom, 0px));
-      left: 10px;
-      right: 10px;
+      padding: 0 10px 10px;
     }
 
     .cookie-bar__inner {
-      padding: 16px;
+      grid-template-columns: 1fr;
       gap: 12px;
+      padding: 16px;
     }
 
     .cookie-bar__actions {
-      width: 100%;
-      justify-content: stretch;
+      grid-template-columns: 1fr 1fr;
     }
 
     .cookie-bar__btn {
-      flex: 1;
+      padding-inline: 10px;
+      font-size: 13px;
+    }
+
+    .cookie-modal__panel {
+      padding: 24px 18px 18px;
+    }
+
+    .cookie-cat__desc {
+      padding-left: 0;
+    }
+
+    .cookie-modal__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .cookie-modal__save {
+      width: 100%;
+    }
+
+    .cookie-modal__privacy {
+      text-align: center;
+    }
+  }
+
+  @media print {
+    .cookie-bar,
+    .cookie-modal {
+      display: none !important;
     }
   }
 </style>

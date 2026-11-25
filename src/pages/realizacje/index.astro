@@ -7,6 +7,10 @@ import ContactBlock from '../../components/ContactBlock.astro';
 import realizacje from '../../data/realizacje.json';
 import { breadcrumbSchema } from '../../lib/schema';
 
+const categories = [...realizacje.categories].sort((a, b) => a.order - b.order);
+const labelBySlug = Object.fromEntries(categories.map((c) => [c.slug, c.label]));
+const items = realizacje.items.filter((i) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !i.draft);
+
 const schema = [
   breadcrumbSchema([
     { label: 'Start', path: '/' },
@@ -17,7 +21,7 @@ const schema = [
 
 <Base
   title="Realizacje serwisu laptopów Wrocław | Studio-Komp"
-  description="Przykładowe naprawy z serwisu Studio-Komp we Wrocławiu: zalania, płyty główne, matryce, gniazda zasilania, czyszczenie chłodzenia. Zobacz, z czym pracujemy."
+  description="Realizacje serwisu Studio-Komp we Wrocławiu: zalania, płyty główne, matryce, gniazda zasilania, czyszczenie chłodzenia. Zobacz przebieg i efekt naprawy."
   canonicalPath="/realizacje/"
   schema={schema}
 >
@@ -28,17 +32,30 @@ const schema = [
     showActions={false}
     chips={[
       { label: 'Zakres', value: 'Laptopy, komputery, elektronika' },
-      { label: 'Diagnostyka', value: '0 zł przy naprawie' },
+      { label: 'Diagnostyka', value: '0 zł* przy naprawie' },
     ]}
   />
 
   <section class="section section--tight">
     <div class="container">
-      <CaseGrid items={realizacje.items} showLink />
+      <div class="cases-filter" data-cases-filter>
+        <button type="button" class="cases-filter__btn is-active" data-filter="all" aria-pressed="true">
+          Wszystkie
+        </button>
+        {
+          categories.map((c) => (
+            <button type="button" class="cases-filter__btn" data-filter={c.slug} aria-pressed="false">
+              {c.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <CaseGrid items={items} categoryLabels={labelBySlug} showLink />
       <p class="cases-note">
-        Ilustracje przedstawiają typowe rodzaje napraw. Zdjęcia z realnych
-        napraw dodajemy na bieżąco — wkrótce w tym miejscu pojawią się także
-        zdjęcia przed i po konserwacji.
+        Opisy dotyczą typowych rodzajów napraw wykonywanych w naszym serwisie.
+        Zdjęcia z realizacji i porównania „przed/po” dodajemy na bieżąco —
+        pojawiają się tutaj po dodaniu ich w panelu.
       </p>
     </div>
   </section>
@@ -47,12 +64,86 @@ const schema = [
   <ContactBlock title="Twój laptop wygląda jak z naszej galerii?" text="Nie diagnozuj przez internet — przywieź sprzęt. Sprawdzimy, co dokładnie jest zepsute, i podamy koszt naprawy przed jej rozpoczęciem." />
 </Base>
 
+<script>
+  const filter = document.querySelector<HTMLElement>('[data-cases-filter]');
+  const grid = document.querySelector<HTMLElement>('.cases');
+  if (filter && grid) {
+    const buttons = filter.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const items = grid.querySelectorAll<HTMLElement>('.case');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const value = btn.dataset.filter;
+        buttons.forEach((b) => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-pressed', String(b === btn));
+        });
+        items.forEach((item) => {
+          const show = value === 'all' || item.dataset.category === value;
+          item.hidden = !show;
+          if (show) item.classList.remove('case--lead');
+        });
+        const firstVisible = Array.from(items).find((i) => !i.hidden);
+        if (firstVisible) firstVisible.classList.add('case--lead');
+        window.dispatchEvent(
+          new CustomEvent('sk:event', {
+            detail: { name: 'cases_filter', params: { category: value } },
+          })
+        );
+      });
+    });
+  }
+</script>
+
 <style>
+  .cases-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: clamp(20px, 3vw, 32px);
+  }
+
+  .cases-filter__btn {
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--line-strong);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: background var(--fast) var(--ease-out), color var(--fast) var(--ease-out),
+      border-color var(--fast) var(--ease-out);
+  }
+
+  .cases-filter__btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .cases-filter__btn.is-active {
+    background: var(--graphite);
+    border-color: var(--graphite);
+    color: var(--on-dark);
+  }
+
   .cases-note {
     margin-top: 28px;
     font-size: 13px;
     line-height: 1.55;
     color: var(--muted);
     max-width: 62ch;
+  }
+
+  @media (max-width: 640px) {
+    .cases-filter {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+    }
+
+    .cases-filter__btn {
+      flex: none;
+      font-size: 13px;
+      padding-inline: 13px;
+    }
   }
 </style>

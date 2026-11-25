@@ -1,31 +1,27 @@
-?---
+---
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../lib/url';
+import site from '../data/site.json';
 
-const uslugi = (await getCollection('uslugi', ({ data }) => !data.draft)).sort(
+const uslugi = (await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft)).sort(
   (a, b) => a.data.order - b.data.order
 );
 
 const groups = ['Konserwacja', 'Naprawy', 'Elektronika', 'System i dane'] as const;
 const byGroup = groups.map((g) => ({
   name: g,
-  items: uslugi.filter((s) => s.data.group === g).slice(0, 6),
+  items: uslugi.filter((s) => s.data.group === g),
 }));
 
-const mainNav = [
-  { href: '/cennik/', label: 'Cennik' },
-  { href: '/opinie/', label: 'Opinie' },
-  { href: '/realizacje/', label: 'Realizacje' },
-  { href: '/poradnik/', label: 'Poradnik' },
-  { href: '/kontakt/', label: 'Kontakt' },
-];
+const mainNav = site.nav.main;
+const extraNav = site.nav.secondary;
 ---
 
 <header class="site-header" data-header>
   <div class="container site-header__inner">
-    <Logo size={32} />
+    <Logo size={46} />
 
     <nav class="nav" aria-label="Nawigacja główna" data-nav>
       <div class="nav__group">
@@ -60,7 +56,7 @@ const mainNav = [
             <div class="services-panel__aside">
               <p class="mono">Ekspres</p>
               <p class="services-panel__promo">
-                Naprawa tego samego dnia — dopłata 150 zł
+                Naprawa tego samego dnia — dopłata {site.express.surcharge} zł
               </p>
               <a class="link-arrow" href={withBase('/uslugi/')}>
                 Wszystkie usługi
@@ -81,11 +77,11 @@ const mainNav = [
     </nav>
 
     <div class="site-header__actions">
-      <a class="header-call" href="tel:+48500613500" data-track="call" data-location="header">
+      <a class="header-call" href={`tel:${site.phoneTel}`} data-track="call" data-location="header">
         <span class="header-call__icon"><Icon name="phone" size={17} /></span>
         <span class="header-call__text">
           <span class="header-call__label">Zadzwoń</span>
-          <span class="header-call__number">500 613 500</span>
+          <span class="header-call__number">{site.phoneDisplay}</span>
         </span>
       </a>
       <button
@@ -123,12 +119,23 @@ const mainNav = [
             <a href={withBase(item.href)}>{item.label}</a>
           ))
         }
-        <a href={withBase('/o-serwisie/')}>O serwisie</a>
+        {
+          extraNav.map((item) => (
+            <a href={withBase(item.href)}>{item.label}</a>
+          ))
+        }
       </nav>
-      <a class="btn btn--primary btn--lg btn--block" href="tel:+48500613500" data-track="call" data-location="mobile-menu">
-        <Icon name="phone" size={18} /> Zadzwoń: 500 613 500
+      <a
+        class="btn btn--primary btn--lg btn--block"
+        href={`tel:${site.phoneTel}`}
+        data-track="call"
+        data-location="mobile-menu"
+      >
+        <Icon name="phone" size={18} /> {site.phoneDisplay}
       </a>
-      <p class="mobile-menu__hours mono">Pon–pt 7:00–15:00 · Kotlarska 14, Wrocław</p>
+      <p class="mobile-menu__hours mono">
+        pon–pt 7:00–15:00 · Kotlarska 14, Wrocław
+      </p>
     </div>
   </div>
 </header>
@@ -148,6 +155,12 @@ const mainNav = [
     document.documentElement.classList.remove('menu-open');
   }
 
+  function closeNav() {
+    if (!navToggle || !navPanel) return;
+    navToggle.setAttribute('aria-expanded', 'false');
+    navPanel.hidden = true;
+  }
+
   burger?.addEventListener('click', () => {
     const open = burger.getAttribute('aria-expanded') === 'true';
     if (open) {
@@ -160,12 +173,6 @@ const mainNav = [
       closeNav();
     }
   });
-
-  function closeNav() {
-    if (!navToggle || !navPanel) return;
-    navToggle.setAttribute('aria-expanded', 'false');
-    navPanel.hidden = true;
-  }
 
   navToggle?.addEventListener('click', () => {
     if (!navPanel) return;
@@ -190,14 +197,11 @@ const mainNav = [
 
   mobileMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMobile));
 
-  let lastY = 0;
   window.addEventListener(
     'scroll',
     () => {
       if (!header) return;
-      const y = window.scrollY;
-      header.classList.toggle('is-scrolled', y > 8);
-      lastY = y;
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
     },
     { passive: true }
   );
@@ -208,15 +212,14 @@ const mainNav = [
     position: sticky;
     top: 0;
     z-index: 90;
-    background: color-mix(in srgb, var(--paper) 92%, transparent);
-    backdrop-filter: saturate(180%) blur(12px);
-    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    background: var(--graphite);
+    color: var(--on-dark);
     border-bottom: 1px solid transparent;
     transition: border-color var(--fast) var(--ease-out);
   }
 
   .site-header.is-scrolled {
-    border-bottom-color: var(--line);
+    border-bottom-color: var(--dark-line);
   }
 
   .site-header__inner {
@@ -229,7 +232,7 @@ const mainNav = [
   .nav {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     margin-left: auto;
   }
 
@@ -245,17 +248,18 @@ const mainNav = [
     font-size: 15px;
     font-weight: 500;
     letter-spacing: -0.005em;
-    color: var(--ink);
+    color: var(--on-dark);
     border-radius: 1px;
-    transition: background var(--fast) var(--ease-out);
+    transition: background var(--fast) var(--ease-out), color var(--fast) var(--ease-out);
   }
 
   .nav__link:hover {
-    background: var(--surface);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
   }
 
   .nav__link--toggle[aria-expanded='true'] {
-    background: var(--surface);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .nav__link--toggle svg {
@@ -271,17 +275,18 @@ const mainNav = [
     left: 0;
     right: 0;
     top: 100%;
-    background: var(--paper);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    box-shadow: 0 24px 40px -32px rgba(14, 16, 15, 0.35);
+    background: var(--graphite);
+    border-top: 1px solid var(--dark-line);
+    border-bottom: 1px solid var(--dark-line);
+    box-shadow: 0 24px 40px -32px rgba(0, 0, 0, 0.6);
+    color: var(--on-dark);
   }
 
   .services-panel__inner {
     display: grid;
     grid-template-columns: 1fr 260px;
     gap: 48px;
-    padding-block: 32px 38px;
+    padding-block: 30px 34px;
   }
 
   .services-panel__cols {
@@ -291,7 +296,7 @@ const mainNav = [
   }
 
   .services-panel__label {
-    color: var(--muted-2);
+    color: var(--on-dark-muted);
     margin-bottom: 12px;
   }
 
@@ -311,11 +316,12 @@ const mainNav = [
   }
 
   .services-panel__col a:hover {
-    background: var(--surface);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
   }
 
   .services-panel__aside {
-    border-left: 1px solid var(--line);
+    border-left: 1px solid var(--dark-line);
     padding-left: 32px;
     display: flex;
     flex-direction: column;
@@ -324,7 +330,7 @@ const mainNav = [
   }
 
   .services-panel__aside .mono {
-    color: var(--muted-2);
+    color: var(--on-dark-muted);
   }
 
   .services-panel__promo {
@@ -333,6 +339,11 @@ const mainNav = [
     line-height: 1.25;
     letter-spacing: -0.02em;
     max-width: 18ch;
+    color: var(--on-dark);
+  }
+
+  .services-panel__aside .link-arrow {
+    color: var(--yellow);
   }
 
   .site-header__actions {
@@ -346,20 +357,23 @@ const mainNav = [
     display: inline-flex;
     align-items: center;
     gap: 9px;
+    color: var(--on-dark);
   }
 
   .header-call__icon {
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
-    background: var(--surface);
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    transition: background var(--fast) var(--ease-out);
+    color: var(--on-dark);
+    transition: background var(--fast) var(--ease-out), color var(--fast) var(--ease-out);
   }
 
   .header-call:hover .header-call__icon {
     background: var(--yellow);
+    color: var(--ink);
   }
 
   .header-call__text {
@@ -373,19 +387,14 @@ const mainNav = [
     font-size: 10px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--on-dark-muted);
   }
 
   .header-call__number {
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.01em;
-  }
-
-  .header-cta {
-    min-height: 44px;
-    padding-inline: 20px;
-    font-size: 14px;
+    color: var(--on-dark);
   }
 
   .burger {
@@ -403,7 +412,7 @@ const mainNav = [
     display: block;
     width: 20px;
     height: 1.6px;
-    background: var(--ink);
+    background: var(--on-dark);
     transition: transform var(--fast) var(--ease-out), opacity var(--fast) var(--ease-out);
   }
 
@@ -422,70 +431,74 @@ const mainNav = [
   .mobile-menu {
     position: fixed;
     inset: var(--header-h) 0 0;
-    background: var(--paper);
+    background: var(--graphite);
+    color: var(--on-dark);
     z-index: 89;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
 
   .mobile-menu__inner {
-    padding: 24px var(--gutter) 40px;
+    padding: 22px var(--gutter) 40px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
   }
 
   .mobile-menu__label {
-    color: var(--muted-2);
+    color: var(--on-dark-muted);
   }
 
   .mobile-menu__services {
     list-style: none;
     display: grid;
-    gap: 2px;
-    margin-top: -10px;
+    gap: 0;
+    margin-top: -8px;
   }
 
   .mobile-menu__services a {
     display: block;
-    padding: 12px 0;
-    font-size: 19px;
+    padding: 11px 0;
+    font-size: 18px;
     font-weight: 500;
     letter-spacing: -0.02em;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--dark-line);
+    color: var(--on-dark);
   }
 
   .mobile-menu__all {
     font-size: 15px;
+    color: var(--yellow);
   }
 
   .mobile-menu__nav {
     display: grid;
-    gap: 2px;
+    gap: 0;
   }
 
   .mobile-menu__nav a {
     padding: 12px 0;
     font-size: 17px;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--dark-line);
+    color: var(--on-dark);
+  }
+
+  .mobile-menu .hairline {
+    background: var(--dark-line);
   }
 
   .mobile-menu__hours {
-    color: var(--muted);
+    color: var(--on-dark-muted);
     text-align: center;
   }
 
-  @media (max-width: 1120px) {
+  @media (max-width: 1180px) {
     .nav__link {
       padding-inline: 9px;
       font-size: 14px;
     }
 
     .header-call__text {
-      display: none;
-    }
-
-    .header-cta {
       display: none;
     }
   }
@@ -523,11 +536,7 @@ const mainNav = [
     overflow: hidden;
   }
 
-  /* backdrop-filter tworzy containing block dla position: fixed — wyłączamy go,
-     gdy otwarte jest menu mobilne, żeby panel pozycjonował się względem okna. */
   :global(html.menu-open) .site-header {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    border-bottom-color: var(--dark-line);
   }
 </style>
-

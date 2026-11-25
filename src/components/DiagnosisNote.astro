@@ -1,0 +1,73 @@
+---
+import site from '../data/site.json';
+
+interface Props {
+  variant?: 'light' | 'dark' | 'inline';
+  compact?: boolean;
+  id?: string;
+}
+const { variant = 'light', compact = false, id } = Astro.props;
+const note = site.diagnosis;
+---
+
+<div class:list={['diag-note', `diag-note--${variant}`, compact && 'diag-note--compact']} id={id}>
+  <p class="diag-note__title">{note.title}</p>
+  {!compact && <p class="diag-note__text">{note.text}</p>}
+</div>
+
+<style>
+  .diag-note {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-left: 3px solid var(--yellow);
+    padding: 10px 0 10px 14px;
+  }
+
+  .diag-note__title {
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+
+  .diag-note__text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 68ch;
+  }
+
+  .diag-note--dark .diag-note__title {
+    color: var(--on-dark);
+  }
+
+  .diag-note--dark .diag-note__text {
+    color: var(--on-dark-muted);
+  }
+
+  .diag-note--inline {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .diag-note--inline .diag-note__title {
+    display: inline;
+    font-weight: 500;
+  }
+
+  .diag-note--inline .diag-note__text {
+    display: inline;
+    font-size: 12.5px;
+  }
+
+  .diag-note--compact {
+    border-left-width: 2px;
+    padding-block: 4px;
+  }
+
+  .diag-note--compact .diag-note__title {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+</style>

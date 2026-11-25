@@ -5,32 +5,23 @@ import { getCollection } from 'astro:content';
 import { withBase } from '../lib/url';
 import site from '../data/site.json';
 
-const uslugi = (await getCollection('uslugi', ({ data }) => !data.draft)).sort(
+const uslugi = (await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft)).sort(
   (a, b) => a.data.order - b.data.order
 );
 const footerServices = uslugi.slice(0, 8);
 const year = new Date().getFullYear();
 
-const infoLinks = [
-  { href: '/uslugi/', label: 'Wszystkie usługi' },
-  { href: '/cennik/', label: 'Cennik' },
-  { href: '/opinie/', label: 'Opinie klientów' },
-  { href: '/realizacje/', label: 'Realizacje' },
-  { href: '/poradnik/', label: 'Poradnik' },
-  { href: '/o-serwisie/', label: 'O serwisie' },
-  { href: '/kontakt/', label: 'Kontakt' },
-];
+const marki = (await getCollection('marki', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
 ---
 
 <footer class="site-footer">
   <div class="container">
     <div class="site-footer__top">
       <div class="site-footer__brand">
-        <Logo size={32} variant="light" />
-        <p class="site-footer__desc">
-          Serwis laptopów i komputerów we Wrocławiu. Od 2013 roku naprawiamy
-          sprzęt prywatny i firmowy — zwykle z dnia na dzień.
-        </p>
+        <Logo size={44} />
+        <p class="site-footer__desc">{site.footer.description}</p>
         <a
           class="site-footer__phone"
           href={`tel:${site.phoneTel}`}
@@ -61,17 +52,29 @@ const infoLinks = [
       <nav class="site-footer__col" aria-label="Informacje">
         <p class="mono site-footer__label">Informacje</p>
         <ul>
-          {infoLinks.map((l) => (
+          {site.footer.infoLinks.map((l) => (
             <li><a href={withBase(l.href)}>{l.label}</a></li>
           ))}
         </ul>
+        {marki.length > 0 && (
+          <>
+            <p class="mono site-footer__label site-footer__label--second">Marki</p>
+            <ul>
+              {marki.slice(0, 6).map((m) => (
+                <li><a href={withBase(`/${m.id}/`)}>{m.data.brand}</a></li>
+              ))}
+            </ul>
+          </>
+        )}
       </nav>
 
       <div class="site-footer__col site-footer__col--contact">
         <p class="mono site-footer__label">Serwis</p>
         <address>
-          <span>{site.address.street}</span>
-          <span>{site.address.postalCode} {site.address.city}</span>
+          <a href={site.mapsUrl} target="_blank" rel="noopener" data-track="directions" data-location="footer-address">
+            <span>{site.address.street}</span>
+            <span>{site.address.postalCode} {site.address.city}</span>
+          </a>
         </address>
         <p class="site-footer__hours">{site.hours[0].label}: {site.hours[0].value}</p>
         <p class="site-footer__hours">Sobota i niedziela: nieczynne</p>
@@ -99,7 +102,9 @@ const infoLinks = [
     <div class="site-footer__bottom">
       <p>© {year} Studio-Komp. Serwis laptopów we Wrocławiu.</p>
       <nav class="site-footer__legal" aria-label="Dokumenty">
-        <a href={withBase('/polityka-prywatnosci/')}>Polityka prywatności</a>
+        {site.footer.legalLinks.map((l) => (
+          <a href={withBase(l.href)}>{l.label}</a>
+        ))}
         <button type="button" data-cookie-settings>Ustawienia cookies</button>
       </nav>
     </div>
@@ -108,7 +113,7 @@ const infoLinks = [
 
 <style>
   .site-footer {
-    background: var(--ink);
+    background: var(--graphite);
     color: var(--on-dark);
     padding-block: clamp(52px, 6vw, 84px) 28px;
     font-size: 15px;
@@ -150,8 +155,12 @@ const infoLinks = [
   }
 
   .site-footer__label {
-    color: #8d938b;
+    color: var(--on-dark-muted);
     margin-bottom: 16px;
+  }
+
+  .site-footer__label--second {
+    margin-top: 24px;
   }
 
   .site-footer__col ul {
@@ -201,12 +210,12 @@ const infoLinks = [
   .site-footer__bottom {
     margin-top: clamp(40px, 5vw, 64px);
     padding-top: 20px;
-    border-top: 1px solid #272b28;
+    border-top: 1px solid var(--dark-line);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 12px 24px;
-    color: #8d938b;
+    color: var(--on-dark-muted);
     font-size: 13px;
   }
 
@@ -218,7 +227,7 @@ const infoLinks = [
 
   .site-footer__legal a,
   .site-footer__legal button {
-    color: #a7aca5;
+    color: var(--on-dark-muted);
     font-size: 13px;
     padding: 0;
   }
@@ -235,6 +244,71 @@ const infoLinks = [
 
     .site-footer__brand {
       grid-column: 1 / -1;
+    }
+  }
+
+  /* Mobile: krótka stopka — najważniejsze linki i kontakt. */
+  @media (max-width: 899px) {
+    .site-footer {
+      padding-block: 34px 16px;
+    }
+
+    .site-footer__top {
+      gap: 20px 18px;
+    }
+
+    .site-footer__brand {
+      gap: 10px;
+      max-width: none;
+    }
+
+    .site-footer__desc {
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+
+    .site-footer__phone {
+      font-size: 24px;
+    }
+
+    .site-footer__cta {
+      display: none;
+    }
+
+    .site-footer__col:first-of-type {
+      display: none;
+    }
+
+    .site-footer__label {
+      margin-bottom: 10px;
+      font-size: 10px;
+    }
+
+    .site-footer__label--second,
+    .site-footer__label--second + ul {
+      display: none;
+    }
+
+    .site-footer__col ul {
+      gap: 7px;
+    }
+
+    .site-footer__col a {
+      font-size: 13px;
+    }
+
+    .site-footer__hours {
+      font-size: 12px;
+    }
+
+    .site-footer__bottom {
+      margin-top: 24px;
+      padding-top: 14px;
+      font-size: 11.5px;
+    }
+
+    .site-footer__legal {
+      gap: 14px;
     }
   }
 

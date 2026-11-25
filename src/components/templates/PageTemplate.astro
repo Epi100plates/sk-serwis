@@ -1,0 +1,62 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+interface Props {
+  entry: any;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+const schema = [
+  breadcrumbSchema([
+    { label: 'Start', path: '/' },
+    { label: data.h1, path: `/${entry.id}/` },
+  ]),
+];
+---
+
+<Base
+  title={`${data.title} | Studio-Komp`}
+  description={data.description}
+  canonicalPath={`/${entry.id}/`}
+  schema={schema}
+  noindex={data.noindex}
+>
+  <PageHero
+    h1={data.h1}
+    lead={data.lead ?? data.description}
+    crumbs={[{ label: data.h1 }]}
+    showActions={false}
+  />
+
+  <section class="section section--tight">
+    <div class="container container--narrow">
+      <div class="prose">
+        <Content />
+      </div>
+      {data.updated && (
+        <p class="page-updated mono">
+          Ostatnia aktualizacja:{' '}
+          {data.updated.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })}
+        </p>
+      )}
+    </div>
+  </section>
+
+  <ContactBlock />
+</Base>
+
+<style>
+  .page-updated {
+    margin-top: 40px;
+    font-size: 10.5px;
+    color: var(--muted-2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+</style>

@@ -7,8 +7,9 @@ interface Props {
   title?: string;
   intro?: string;
   id?: string;
+  mobileLimit?: number;
 }
-const { items, title = 'Częste pytania', intro, id = 'faq' } = Astro.props;
+const { items, title = 'Częste pytania', intro, id = 'faq', mobileLimit = 0 } = Astro.props;
 ---
 
 <section class="section faq-section" aria-labelledby={`${id}-title`} id={id}>
@@ -33,7 +34,7 @@ const { items, title = 'Częste pytania', intro, id = 'faq' } = Astro.props;
       </a>
     </div>
 
-    <div class="faq">
+    <div class:list={['faq', mobileLimit > 0 && `faq--mobile-limit-${mobileLimit}`]}>
       {
         items.map((item) => (
           <details>
@@ -112,6 +113,32 @@ const { items, title = 'Częste pytania', intro, id = 'faq' } = Astro.props;
 
     .faq-head {
       position: static;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .faq-section.section {
+      padding-block: 34px;
+    }
+
+    .faq-intro {
+      display: none;
+    }
+
+    .faq-phone {
+      margin-top: 0;
+    }
+
+    .faq--mobile-limit-3 details:nth-child(n + 4) {
+      display: none;
+    }
+
+    .faq--mobile-limit-4 details:nth-child(n + 5) {
+      display: none;
+    }
+
+    .faq summary {
+      padding-block: 16px;
     }
   }
 </style>

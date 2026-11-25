@@ -16,6 +16,8 @@ const uslugi = defineCollection({
     priceFrom: z.string().optional(),
     priceNote: z.string().optional(),
     duration: z.string().optional(),
+    image: z.string().optional(), // zdjęcie/ilustracja do sekcji „Co naprawiamy najczęściej”
+    imageAlt: z.string().optional(),
     includes: z.array(z.string()).default([]),
     problems: z.array(z.string()).default([]),
     faq: z
@@ -51,4 +53,46 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { uslugi, blog };
+// Podstrony marek: /serwis-asus-wroclaw/ itd.
+const marki = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/marki' }),
+  schema: z.object({
+    brand: z.string(),
+    title: z.string(),
+    description: z.string(),
+    h1: z.string(),
+    lead: z.string(),
+    problems: z.array(z.string()).default([]),
+    repairs: z.array(z.string()).default([]),
+    models: z.array(z.string()).default([]),
+    services: z.array(z.string()).default([]),
+    faq: z
+      .array(z.object({ question: z.string(), answer: z.string() }))
+      .default([]),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    order: z.number().default(50),
+    review: z.enum(['pending', 'approved']).default('pending'),
+    updated: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+// Dowolne podstrony tworzone z panelu (CMS): /<slug>/
+const strony = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/strony' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    h1: z.string(),
+    lead: z.string().optional(),
+    navLabel: z.string().optional(),
+    showInNav: z.boolean().default(false),
+    order: z.number().default(50),
+    noindex: z.boolean().default(false),
+    updated: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { uslugi, blog, marki, strony };

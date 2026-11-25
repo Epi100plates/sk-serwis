@@ -87,3 +87,65 @@ Ilustracje realizacji (`public/images/realizacje/*.svg`) i grafiki sekcji można
 1. Wgraj zdjęcie w CMS (Realizacje → dane realizacji → Zdjęcie) lub wrzuć plik do `public/images/uploads/`.
 2. Uzupełnij pole `image` w `src/data/realizacje.json` (np. `/images/uploads/moje-zdjecie.jpg`).
 3. Jeśli `image` jest puste, strona użyje grafiki technicznej.
+
+## Nowe logo (2026-11-25)
+
+Nowe logo Studio-Komp zastępuje dotychczasowy monogram „S” (`public/brand/*.svg`).
+Źródłem jest `assets-src/logo-source.jpg` (498×168): kontur laptopa z żółtym obramowaniem,
+litery „SK”, napis „STUDIO-KOMP” i podpis „Serwis laptopów”.
+
+Assety generuje skrypt `assets-src/_logo-work.py` (Pillow). Mata alfa powstaje z odległości
+koloru od tła, kształt jest przenoszony przez kanał alfa, a kolor piksela to zawsze kolor
+palety (dzięki temu nie ma halo). Upscale 3× robiony jest na premultiplied RGBA filtrem
+Lanczos, z feather 1 px na alfie i lekkim wyostrzeniem (`UnsharpMask`) wersji na tle.
+Proporcje i kształty liter pochodzą wprost z pliku źródłowego — nic nie jest rysowane od nowa.
+
+### Paleta logo
+
+| Token | Wartość | Rola |
+| --- | --- | --- |
+| `graphite` | `#2D343A` | tło logo, znaku i ikon |
+| `yellow` | `#FFD400` | obramowanie laptopa, podpis „Serwis laptopów” |
+| `light` | `#F5F6F5` | litery „SK” i napis „STUDIO-KOMP” |
+
+Zmierzone kolory pliku źródłowego (`public/brand/palette.json`, sekcja `measured`):
+tło `#2D343A`, żółty `#C1C154` (rdzeń kreski `#EFF06E`), jasny tekst `#F1F5F6`
+(rdzeń `#FDFFFF`). JPEG 4:2:0 desaturuje cienkie linie, dlatego assety renderowane są
+tokenami marki (`#FFD400`, `#F5F6F5`) — spójnie z `--yellow` w CSS.
+
+### Pliki
+
+| Plik | Wymiary | Zastosowanie |
+| --- | --- | --- |
+| `public/brand/studio-komp-logo.png` | 1494×504 | wersja główna 3×, tło `#2D343A` — reklamy, materiały, podgląd |
+| `public/brand/studio-komp-logo@2x.png` | 996×336 | ekrany HiDPI, tło `#2D343A` |
+| `public/brand/studio-komp-logo@1x.png` | 498×168 | wersja bazowa 1×, tło `#2D343A` |
+| `public/brand/studio-komp-logo-transparent.png` | 1494×504 | 3× bez tła (RGBA), tylko na ciemne tła |
+| `public/brand/studio-komp-mark-square.png` | 512×512 | kwadratowy znak SK na tle `#2D343A` (margines 8%), avatar/pieczątka |
+| `public/brand/palette.json` | — | tokeny marki + realnie zmierzone kolory źródła |
+| `public/icon-512.png` | 512×512 | ikona PWA/Android |
+| `public/icon-192.png` | 192×192 | ikona PWA/Android |
+| `public/apple-touch-icon.png` | 180×180 | iOS |
+| `public/favicon.ico` | 16/32/48 | favicon klasyczny (z znaku SK) |
+| `public/favicon.svg` | 256 (PNG 256 w base64) | favicon nowoczesny — wierność kształtu ważniejsza niż wektor |
+
+### Zasady użycia
+
+- **Ciemne tła.** Wersja pozioma i `studio-komp-logo-transparent.png` są projektowane na
+  tło graphitowe/czarne (`#2D343A`, `#1A1D1B`, `#0E100F`). Na jasnym tle używaj wersji
+  z wbudowanym tłem `#2D343A`.
+- **Nie rozciągaj.** Proporcje 498:168 (≈ 2,964:1). Skaluj tylko proporcjonalnie; nie obracaj,
+  nie dodawaj cieni, gradientów ani obrysu.
+- **Minimalna szerokość:** 120 px (ekran), 30 mm (print). Poniżej — użyj samego znaku
+  (`studio-komp-mark-square.png`).
+- **Pole ochronne:** wysokość znaku (wersja pozioma) z każdej strony.
+- **Favicony i ikony** generowane są z kwadratowego znaku SK — nie kadruj ich z pełnego
+  logo, bo napis „STUDIO-KOMP” przestaje być czytelny.
+- Kształt liter jest wierną kopią pliku źródłowego: nie przerysowuj napisów, nie podmieniaj
+  fontu i nie „poprawiaj” proporcji.
+- Po zmianie pliku źródłowego wygeneruj assety ponownie:
+  `python assets-src/_logo-work.py`.
+- Stare pliki `public/brand/studio-komp-logo*.svg`, `studio-komp-mark*.svg` i ich warianty
+  PNG zawierają poprzedni monogram „S” i są przestarzałe — usuń je po aktualizacji
+  referencji w `src/`.
+

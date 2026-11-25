@@ -1,412 +1,54 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
-import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
-import Faq from '../components/Faq.astro';
-import ContactBlock from '../components/ContactBlock.astro';
-import Icon from '../components/Icon.astro';
-import { breadcrumbSchema, faqSchema, serviceSchema } from '../lib/schema';
-import { withBase } from '../lib/url';
-import site from '../data/site.json';
+import ServiceTemplate from '../components/templates/ServiceTemplate.astro';
+import BrandTemplate from '../components/templates/BrandTemplate.astro';
+import PageTemplate from '../components/templates/PageTemplate.astro';
 
+// Ten sam poziom URL obsługuje: podstrony usług (istniejące SEO), podstrony
+// marek (/serwis-asus-wroclaw/) oraz dowolne podstrony utworzone w panelu.
 export const getStaticPaths = (async () => {
-  const services = await getCollection('uslugi', ({ data }) => !data.draft);
-  return services.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
+  const services = await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
+  const brands = await getCollection('marki', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
+
+  let pages: any[] = [];
+  try {
+    pages = await getCollection('strony', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft);
+  } catch {
+    pages = [];
+  }
+
+  const serviceSlugs = new Set(services.map((s) => s.id));
+  const taken = new Set(serviceSlugs);
+
+  const paths = [
+    ...services.map((entry) => ({ params: { slug: entry.id }, props: { kind: 'usluga', entry } })),
+  ];
+
+  for (const entry of brands) {
+    if (taken.has(entry.id)) continue;
+    taken.add(entry.id);
+    paths.push({ params: { slug: entry.id }, props: { kind: 'marka', entry } } as any);
+  }
+
+  for (const entry of pages) {
+    if (taken.has(entry.id)) continue;
+    taken.add(entry.id);
+    paths.push({ params: { slug: entry.id }, props: { kind: 'strona', entry } } as any);
+  }
+
+  return paths;
 }) satisfies GetStaticPaths;
 
-const { entry } = Astro.props;
-const { Content } = await render(entry);
-const data = entry.data;
-
-const all = await getCollection('uslugi', ({ data: d }) => !d.draft);
-const related = all.filter((s) => data.related.includes(s.id));
-
-const chips = [
-  ...(data.priceFrom ? [{ label: 'Cena', value: data.priceFrom }] : []),
-  ...(data.duration ? [{ label: 'Czas realizacji', value: data.duration }] : []),
-  { label: 'Przyjęcie', value: 'Bez umawiania' },
-  { label: 'Diagnostyka', value: '0 zł przy naprawie' },
-];
-
-const schema = [
-  serviceSchema({
-    name: data.h1,
-    description: data.description,
-    path: `/${entry.id}/`,
-    priceFrom: data.priceFrom,
-  }),
-  breadcrumbSchema([
-    { label: 'Start', path: '/' },
-    { label: 'Usługi', path: '/uslugi/' },
-    { label: data.navLabel, path: `/${entry.id}/` },
-  ]),
-  ...(data.faq.length ? [faqSchema(data.faq)] : []),
-];
+const { kind, entry } = Astro.props;
 ---
 
-<Base
-  title={`${data.title} | Studio-Komp`}
-  description={data.description}
-  canonicalPath={`/${entry.id}/`}
-  schema={schema}
->
-  <PageHero
-    h1={data.h1}
-    lead={data.lead}
-    crumbs={[{ label: 'Usługi', href: '/uslugi/' }, { label: data.navLabel }]}
-    chips={chips}
-  />
-
-  <section class="section section--tight service-section">
-    <div class="container service-layout">
-      <article class="service-body">
-        {
-          data.problems.length > 0 && (
-            <div class="service-problems">
-              <p class="mono service-problems__label">Z tym problemem?</p>
-              <ul>
-                {data.problems.map((p) => (
-                  <li>
-                    <Icon name="check" size={15} strokeWidth={2} />
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-        <div class="prose">
-          <Content />
-        </div>
-        {
-          data.updated && (
-            <p class="service-updated mono">
-              Ostatnia aktualizacja:{' '}
-              {data.updated.toLocaleDateString('pl-PL', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
-            </p>
-          )
-        }
-      </article>
-
-      <aside class="service-aside">
-        {
-          (data.priceFrom || data.priceNote) && (
-            <div class="aside-box aside-box--price">
-              <p class="mono aside-box__label">Cena</p>
-              {data.priceFrom && <p class="aside-box__price">{data.priceFrom}</p>}
-              {data.priceNote && <p class="aside-box__note">{data.priceNote}</p>}
-            </div>
-          )
-        }
-
-        {
-          data.includes.length > 0 && (
-            <div class="aside-box">
-              <p class="mono aside-box__label">Co obejmuje usługa</p>
-              <ul class="aside-list">
-                {data.includes.map((item) => (
-                  <li>
-                    <Icon name="check" size={14} strokeWidth={2} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
-
-        <div class="aside-box aside-box--cta">
-          <p class="mono aside-box__label">Kontakt</p>
-          <a
-            class="aside-box__phone"
-            href={`tel:${site.phoneTel}`}
-            data-track="call"
-            data-location={`usluga-${entry.id}`}
-          >
-            {site.phoneDisplay}
-          </a>
-          <p class="aside-box__note">
-            {site.address.street}, {site.address.city}
-            <br />
-            pon–pt 7:00–15:00, bez umawiania
-          </p>
-          <a
-            class="btn btn--primary btn--block"
-            href={`tel:${site.phoneTel}`}
-            data-track="call"
-            data-location={`usluga-${entry.id}-cta`}
-          >
-            <Icon name="phone" size={17} /> Zadzwoń
-          </a>
-          <a
-            class="btn btn--outline btn--block"
-            href={site.directionsUrl}
-            target="_blank"
-            rel="noopener"
-            data-track="directions"
-            data-location={`usluga-${entry.id}`}
-          >
-            <Icon name="pin" size={17} /> Jak dojechać
-          </a>
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  {data.faq.length > 0 && <Faq items={data.faq.map((f) => ({ q: f.question, a: f.answer }))} title="Częste pytania" intro="Najczęściej pytacie nas o to przy przyjęciu sprzętu." />}
-
-  {
-    related.length > 0 && (
-      <section class="section section--tight related">
-        <div class="container">
-          <div class="section-head">
-            <h2>Powiązane usługi</h2>
-            <div class="section-head__aside">
-              <a class="link-arrow" href={withBase('/uslugi/')}>
-                Wszystkie usługi <Icon name="arrow" size={16} />
-              </a>
-            </div>
-          </div>
-          <ul class="related__list">
-            {related.map((s) => (
-              <li>
-                <a class="related__item" href={withBase(`/${s.id}/`)}>
-                  <span>
-                    <span class="related__title">{s.data.navLabel}</span>
-                    <span class="related__teaser">{s.data.teaser}</span>
-                  </span>
-                  <Icon name="arrow" size={18} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    )
-  }
-
-  <ContactBlock />
-</Base>
-
-<style>
-  .service-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr);
-    gap: clamp(32px, 5vw, 80px);
-    align-items: start;
-  }
-
-  .service-problems {
-    border: 1px solid var(--line);
-    background: var(--surface);
-    padding: 22px 24px;
-    margin-bottom: 36px;
-  }
-
-  .service-problems__label {
-    color: var(--muted-2);
-    margin-bottom: 12px;
-  }
-
-  .service-problems ul {
-    list-style: none;
-    display: grid;
-    gap: 8px;
-  }
-
-  .service-problems li {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 15px;
-    line-height: 1.45;
-  }
-
-  .service-problems li svg {
-    margin-top: 3px;
-    color: var(--ink);
-  }
-
-  .service-updated {
-    margin-top: 40px;
-    font-size: 10.5px;
-    color: var(--muted-2);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .service-aside {
-    position: sticky;
-    top: calc(var(--header-h) + 24px);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .aside-box {
-    border: 1px solid var(--line);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: var(--paper);
-  }
-
-  .aside-box--price {
-    background: var(--yellow);
-    border-color: var(--yellow);
-  }
-
-  .aside-box__label {
-    color: var(--muted-2);
-    font-size: 10px;
-  }
-
-  .aside-box--price .aside-box__label {
-    color: rgba(14, 16, 15, 0.72);
-  }
-
-  .aside-box__price {
-    font-size: clamp(26px, 2.4vw, 34px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1;
-  }
-
-  .aside-box__note {
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--muted);
-  }
-
-  .aside-box--price .aside-box__note {
-    color: rgba(14, 16, 15, 0.7);
-  }
-
-  .aside-list {
-    list-style: none;
-    display: grid;
-    gap: 9px;
-  }
-
-  .aside-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 9px;
-    font-size: 13.5px;
-    line-height: 1.45;
-  }
-
-  .aside-list li svg {
-    margin-top: 3px;
-    flex: none;
-  }
-
-  .aside-box--cta {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--on-dark);
-    gap: 12px;
-  }
-
-  .aside-box--cta .aside-box__label {
-    color: var(--on-dark-muted);
-  }
-
-  .aside-box__phone {
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1;
-  }
-
-  .aside-box__phone:hover {
-    color: var(--yellow);
-  }
-
-  .aside-box--cta .aside-box__note {
-    color: var(--on-dark-muted);
-  }
-
-  .aside-box--cta .btn--outline {
-    --btn-fg: var(--on-dark);
-    --btn-border: #3a3f3a;
-  }
-
-  .related__list {
-    list-style: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: clamp(28px, 4vw, 64px);
-    border-top: 1px solid var(--ink);
-  }
-
-  .related__item {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 22px 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .related__item:hover .related__title {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 5px;
-  }
-
-  .related__item > span {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .related__title {
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: -0.025em;
-  }
-
-  .related__teaser {
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--muted);
-    max-width: 40ch;
-  }
-
-  @media (max-width: 960px) {
-    .service-layout {
-      grid-template-columns: 1fr;
-    }
-
-    .service-aside {
-      position: static;
-      order: -1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .aside-box--cta {
-      grid-column: 1 / -1;
-    }
-
-    .related__list {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .service-aside {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
+{
+  kind === 'marka' ? (
+    <BrandTemplate entry={entry} />
+  ) : kind === 'strona' ? (
+    <PageTemplate entry={entry} />
+  ) : (
+    <ServiceTemplate entry={entry} />
+  )
+}

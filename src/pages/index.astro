@@ -4,13 +4,14 @@ import ServiceDocket from '../components/ServiceDocket.astro';
 import BrandStrip from '../components/BrandStrip.astro';
 import Reviews from '../components/Reviews.astro';
 import ExpressBand from '../components/ExpressBand.astro';
-import ServicesList from '../components/ServicesList.astro';
+import ServicesShowcase from '../components/ServicesShowcase.astro';
 import WhyGrid from '../components/WhyGrid.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import PriceTable from '../components/PriceTable.astro';
 import CaseGrid from '../components/CaseGrid.astro';
 import Faq from '../components/Faq.astro';
 import ContactBlock from '../components/ContactBlock.astro';
+import DiagnosisNote from '../components/DiagnosisNote.astro';
 import Icon from '../components/Icon.astro';
 import site from '../data/site.json';
 import cennik from '../data/cennik.json';
@@ -19,12 +20,8 @@ import realizacje from '../data/realizacje.json';
 import { faqSchema } from '../lib/schema';
 import { withBase, SITE_ORIGIN } from '../lib/url';
 
-const heroFacts = [
-  { value: '99%', label: 'napraw z dnia na dzień' },
-  { value: site.reviews.countLabel, label: 'opinii w Google' },
-  { value: String(site.founded), label: 'działamy od roku' },
-  { value: '0 zł', label: 'diagnoza przy naprawie' },
-];
+const home = site.home;
+const hero = home.hero;
 
 const featuredPrices = [
   'Czyszczenie i konserwacja laptopa',
@@ -34,6 +31,15 @@ const featuredPrices = [
   'Instalacja systemu Windows / macOS / Linux',
   'Odzyskiwanie danych',
 ];
+
+const mobilePrices = [
+  'Czyszczenie i konserwacja laptopa',
+  'Wymiana gniazda zasilania',
+  'Naprawa laptopa po zalaniu',
+];
+
+const categories = [...realizacje.categories].sort((a, b) => a.order - b.order);
+const categoryLabels = Object.fromEntries(categories.map((c) => [c.slug, c.label]));
 
 const schema = [
   faqSchema(faq.items),
@@ -62,16 +68,10 @@ const schema = [
     <div class="container hero__grid">
       <div class="hero__copy">
         <h1 class="hero__title">
-          <span>Serwis laptopów</span>
-          <span>we Wrocławiu.</span>
-          <span class="hero__title-sub">Naprawiamy z dnia na dzień.</span>
+          {hero.titleLines.map((line: string) => <span>{line} </span>)}
         </h1>
 
-        <p class="lead hero__lead">
-          Zostawiasz laptopa na Kotlarskiej 14, odbierasz gotowy — najczęściej
-          następnego dnia. Bez umawiania, bez tygodni bez sprzętu i z ceną
-          ustaloną przed naprawą.
-        </p>
+        <p class="lead hero__lead">{hero.lead}</p>
 
         <div class="hero__actions">
           <a
@@ -81,7 +81,7 @@ const schema = [
             data-location="hero"
           >
             <Icon name="phone" size={18} />
-            {site.phoneDisplay}
+            {hero.ctaPrimary}
           </a>
           <a
             class="btn btn--outline btn--lg"
@@ -89,7 +89,7 @@ const schema = [
             data-track="cta"
             data-location="hero"
           >
-            Sprawdź usługi
+            {hero.ctaSecondary}
             <Icon name="arrow" size={17} class="icon-arrow" />
           </a>
         </div>
@@ -103,15 +103,15 @@ const schema = [
           data-location="hero"
         >
           <Icon name="pin" size={15} />
-          <span>Kotlarska 14, Wrocław</span>
+          <span>{site.address.street}, {site.address.city}</span>
           <span class="hero__where-sep">·</span>
-          <span>pon–pt 7:00–15:00</span>
+          <span>pon.–pt. 7:00–15:00</span>
           <Icon name="arrow-up-right" size={13} />
         </a>
 
         <dl class="hero__facts">
           {
-            heroFacts.map((fact) => (
+            home.stats.map((fact) => (
               <div class="hero__fact">
                 <dt>{fact.value}</dt>
                 <dd>{fact.label}</dd>
@@ -119,9 +119,13 @@ const schema = [
             ))
           }
         </dl>
+
+        <div class="hero__note desktop-only">
+          <DiagnosisNote variant="inline" compact />
+        </div>
       </div>
 
-      <div class="hero__object">
+      <div class="hero__object desktop-only">
         <div class="hero__board" aria-hidden="true"></div>
         <ServiceDocket />
       </div>
@@ -133,10 +137,12 @@ const schema = [
   </div>
 
   <Reviews />
-  <ExpressBand />
-  <ServicesList />
-  <WhyGrid />
-  <ProcessSteps />
+  <div class="desktop-only"><ExpressBand /></div>
+  <ServicesShowcase />
+  <div class="desktop-only">
+    <WhyGrid />
+    <ProcessSteps />
+  </div>
 
   <section class="section section--surface pricing-teaser" aria-labelledby="pricing-title">
     <div class="container">
@@ -145,7 +151,15 @@ const schema = [
           <div class="section-head pricing-teaser__head">
             <h2 id="pricing-title">Wiesz, ile zapłacisz, zanim zaczniemy</h2>
           </div>
-          <PriceTable groups={cennik.groups} compactNames={featuredPrices} showNotes={false} />
+          <div class="desktop-only">
+            <PriceTable groups={cennik.groups} compactNames={featuredPrices} showNotes={false} />
+          </div>
+          <div class="mobile-only">
+            <PriceTable groups={cennik.groups} compactNames={mobilePrices} showNotes={false} />
+            <div class="pricing-teaser__mobile-note">
+              <DiagnosisNote compact />
+            </div>
+          </div>
           <div class="pricing-teaser__more">
             <a class="btn btn--outline" href={withBase('/cennik/')}>
               Pełny cennik <Icon name="arrow" size={16} class="icon-arrow" />
@@ -153,24 +167,20 @@ const schema = [
           </div>
         </div>
 
-        <aside class="pricing-teaser__note">
+        <aside class="pricing-teaser__note desktop-only">
           <p class="mono pricing-teaser__note-label">Zasada, którą warto znać</p>
-          <h3>Diagnostyka jest bezpłatna, jeśli naprawiasz u nas.</h3>
-          <p>
-            Jeśli po diagnozie nie zdecydujesz się na naprawę, diagnostyka jest
-            płatna — zawsze mówimy o tym przed rozpoczęciem pracy. Żadnych
-            ukrytych kosztów na koniec.
-          </p>
+          <h3>{site.diagnosis.title}</h3>
+          <p>{site.diagnosis.text}</p>
           <p class="pricing-teaser__express">
             <Icon name="bolt" size={16} />
-            Naprawa ekspresowa: <strong>+150 zł</strong> — tego samego dnia.
+            Naprawa ekspresowa: <strong>+{site.express.surcharge} zł</strong> — tego samego dnia.
           </p>
         </aside>
       </div>
     </div>
   </section>
 
-  <section class="section cases-home" aria-labelledby="cases-title">
+  <section class="section cases-home desktop-only" aria-labelledby="cases-title">
     <div class="container">
       <div class="section-head">
         <h2 id="cases-title">Realizacje z warsztatu</h2>
@@ -184,18 +194,23 @@ const schema = [
           </a>
         </div>
       </div>
-      <CaseGrid items={realizacje.items} limit={5} />
+      <CaseGrid items={realizacje.items.filter((i) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !i.draft)} limit={5} categoryLabels={categoryLabels} />
     </div>
   </section>
 
-  <Faq items={faq.items} intro="Najczęstsze pytania, które słyszymy przy przyjęciu sprzętu." />
+  <Faq
+    items={faq.items}
+    title="Częste pytania"
+    intro="Najczęstsze pytania, które słyszymy przy przyjęciu sprzętu."
+    mobileLimit={3}
+  />
 
   <ContactBlock />
 </Base>
 
 <style>
   .hero {
-    padding-block: clamp(28px, 4vw, 56px) clamp(48px, 6vw, 84px);
+    padding-block: clamp(24px, 3.6vw, 52px) clamp(40px, 5vw, 72px);
   }
 
   .hero__grid {
@@ -213,18 +228,8 @@ const schema = [
     letter-spacing: -0.045em;
   }
 
-  .hero__title-sub {
-    margin-top: clamp(18px, 2.4vw, 30px);
-    font-size: clamp(19px, 2vw, 27px);
-    font-weight: 500;
-    letter-spacing: -0.028em;
-    line-height: 1.2;
-    color: var(--muted);
-    max-width: 22ch;
-  }
-
   .hero__lead {
-    margin-top: clamp(20px, 2.6vw, 30px);
+    margin-top: clamp(18px, 2.4vw, 26px);
     max-width: 46ch;
   }
 
@@ -232,14 +237,14 @@ const schema = [
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: clamp(24px, 3vw, 34px);
+    margin-top: clamp(22px, 2.8vw, 32px);
   }
 
   .hero__where {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    margin-top: 18px;
+    margin-top: 16px;
     font-size: 13px;
     color: var(--muted);
     transition: color var(--fast) var(--ease-out);
@@ -257,7 +262,8 @@ const schema = [
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0;
-    margin: clamp(30px, 4vw, 48px) 0 0;
+    margin: clamp(28px, 3.6vw, 44px) 0 0;
+    padding-left: clamp(0px, 2vw, 28px);
     border-top: 1px solid var(--ink);
   }
 
@@ -284,6 +290,11 @@ const schema = [
     letter-spacing: 0.01em;
     color: var(--muted);
     max-width: 15ch;
+  }
+
+  .hero__note {
+    margin-top: 14px;
+    max-width: 62ch;
   }
 
   .hero__object {
@@ -331,10 +342,14 @@ const schema = [
     margin-top: 28px;
   }
 
+  .pricing-teaser__mobile-note {
+    margin-top: 18px;
+  }
+
   .pricing-teaser__note {
     position: sticky;
     top: calc(var(--header-h) + 32px);
-    background: var(--ink);
+    background: var(--graphite);
     color: var(--on-dark);
     padding: clamp(24px, 2.6vw, 34px);
     display: flex;
@@ -379,48 +394,62 @@ const schema = [
   @media (max-width: 1000px) {
     .hero__grid {
       grid-template-columns: 1fr;
-      gap: 48px;
-    }
-
-    .hero__object {
-      max-width: 480px;
-      margin-inline: auto;
+      gap: 40px;
     }
 
     .pricing-teaser__grid {
       grid-template-columns: 1fr;
     }
-
-    .pricing-teaser__note {
-      position: static;
-    }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 899px) {
+    .hero {
+      padding-block: 18px 28px;
+    }
+
+    .hero__title {
+      font-size: clamp(38px, 11vw, 52px);
+    }
+
+    .hero__lead {
+      font-size: 16px;
+      margin-top: 14px;
+    }
+
+    .hero__where {
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
     .hero__facts {
+      margin-top: 22px;
+      padding-left: 0;
       grid-template-columns: 1fr 1fr;
     }
 
     .hero__fact {
-      padding: 14px 14px 14px 0;
+      padding: 12px 12px 12px 0;
     }
 
     .hero__fact:nth-child(2n) {
       border-right: 0;
-      padding-left: 14px;
+      padding-left: 12px;
     }
 
     .hero__fact:nth-child(-n + 2) {
       border-bottom: 1px solid var(--line);
-      padding-bottom: 14px;
+    }
+
+    .hero__actions {
+      margin-top: 20px;
     }
 
     .hero__actions .btn {
       flex: 1 1 100%;
     }
 
-    .hero__where {
-      flex-wrap: wrap;
+    .hero__note {
+      margin-top: 12px;
     }
   }
 </style>

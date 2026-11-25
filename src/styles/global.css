@@ -5,13 +5,13 @@
    ========================================================================= */
 
 :root {
-  /* Colour */
-  --ink: #0e100f;
-  --graphite: #1a1d1b;
-  --graphite-2: #232724;
+  /* Colour — grafit pochodzi z tła logo (#2d343a), nie używamy czystej czerni */
+  --ink: #242a30;
+  --graphite: #2d343a;
+  --graphite-2: #3a424a;
   --paper: #ffffff;
-  --surface: #f3f4f1;
-  --surface-2: #eaebe6;
+  --surface: #f4f5f2;
+  --surface-2: #e9ebe6;
   --line: #dcdfd9;
   --line-strong: #c6cabf;
   --muted: #5f645e;
@@ -20,8 +20,8 @@
   --yellow-press: #ecc400;
   --yellow-soft: #fff4b8;
   --on-dark: #f5f6f3;
-  --on-dark-muted: #a7aca5;
-  --dark-line: #30352f;
+  --on-dark-muted: #b3b9b4;
+  --dark-line: #434c54;
   --error: #b42318;
   --ok: #1f7a3f;
 
@@ -36,7 +36,7 @@
   --section-y: clamp(64px, 8vw, 124px);
   --container: 1360px;
   --container-narrow: 820px;
-  --header-h: 72px;
+  --header-h: 78px;
   --radius: 1px;
 
   /* Motion */
@@ -241,6 +241,30 @@ b {
 .small {
   font-size: 14px;
   line-height: 1.5;
+}
+
+/* Widoczność sekcji zależna od urządzenia — mobile ma być krótkie (3–4 ekrany) */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  :root {
+    --header-h: 64px;
+    --section-y: clamp(40px, 9vw, 64px);
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: block;
+  }
 }
 
 .visually-hidden {

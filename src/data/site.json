@@ -3,6 +3,7 @@
   "claim": "Serwis laptopów we Wrocławiu",
   "phoneDisplay": "500 613 500",
   "phoneTel": "+48500613500",
+  "email": "",
   "address": {
     "street": "Kotlarska 14",
     "postalCode": "50-150",
@@ -10,10 +11,13 @@
     "district": "Stare Miasto",
     "country": "PL",
     "lat": 51.1109745,
-    "lng": 17.0360445
+    "lng": 17.0360445,
+    "label": "Serwis laptopów Studio-Komp, Kotlarska 14, Wrocław"
   },
-  "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJFSWHiHXCD0cRi3pxOkFdqFE",
-  "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=51.1109745,17.0360445&destination_place_id=ChIJFSWHiHXCD0cRi3pxOkFdqFE",
+  "mapsUrl": "https://www.google.com/maps/place/Serwis+laptop%C3%B3w+Studio-Komp/@51.1109745,17.0360445,691m/data=!3m2!1e3!4b1!4m6!3m5!1s0x470fc27588872515:0x51a85d413a717a8b!8m2!3d51.1109745!4d17.0360445!16s%2Fg%2F12mkw9q82?hl=pl-PL&entry=ttu",
+  "directionsUrl": "https://www.google.com/maps/place/Serwis+laptop%C3%B3w+Studio-Komp/@51.1109745,17.0360445,691m/data=!3m2!1e3!4b1!4m6!3m5!1s0x470fc27588872515:0x51a85d413a717a8b!8m2!3d51.1109745!4d17.0360445!16s%2Fg%2F12mkw9q82?hl=pl-PL&entry=ttu",
+  "mapEmbedUrl": "https://www.google.com/maps?q=51.1109745,17.0360445&hl=pl&z=17&output=embed",
+  "mapZoom": 17,
   "hours": [
     { "label": "Poniedziałek – piątek", "value": "7:00 – 15:00", "open": true },
     { "label": "Sobota", "value": "nieczynne", "open": false },
@@ -32,9 +36,11 @@
     "count": 550,
     "countLabel": "550+",
     "placeId": "ChIJFSWHiHXCD0cRi3pxOkFdqFE",
-    "url": "https://search.google.com/local/reviews?placeid=ChIJFSWHiHXCD0cRi3pxOkFdqFE",
+    "url": "https://www.google.pl/search?sca_esv=540fe14f894ad9bb&sxsrf=AKL5yDiDFlAr7UMlzo5DvryveOyLSC0VzQ:1795593372216&q=studio-komp&si=AE2AFgZbjKZ8i5s_J48WeJ_WbSXlnoE8Gt4y7dLmvUDSNtg5fRUqmAFkaU7EJDLeftTnyDgcoOCmzzC98Q1wBBL4sxytSn6V_UkEuxS1KWa62M79uO-Ccnk&sa=X&ved=2ahUKEwiZofLI0qKYAxXsBdsEHe2mNWgQ3PALegQIGRAF&biw=1920&bih=919&dpr=1",
+    "placeUrl": "https://www.google.com/maps/place/?q=place_id:ChIJFSWHiHXCD0cRi3pxOkFdqFE",
     "writeUrl": "https://search.google.com/local/writereview?placeid=ChIJFSWHiHXCD0cRi3pxOkFdqFE",
-    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJFSWHiHXCD0cRi3pxOkFdqFE"
+    "autoRefresh": true,
+    "refreshedAt": null
   },
   "express": {
     "surcharge": 150
@@ -42,10 +48,82 @@
   "social": {
     "facebook": "https://www.facebook.com/StudioKomp.SerwisLaptopow/"
   },
+  "branding": {
+    "graphite": "#2d343a",
+    "yellow": "#ffd400",
+    "logo": "/brand/studio-komp-logo.png",
+    "logoTransparent": "/brand/studio-komp-logo-transparent.png",
+    "logoWidth": 1494,
+    "logoHeight": 504,
+    "themeColor": "#2d343a"
+  },
+  "diagnosis": {
+    "title": "Diagnoza 0 zł przy naprawie*",
+    "stat": "0 zł*",
+    "text": "Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Jeśli po diagnozie zrezygnujesz z naprawy, obowiązuje opłata za diagnostykę — jej wysokość podamy przed rozpoczęciem pracy."
+  },
+  "home": {
+    "hero": {
+      "titleLines": ["Twój laptop", "w dobrych rękach."],
+      "lead": "Profesjonalny serwis laptopów. Szybka diagnoza, skuteczna naprawa i realne wsparcie.",
+      "ctaPrimary": "Zadzwoń: 500 613 500",
+      "ctaSecondary": "Sprawdź usługi"
+    },
+    "stats": [
+      { "value": "99%", "label": "napraw z dnia na dzień" },
+      { "value": "550+", "label": "opinii Google" },
+      { "value": "2013", "label": "działamy od roku" },
+      { "value": "0 zł*", "label": "diagnoza przy naprawie" }
+    ],
+    "sections": {
+      "brands": true,
+      "reviews": true,
+      "express": true,
+      "services": true,
+      "why": true,
+      "process": true,
+      "pricing": true,
+      "cases": true,
+      "faq": true,
+      "contact": true
+    }
+  },
+  "nav": {
+    "main": [
+      { "href": "/cennik/", "label": "Cennik" },
+      { "href": "/opinie/", "label": "Opinie" },
+      { "href": "/poradnik/", "label": "Poradnik" },
+      { "href": "/realizacje/", "label": "Realizacje" },
+      { "href": "/kontakt/", "label": "Kontakt" }
+    ],
+    "secondary": [
+      { "href": "/uslugi/", "label": "Wszystkie usługi" },
+      { "href": "/o-serwisie/", "label": "O serwisie" }
+    ]
+  },
+  "footer": {
+    "description": "Serwis laptopów i komputerów we Wrocławiu. Od 2013 roku naprawiamy sprzęt prywatny i firmowy — zwykle z dnia na dzień.",
+    "infoLinks": [
+      { "href": "/uslugi/", "label": "Wszystkie usługi" },
+      { "href": "/cennik/", "label": "Cennik" },
+      { "href": "/opinie/", "label": "Opinie klientów" },
+      { "href": "/realizacje/", "label": "Realizacje" },
+      { "href": "/poradnik/", "label": "Poradnik" },
+      { "href": "/o-serwisie/", "label": "O serwisie" },
+      { "href": "/kontakt/", "label": "Kontakt" }
+    ],
+    "legalLinks": [
+      { "href": "/polityka-prywatnosci/", "label": "Polityka prywatności" }
+    ]
+  },
   "analytics": {
     "gtm": "",
     "ga4": "",
-    "adsConversionSendTo": ""
+    "adsConversionSendTo": "",
+    "clarity": "",
+    "firstParty": true,
+    "endpoint": "/api/e",
+    "consentMode": true
   },
   "form": {
     "provider": "web3forms",

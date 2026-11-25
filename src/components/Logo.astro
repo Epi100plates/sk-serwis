@@ -1,96 +1,58 @@
 ---
+import site from '../data/site.json';
+
 interface Props {
-  size?: number;
-  variant?: 'dark' | 'light';
+  size?: number; // wysokość logo w px
+  variant?: 'dark' | 'light'; // zachowane dla kompatybilności (logo jest na grafitowym tle)
   showWordmark?: boolean;
   class?: string;
   label?: string;
 }
 const {
-  size = 34,
-  variant = 'dark',
-  showWordmark = true,
+  size = 46,
   class: klass = '',
   label = 'Studio-Komp — serwis laptopów we Wrocławiu',
 } = Astro.props;
-const tile = variant === 'dark' ? 'var(--ink)' : 'var(--on-dark)';
-const stroke = variant === 'dark' ? 'var(--paper)' : 'var(--ink)';
-const href = Astro.site ? new URL(Astro.url.pathname, Astro.site).pathname : '/';
-const withBase = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}${p}` || '/';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href = `${base}/` || '/';
+const logo = site.branding.logoTransparent || site.branding.logo;
+const ratio = site.branding.logoWidth / site.branding.logoHeight;
+const width = Math.round(size * ratio);
 ---
 
-<a class:list={['logo', variant === 'light' && 'logo--light', klass]} href={withBase('/')} aria-label={label}>
-  <svg
-    class="logo__mark"
-    width={size}
+<a class:list={['logo', klass]} href={href} aria-label={label}>
+  <img
+    class="logo__img"
+    src={`${base}${logo}`}
+    alt="Studio-Komp — serwis laptopów"
+    width={width}
     height={size}
-    viewBox="0 0 36 36"
-    role="img"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <rect width="36" height="36" fill={tile} />
-    <path
-      d="M25.5 10.5H13.5V17.5H23V26H11.5"
-      fill="none"
-      stroke={stroke}
-      stroke-width="4.2"
-      stroke-linejoin="miter"
-      stroke-linecap="butt"
-    />
-    <rect x="24.5" y="24.5" width="6" height="6" fill="var(--yellow)" />
-  </svg>
-  {
-    showWordmark && (
-      <span class="logo__word" aria-hidden="true">
-        <span class="logo__name">studio-komp</span>
-        <span class="logo__tag">serwis laptopów</span>
-      </span>
-    )
-  }
+    style={`height:${size}px;width:${width}px`}
+    loading="eager"
+    decoding="async"
+  />
 </a>
 
 <style>
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    line-height: 1;
-  }
-
-  .logo__mark {
     flex: none;
+    line-height: 0;
   }
 
-  .logo__word {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  .logo__img {
+    display: block;
+    object-fit: contain;
+    object-position: left center;
   }
 
-  .logo__name {
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    color: inherit;
-  }
-
-  .logo__tag {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  :global(.logo--light) .logo__tag {
-    color: var(--on-dark-muted);
-  }
-
-  @media (max-width: 400px) {
-    .logo__tag {
-      display: none;
+  @media (max-width: 899px) {
+    .logo__img {
+      height: 34px !important;
+      width: auto !important;
+      max-width: 120px;
     }
   }
 </style>

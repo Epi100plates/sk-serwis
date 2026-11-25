@@ -9,6 +9,7 @@ import MobileBar from '../components/MobileBar.astro';
 import Seo from '../components/Seo.astro';
 import Analytics from '../components/Analytics.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import site from '../data/site.json';
 import { withBase } from '../lib/url';
 
 interface Props {
@@ -32,7 +33,7 @@ const props = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0e100f" />
+    <meta name="theme-color" content={site.branding.themeColor} />
     <Seo {...props} />
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />

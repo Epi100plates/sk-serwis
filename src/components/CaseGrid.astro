@@ -3,28 +3,38 @@ import Icon from './Icon.astro';
 import { withBase } from '../lib/url';
 
 interface CaseItem {
+  slug: string;
   title: string;
   category: string;
-  device: string;
+  brand?: string;
+  model?: string;
+  device?: string;
   summary: string;
   art?: string;
   image?: string;
   hours?: string;
+  time?: string;
+  gallery?: { src: string; alt?: string }[];
+  beforeAfter?: { before: string; after: string } | null;
 }
 
 interface Props {
   items: CaseItem[];
+  categories?: { slug: string; label: string }[];
   limit?: number;
   showLink?: boolean;
+  categoryLabels?: Record<string, string>;
 }
-const { items, limit, showLink = false } = Astro.props;
+const { items, limit, showLink = false, categoryLabels = {} } = Astro.props;
 const list = limit ? items.slice(0, limit) : items;
+const label = (slug: string) => categoryLabels[slug] ?? slug;
 ---
 
 <ul class:list={['cases', showLink && 'cases--page']}>
   {
-    list.map((item, i) => (
-      <li class:list={['case', i === 0 && 'case--lead']}>
+    list.map((item, i) => {
+      const href = withBase(`/realizacje/${item.slug}/`);
+      const media = (
         <div class="case__media">
           {item.image ? (
             <img
@@ -45,22 +55,36 @@ const list = limit ? items.slice(0, limit) : items;
               decoding="async"
             />
           )}
-          <span class="case__category mono">{item.category}</span>
+          <span class="case__category mono">{label(item.category)}</span>
+          {item.beforeAfter && <span class="case__badge mono">Przed / po</span>}
         </div>
+      );
+      const body = (
         <div class="case__body">
           <h3 class="case__title">{item.title}</h3>
           <p class="case__summary">{item.summary}</p>
           <div class="case__meta mono">
-            <span>{item.device}</span>
-            {item.hours && (
+            <span>{item.device || [item.brand, item.model].filter(Boolean).join(' ')}</span>
+            {(item.time || item.hours) && (
               <span class="case__time">
-                <Icon name="clock" size={13} /> {item.hours}
+                <Icon name="clock" size={13} /> {item.time || item.hours}
               </span>
             )}
+            <span class="case__more">
+              Zobacz szczegóły <Icon name="arrow" size={13} />
+            </span>
           </div>
         </div>
-      </li>
-    ))
+      );
+      return (
+        <li class:list={['case', i === 0 && 'case--lead']} data-category={item.category}>
+          <a class="case__link" href={href} data-track="realization" data-location="realizacje">
+            {media}
+            {body}
+          </a>
+        </li>
+      );
+    })
   }
 </ul>
 
@@ -75,11 +99,20 @@ const list = limit ? items.slice(0, limit) : items;
   .case {
     display: flex;
     flex-direction: column;
-    gap: 14px;
   }
 
   .case--lead {
     grid-column: 1 / -1;
+  }
+
+  .case__link {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    height: 100%;
+  }
+
+  .case--lead .case__link {
     display: grid;
     grid-template-columns: 1.35fr 1fr;
     gap: clamp(20px, 3vw, 40px);
@@ -89,7 +122,7 @@ const list = limit ? items.slice(0, limit) : items;
   .case__media {
     position: relative;
     overflow: hidden;
-    background: #151816;
+    background: var(--graphite);
     aspect-ratio: 4 / 3;
     border: 1px solid var(--line);
   }
@@ -105,7 +138,7 @@ const list = limit ? items.slice(0, limit) : items;
     transition: transform 700ms var(--ease-out);
   }
 
-  .case:hover .case__media img {
+  .case__link:hover .case__media img {
     transform: scale(1.025);
   }
 
@@ -121,6 +154,17 @@ const list = limit ? items.slice(0, limit) : items;
     white-space: nowrap;
   }
 
+  .case__badge {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    padding: 6px 10px;
+    background: var(--graphite);
+    color: var(--on-dark);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
   .case__body {
     display: flex;
     flex-direction: column;
@@ -130,6 +174,13 @@ const list = limit ? items.slice(0, limit) : items;
   .case__title {
     font-size: clamp(19px, 1.7vw, 24px);
     letter-spacing: -0.025em;
+  }
+
+  .case__link:hover .case__title {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+    text-decoration-color: var(--yellow);
   }
 
   .case__summary {
@@ -158,8 +209,27 @@ const list = limit ? items.slice(0, limit) : items;
     color: var(--ink);
   }
 
+  .case__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--ink);
+    margin-left: auto;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 11px;
+  }
+
+  .case__link:hover .case__more svg {
+    transform: translateX(3px);
+  }
+
+  .case__more svg {
+    transition: transform var(--fast) var(--ease-out);
+  }
+
   @media (max-width: 860px) {
-    .case--lead {
+    .case--lead .case__link {
       grid-template-columns: 1fr;
     }
 

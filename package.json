@@ -18,6 +18,11 @@
     "deploy": "powershell -NoProfile -ExecutionPolicy Bypass -File deploy/deploy.ps1",
     "pull": "powershell -NoProfile -ExecutionPolicy Bypass -File deploy/deploy.ps1 -Pull",
     "provision": "powershell -NoProfile -ExecutionPolicy Bypass -File deploy/provision.ps1",
+    "publish:remote": "powershell -NoProfile -ExecutionPolicy Bypass -File deploy/publish.ps1",
+    "publish:now": "powershell -NoProfile -ExecutionPolicy Bypass -File deploy/publish.ps1 -Force",
+    "publish:preview": "powershell -NoProfile -ExecutionPolicy Bypass -File deploy/publish.ps1 -Preview",
+    "publisher:install": "powershell -NoProfile -ExecutionPolicy Bypass -File deploy/install-publisher-task.ps1",
+    "measure": "node scripts/measure.mjs",
     "audit": "node scripts/audit.mjs",
     "interactions": "node scripts/interactions.mjs"
   },

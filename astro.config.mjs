@@ -10,10 +10,17 @@ const base = process.env.BASE_PATH || '/';
 // Domyślnie zostaje docelowa domena Studio-Komp.
 const site = process.env.SITE_URL || 'https://studio-komp.pl';
 
+// PREVIEW=1 buduje podgląd z wersjami roboczymi (draft: true) do dist-preview/.
+const isPreview = process.env.PREVIEW === '1';
+
 export default defineConfig({
   site,
   base,
+  outDir: isPreview ? './dist-preview' : './dist',
   trailingSlash: 'always',
+  define: {
+    'import.meta.env.INCLUDE_DRAFTS': JSON.stringify(isPreview),
+  },
   build: {
     format: 'directory',
     inlineStylesheets: 'auto',
@@ -29,7 +36,6 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         !page.includes('/lp/') &&
-        !page.includes('/edycja') &&
         !page.includes('/polityka-prywatnosci/') &&
         !page.includes('/og-image') &&
         !page.includes('/logo-export') &&

@@ -1,0 +1,15 @@
+{
+  "graphite": "#2D343A",
+  "yellow": "#FFD400",
+  "light": "#F5F6F5",
+  "source": "logo-source.jpg",
+  "measured": {
+    "background": "#2D343A",
+    "yellow": "#C1C154",
+    "yellowCore": "#EFF06E",
+    "light": "#F1F5F6",
+    "lightCore": "#FDFFFF",
+    "sourceSize": "498x168",
+    "note": "Wartosci 'measured' pochodza z logo-source.jpg (JPEG 4:2:0, desaturacja cienkich linii). Assety renderowane tokenami marki (yellow #FFD400, light #F5F6F5)."
+  }
+}

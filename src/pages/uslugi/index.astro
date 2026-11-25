@@ -7,7 +7,7 @@ import Icon from '../../components/Icon.astro';
 import { breadcrumbSchema } from '../../lib/schema';
 import { withBase } from '../../lib/url';
 
-const services = (await getCollection('uslugi', ({ data }) => !data.draft)).sort(
+const services = (await getCollection('uslugi', ({ data }) => Boolean((import.meta.env as any).INCLUDE_DRAFTS) || !data.draft)).sort(
   (a, b) => a.data.order - b.data.order
 );
 
