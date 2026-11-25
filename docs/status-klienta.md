@@ -520,14 +520,14 @@ Kolejność (VPS: `/srv/studio-komp`, dane: `/srv/studio-komp-cms/data`):
    nginx dokłada `no-store`. Oba warianty są poprawne, ważne żeby wartość
    zawierała `no-store`.
 
-7. **Test regresyjny strony statusu** (54 warunki, katalog tymczasowy, bez
+7. **Test regresyjny strony statusu** (56 warunków, katalog tymczasowy, bez
    dotykania bazy produkcyjnej i bez wysyłki SMS):
 
    ```bash
    runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-status.php
    ```
 
-   Kod wyjścia `0` i „Sprawdzone warunki: 54” oznaczają, że mapowanie etapów,
+   Kod wyjścia `0` i „Sprawdzone warunki: 56” oznaczają, że mapowanie etapów,
    tokeny (w tym podrobiony podpis i unieważnianie), kolejka `client_accepted`
    / `client_ready`, tryb testowy, model widoku bez danych osobowych i limit
    tempa są spójne. Ten sam skrypt działa lokalnie na Windows (PHP CLI z
@@ -576,14 +576,14 @@ i `systemctl reload nginx-sk`; baza z kopii z punktu 1. Uwaga: cofnięcie pliku
 | `php -l` na VPS | `runuser -u skcms -- php -l /srv/studio-komp/panel/api/status.php` |
 
 Test regresyjny bez ruszania bazy produkcyjnej (katalog tymczasowy, SMS w trybie
-testowym, 54 warunki):
+testowym, 56 warunków):
 
 ```bash
 runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-status.php
 php -l /srv/studio-komp/panel/views/status.php
 ```
 
-Kod wyjścia `0` i „Sprawdzone warunki: 54” oznaczają, że mapowanie etapów,
+Kod wyjścia `0` i „Sprawdzone warunki: 56” oznaczają, że mapowanie etapów,
 tokeny (także podrobiony podpis i unieważnianie), kolejka `client_accepted` /
 `client_ready`, tryb testowy, model widoku bez danych osobowych i limit tempa są
 spójne. Lokalnie na Windows:
