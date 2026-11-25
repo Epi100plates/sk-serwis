@@ -95,7 +95,9 @@ if ($request) {
 Write-Log "Publikacja: kind=$kind requestId=$requestId"
 Set-Location $root
 
-# --- 2. Git: commit lokalnych zmian, scalanie z panelem, push ---
+# --- 2. Git: domkniecie zmian zapisanych przez panel, scalanie, push ---
+Invoke-Remote "cd /srv/studio-komp && git add -A && (git -c user.name='Panel Studio-Komp' -c user.email='panel@sk.mati-it.pl' commit -m 'Panel: zapis zmian przed publikacja' >/dev/null 2>&1 || true) && chown -R skcms:skcms /srv/studio-komp && echo OK" | Out-Null
+
 $status = & $GitPath -C $root status --porcelain 2>&1
 if ($status) {
   Write-Log 'Commit lokalnych zmian...'
