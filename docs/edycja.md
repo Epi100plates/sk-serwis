@@ -75,6 +75,41 @@ i historię powiadomień.
 - Kolejka jest przetwarzana automatycznie co minutę (cron). Przy błędzie
   wiadomość jest ponawiana. Przycisk „Ponów” wysyła ją od razu.
 
+## Status naprawy dla klienta
+
+Klient dostaje SMS-em link do strony, na której widzi, na jakim etapie jest
+jego komputer. Nie musisz nic wysyłać ręcznie - dzieje się to samo:
+
+1. Klient wysyła formularz na /kontakt/ (podaje telefon).
+2. Zgłoszenie pojawia się w **Zgłoszenia** i dostaje numer `SK-2026-000123`.
+3. W tej samej chwili do kolejki trafia SMS do klienta z linkiem do jego sprawy.
+4. Gdy zmienisz status na **Zrealizowane**, klient dostaje drugi SMS:
+   że komputer jest gotowy do odbioru. Ten SMS idzie tylko raz.
+5. Klient widzi na stronie trzy etapy: **Przyjęty**, **W trakcie naprawy**
+   (wszystkie statusy pośrednie) i **Gotowy do wydania**, a po wydaniu sprzętu
+   dodatkowo **Odebrany**. Nie widzi swojego imienia, telefonu, ceny ani
+   Twoich notatek wewnętrznych.
+
+W szczegółach zgłoszenia, w karcie **„Śledzenie naprawy (dla klienta)”**:
+
+- **link do strony statusu** - ten sam, który poszedł w SMS-ie; możesz go
+  skopiować i wysłać klientowi samodzielnie, jeśli SMS nie doszedł,
+- **Nowy link** - unieważnia poprzedni (np. gdy numer był pomylony). Wymaga
+  zaznaczenia potwierdzenia; stary adres przestaje działać od razu,
+- **notatka publiczna** - krótkie zdanie widoczne na stronie klienta
+  („Zamówiona matryca dojedzie w czwartek”). Puste pole usuwa notatkę.
+
+Treści obu SMS-ów zmieniasz w **Ustawienia → Formularz → SMS do klienta**.
+Możesz używać: `{numer}`, `{imie}`, `{sprzet}`, `{serwis}`, `{telefon}`,
+`{link}` (link jest wymagany). Przełącznik **„Wysyłaj SMS do klienta”**
+wyłącza oba SMS-y bez ruszania reszty powiadomień.
+
+Domyślnie działa **tryb testowy** - wiadomości lądują w kolejce ze statusem
+„Tryb testowy”, ale nikt ich nie dostaje i nic nie kosztują. Aby wysyłać
+naprawdę: konto u SMSAPI albo SerwerSMS, token w Ustawieniach, zatwierdzony
+nadawca i odznaczony tryb testowy. Szczegóły techniczne:
+[docs/status-klienta.md](status-klienta.md).
+
 ## Kafelki usług i ceny
 
 - Sekcja „Co najczęściej naprawiamy” na stronie głównej to kafelki. W Treści →
