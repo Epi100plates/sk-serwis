@@ -620,6 +620,7 @@ wyłącznie realizacji naprawy (nie marketingu).
 | 2026-11-25 | Instrukcja nr 2: audyt językowy wszystkich 15 opublikowanych artykułów poradnika (krótsze, konkretniejsze teksty, bez schematów marketingowych, poprawione ceny), bez zmian wyglądu listy `/poradnik/`. |
 | 2026-11-25 | Status naprawy dla klienta: `/status/<token>/`, tokeny podpisane (HMAC-SHA256, w bazie tylko `status_token_version`), 3 etapy + „Odebrany”, SMS `client_accepted`/`client_ready`, publiczna notatka, limit tempa, panel, nginx, dokumentacja `docs/status-klienta.md`. |
 | 2026-11-25 | Dwa repozytoria GitHub (`sk-serwis` - strona i panel, `sk-klient` - strona dla klienta czytająca JSON API). `sk-klient` wdrożona na VPS pod `/klient/` (`/srv/sk-klient`, `open_basedir` poolu rozszerzony), dokumentacja `docs/github-repozytoria.md`. |
+| 2026-11-25 | Numeracja zgłoszeń bez powtórek: tabela `ticket_counters` (licznik roczny podnoszony w transakcji zapisu); usunięcie zgłoszenia nie oddaje już jego numeru. Test w `panel/bin/self-check-status.php` (56 warunków). |
 
 ---
 
@@ -652,11 +653,12 @@ runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check.php
 runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-status.php
 ```
 
-`self-check-status.php` to test regresyjny publicznej strony statusu naprawy: 54
-warunki (mapowanie statusów na etapy, tokeny śledzenia, podrobiony podpis,
+`self-check-status.php` to test regresyjny publicznej strony statusu naprawy: 56
+warunków (mapowanie statusów na etapy, tokeny śledzenia, podrobiony podpis,
 unieważnianie linku, kolejka `client_accepted`/`client_ready`, tryb testowy,
-model widoku bez danych osobowych, limit tempa). Działa na tymczasowym katalogu
-danych - nie dotyka bazy produkcyjnej i nie wysyła SMS. Lokalnie na Windows:
+model widoku bez danych osobowych, limit tempa, numeracja zgłoszeń bez powtórek).
+Działa na tymczasowym katalogu danych - nie dotyka bazy produkcyjnej i nie wysyła
+SMS. Lokalnie na Windows:
 
 ```powershell
 php -d extension=pdo_sqlite -d extension=sqlite3 panel/bin/self-check-status.php

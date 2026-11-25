@@ -77,7 +77,7 @@ Pliki:
 | Kolumna | Typ | Opis |
 |---|---|---|
 | `id` | INTEGER PK | |
-| `number` | TEXT UNIQUE | numer `SK-YYYY-000123` (sekwencja roczna) |
+| `number` | TEXT UNIQUE | numer `SK-YYYY-000123` (sekwencja roczna z tabeli `ticket_counters`) |
 | `created_at`, `updated_at` | TEXT | czas lokalny Europe/Warsaw (`Y-m-d H:i:s`) |
 | `name` | TEXT | imię (2-80 znaków) |
 | `phone` | TEXT | numer znormalizowany `+48XXXXXXXXX` |
@@ -91,6 +91,15 @@ Pliki:
 | `client_token` | TEXT UNIQUE | idempotencja ponowienia formularza |
 | `archived` | INTEGER | rezerwa na archiwizację (lista domyślnie `archived = 0`) |
 | `notes` | TEXT | rezerwa na notatki wewnętrzne |
+
+### ticket_counters
+
+`year` (TEXT, klucz główny, np. `2026`), `last` (INTEGER - ostatnio wydany numer).
+Licznik roczny jest zwiększany w tej samej transakcji co zapis zgłoszenia, więc
+**numer nie wraca do obiegu po usunięciu zgłoszenia** (wcześniej numer był liczony
+jako `MAX(numer)+1`, co po skasowaniu rekordu dawało ten sam numer ponownie).
+Przy pierwszym użyciu nowego roku licznik startuje od najwyższego istniejącego
+numeru, więc migracja na istniejącej bazie nie tworzy konfliktów.
 
 ### ticket_history
 
