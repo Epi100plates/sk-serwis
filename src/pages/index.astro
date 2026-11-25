@@ -123,6 +123,12 @@ const schema = [
         <div class="hero__note desktop-only">
           <DiagnosisNote variant="inline" compact />
         </div>
+
+        <p class="hero__note-mobile mobile-only">
+          <strong>0 zł*</strong> — diagnoza bezpłatna przy naprawie. Jeśli
+          zrezygnujesz z naprawy, diagnostyka jest płatna (cena przed pracą).
+          <a href={withBase('/cennik/')}>Szczegóły</a>
+        </p>
       </div>
 
       <div class="hero__object desktop-only">
@@ -450,6 +456,24 @@ const schema = [
 
     .hero__note {
       margin-top: 12px;
+    }
+
+    .hero__note-mobile {
+      margin-top: 10px;
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: var(--muted);
+      max-width: 40ch;
+    }
+
+    .hero__note-mobile strong {
+      color: var(--ink);
+    }
+
+    .hero__note-mobile a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
   }
 </style>
