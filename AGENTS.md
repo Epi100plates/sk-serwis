@@ -549,7 +549,7 @@ Limit: max 6 SMS-ów na naprawę; log wysyłek; brak wysyłki bez zgody.
 | 2026-11-25 | Analityka pierwszostronna: pageview + 14 zdarzeń, dashboard z wykresami, urządzenia/źródła/UTM, retencja 400 dni. |
 | 2026-11-25 | CMP z kategoriami + Consent Mode v2, GA4/GTM/Ads/Clarity warunkowo, polityka prywatności zaktualizowana. |
 | 2026-11-25 | Publikacja: build lokalny + atomowe wersje na VPS, kolejka z panelu, zadanie Windows co 5 min, rollback. |
-| 2026-11-25 | Wdrożenie na https://sk.mati-it.pl (release 20261125-110655+), panel aktywny, Decap wyłączony. |
+| 2026-11-25 | Wdrożenie na https://sk.mati-it.pl (release 20261125-112433+), panel aktywny, Decap wyłączony. |
 
 ---
 

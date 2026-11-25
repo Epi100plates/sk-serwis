@@ -61,19 +61,28 @@ const stars = [1, 2, 3, 4, 5];
         {
           reviews.items.map((r) => (
             <li class="review">
-              <div class="review__top">
-                <span class="review__stars" aria-hidden="true">
-                  {stars.map(() => (
-                    <Icon name="star" size={12} />
-                  ))}
-                </span>
-                <span class="review__source">
-                  <Icon name="google" size={13} /> Google
-                </span>
-              </div>
-              <blockquote class="review__text">{r.text}</blockquote>
-              {r.highlight && <p class="review__highlight">{r.highlight}</p>}
-              <p class="review__author">{r.name}</p>
+              <a
+                class="review__link"
+                href={site.reviews.url}
+                target="_blank"
+                rel="noopener"
+                data-track="review"
+                data-location="opinie-lista"
+              >
+                <div class="review__top">
+                  <span class="review__stars" aria-hidden="true">
+                    {stars.map(() => (
+                      <Icon name="star" size={12} />
+                    ))}
+                  </span>
+                  <span class="review__source">
+                    <Icon name="google" size={13} /> Google
+                  </span>
+                </div>
+                <blockquote class="review__text">{r.text}</blockquote>
+                {r.highlight && <p class="review__highlight">{r.highlight}</p>}
+                <p class="review__author">{r.name}</p>
+              </a>
             </li>
           ))
         }
@@ -171,6 +180,17 @@ const stars = [1, 2, 3, 4, 5];
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .review__link {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: inherit;
+  }
+
+  .review__link:hover .review__text {
+    color: #fff;
   }
 
   .review__top {

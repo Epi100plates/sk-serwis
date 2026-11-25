@@ -75,6 +75,7 @@ const schema = [
         {
           reviews.items.map((r) => (
             <li class="review-card">
+              <a class="review-card__link" href={site.reviews.url} target="_blank" rel="noopener" data-track="review" data-location="opinie-lista">
               <div class="review-card__top">
                 <span class="review-card__stars" aria-hidden="true">
                   {stars.map(() => (
@@ -88,6 +89,7 @@ const schema = [
               <blockquote class="review-card__text">{r.text}</blockquote>
               {r.highlight && <p class="review-card__highlight">{r.highlight}</p>}
               <p class="review-card__author">{r.name}</p>
+                          </a>
             </li>
           ))
         }
@@ -176,6 +178,21 @@ const schema = [
     padding: clamp(22px, 2.4vw, 30px);
     background: var(--paper);
   }
+
+  .review-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    color: inherit;
+    height: 100%;
+  }
+
+  .review-card__link:hover .review-card__text {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--yellow);
+  }
+
 
   .review-card__top {
     display: flex;

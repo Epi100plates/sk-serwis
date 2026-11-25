@@ -1,6 +1,6 @@
 # QA — wyniki testów (2026-11-25)
 
-Wersja testowana: https://sk.mati-it.pl (release z 25.11.2026).
+Wersja testowana: https://sk.mati-it.pl (release 20261125-112433, 25.11.2026).
 Zakres: strona publiczna, panel CMS, analityka/CMP, SEO, mobile, bezpieczeństwo,
 publikacja/rollback.
 
@@ -77,9 +77,9 @@ Historia wersji treści i audit log działają (wpisy w panelu).
 | Path traversal w slugach | odrzucane (`valid_slug`) |
 | Upload pliku wykonywalnego | odrzucony (MIME whitelist) |
 | SVG ze skryptem | odrzucony |
-| Nagłówki bezpieczeństwa | X-Content-Type-Options, Referrer-Policy, Permissions-Policy, X-Frame-Options, CSP panelu |
+| Nagłówki bezpieczeństwa | potwierdzone na live: X-Content-Type-Options, Referrer-Policy, Permissions-Policy, X-Frame-Options, HSTS; panel dodatkowo CSP |
 | `.git`, `.htaccess`, SQLite | niedostępne przez HTTP (blokada dotfiles + poza webrootem) |
-| Sesja | HttpOnly/Secure/SameSite=Strict, idle timeout 30 min, rotacja ID |
+| Sesja | HttpOnly/Secure/SameSite=Strict, idle timeout 30 min, rotacja ID |\n| Limit logowania | 5 prób / 15 min; 6. próba → komunikat „Zbyt wiele prób…” (potwierdzone) |\n| Upload PHP/SVG | plik `.php` odrzucony; poprawny PNG przyjęty i następnie usunięty |\n| CSRF (po zalogowaniu) | POST bez tokenu → 419 |
 | 2FA | TOTP dostępne; kod weryfikowany |
 
 Testy destrukcyjne (DoS, pełny pentest) **nie były wykonywane** — środowisko
