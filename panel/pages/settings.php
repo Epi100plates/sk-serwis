@@ -734,7 +734,10 @@ layout_head('Ustawienia', 'settings');
             <strong>Zrealizowane</strong> (u klienta: <strong>Gotowy do wydania</strong>).
             Wiadomości idą tą samą kolejką i przez tego samego dostawcę co SMS do serwisu - domyślnie
             w <strong>trybie testowym</strong>, czyli bez realnej wysyłki i bez kosztów.
-            Każda wiadomość zawiera link do strony statusu zgłoszenia.
+            Każda wiadomość zawiera link do strony statusu zgłoszenia. Te same dwa SMS-y dostają
+            zgłoszenia synchronizowane z aplikacji serwisowej (<strong>serwis.mati-it.pl</strong>,
+            w panelu oznaczone badge „Z serwisu”): pierwszy przy utworzeniu zgłoszenia w CMS,
+            drugi przy pierwszym przejściu na „Do wydania”.
           </div>
           <?php foreach (TICKET_CLIENT_SMS_DEFAULTS as $clientTemplate => $clientDefault): ?>
             <label class="field">
@@ -747,7 +750,8 @@ layout_head('Ustawienia', 'settings');
                 <span class="code-inline">{sprzet}</span> sprzęt,
                 <span class="code-inline">{serwis}</span> nazwa serwisu,
                 <span class="code-inline">{telefon}</span> telefon serwisu (nie klienta),
-                <span class="code-inline">{link}</span> adres strony statusu (wymagany).
+                <span class="code-inline">{link}</span> adres strony statusu (wymagany) - krótki link
+                z tokenem, ten sam, który klient widzi w SMS-ie; dotyczy też zgłoszeń z serwisu.
               </span>
             </label>
           <?php endforeach; ?>

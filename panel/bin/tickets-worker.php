@@ -32,7 +32,7 @@ try {
     $summary = tickets_process_queue(30);
     $rateRemoved = tickets_cleanup_rate();
     tickets_log(sprintf(
-        'worker: przetworzono %d, wyslano %d, test %d, pominieto %d, bledy %d, form_rate usunieto %d',
+        'worker: przetworzono %d, wyslano %d, test %d, pominieto %d, bledy %d, limity usunieto %d',
         $summary['processed'],
         $summary['sent'],
         $summary['test'],

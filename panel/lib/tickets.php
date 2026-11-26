@@ -12,6 +12,7 @@ const TICKET_STATUSES = [
     'in_progress' => 'W trakcie kontaktu',
     'done' => 'Zrealizowane',
     'closed' => 'Zamknięte',
+    'cancelled' => 'Anulowane',
 ];
 
 const TICKET_CONSENT_VERSION = '2026-11-25';
@@ -37,6 +38,7 @@ const CLIENT_STAGES = [
     'in_progress' => 'W trakcie naprawy',
     'ready' => 'Gotowy do wydania',
     'picked_up' => 'Odebrany',
+    'cancelled' => 'Anulowane',
 ];
 
 const CLIENT_STAGE_BY_STATUS = [
@@ -45,7 +47,31 @@ const CLIENT_STAGE_BY_STATUS = [
     'in_progress' => 'in_progress',
     'done' => 'ready',
     'closed' => 'picked_up',
+    'cancelled' => 'cancelled',
 ];
+
+/**
+ * Mapowanie statusów aplikacji serwisowej (serwis.mati-it.pl) na statusy
+ * zgłoszenia w CMS. Jedyne miejsce z tą listą - korzysta z niego endpoint
+ * panel/api/service-sync.php i tickets_sync_external().
+ *
+ * uwaga: awaiting_parts nie ma osobnego statusu w CMS, bo klient i tak widzi
+ * "W trakcie naprawy"; nieznany status jest odrzucany, nigdy mapowany
+ * domyślnie, żeby literówka w aplikacji nie zmieniła stanu naprawy.
+ */
+const TICKET_SYNC_STATUS_MAP = [
+    'pending' => 'new',
+    'in_progress' => 'in_progress',
+    'awaiting_parts' => 'in_progress',
+    'ready_for_pickup' => 'done',
+    'released' => 'closed',
+    'cancelled' => 'cancelled',
+];
+
+function tickets_sync_status_map(): array
+{
+    return TICKET_SYNC_STATUS_MAP;
+}
 
 /** Domyślne treści SMS do klienta (edytowalne w panelu: Ustawienia -> Formularz). */
 const TICKET_CLIENT_SMS_DEFAULTS = [
@@ -93,6 +119,7 @@ function ticket_status_tone(string $status): string
         'in_progress' => 'info',
         'done' => 'ok',
         'closed' => 'muted',
+        'cancelled' => 'err',
     ];
     return $map[$status] ?? 'muted';
 }
@@ -316,12 +343,17 @@ function tickets_rate_limit_ok(int $limit = 3, int $windowMinutes = 10): bool
     return true;
 }
 
-/** Usuwa stare wpisy limitu tempa (wywoływane przez worker). */
+/** Usuwa stare wpisy limitów tempa (wywoływane przez worker). */
 function tickets_cleanup_rate(): int
 {
-    $st = db()->prepare('DELETE FROM form_rate WHERE created_at < ?');
-    $st->execute([(new DateTimeImmutable('-2 days'))->format('Y-m-d H:i:s')]);
-    return $st->rowCount();
+    $since = (new DateTimeImmutable('-2 days'))->format('Y-m-d H:i:s');
+    $removed = 0;
+    foreach (['form_rate', 'sync_rate'] as $table) {
+        $st = db()->prepare('DELETE FROM ' . $table . ' WHERE created_at < ?');
+        $st->execute([$since]);
+        $removed += $st->rowCount();
+    }
+    return $removed;
 }
 
 /* ---------------------------------------------------------- zapis zgłoszenia */
@@ -611,9 +643,55 @@ function tickets_tracking_mac(int $ticketId, int $version): string
 }
 
 /**
- * Token śledzenia w formacie <id>.<wersja>.<podpis>. Nie wymaga kolumny z
- * sekretem: link da się odtworzyć w panelu, a wyciek samej bazy nie wystarcza
- * do jego policzenia. Nowa wersja (refresh) unieważnia poprzedni link.
+ * Podpis w nowym, krótkim formacie: pierwsze 16 bajtów HMAC-SHA256 w base64url
+ * (22 znaki). 128 bitów wystarcza na podpisany link, a adres jest o 21 znaków
+ * krótszy niż w starym formacie. Stary podpis (43 znaki) jest nadal akceptowany,
+ * bo linki wysłane wcześniej SMS-em muszą działać.
+ */
+function tickets_tracking_mac_short(int $ticketId, int $version): string
+{
+    $raw = hash_hmac('sha256', 'ticket|' . $ticketId . '|' . $version, tickets_tracking_key(), true);
+    return rtrim(strtr(base64_encode(substr($raw, 0, 16)), '+/', '-_'), '=');
+}
+
+const TICKET_TOKEN_BASE36 = '0123456789abcdefghijklmnopqrstuvwxyz';
+
+/** Liczba w base36 (cyfry i małe litery) - krótszy zapis id zgłoszenia i wersji. */
+function tickets_base36(int $value): string
+{
+    if ($value <= 0) {
+        return '0';
+    }
+    $out = '';
+    while ($value > 0) {
+        $out = TICKET_TOKEN_BASE36[$value % 36] . $out;
+        $value = intdiv($value, 36);
+    }
+    return $out;
+}
+
+/** Odczyt base36; null dla niepoprawnego zapisu albo zera. */
+function tickets_base36_decode(string $value): ?int
+{
+    if ($value === '' || strlen($value) > 7 || !preg_match('/^[0-9a-z]+$/', $value)) {
+        return null;
+    }
+    $number = 0;
+    foreach (str_split($value) as $char) {
+        $digit = strpos(TICKET_TOKEN_BASE36, $char);
+        if ($digit === false) {
+            return null;
+        }
+        $number = $number * 36 + $digit;
+    }
+    return $number > 0 ? $number : null;
+}
+
+/**
+ * Token śledzenia w formacie <id>.<wersja>.<podpis>, id i wersja w base36.
+ * Nie wymaga kolumny z sekretem: link da się odtworzyć w panelu, a wyciek samej
+ * bazy nie wystarcza do jego policzenia. Nowa wersja (refresh) unieważnia
+ * poprzedni link.
  */
 function tickets_tracking_token(int $ticketId, bool $refresh = false): string
 {
@@ -627,13 +705,27 @@ function tickets_tracking_token(int $ticketId, bool $refresh = false): string
         $version = max(time(), $version + 1);
         db()->prepare('UPDATE tickets SET status_token_version = ? WHERE id = ?')->execute([$version, $ticketId]);
     }
-    return $ticketId . '.' . $version . '.' . tickets_tracking_mac($ticketId, $version);
+    return tickets_base36($ticketId) . '.' . tickets_base36($version) . '.' . tickets_tracking_mac_short($ticketId, $version);
+}
+
+/**
+ * Bazowy adres krótkiej strony statusu albo '' (wtedy stary adres /status/<token>/).
+ * Krótkie linki (status.mati-it.pl/<token>) wymagają wpisu w konfiguracji panelu.
+ */
+function tickets_tracking_base_url(): string
+{
+    $base = trim((string) (function_exists('cfg') ? cfg('status_base_url', '') : ''));
+    return $base !== '' ? rtrim($base, '/') : '';
 }
 
 function tickets_tracking_url(string $token): string
 {
     if ($token === '') {
         return '';
+    }
+    $base = tickets_tracking_base_url();
+    if ($base !== '') {
+        return $base . '/' . $token;
     }
     return rtrim((string) cfg('site_url'), '/') . '/status/' . $token . '/';
 }
@@ -645,7 +737,10 @@ function tickets_tracking_link(array $ticket): string
     return $id > 0 ? tickets_tracking_url(tickets_tracking_token($id)) : '';
 }
 
-/** Token z żądania: albo parametr ?t=, albo ścieżka /status/<token>/. */
+/**
+ * Token z żądania: parametr ?t=, ścieżka /status/<token>/ albo - gdy ustawiono
+ * status_base_url - token w rootcie na skonfigurowanym hoście (krótkie linki).
+ */
 function tickets_tracking_token_from_request(): string
 {
     $param = trim((string) ($_GET['t'] ?? ''));
@@ -656,25 +751,69 @@ function tickets_tracking_token_from_request(): string
     if (preg_match('~/status/([^/?#]+)~', $uri, $m)) {
         return $m[1];
     }
+
+    // Krótki adres: token jest w rootcie. Przyjmujemy go wyłącznie wtedy, gdy
+    // żądanie przyszło na host z status_base_url - inaczej każda ścieżka CMS-a
+    // (np. /panel/) byłaby traktowana jak token.
+    $base = tickets_tracking_base_url();
+    if ($base === '') {
+        return '';
+    }
+    $baseHost = strtolower((string) parse_url($base, PHP_URL_HOST));
+    $host = strtolower((string) preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? '')));
+    if ($baseHost === '' || $host === '' || strcasecmp($host, $baseHost) !== 0) {
+        return '';
+    }
+    $path = (string) parse_url($uri, PHP_URL_PATH);
+    if (preg_match('~^/([^/?#]+)/?$~', $path, $m) && tickets_tracking_token_parts($m[1]) !== null) {
+        return $m[1];
+    }
     return '';
+}
+
+/**
+ * Rozbija token na części albo zwraca null. Obsługiwane są oba formaty:
+ * nowy (id i wersja w base36, podpis 22 znaki) oraz stary (liczby dziesiętne,
+ * podpis 43 znaki), bo linki wysłane wcześniej nadal muszą działać.
+ *
+ * @return array{id:int,version:int,mac:string,legacy:bool}|null
+ */
+function tickets_tracking_token_parts(string $token): ?array
+{
+    if (preg_match('/^([0-9a-z]{1,7})\.([0-9a-z]{1,7})\.([A-Za-z0-9_-]{22})$/', $token, $m)) {
+        $id = tickets_base36_decode($m[1]);
+        $version = tickets_base36_decode($m[2]);
+        if ($id === null || $version === null) {
+            return null;
+        }
+        return ['id' => $id, 'version' => $version, 'mac' => $m[3], 'legacy' => false];
+    }
+    if (preg_match('/^(\d{1,10})\.(\d{1,12})\.([A-Za-z0-9_-]{43})$/', $token, $m)) {
+        $id = (int) $m[1];
+        $version = (int) $m[2];
+        if ($id <= 0 || $version <= 0) {
+            return null;
+        }
+        return ['id' => $id, 'version' => $version, 'mac' => $m[3], 'legacy' => true];
+    }
+    return null;
 }
 
 /** Zgłoszenie na podstawie tokenu; null = nieprawidłowy lub unieważniony link. */
 function tickets_find_by_tracking_token(string $token): ?array
 {
-    if (!preg_match('/^(\d{1,10})\.(\d{1,12})\.([A-Za-z0-9_-]{43})$/', $token, $m)) {
+    $parts = tickets_tracking_token_parts($token);
+    if ($parts === null) {
         return null;
     }
-    $ticketId = (int) $m[1];
-    $version = (int) $m[2];
-    if ($ticketId <= 0 || $version <= 0) {
+    $ticket = tickets_by_id($parts['id']);
+    if (!$ticket || (int) ($ticket['status_token_version'] ?? 0) !== $parts['version']) {
         return null;
     }
-    $ticket = tickets_by_id($ticketId);
-    if (!$ticket || (int) ($ticket['status_token_version'] ?? 0) !== $version) {
-        return null;
-    }
-    if (!hash_equals(tickets_tracking_mac($ticketId, $version), $m[3])) {
+    $expected = $parts['legacy']
+        ? tickets_tracking_mac($parts['id'], $parts['version'])
+        : tickets_tracking_mac_short($parts['id'], $parts['version']);
+    if (!hash_equals($expected, $parts['mac'])) {
         return null;
     }
     return $ticket;
@@ -721,9 +860,15 @@ function ticket_public_view(array $ticket): array
     $status = (string) ($ticket['status'] ?? 'new');
     $stage = ticket_client_stage($status);
 
-    $order = ['accepted', 'in_progress', 'ready'];
-    if ($stage === 'picked_up') {
-        $order[] = 'picked_up';
+    if ($stage === 'cancelled') {
+        // Anulowanie nie jest wydaniem sprzętu: kończymy na osobnym etapie
+        // "Anulowane" i nie pokazujemy ani "Gotowy do wydania", ani "Odebrany".
+        $order = ['accepted', 'in_progress', 'cancelled'];
+    } else {
+        $order = ['accepted', 'in_progress', 'ready'];
+        if ($stage === 'picked_up') {
+            $order[] = 'picked_up';
+        }
     }
 
     // Czas wejścia w etap: pierwszy wpis historii o statusie mapowanym na ten etap.
@@ -734,19 +879,33 @@ function ticket_public_view(array $ticket): array
             $stageAt[$key] = (string) $row['created_at'];
         }
     }
+    // Etap "Przyjęty" ma datę zawsze: sprzęt został przyjęty w chwili utworzenia
+    // zgłoszenia. Historia uzupełnia tylko pozostałe etapy - dzięki temu data nie
+    // ginie, gdy historia zaczyna się od późniejszego statusu (np. zgłoszenie
+    // zsynchronizowane z aplikacji już jako "gotowy do wydania").
+    if ((string) ($ticket['created_at'] ?? '') !== '') {
+        $stageAt['accepted'] = (string) $ticket['created_at'];
+    }
 
     $captions = [
         'accepted' => 'Sprzęt przyjęty w serwisie.',
         'in_progress' => 'Diagnoza i naprawa w toku.',
         'ready' => 'Sprzęt gotowy - zapraszamy do odbioru.',
         'picked_up' => 'Sprzęt wydany klientowi.',
+        'cancelled' => 'Naprawa anulowana - szczegóły pod numerem 500 613 500.',
     ];
 
     $currentIndex = array_search($stage, $order, true);
     $currentIndex = $currentIndex === false ? 0 : (int) $currentIndex;
     $steps = [];
     foreach ($order as $index => $key) {
-        $state = $index < $currentIndex ? 'done' : ($index === $currentIndex ? 'current' : 'todo');
+        if ($stage === 'cancelled') {
+            // Etap oznaczamy jako zakończony tylko wtedy, gdy faktycznie jest
+            // w historii - przy anulowaniu przed naprawą nie udajemy jej przebiegu.
+            $state = $key === 'cancelled' ? 'current' : (isset($stageAt[$key]) ? 'done' : 'todo');
+        } else {
+            $state = $index < $currentIndex ? 'done' : ($index === $currentIndex ? 'current' : 'todo');
+        }
         $at = $index <= $currentIndex ? ticket_format_datetime($stageAt[$key] ?? '') : '';
         $steps[] = [
             'key' => $key,
@@ -1104,6 +1263,470 @@ function tickets_retry_notification(int $notificationId): array
     ]);
     tickets_log('panel: ręczne ponowienie powiadomienia #' . $notificationId);
     return ['ok' => true];
+}
+
+/* --------------------------------- integracja z aplikacją serwisową (sync) */
+
+/** Pola przyjmowane w ładunku synchronizacji - wszystko inne to błąd 400. */
+const TICKET_SYNC_ALLOWED_FIELDS = [
+    'reference', 'phone', 'device', 'issue', 'status',
+    'planned_at', 'accepted_at', 'express', 'event', 'note',
+];
+
+/** Numer zlecenia w aplikacji serwisowej: SRV-ROK-000000. */
+const TICKET_SYNC_REFERENCE_PATTERN = '/^SRV-\d{4}-\d{6}$/';
+
+/** Limit tempa endpointu synchronizacji (żądania / okno w sekundach). */
+const TICKET_SYNC_RATE_LIMIT = 60;
+const TICKET_SYNC_RATE_WINDOW = 60;
+
+/** Dopuszczalne odchylenie znacznika czasu żądania (sekundy). */
+const TICKET_SYNC_CLOCK_SKEW = 300;
+
+/**
+ * Sekret integracji z serwis.mati-it.pl. Pusty = integracja wyłączona
+ * (endpoint odpowiada 503, aplikacja działa dalej bez linku do statusu).
+ */
+function tickets_sync_secret(): string
+{
+    return trim((string) (function_exists('cfg') ? cfg('service_sync_secret', '') : ''));
+}
+
+/** Podpis żądania: base64url(HMAC-SHA256(secret, timestamp . "\n" . rawBody)). */
+function tickets_sync_signature(string $secret, string $timestamp, string $body): string
+{
+    $raw = hash_hmac('sha256', $timestamp . "\n" . $body, $secret, true);
+    return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+}
+
+/** Porównanie podpisu w stałym czasie (hash_equals), bez ujawniania różnic. */
+function tickets_sync_signature_ok(string $secret, string $timestamp, string $body, string $signature): bool
+{
+    if ($secret === '' || $signature === '' || $timestamp === '') {
+        return false;
+    }
+    return hash_equals(tickets_sync_signature($secret, $timestamp, $body), $signature);
+}
+
+/** Znacznik czasu w oknie ±300 s - ochrona przed powtórzeniem żądania (replay). */
+function tickets_sync_timestamp_ok(string $timestamp, int $now = 0, int $skew = TICKET_SYNC_CLOCK_SKEW): bool
+{
+    if (!preg_match('/^\d{9,11}$/', $timestamp)) {
+        return false;
+    }
+    $now = $now > 0 ? $now : time();
+    return abs($now - (int) $timestamp) <= $skew;
+}
+
+/**
+ * Limit tempa endpointu synchronizacji: 60 żądań / minutę / IP-hash.
+ * Liczone są wszystkie żądania (także z złym podpisem), żeby ograniczyć
+ * zgadywanie sekretu; stare wpisy są czyszczone okazjonalnie.
+ */
+function tickets_sync_rate_ok(int $limit = TICKET_SYNC_RATE_LIMIT, int $windowSeconds = TICKET_SYNC_RATE_WINDOW): bool
+{
+    $pdo = db();
+    if (random_int(1, 20) === 1) {
+        $pdo->prepare('DELETE FROM sync_rate WHERE created_at < ?')
+            ->execute([(new DateTimeImmutable('-1 day'))->format('Y-m-d H:i:s')]);
+    }
+    $hash = function_exists('security_ip_hash') ? security_ip_hash() : '';
+    $since = (new DateTimeImmutable('-' . max(1, $windowSeconds) . ' seconds'))->format('Y-m-d H:i:s');
+    $st = $pdo->prepare('SELECT COUNT(*) FROM sync_rate WHERE ip_hash = ? AND created_at >= ?');
+    $st->execute([$hash, $since]);
+    if ((int) $st->fetchColumn() >= $limit) {
+        return false;
+    }
+    $pdo->prepare('INSERT INTO sync_rate (ip_hash, created_at) VALUES (?,?)')
+        ->execute([$hash, (new DateTimeImmutable('now'))->format('Y-m-d H:i:s')]);
+    return true;
+}
+
+/**
+ * Walidacja ładunku z aplikacji serwisowej. Odrzuca nieznane pola, złe typy
+ * i zbyt długie teksty - aplikacja jest źródłem prawdy o zleceniu, więc
+ * literówka ma zostać błędem 400, a nie zmianą stanu naprawy.
+ *
+ * @return array{ok:bool,error?:string,field?:string,data?:array<string,string>}
+ */
+function tickets_sync_payload_validate(array $payload): array
+{
+    $invalid = static function (string $error, string $field = ''): array {
+        return ['ok' => false, 'error' => $error] + ($field !== '' ? ['field' => $field] : []);
+    };
+    $text = static function ($value): ?string {
+        if ($value === null) {
+            return '';
+        }
+        if (is_string($value)) {
+            return $value;
+        }
+        if (is_int($value) || is_float($value)) {
+            return (string) $value;
+        }
+        return null; // tablica, obiekt, bool - zły typ
+    };
+    $utf8 = static function (string $value): bool {
+        return mb_check_encoding($value, 'UTF-8');
+    };
+    $datetimeOk = static function (string $value): bool {
+        if ($value === '' || strlen($value) > 40) {
+            return false;
+        }
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2}(:\d{2})?)?(Z|[+-]\d{2}:\d{2})?$/', $value)) {
+            return false;
+        }
+        try {
+            new DateTimeImmutable($value);
+        } catch (Throwable $e) {
+            return false;
+        }
+        return true;
+    };
+
+    foreach (array_keys($payload) as $key) {
+        if (!in_array((string) $key, TICKET_SYNC_ALLOWED_FIELDS, true)) {
+            return $invalid('unknown_field', (string) $key);
+        }
+    }
+
+    $reference = $text($payload['reference'] ?? null);
+    if ($reference === null) {
+        return $invalid('invalid_field_type', 'reference');
+    }
+    $reference = trim($reference);
+    if (!preg_match(TICKET_SYNC_REFERENCE_PATTERN, $reference)) {
+        return $invalid('invalid_reference', 'reference');
+    }
+
+    $phoneRaw = $text($payload['phone'] ?? null);
+    if ($phoneRaw === null || !$utf8($phoneRaw)) {
+        return $invalid('invalid_phone', 'phone');
+    }
+    $phone = tickets_normalize_phone($phoneRaw);
+    if ($phone === '') {
+        return $invalid('invalid_phone', 'phone');
+    }
+
+    $deviceRaw = $text($payload['device'] ?? null);
+    if ($deviceRaw === null || !$utf8($deviceRaw)) {
+        return $invalid('invalid_device', 'device');
+    }
+    $device = tickets_normalize_text($deviceRaw, 0);
+    if ($device === '' || mb_strlen($device, 'UTF-8') > 120) {
+        return $invalid('invalid_device', 'device');
+    }
+
+    $issueRaw = $text($payload['issue'] ?? null);
+    if ($issueRaw === null || !$utf8($issueRaw)) {
+        return $invalid('invalid_issue', 'issue');
+    }
+    $issue = tickets_normalize_text($issueRaw, 0, true);
+    if ($issue === '' || mb_strlen($issue, 'UTF-8') > 2000) {
+        return $invalid('invalid_issue', 'issue');
+    }
+
+    $status = trim((string) ($text($payload['status'] ?? null) ?? ''));
+    if (!isset(tickets_sync_status_map()[$status])) {
+        return $invalid('invalid_status', 'status');
+    }
+
+    $note = '';
+    if (array_key_exists('note', $payload)) {
+        $noteRaw = $text($payload['note']);
+        if ($noteRaw === null || !$utf8($noteRaw)) {
+            return $invalid('invalid_note', 'note');
+        }
+        $note = tickets_normalize_text($noteRaw, 0, true);
+        if (mb_strlen($note, 'UTF-8') > 500) {
+            return $invalid('invalid_note', 'note');
+        }
+    }
+
+    $acceptedAt = '';
+    if (array_key_exists('accepted_at', $payload) && $payload['accepted_at'] !== null) {
+        $acceptedRaw = $text($payload['accepted_at']);
+        if ($acceptedRaw === null || !$datetimeOk(trim($acceptedRaw))) {
+            return $invalid('invalid_accepted_at', 'accepted_at');
+        }
+        // Rzeczywista data przyjęcia sprzętu w aplikacji - trafia do created_at
+        // zgłoszenia, żeby przerwa w dostępie do CMS nie przesuwała etapu
+        // "Przyjęty". Data z przyszłości to błąd aplikacji, nie stan naprawy.
+        $timezone = new DateTimeZone('Europe/Warsaw');
+        $acceptedDate = new DateTimeImmutable(trim($acceptedRaw), $timezone);
+        if ($acceptedDate->getTimestamp() > time() + TICKET_SYNC_CLOCK_SKEW) {
+            return $invalid('invalid_accepted_at', 'accepted_at');
+        }
+        $acceptedAt = $acceptedDate->setTimezone($timezone)->format('Y-m-d H:i:s');
+    }
+
+    // planned_at jest tylko walidowane: na stronie statusu nie pokazujemy terminu
+    // (nie ma kolumny, a klient dostaje termin w publicznej notatce przy zmianie).
+    if (array_key_exists('planned_at', $payload) && $payload['planned_at'] !== null) {
+        $plannedRaw = $text($payload['planned_at']);
+        if ($plannedRaw === null || !$datetimeOk(trim($plannedRaw))) {
+            return $invalid('invalid_planned_at', 'planned_at');
+        }
+    }
+
+    if (array_key_exists('express', $payload)) {
+        $express = $payload['express'];
+        $expressOk = is_bool($express) || in_array($express, [0, 1, '0', '1'], true);
+        if (!$expressOk) {
+            return $invalid('invalid_express', 'express');
+        }
+    }
+
+    $event = '';
+    if (array_key_exists('event', $payload) && $payload['event'] !== null) {
+        $eventValue = $text($payload['event']);
+        if ($eventValue === null || !preg_match('/^[A-Za-z0-9_.:-]{1,64}$/', trim($eventValue))) {
+            return $invalid('invalid_event', 'event');
+        }
+        $event = trim($eventValue);
+    }
+
+    return [
+        'ok' => true,
+        'data' => [
+            'reference' => $reference,
+            'phone' => $phone,
+            'device' => $device,
+            'issue' => $issue,
+            'status' => tickets_sync_status_map()[$status],
+            'note' => $note,
+            'event' => $event,
+            'accepted_at' => $acceptedAt,
+        ],
+    ];
+}
+
+function tickets_find_by_external_ref(string $reference): ?array
+{
+    if ($reference === '') {
+        return null;
+    }
+    $st = db()->prepare('SELECT * FROM tickets WHERE external_ref = ? LIMIT 1');
+    $st->execute([$reference]);
+    $row = $st->fetch();
+    return $row ?: null;
+}
+
+/**
+ * Synchronizacja zlecenia z aplikacji serwisowej: tworzy zgłoszenie po
+ * external_ref albo aktualizuje istniejące. Idempotencja: to samo żądanie nie
+ * tworzy drugiego zgłoszenia, nie dubluje SMS-a i nie dopisuje historii.
+ *
+ * @return array{ok:bool,error?:string,id?:int,number?:string,url?:string,status?:string,sms_queued?:array<int,string>,created?:bool}
+ */
+function tickets_sync_external(array $payload): array
+{
+    $validated = tickets_sync_payload_validate($payload);
+    if (empty($validated['ok'])) {
+        return ['ok' => false, 'error' => (string) ($validated['error'] ?? 'invalid_payload')];
+    }
+    $data = (array) $validated['data'];
+
+    $existing = tickets_find_by_external_ref($data['reference']);
+    if ($existing) {
+        return tickets_sync_apply($existing, $data);
+    }
+
+    $pdo = db();
+    $attempts = 0;
+    while ($attempts < 3) {
+        $attempts++;
+        try {
+            $pdo->beginTransaction();
+            $now = now();
+            $ticketId = tickets_sync_insert($pdo, $data, $now);
+            $pdo->commit();
+            tickets_log('sync: utworzono zgłoszenie ' . $data['reference'] . ' (status ' . $data['status'] . ')');
+            return tickets_sync_result($ticketId, $data['status'], $data['reference'], true);
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            // Równoległe żądanie zdążyło utworzyć zgłoszenie - kończymy aktualizacją.
+            if (str_contains($e->getMessage(), 'UNIQUE')) {
+                $existing = tickets_find_by_external_ref($data['reference']);
+                if ($existing) {
+                    return tickets_sync_apply($existing, $data);
+                }
+                usleep(random_int(20000, 60000));
+                continue;
+            }
+            tickets_log('sync: błąd zapisu zgłoszenia ' . $data['reference'] . ' (' . get_class($e) . ')');
+            return ['ok' => false, 'error' => 'storage_error'];
+        }
+    }
+    return ['ok' => false, 'error' => 'conflict'];
+}
+
+/**
+ * Wstawia zgłoszenie z aplikacji (numer = reference zlecenia) i kolejkuje SMS
+ * do klienta. Nie tworzy powiadomień do serwisu - o zleceniu wie aplikacja.
+ */
+function tickets_sync_insert(PDO $pdo, array $data, string $now): int
+{
+    $clientToken = 'srvc-' . substr(hash('sha256', $data['reference']), 0, 24);
+    // Data przyjęcia sprzętu z aplikacji jest prawdziwym początkiem naprawy; gdy
+    // jej nie ma, zostaje czas synchronizacji (`updated_at` to zawsze czas zapisu).
+    $createdAt = (string) ($data['accepted_at'] ?? '');
+    if ($createdAt === '') {
+        $createdAt = $now;
+    }
+    $pdo->prepare(
+        'INSERT INTO tickets (number, external_ref, created_at, updated_at, name, phone, device, problem,
+            source_page, ip_hash, user_agent, status, consent_at, consent_version, client_token,
+            public_note, status_token_version)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
+    )->execute([
+        $data['reference'],
+        $data['reference'],
+        $createdAt,
+        $now,
+        '', // imienia nie znamy w tym kanale - nie zmyślamy go
+        $data['phone'],
+        $data['device'],
+        $data['issue'],
+        'serwis',
+        '',
+        '',
+        $data['status'],
+        '',
+        '',
+        $clientToken,
+        $data['note'],
+        0,
+    ]);
+    $ticketId = (int) $pdo->lastInsertId();
+
+    $pdo->prepare('INSERT INTO ticket_history (ticket_id, status, note, username, created_at) VALUES (?,?,?,?,?)')
+        ->execute([$ticketId, 'new', 'Zgłoszenie przyjęte z aplikacji serwisowej.', 'serwis', $createdAt]);
+    if ($data['status'] !== 'new') {
+        // Zgłoszenie przyszło już w dalszym statusie (np. gotowe do wydania) - bez
+        // tego wpisu etap "Gotowy do wydania" nie miałby daty, a data przyjęcia
+        // świeciłaby jako data gotowości.
+        $pdo->prepare('INSERT INTO ticket_history (ticket_id, status, note, username, created_at) VALUES (?,?,?,?,?)')
+            ->execute([$ticketId, $data['status'], 'Stan z aplikacji serwisowej przy pierwszej synchronizacji.', 'serwis', $now]);
+    }
+
+    $ticket = [
+        'id' => $ticketId,
+        'number' => $data['reference'],
+        'name' => '',
+        'phone' => $data['phone'],
+        'device' => $data['device'],
+        'status' => $data['status'],
+    ];
+    tickets_enqueue_client_sms($pdo, $ticketId, $ticket, 'client_accepted');
+    // Gdy pierwsze zgłoszenie przychodzi już jako "gotowy do wydania" (np. CMS był
+    // niedostępny przy przyjęciu), klient dostaje od razu SMS o gotowości.
+    if ($data['status'] === 'done') {
+        tickets_enqueue_client_sms($pdo, $ticketId, $ticket, 'client_ready');
+    }
+    return $ticketId;
+}
+
+/**
+ * Aktualizuje istniejące zgłoszenie. Puste pola nie nadpisują zapisanych
+ * wartości, historia rośnie tylko przy faktycznej zmianie statusu.
+ */
+function tickets_sync_apply(array $ticket, array $data): array
+{
+    $ticketId = (int) $ticket['id'];
+    $currentStatus = (string) $ticket['status'];
+    $newStatus = (string) $data['status'];
+    $statusChanged = $newStatus !== $currentStatus;
+
+    $fields = [];
+    $params = [];
+    foreach (['phone', 'device'] as $key) {
+        if ($data[$key] !== '' && $data[$key] !== (string) ($ticket[$key] ?? '')) {
+            $fields[] = $key . ' = ?';
+            $params[] = $data[$key];
+        }
+    }
+    if ($data['note'] !== '' && $data['note'] !== (string) ($ticket['public_note'] ?? '')) {
+        $fields[] = 'public_note = ?';
+        $params[] = $data['note'];
+    }
+    if ($statusChanged) {
+        $fields[] = 'status = ?';
+        $params[] = $newStatus;
+    }
+
+    $smsQueued = [];
+    $pdo = db();
+    if ($fields) {
+        $pdo->beginTransaction();
+        try {
+            $fields[] = 'updated_at = ?';
+            $params[] = now();
+            $params[] = $ticketId;
+            $pdo->prepare('UPDATE tickets SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($params);
+
+            if ($statusChanged) {
+                $note = 'Status z aplikacji serwisowej: ' . ticket_status_label($newStatus)
+                    . ((string) ($data['event'] ?? '') !== '' ? ' (' . $data['event'] . ').' : '.');
+                $pdo->prepare('INSERT INTO ticket_history (ticket_id, status, note, username, created_at) VALUES (?,?,?,?,?)')
+                    ->execute([$ticketId, $newStatus, tickets_normalize_text($note, 500), 'serwis', now()]);
+                if ($newStatus === 'done' && tickets_enqueue_client_sms(
+                    $pdo,
+                    $ticketId,
+                    array_merge($ticket, ['status' => 'done']),
+                    'client_ready'
+                )) {
+                    $smsQueued[] = 'client_ready';
+                }
+            }
+            $pdo->commit();
+        } catch (Throwable $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            tickets_log('sync: błąd aktualizacji zgłoszenia #' . $ticketId . ' (' . get_class($e) . ')');
+            return ['ok' => false, 'error' => 'storage_error'];
+        }
+    }
+
+    if ($statusChanged) {
+        tickets_log('sync: zgłoszenie ' . (string) ($ticket['number'] ?? '') . ' -> status ' . $newStatus);
+    }
+    $result = tickets_sync_result($ticketId, $newStatus, (string) ($ticket['number'] ?? ''), false);
+    $result['sms_queued'] = $smsQueued;
+    return $result;
+}
+
+/**
+ * Wspólna odpowiedź synchronizacji: link do strony statusu, numer i status.
+ * Token powstaje przy pierwszym wywołaniu (status_token_version = 0), więc
+ * aplikacja dostaje gotowy adres do zapisania w karcie zlecenia.
+ */
+function tickets_sync_result(int $ticketId, string $status, string $number, bool $created): array
+{
+    $token = tickets_tracking_token($ticketId);
+    $url = tickets_tracking_url($token);
+    $smsQueued = [];
+    if ($created) {
+        // Kolejka jest już zapisana; odczyt mówi, co faktycznie powstało.
+        foreach (tickets_notifications($ticketId) as $notification) {
+            if (($notification['channel'] ?? '') === 'sms'
+                && isset(TICKET_CLIENT_SMS_DEFAULTS[(string) ($notification['template'] ?? '')])) {
+                $smsQueued[] = (string) $notification['template'];
+            }
+        }
+    }
+    return [
+        'ok' => true,
+        'id' => $ticketId,
+        'number' => $number,
+        'url' => $url,
+        'status' => $status,
+        'sms_queued' => $smsQueued,
+        'created' => $created,
+    ];
 }
 
 /* -------------------------------------------------------- zmiana statusu */

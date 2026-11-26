@@ -51,13 +51,16 @@ function check(string $label, bool $ok, string $detail = ''): void
 /* --- 1. Mapowanie statusów bazy na etapy klienta ------------------------- */
 
 check('każdy status ma etap klienta', count(array_diff(array_keys(TICKET_STATUSES), array_keys(CLIENT_STAGE_BY_STATUS))) === 0);
-check('cztery etapy z etykietami', count(CLIENT_STAGES) === 4);
+check('pięć etapów z etykietami', count(CLIENT_STAGES) === 5, (string) count(CLIENT_STAGES));
+check('anulowanie jest osobnym etapem', CLIENT_STAGES['cancelled'] === 'Anulowane');
 check('new -> Przyjęty', ticket_client_stage('new') === 'accepted');
 check('read -> Przyjęty', ticket_client_stage('read') === 'accepted');
 check('in_progress -> W trakcie naprawy', ticket_client_stage('in_progress') === 'in_progress');
 check('done -> Gotowy do wydania', ticket_client_stage('done') === 'ready');
 check('closed -> Odebrany', ticket_client_stage('closed') === 'picked_up');
+check('cancelled -> Anulowane', ticket_client_stage('cancelled') === 'cancelled');
 check('nieznany status nie wywraca strony', ticket_client_stage('cokolwiek') === 'accepted');
+check('anulowane ma inny kolor badge', ticket_status_tone('cancelled') !== ticket_status_tone('closed'));
 
 /* --- 2. Zgłoszenie, token i link ---------------------------------------- */
 
@@ -82,14 +85,23 @@ check('brak tokenu w żądaniu bez /status/', $token === '');
 $parts = [];
 preg_match('~/status/([^/]+)/~', $link, $parts);
 $rawToken = $parts[1] ?? '';
-check('token ma format id.wersja.podpis', preg_match('/^\d+\.\d+\.[A-Za-z0-9_-]{43}$/', $rawToken) === 1, $rawToken);
+check('token ma krótki format base36.base36.podpis22', preg_match('/^[0-9a-z]{1,7}\.[0-9a-z]{1,7}\.[A-Za-z0-9_-]{22}$/', $rawToken) === 1, $rawToken);
 $found = tickets_find_by_tracking_token($rawToken);
 check('token odnajduje zgłoszenie', $found !== null && (int) $found['id'] === $ticketId);
+check('id zgłoszenia w tokenie to base36', tickets_base36_decode(explode('.', $rawToken)[0]) === $ticketId);
+
+// Stary format (43-znakowy podpis) musi działać dalej - linki wysłane wcześniej.
+$ticket = tickets_by_id($ticketId) ?: [];
+$legacyVersion = (int) ($ticket['status_token_version'] ?? 0);
+$legacyToken = $ticketId . '.' . $legacyVersion . '.' . tickets_tracking_mac($ticketId, $legacyVersion);
+check('stary token 43-znakowy nadal działa', tickets_find_by_tracking_token($legacyToken) !== null, $legacyToken);
+check('stary token z inną wersją odrzucony', tickets_find_by_tracking_token(str_replace('.' . $legacyVersion . '.', '.' . ($legacyVersion - 1) . '.', $legacyToken)) === null);
 
 $tampered = substr($rawToken, 0, -1) . (str_ends_with($rawToken, 'A') ? 'B' : 'A');
 check('podrobiony podpis odrzucony', $tampered !== $rawToken && tickets_find_by_tracking_token($tampered) === null);
 $versionParts = explode('.', $rawToken);
-$versionParts[1] = (string) ((int) $versionParts[1] - 1);
+$oldVersion = (int) tickets_base36_decode($versionParts[1]);
+$versionParts[1] = tickets_base36(max(1, $oldVersion - 1));
 check('stara wersja tokenu odrzucona', tickets_find_by_tracking_token(implode('.', $versionParts)) === null);
 
 foreach (['', 'abc', '1.2.3', '../../config.php', "1'; DROP TABLE tickets;--", str_repeat('A', 200)] as $bad) {
@@ -179,6 +191,43 @@ foreach (['Anna', '600100200', '600 100 200', '+48600100200', 'Laptop nie ładuj
     check('brak danych osobowych w widoku: ' . $secret, !str_contains($publicJson, $secret));
 }
 check('notatka wewnętrzna nie trafia do widoku', !array_key_exists('notes', $view));
+
+/* --- 5b. Anulowanie zgłoszenia ------------------------------------------ */
+
+$cancelledCreate = tickets_create([
+    'name' => 'Anulowanie Test',
+    'phone' => '602 000 333',
+    'device' => 'Dell Latitude 5420',
+    'problem' => 'Klient zrezygnował z naprawy przed jej rozpoczęciem.',
+    'source_page' => '/kontakt/',
+    'consent' => 1,
+], 'selfcheck-cancel-' . time());
+$cancelledId = (int) ($cancelledCreate['id'] ?? 0);
+check('zgłoszenie do anulowania utworzone', $cancelledId > 0);
+tickets_change_status($cancelledId, 'cancelled', 'Klient zrezygnował.', 'selfcheck');
+$cancelledTicket = tickets_by_id($cancelledId) ?: [];
+$cancelledView = ticket_public_view($cancelledTicket);
+$cancelledKeys = array_column($cancelledView['steps'], 'key');
+$cancelledStates = array_column($cancelledView['steps'], 'state');
+
+check('status anulowany zapisany', ($cancelledTicket['status'] ?? '') === 'cancelled');
+check('etap klienta anulowany', $cancelledView['stage'] === 'cancelled', (string) $cancelledView['stage']);
+check('etykieta etapu Anulowane', $cancelledView['stage_label'] === 'Anulowane');
+check('brak etapu "Odebrany" przy anulowaniu', !in_array('picked_up', $cancelledKeys, true));
+check('brak etapu "Gotowy do wydania" przy anulowaniu', !in_array('ready', $cancelledKeys, true));
+check('ostatni krok to anulowanie', end($cancelledKeys) === 'cancelled');
+check('etap anulowania jest bieżący', end($cancelledStates) === 'current');
+check('nierozpoczęta naprawa nie jest oznaczona jako zrobiona', $cancelledStates[1] === 'todo', implode(',', $cancelledStates));
+
+ob_start();
+$status = $cancelledView;
+$status_refresh = 0;
+require dirname(__DIR__) . '/views/status.php';
+$cancelledHtml = (string) ob_get_clean();
+check('widok statusu pokazuje Anulowane', str_contains($cancelledHtml, 'Anulowane'));
+check('widok statusu nie pokazuje Odebrany', !str_contains($cancelledHtml, 'Odebrany'));
+check('widok statusu nie pokazuje Gotowy do wydania', !str_contains($cancelledHtml, 'Gotowy do wydania'));
+check('JSON statusu ma etap cancelled', str_contains((string) json_encode(['ok' => true, 'status' => $cancelledView]), '"stage":"cancelled"'));
 
 /* --- 6. Limit tempa ----------------------------------------------------- */
 

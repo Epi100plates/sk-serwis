@@ -323,6 +323,18 @@ CREATE TABLE IF NOT EXISTS status_rate (
 SQL);
     $pdo->exec('CREATE INDEX IF NOT EXISTS idx_status_rate_ip ON status_rate(ip_hash, created_at)');
 
+    // Limit tempa endpointu synchronizacji z aplikacją serwisową (60 żądań/min/IP-hash).
+    // Osobna tabela, bo limit jest inny niż publicznej strony statusu - mieszanie
+    // liczników odebrałoby limit jednej z tych funkcji.
+    $pdo->exec(<<<SQL
+CREATE TABLE IF NOT EXISTS sync_rate (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ip_hash TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+SQL);
+    $pdo->exec('CREATE INDEX IF NOT EXISTS idx_sync_rate_ip ON sync_rate(ip_hash, created_at)');
+
     // Migracje lekkie (dodawanie kolumn w przyszłości)
     db_ensure_column($pdo, 'events', 'element', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'events', 'referrer_host', "TEXT NOT NULL DEFAULT ''");
@@ -336,6 +348,9 @@ SQL);
     // Publiczna strona statusu: notatka dla klienta i wersja tokenu w linku.
     db_ensure_column($pdo, 'tickets', 'public_note', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'tickets', 'status_token_version', 'INTEGER NOT NULL DEFAULT 0');
+    // Numer zlecenia w aplikacji serwisowej (SRV-ROK-000000) - klucz idempotencji
+    // synchronizacji statusu. NULL dla zgłoszeń z formularza na stronie.
+    db_ensure_column($pdo, 'tickets', 'external_ref', 'TEXT');
     db_ensure_column($pdo, 'ticket_history', 'note', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'notifications', 'provider', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'notifications', 'delivery_status', "TEXT NOT NULL DEFAULT ''");
@@ -343,6 +358,9 @@ SQL);
 
     // Unikalny token klienta (idempotencja formularza) dopiero po migracji kolumny.
     $pdo->exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_tickets_client_token ON tickets(client_token)');
+    // SQLite dopuszcza wiele NULL-i w indeksie unikalnym, więc zgłoszenia
+    // z formularza (external_ref = NULL) nie kolidują ze sobą.
+    $pdo->exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_tickets_external_ref ON tickets(external_ref)');
 }
 
 function db_ensure_column(PDO $pdo, string $table, string $column, string $definition): void

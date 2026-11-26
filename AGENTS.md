@@ -2,7 +2,7 @@
 
 Dokument dla agentów AI, programistów i właściciela. Opisuje **rzeczywisty**
 stan projektu, architekturę, decyzje i ograniczenia. Ostatnia aktualizacja:
-**2026-11-25**.
+**2026-11-26**.
 
 ---
 
@@ -503,7 +503,7 @@ duplikację danych klienta i ręczne wiązanie rekordów.
 
 | Element | Stan | Opis |
 |---|---|---|
-| `tickets.status` | istniejąca kolumna | `new`, `read`, `in_progress`, `done`, `closed` |
+| `tickets.status` | istniejąca kolumna | `new`, `read`, `in_progress`, `done`, `closed`, `cancelled` (dla zleceń anulowanych w aplikacji) |
 | `tickets.public_note` | nowa (`db_ensure_column`) | publiczna notatka serwisu, do 500 znaków, bez danych osobowych |
 | `tickets.status_token_version` | nowa | wersja tokenu w linku (unix time); nowa wartość = nowy link, stary przestaje działać |
 | `tickets.archived` | istniejąca | `1` = zgłoszenie niedostępne publicznie (404) |
@@ -543,6 +543,7 @@ PHP-FPM jako `skcms`).
 ```
 GET /status/<token>/              (publiczne, GET) - HTML w stylu marki
 GET /status/<token>/?format=json  (publiczne, GET) - {"ok":true,"status":{...}}
+POST /api/service-sync.php        (tylko POST + HMAC) - sync zlecenia z serwis.mati-it.pl
 ```
 
 Nie powstały: `POST /api/repairs`, `PATCH /api/repairs/:id/status`,
@@ -593,6 +594,29 @@ wyłącznie realizacji naprawy (nie marketingu).
 - Link jest sekretem: przesłanie go dalej ujawnia status naprawy. Ograniczają to
   `noindex`, `no-store` i limit tempa, ale nie zastępują logowania.
 
+### L.7 Integracja z aplikacją serwisową (serwis.mati-it.pl)
+
+Aplikacja warsztatu (Laravel, `D:\Deepseekapp\serwis`, repozytorium `sk-core`)
+jest źródłem prawdy o zleceniu. Po przyjęciu i każdej zmianie statusu wysyła
+podpisane HMAC-em żądanie `POST /api/service-sync.php`; CMS prowadzi jedno
+zgłoszenie na zlecenie (`tickets.external_ref = SRV-ROK-000000`), zwraca link do
+strony statusu i kolejkuje SMS-y (`client_accepted` przy utworzeniu,
+`client_ready` przy pierwszym `done`).
+
+- Endpoint: tylko POST, podpis `HMAC-SHA256(secret, timestamp."\n".rawBody)`,
+  timestamp ±300 s, limit 60/min/IP-hash. Sekret `service_sync_secret` w
+  `/srv/studio-komp-cms/config.php` musi być ten sam co `CLIENT_STATUS_SECRET`
+  w `/srv/sk-serwis/.env`; pusty = integracja wyłączona (503), aplikacja działa
+  dalej bez linku.
+- Mapowanie: `pending` -> `new`, `in_progress`/`awaiting_parts` -> `in_progress`,
+  `ready_for_pickup` -> `done` (+ `client_ready`), `released` -> `closed`,
+  `cancelled` -> `cancelled`.
+- Linki: nowe tokeny są krótsze (MAC 16 B, id/wersja base36), stare 43-znakowe
+  nadal działają. `status_base_url` w konfiguracji panelu przenosi linki na
+  `status.mati-it.pl/<token>` bez zmian w kodzie (wymaga vhosta).
+- Dokumentacja i diagnostyka: `docs/status-klienta.md` §11; test regresyjny
+  `panel/bin/self-check-service-sync.php` (151 warunków).
+
 ---
 
 ## M. Historia zmian
@@ -622,6 +646,7 @@ wyłącznie realizacji naprawy (nie marketingu).
 | 2026-11-25 | Dwa repozytoria GitHub (`sk-serwis` - strona i panel, `sk-klient` - strona dla klienta czytająca JSON API). `sk-klient` wdrożona na VPS pod `/klient/` (`/srv/sk-klient`, `open_basedir` poolu rozszerzony), dokumentacja `docs/github-repozytoria.md`. |
 | 2026-11-25 | Numeracja zgłoszeń bez powtórek: tabela `ticket_counters` (licznik roczny podnoszony w transakcji zapisu); usunięcie zgłoszenia nie oddaje już jego numeru. Test w `panel/bin/self-check-status.php` (56 warunków). |
 | 2026-11-25 | Trzecie repozytorium GitHub `sk-core` - kod źródłowy aplikacji dla serwisantów (Laravel 12, katalog główny projektu `D:\Deepseekapp\serwis`); 295 plików, bez `vendor/`, `.env` i danych z `storage/app/data`. `docs/github-repozytoria.md` opisuje trzy repozytoria i komendy push. |
+| 2026-11-26 | Aplikacja warsztatu (`sk-core`, serwis.mati-it.pl): kreator przyjęcia z presetami terminu 1/2/3/7 dni, własną liczbą dni i inną datą, sekcje formularza, przebudowany protokół wydania (2 kolumny, 1366×768 bez przewijania), większe chipy filtrów kolejki, przycisk „Przyjmij” → „Kolejka”, karta „Status dla klienta” z kopiowaniem linku. Synchronizacja zleceń do CMS przez podpisany HMAC endpoint `POST /api/service-sync.php` (`external_ref`, `client_status_url`, komenda `services:sync-status`); w panelu zgłoszenia z badge „Z serwisu”, status `cancelled`, krótsze tokeny i `status_base_url`. |
 
 ---
 
@@ -654,16 +679,23 @@ runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check.php
 runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-status.php
 ```
 
-`self-check-status.php` to test regresyjny publicznej strony statusu naprawy: 56
+`self-check-status.php` to test regresyjny publicznej strony statusu naprawy: 75
 warunków (mapowanie statusów na etapy, tokeny śledzenia, podrobiony podpis,
 unieważnianie linku, kolejka `client_accepted`/`client_ready`, tryb testowy,
-model widoku bez danych osobowych, limit tempa, numeracja zgłoszeń bez powtórek).
+model widoku bez danych osobowych, limit tempa, numeracja zgłoszeń bez powtórek,
+status „Anulowane” i oba formaty tokenów).
 Działa na tymczasowym katalogu danych - nie dotyka bazy produkcyjnej i nie wysyła
 SMS. Lokalnie na Windows:
 
 ```powershell
 php -d extension=pdo_sqlite -d extension=sqlite3 panel/bin/self-check-status.php
+php -d extension=pdo_sqlite -d extension=sqlite3 panel/bin/self-check-service-sync.php
 ```
+
+`self-check-service-sync.php` to test integracji z `serwis.mati-it.pl`: 151
+warunków (podpis HMAC, timestamp, idempotencja po `external_ref`, mapowanie
+statusów, kolejka `client_accepted`/`client_ready`, krótkie tokeny, migracja
+starej bazy i prawdziwe HTTP na wbudowanym serwerze PHP).
 
 ## O. Znane ograniczenia i rzeczy do zrobienia przez właściciela
 

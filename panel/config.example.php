@@ -17,6 +17,21 @@ return [
     'site_url'    => 'https://sk.mati-it.pl',
     'panel_path'  => '/panel',
 
+    // Publiczna strona statusu naprawy dla klienta.
+    // 'status_base_url' - bazowy adres krótkich linków; puste = dotychczasowy
+    // adres https://<site_url>/status/<token>/. Po ustawieniu (np.
+    // 'https://status.mati-it.pl') link ma postać <base>/<token> - krótszą,
+    // bo mieści się w jednej części SMS-a. Wymaga osobnego vhosta, który
+    // przekazuje żądania do panel/api/status.php.
+    'status_base_url' => '',
+
+    // Integracja z aplikacją serwisową (serwis.mati-it.pl).
+    // Sekret do podpisu HMAC-SHA256 żądań POST /api/service-sync.php; musi być
+    // ten sam co po stronie aplikacji. Pusty = integracja wyłączona (endpoint
+    // odpowiada 503, aplikacja działa dalej bez linku do statusu).
+    // Wygenerowanie: php -r "echo bin2hex(random_bytes(32));"
+    'service_sync_secret' => '',
+
     // Bezpieczeństwo
     'session_name'        => 'sk_panel',
     'idle_timeout'        => 1800,  // sekundy bezczynności

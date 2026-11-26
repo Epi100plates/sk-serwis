@@ -23,6 +23,20 @@ function ticket_notification_badge(string $status): string
 }
 
 /**
+ * Badge źródła zgłoszenia. Zgłoszenia z aplikacji serwisowej (serwis.mati-it.pl)
+ * mają wypełnione external_ref; numer zgłoszenia jest wtedy numerem zlecenia
+ * (SRV-ROK-000000), a nie numerem z formularza.
+ */
+function ticket_source_badge(array $ticket): string
+{
+    $reference = trim((string) ($ticket['external_ref'] ?? ''));
+    if ($reference === '') {
+        return '';
+    }
+    return '<span class="badge badge--info" title="Zgłoszenie zsynchronizowane z aplikacji serwisowej">Z serwisu</span>';
+}
+
+/**
  * Czytelna nazwa szablonu powiadomienia (mapowanie lokalne dla widoku -
  * biblioteka zgłoszeń trzyma tylko statusy, nie szablony).
  */
@@ -238,6 +252,7 @@ if ($ticketId > 0) {
     $trackingLink = tickets_tracking_link($ticket);
     $clientStage = CLIENT_STAGES[ticket_client_stage((string) $ticket['status'])] ?? '';
     $publicNote = (string) ($ticket['public_note'] ?? '');
+    $externalRef = trim((string) ($ticket['external_ref'] ?? ''));
 
     layout_head('Zgłoszenie ' . $ticket['number'], 'zgloszenia');
     ?>
@@ -251,14 +266,17 @@ if ($ticketId > 0) {
       <section class="card">
         <header class="card__head">
           <h2><?= e($ticket['number']) ?></h2>
-          <div class="card__actions"><?= ticket_status_badge($ticket['status']) ?></div>
+          <div class="card__actions"><?= ticket_source_badge($ticket) ?> <?= ticket_status_badge($ticket['status']) ?></div>
         </header>
         <div class="card__body">
           <div class="table-wrap">
             <table class="table table--compact">
               <tbody>
                 <tr><th>Data zgłoszenia</th><td><?= e(format_date($ticket['created_at'])) ?></td></tr>
-                <tr><th>Imię</th><td><strong><?= e($ticket['name']) ?></strong></td></tr>
+<?php if ($externalRef !== ''): ?>
+                <tr><th>Źródło</th><td><?= ticket_source_badge($ticket) ?> <span class="mono"><?= e($externalRef) ?></span><br><span class="small muted">Zlecenie z aplikacji serwisowej - status i dane kontaktowe są aktualizowane przy każdej synchronizacji.</span></td></tr>
+<?php endif; ?>
+                <tr><th>Imię</th><td><strong><?= e($ticket['name'] !== '' ? $ticket['name'] : '-') ?></strong></td></tr>
                 <tr><th>Telefon</th><td><a href="tel:<?= e($ticket['phone']) ?>" class="mono"><?= e(tickets_display_phone($ticket['phone'])) ?></a></td></tr>
                 <tr><th>Sprzęt</th><td><?= e($ticket['device'] !== '' ? $ticket['device'] : '-') ?></td></tr>
                 <tr><th>Opis usterki</th><td><div class="ticket-message"><?= nl2br(e($ticket['problem'])) ?></div></td></tr>
@@ -322,7 +340,9 @@ if ($ticketId > 0) {
           <span class="field__hint">
             Adres jest podpisany tokenem i nie da się go odgadnąć; nie zawiera danych klienta.
             Ten sam link jest wysyłany w SMS-ach: po przyjęciu sprzętu i po zmianie statusu na
-            „Zrealizowane” (u klienta: „Gotowy do wydania”).
+            „Zrealizowane” (u klienta: „Gotowy do wydania”). Dotyczy także zgłoszeń z aplikacji
+            serwisowej (numer zlecenia <span class="code-inline">SRV-ROK-000000</span>, badge
+            „Z serwisu”) - one dostają ten sam link i te same dwa SMS-y.
           </span>
         </div>
         <div class="form-actions" style="margin-top:12px">
@@ -538,11 +558,11 @@ layout_head('Zgłoszenia', 'zgloszenia');
           <tbody>
           <?php foreach ($rows as $row): ?>
             <tr>
-              <td class="nowrap"><a href="<?= e(panel_url('zgloszenia', ['id' => $row['id']])) ?>"><strong><?= e($row['number']) ?></strong></a></td>
+              <td class="nowrap"><a href="<?= e(panel_url('zgloszenia', ['id' => $row['id']])) ?>"><strong><?= e($row['number']) ?></strong></a> <?= ticket_source_badge($row) ?></td>
               <td class="nowrap small"><?= e(format_date($row['created_at'])) ?></td>
               <td>
                 <div class="row-title">
-                  <span><?= e($row['name']) ?></span>
+                  <span><?= e($row['name'] !== '' ? $row['name'] : '-') ?></span>
                   <small><?= e(tickets_display_phone($row['phone'])) ?></small>
                 </div>
               </td>

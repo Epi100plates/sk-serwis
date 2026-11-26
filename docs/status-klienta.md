@@ -2,11 +2,12 @@
 
 Dokument opisuje publiczną stronę śledzenia naprawy pod adresem
 `https://<site_url>/status/<token>/` (obecnie testowo
-`https://sk.mati-it.pl/status/<token>/`): token, mapowanie statusów zgłoszeń na
-etapy widoczne dla klienta, SMS-y z linkiem, panel, konfigurację nginx
-i wdrożenie na VPS.
+`https://sk.mati-it.pl/status/<token>/`, docelowo krótko
+`https://status.mati-it.pl/<token>`): token, mapowanie statusów zgłoszeń na
+etapy widoczne dla klienta, SMS-y z linkiem, panel, konfigurację nginx,
+integrację z aplikacją serwisową i wdrożenie na VPS.
 
-Ostatnia aktualizacja: 2026-11-25.
+Ostatnia aktualizacja: 2026-11-26.
 
 ---
 
@@ -22,10 +23,11 @@ konfiguracja nginx, wdrożenie i diagnostyka. Poza zakresem: formularz zgłosze�
 
 | Pojęcie | Znaczenie |
 |---|---|
-| Zgłoszenie | wiersz w tabeli `tickets` w bazie panelu (`panel.sqlite`), numer `SK-ROK-000123` |
-| Etap klienta | jeden z etapów widocznych publicznie: Przyjęty, W trakcie naprawy, Gotowy do wydania, Odebrany |
-| Token śledzenia | podpisany adres zgłoszenia w postaci `<id>.<wersja>.<podpis>`; sekret, który jest jednocześnie adresem strony |
+| Zgłoszenie | wiersz w tabeli `tickets` w bazie panelu (`panel.sqlite`), numer `SK-ROK-000123` (formularz) albo `SRV-ROK-000000` (zlecenie z aplikacji serwisowej) |
+| Etap klienta | jeden z etapów widocznych publicznie: Przyjęty, W trakcie naprawy, Gotowy do wydania, Odebrany, Anulowane |
+| Token śledzenia | podpisany adres zgłoszenia w postaci `<id>.<wersja>.<podpis>` (id i wersja w base36, podpis 22 znaki; stary format dziesiętny z podpisem 43 znaki nadal działa); sekret, który jest jednocześnie adresem strony |
 | Publiczna notatka | krótki tekst serwisu widoczny na stronie statusu; bez danych osobowych, bez cen |
+| Zlecenie zewnętrzne | zlecenie z aplikacji `serwis.mati-it.pl`, powiązane ze zgłoszeniem kolumną `tickets.external_ref` (`SRV-ROK-000000`) |
 | Tryb testowy | konfiguracja SMS bez realnej wysyłki i bez kosztów (domyślna) |
 
 Zasady nadrzędne:
@@ -72,22 +74,39 @@ Pracownik zmienia status zgłoszenia w panelu (np. done)
   -> ten sam link pokazuje etap "Gotowy do wydania"
 ```
 
+Drugi kanał wejścia (bez formularza i bez sesji panelu): aplikacja warsztatowa
+`serwis.mati-it.pl` (Laravel) jest źródłem prawdy o zleceniu i wysyła jego stan
+podpisanym żądaniem. Szczegóły w sekcji 11.
+
+```
+Aplikacja serwisowa (serwis.mati-it.pl, Laravel)
+  |  POST /api/service-sync.php   HMAC-SHA256, timestamp ±300 s
+  v
+panel/api/service-sync.php -> tickets_sync_external() -> SQLite (tickets.external_ref)
+  |  number = numer zlecenia (SRV-ROK-000000), source_page = 'serwis'
+  |  tworzy / aktualizuje zgłoszenie, link i kolejkę SMS (te same szablony)
+  v
+{"ok":true,"url":"https://status.mati-it.pl/<token>","number":"SRV-...","status":"new","sms_queued":["client_accepted"]}
+```
+
 Pliki:
 
 | Plik | Rola |
 |---|---|
-| `panel/lib/db.php` | tabele `tickets` (kolumny `public_note`, `status_token_version`), `status_rate` (idempotentne `db_init`) |
-| `panel/lib/tickets.php` | `ticket_client_stage()`, token śledzenia, `ticket_public_view()`, limit tempa, kolejka SMS do klienta |
+| `panel/lib/db.php` | tabele `tickets` (kolumny `public_note`, `status_token_version`, `external_ref`), `status_rate`, `sync_rate` (idempotentne `db_init`) |
+| `panel/lib/tickets.php` | `ticket_client_stage()`, token śledzenia, `ticket_public_view()`, limit tempa, kolejka SMS do klienta, mapowanie i synchronizacja z aplikacją (`tickets_sync_*`) |
 | `panel/api/status.php` | publiczny endpoint `GET /status/<token>/` (HTML, JSON, 404, 429) |
+| `panel/api/service-sync.php` | `POST /api/service-sync.php` - podpisany HMAC-em webhook z aplikacji serwisowej (sekcja 11) |
 | `panel/views/status.php` | widok strony statusu w stylu marki (HTML, bez JS, jeden arkusz `/tracking/status.css?v=1`) |
 | `panel/lib/sms.php` | dostawcy SMS + tryb testowy (bez zmian względem formularza) |
 | `panel/bin/tickets-worker.php` | worker kolejki powiadomień (cron co minutę) |
-| `panel/bin/self-check-status.php` | samokontrola: mapowanie etapów, tokeny, kolejka SMS, model widoku (na katalogu tymczasowym) |
+| `panel/bin/self-check-status.php` | samokontrola: mapowanie etapów, tokeny, kolejka SMS, model widoku (katalog tymczasowy) |
+| `panel/bin/self-check-service-sync.php` | samokontrola integracji: podpis, idempotencja, mapowanie z aplikacji, krótkie tokeny, endpoint HTTP (katalog tymczasowy) |
 | `panel/bin/sms-test.php` | ręczny test dostawcy SMS po wyłączeniu trybu testowego (`--to=...`, bez `--send` tylko podgląd) |
-| `panel/pages/zgloszenia.php` | panel: karta „Śledzenie naprawy (dla klienta)” - link, nowy link, publiczna notatka |
+| `panel/pages/zgloszenia.php` | panel: karta „Śledzenie naprawy (dla klienta)” - link, nowy link, publiczna notatka, badge „Z serwisu” |
 | `panel/pages/settings.php` | Ustawienia -> Formularz: sekcja „SMS do klienta (śledzenie naprawy)” |
 | `public/tracking/status.css` + `public/tracking/fonts/*` | statyczne assety strony statusu (serwowane z roota, nie przez PHP) |
-| `deploy/nginx/sk.mati-it.pl.conf` | publiczne `location` dla `/status/` |
+| `deploy/nginx/sk.mati-it.pl.conf` | publiczne `location` dla `/status/` i `/api/service-sync.php` |
 
 Kolejność jest istotna: zgłoszenie, jego historia, wpis w kolejce powiadomień do
 serwisu i SMS do klienta powstają w **jednej transakcji**, więc nie ma stanu
@@ -107,15 +126,25 @@ wyłącznie z nich - nigdzie indziej nie ma listy etapów.
 | `in_progress` | `in_progress` | W trakcie naprawy | „diagnoza i naprawa w toku” - bez szczegółów technicznych |
 | `done` | `ready` | Gotowy do wydania | sprzęt gotowy, zaproszenie do odbioru |
 | `closed` | `picked_up` | Odebrany | stan końcowy po wydaniu sprzętu |
+| `cancelled` | `cancelled` | Anulowane | naprawa anulowana - bez etapów „Gotowy do wydania” i „Odebrany” |
 
 `ticket_public_view()` buduje z tego listę kroków (`steps`) dla widoku:
 
 - do etapu `picked_up` lista ma **3 kroki** (Przyjęty, W trakcie naprawy, Gotowy
   do wydania), po zamknięciu zgłoszenia dochodzi czwarty krok „Odebrany”,
+- przy anulowaniu lista ma **3 kroki** (Przyjęty, W trakcie naprawy, Anulowane);
+  kroki bez wpisu w historii są oznaczone jako `todo`, więc anulowanie przed
+  rozpoczęciem naprawy nie udaje jej przebiegu, a etap „Odebrany” nigdy się nie
+  pojawia,
 - krok ma stan `done` (miniony), `current` (bieżący) albo `todo` (przyszły),
-- data kroku to pierwszy wpis w `ticket_history` o statusie mapowanym na ten
-  etap, więc data „Przyjęty” pochodzi z chwili zgłoszenia, a „Gotowy do
-  wydania” z chwili zmiany statusu na `done`.
+- data etapu „Przyjęty” pochodzi z `tickets.created_at` (sprzęt przyjęto
+  w chwili utworzenia zgłoszenia), a pozostałych etapów - z pierwszego wpisu
+  w `ticket_history` o statusie mapowanym na ten etap. Dzięki temu data
+  „Przyjęty” nie ginie, gdy historia zaczyna się od późniejszego statusu
+  (zgłoszenie zsynchronizowane z aplikacji już jako „gotowy do wydania”),
+- zgłoszenie zsynchronizowane w dalszym statusie dostaje w historii dwa wpisy:
+  `new` z datą przyjęcia z aplikacji (`accepted_at`) i bieżący status z czasem
+  synchronizacji - inaczej „Gotowy do wydania” nie miałby daty.
 
 Uwagi:
 
@@ -125,10 +154,29 @@ Uwagi:
 - Zmiana etapów pośrednich w bazie (np. dodanie statusu `awaiting_parts`) **nie
   wymaga zmian na stronie klienta** - wystarczy dopisać nowy status do
   `CLIENT_STAGE_BY_STATUS` z wartością `in_progress`.
-- Statusy wewnętrzne panelu (`new`, `read`, `in_progress`, `done`, `closed`)
-  pozostają bez zmian; panel nadal pokazuje etykiety z `TICKET_STATUSES`.
+- Statusy wewnętrzne panelu (`new`, `read`, `in_progress`, `done`, `closed`,
+  `cancelled`) są etykietowane z `TICKET_STATUSES`; `cancelled` („Anulowane”)
+  ma własny etap klienta, bo anulowanie nie jest ani gotowością, ani wydaniem.
 - Pełna historia statusów (`ticket_history`) jest wewnętrzna - na stronie
   statusu widać tylko etapy i ich daty, nie notatki pracowników.
+
+### Mapowanie statusów aplikacji serwisowej
+
+Aplikacja `serwis.mati-it.pl` ma własne nazwy statusów; mapowanie na
+`tickets.status` jest w jednym miejscu w kodzie: `TICKET_SYNC_STATUS_MAP`
+i `tickets_sync_status_map()` (`panel/lib/tickets.php`).
+
+| Status aplikacji | `tickets.status` | Etap klienta |
+|---|---|---|
+| `pending` | `new` | Przyjęty |
+| `in_progress` | `in_progress` | W trakcie naprawy |
+| `awaiting_parts` | `in_progress` | W trakcie naprawy |
+| `ready_for_pickup` | `done` | Gotowy do wydania (SMS `client_ready`) |
+| `released` | `closed` | Odebrany |
+| `cancelled` | `cancelled` | Anulowane |
+
+Nieznany status jest **odrzucany** (400 `invalid_status`), a nie mapowany
+domyślnie - literówka w aplikacji nie może po cichu zmienić stanu naprawy.
 
 ---
 
@@ -137,6 +185,10 @@ Uwagi:
 Token parsowany jest z `REQUEST_URI` (prefiks `/status/`, końcowy `/` opcjonalny),
 dlatego nginx przekazuje żądanie do `panel/api/status.php` przez
 `fastcgi_param SCRIPT_FILENAME` - bez `try_files` i bez przepisywania adresu.
+Gdy w konfiguracji panelu jest `status_base_url` (np. `https://status.mati-it.pl`),
+`tickets_tracking_token_from_request()` przyjmuje token także w rootcie
+(`/<token>`) - ale **tylko na skonfigurowanym hoście**, żeby ścieżki CMS-a nie
+były brane za token.
 
 | Żądanie | Odpowiedź |
 |---|---|
@@ -213,9 +265,9 @@ więc zmiana danych firmy w panelu zmienia też stopkę strony statusu.
 
 | Obszar | Rozwiązanie |
 |---|---|
-| Token | `<id>.<wersja>.<podpis>`; podpis to HMAC-SHA256 (base64url) z `ticket\|<id>\|<wersja>`, liczony kluczem serwera - wyciek samej bazy nie daje linków |
+| Token | `<id>.<wersja>.<podpis>` (id i wersja w base36, podpis 22 znaki); podpis to pierwsze 16 B HMAC-SHA256 (base64url) z `ticket\|<id>\|<wersja>`, liczony kluczem serwera - wyciek samej bazy nie daje linków. Stary format (liczby dziesiętne, podpis 43 znaki) jest nadal akceptowany |
 | Klucz | `tracking_secret` w konfiguracji panelu albo plik `data/tracking.key` (64 znaki hex, uprawnienia 0600, poza repozytorium i poza webrootem) |
-| Weryfikacja | wyrażenie regularne na format tokenu, zgodność `wersji` z `tickets.status_token_version`, `hash_equals()` na podpisie |
+| Weryfikacja | wyrażenie regularne na format tokenu (oba warianty), zgodność `wersji` z `tickets.status_token_version`, `hash_equals()` na podpisie |
 | Wyszukiwarki | `X-Robots-Tag: noindex, nofollow`; strona nie jest generowana przez Astro, więc nie trafia do `sitemap-0.xml` |
 | Cache | `Cache-Control: no-store`; Cloudflare nie cache'uje tej ścieżki (HTML z `no-store`), a `location` w nginx nie ma cache |
 | Referrer | `Referrer-Policy: no-referrer` - token z adresu nie wycieka do innych stron |
@@ -233,14 +285,22 @@ Token nie jest losowym ciągiem zapisanym w bazie, a **podpisem** danych
 zgłoszenia:
 
 ```
-token = <id zgłoszenia>.<wersja>.<base64url(HMAC-SHA256("ticket|<id>|<wersja>"))>
+token = base36(<id zgłoszenia>) . "." . base36(<wersja>) . "." . base64url(HMAC-SHA256("ticket|<id>|<wersja>")[0..16])
 ```
+
+Przykład nowego, krótkiego tokenu: `5.tp47iu.uLI6Iou23tiCz5uGYRpMUA` (32 znaki
+zamiast 53). Stary format - `<id dziesiętnie>.<wersja dziesiętnie>.<podpis 43
+znaki>` - jest nadal akceptowany w `tickets_find_by_tracking_token()`, bo linki
+wysłane wcześniej SMS-em muszą działać. Nowe linki powstają wyłącznie w krótkim
+formacie.
 
 - w bazie leży tylko `status_token_version` (liczba), nie token i nie jego hash,
 - podpis da się policzyć wyłącznie znając klucz serwera (`data/tracking.key`),
   więc kopia `panel.sqlite` nie pozwala otworzyć żadnego linku,
 - link jest odtwarzalny w panelu, bo nie trzeba go przechowywać,
-- unieważnienie = nowa wersja (nowy podpis), stara wersja przestaje pasować.
+- unieważnienie = nowa wersja (nowy podpis), stara wersja przestaje pasować,
+- 16 B (128 bitów) podpisu wystarcza na link jednorazowy dla klienta, a skrócenie
+  adresu o 21 znaków pozwala zmieścić cały SMS w jednej części GSM-7.
 
 Alternatywa (losowy token i jego SHA-256 w kolumnie bazy) wymaga dodatkowej
 kolumny z hashem i nie pozwala odtworzyć linku w panelu bez jego zapisania;
@@ -323,16 +383,18 @@ cron `panel/bin/tickets-worker.php` (bez nowej infrastruktury):
 
 `client_ready` jest kolejkowany tylko przy **zmianie** statusu na `done`
 (ponowne zapisanie `done` nie tworzy drugiego SMS-a). `client_accepted` powstaje
-razem ze zgłoszeniem, w tej samej transakcji.
+razem ze zgłoszeniem, w tej samej transakcji. Te same dwa szablony obsługują
+zlecenia z aplikacji serwisowej (sekcja 11): `client_accepted` przy utworzeniu
+zgłoszenia w CMS, `client_ready` przy pierwszym przejściu na `done`.
 
 Placeholdery (obsługiwane przez `tickets_client_sms_message()`):
 
 | Placeholder | Wartość |
 |---|---|
-| `{numer}` / `{number}` | numer zgłoszenia `SK-ROK-000123` |
-| `{imie}` | imię klienta z formularza |
+| `{numer}` / `{number}` | numer zgłoszenia `SK-ROK-000123` albo `SRV-ROK-000000` |
+| `{imie}` | imię klienta z formularza (puste dla zleceń z aplikacji) |
 | `{sprzet}` | sprzęt z formularza (`sprzet` zamiast pustej wartości) |
-| `{link}` | `https://<site_url>/status/<token>/` |
+| `{link}` | `https://<site_url>/status/<token>/`, a przy ustawionym `status_base_url` - `<status_base_url>/<token>` |
 | `{serwis}` | nazwa serwisu z `src/data/site.json` |
 | `{telefon}` | telefon serwisu (500 613 500) |
 
@@ -425,6 +487,12 @@ W szczegółach zgłoszenia (`/panel/zgloszenia?id=...`) jest karta
   „Klient: przyjęcie sprzętu” (`client_accepted`) i „Klient: gotowy do odbioru”
   (`client_ready`), ze statusem i przyciskiem „Ponów”.
 
+Zgłoszenia zsynchronizowane z aplikacji serwisowej mają badge **„Z serwisu”**
+(na liście obok numeru i w nagłówku karty), wiersz **„Źródło”** z numerem zlecenia
+`SRV-ROK-000000` i puste imię (aplikacja go nie przesyła - nie zmyślamy danych).
+Adres karty zlecenia w aplikacji nie jest tu linkowany, bo CMS nie zna jej
+identyfikatorów; numer zlecenia wystarcza do odnalezienia go w `serwis.mati-it.pl`.
+
 W Ustawieniach -> Formularz (`/panel/settings?tab=form`) jest sekcja
 **„SMS do klienta (śledzenie naprawy)”**:
 
@@ -477,20 +545,35 @@ Kolejność (VPS: `/srv/studio-komp`, dane: `/srv/studio-komp-cms/data`):
    ```
 
 2. **Wgranie plików**: `panel/lib/*`, `panel/api/status.php`,
-   `panel/views/status.php`, `panel/pages/zgloszenia.php`,
-   `panel/pages/settings.php`, `panel/bin/tickets-worker.php`,
+   `panel/api/service-sync.php`, `panel/views/status.php`,
+   `panel/pages/zgloszenia.php`, `panel/pages/settings.php`,
+   `panel/bin/tickets-worker.php`, `panel/bin/self-check-service-sync.php`,
    `deploy/nginx/sk.mati-it.pl.conf`.
 
-3. **Assety strony statusu** (`public/tracking/*`) trafiają na VPS **przez
+3. **Konfiguracja** (`/srv/studio-komp-cms/config.php`) - dwa nowe klucze
+   (wzór: `panel/config.example.php`):
+
+   ```php
+   'status_base_url'     => '',   // puste = https://<site_url>/status/<token>/
+   'service_sync_secret' => '',   // puste = integracja z serwisem wyłączona (503)
+   ```
+
+   Sekret musi być **ten sam** po stronie aplikacji (`/srv/sk-serwis/.env`);
+   generowanie: `php -r "echo bin2hex(random_bytes(32));"`. Bez sekretu
+   `POST /api/service-sync.php` odpowiada 503 `integration_disabled`, a panel
+   i strona statusu działają normalnie.
+
+4. **Assety strony statusu** (`public/tracking/*`) trafiają na VPS **przez
    publikację strony** (`pnpm publish:now`), bo leżą w `public/` i są częścią
    builda Astro - samo wgranie panelu ich nie doda.
 
-4. **Baza migruje się sama** - `db_init()` w `panel/lib/db.php` tworzy tabele
-   `status_rate` i dokłada kolumny `public_note`, `status_token_version` przy
-   pierwszym żądaniu panelu albo API. Klucz `data/tracking.key` powstaje
-   automatycznie przy pierwszym liczeniu tokenu (0600).
+5. **Baza migruje się sama** - `db_init()` w `panel/lib/db.php` tworzy tabele
+   `status_rate` i `sync_rate` oraz dokłada kolumny `public_note`,
+   `status_token_version`, `external_ref` (plus unikalny indeks) przy pierwszym
+   żądaniu panelu albo API. Klucz `data/tracking.key` powstaje automatycznie
+   przy pierwszym liczeniu tokenu (0600).
 
-5. **nginx**:
+6. **nginx**:
 
    ```bash
    cp /srv/studio-komp/deploy/nginx/sk.mati-it.pl.conf /etc/nginx/nginx-sk.conf
@@ -499,8 +582,11 @@ Kolejność (VPS: `/srv/studio-komp`, dane: `/srv/studio-komp-cms/data`):
    ```
 
    Test składni wykonuje się **na VPS** - w repozytorium nie ma nginxa.
+   Konfiguracja zawiera już `location = /api/service-sync.php` (tylko POST,
+   `client_max_body_size 16k`, `access_log off`) - bez tego bloku żądania
+   aplikacji dostawałyby 404.
 
-6. **Test po wdrożeniu** (token z panelu, nie z logów - logi nie zawierają
+7. **Test po wdrożeniu** (token z panelu, nie z logów - logi nie zawierają
    tokenu, bo `access_log off`):
 
    ```bash
@@ -537,28 +623,39 @@ Kolejność (VPS: `/srv/studio-komp`, dane: `/srv/studio-komp-cms/data`):
    nginx dokłada `no-store`. Oba warianty są poprawne, ważne żeby wartość
    zawierała `no-store`.
 
-7. **Test regresyjny strony statusu** (56 warunków, katalog tymczasowy, bez
+8. **Test regresyjny strony statusu** (75 warunków, katalog tymczasowy, bez
    dotykania bazy produkcyjnej i bez wysyłki SMS):
 
    ```bash
    runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-status.php
+   runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-service-sync.php
    ```
 
-   Kod wyjścia `0` i „Sprawdzone warunki: 56” oznaczają, że mapowanie etapów,
-   tokeny (w tym podrobiony podpis i unieważnianie), kolejka `client_accepted`
-   / `client_ready`, tryb testowy, model widoku bez danych osobowych i limit
-   tempa są spójne. Ten sam skrypt działa lokalnie na Windows (PHP CLI z
-   `pdo_sqlite`):
+   Kod wyjścia `0` i „Sprawdzone warunki: 75” oznaczają, że mapowanie etapów,
+   tokeny (oba formaty, w tym podrobiony podpis i unieważnianie), kolejka
+   `client_accepted` / `client_ready`, tryb testowy, model widoku bez danych
+   osobowych, anulowanie i limit tempa są spójne. Drugi skrypt („Sprawdzone
+   warunki: 151”) sprawdza integrację: podpis HMAC, okno czasu, walidację
+   ładunku, idempotencję, mapowanie statusów aplikacji i endpoint HTTP na
+   wbudowanym serwerze PHP. Ten sam skrypt działa lokalnie na Windows:
 
    ```powershell
    php -d extension=pdo_sqlite -d extension=sqlite3 panel/bin/self-check-status.php
+   php -d extension=pdo_sqlite -d extension=sqlite3 panel/bin/self-check-service-sync.php
    ```
 
-8. **SMS**: bez zmiany trybu testowego powiadomienia klienta dostają status
+9. **SMS**: bez zmiany trybu testowego powiadomienia klienta dostają status
    `test`. Realna wysyłka - patrz sekcja 6.
 
-9. **Cron**: bez zmian (`panel/bin/tickets-worker.php` co minutę z
-   `/etc/cron.d/studio-komp`).
+10. **Cron**: bez zmian (`panel/bin/tickets-worker.php` co minutę z
+    `/etc/cron.d/studio-komp`).
+
+11. **Krótkie linki** (`status_base_url`, np. `https://status.mati-it.pl/<token>`)
+    wymagają osobnego hosta: vhost z `server_name status.mati-it.pl`,
+    `location /` przekazującym do `panel/api/status.php` (ten sam
+    `SCRIPT_FILENAME` i `fastcgi_pass` co `/status/`) oraz certyfikatu.
+    Do czasu jego dodania `status_base_url` zostaje puste i linki działają pod
+    `https://sk.mati-it.pl/status/<token>/`.
 
 Rollback: kod PHP i konfiguracja nginx wracają przez git + ponowne `nginx -t`
 i `systemctl reload nginx-sk`; baza z kopii z punktu 1. Uwaga: cofnięcie pliku
@@ -613,22 +710,34 @@ style i fonty się ładują, a CSP nie obowiązuje.
 | Komunikat bez stylów (429, brak widoku) | to skutek CSP (`style-src 'self'` blokuje inline `<style>` w `status_fail_page()`); treść jest poprawna, styl nie - docelowo strona awaryjna też powinna korzystać z `/tracking/status.css` |
 | Zablokowany skrypt/styl/obraz w konsoli | CSP: `default-src 'none'`, `style-src 'self'`, `font-src 'self'`, `img-src 'self' data:` - inline i CDN są zabronione; asset musi leżeć w `/tracking/` |
 | `php -l` na VPS | `runuser -u skcms -- php -l /srv/studio-komp/panel/api/status.php` |
+| Sync: 503 `integration_disabled` | brak `service_sync_secret` w `/srv/studio-komp-cms/config.php` (albo inny klucz) - integracja wyłączona, panel działa normalnie |
+| Sync: 401 `invalid_signature` | inny sekret po stronie aplikacji, podpis liczony z innego ciała żądania (np. po zmianie JSON-a przez proxy) albo nagłówki `X-SK-*` nie docierają do PHP |
+| Sync: 401 `stale_timestamp` | zegar aplikacji odchylony o więcej niż 300 s (sprawdzić NTP na obu hostach) |
+| Sync: 400 `invalid_status` / `unknown_field` / `invalid_reference` | aplikacja wysyła status spoza mapy, pole spoza kontraktu albo numer zlecenia w innym formacie niż `SRV-ROK-000000` - szczegóły w `data/logs/tickets.log` (bez telefonu i usterki) |
+| Sync: 429 `rate_limited` | przekroczone 60 żądań/min z jednego IP-hash; sprawdzić `sync_rate` i pętlę retry w aplikacji |
+| Sync: dwa zgłoszenia dla jednego zlecenia | nie powinno się zdarzyć - `UNIQUE(external_ref)`; sprawdzić, czy aplikacja wysyła ten sam `reference` (a nie np. numer z sufiksem) |
+| Sync: brak SMS po zmianie na „Do wydania” | `sms_client_enabled` wyłączone, pusty telefon albo wpis `client_ready` już istnieje (UNIQUE) - panel pokazuje kolejkę zgłoszenia |
+| Krótki link 404 | `status_base_url` ustawione, ale brak vhosta dla tego hosta (sekcja 8, punkt 11); do tego czasu wyczyścić `status_base_url` - linki wrócą pod `/status/` |
+| Krótki link działa, stary `/status/` nie | `status_base_url` ustawione, ale nginx nie ma bloku `/status/` - oba warianty muszą działać równolegle dla już wysłanych SMS-ów |
 
 Test regresyjny bez ruszania bazy produkcyjnej (katalog tymczasowy, SMS w trybie
-testowym, 56 warunków):
+testowym): 75 warunków strony statusu i 151 warunków integracji z aplikacją.
 
 ```bash
 runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-status.php
+runuser -u skcms -- php /srv/studio-komp/panel/bin/self-check-service-sync.php
 php -l /srv/studio-komp/panel/views/status.php
 ```
 
-Kod wyjścia `0` i „Sprawdzone warunki: 56” oznaczają, że mapowanie etapów,
-tokeny (także podrobiony podpis i unieważnianie), kolejka `client_accepted` /
-`client_ready`, tryb testowy, model widoku bez danych osobowych i limit tempa są
-spójne. Lokalnie na Windows:
+Kod wyjścia `0` i „Sprawdzone warunki: 75” / „Sprawdzone warunki: 151”
+oznaczają, że mapowanie etapów, tokeny (oba formaty, także podrobiony podpis
+i unieważnianie), kolejka `client_accepted` / `client_ready`, tryb testowy,
+model widoku bez danych osobowych, limit tempa, podpis HMAC, idempotencja
+synchronizacji i endpoint HTTP są spójne. Lokalnie na Windows:
 
 ```powershell
 php -d extension=pdo_sqlite -d extension=sqlite3 panel/bin/self-check-status.php
+php -d extension=pdo_sqlite -d extension=sqlite3 panel/bin/self-check-service-sync.php
 ```
 
 ---
@@ -654,6 +763,14 @@ Do decyzji:
    (dziś: bez ceny, termin tylko jako publiczna notatka).
 7. **Reguła „Bypass cache” w Cloudflare** dla `*/status/*` - opcjonalne
    zabezpieczenie na przyszłość; dziś niepotrzebne, bo HTML ma `no-store`.
+8. **Host krótkich linków** (`status_base_url`) - decyzja o osobnym vhostcie
+   `status.mati-it.pl` (certyfikat, DNS, `location /`); do tego czasu linki mają
+   postać `https://sk.mati-it.pl/status/<token>/`.
+9. **Termin i Express w synchronizacji** - aplikacja przysyła `planned_at`
+   i `express`, ale CMS ich nie zapisuje (nie ma kolumn, a termin pokazywany
+   klientowi to dziś publiczna notatka). `accepted_at` **jest** używane jako
+   data przyjęcia (`created_at`). Do decyzji: czy dodać kolumny i pokazać
+   planowany termin oraz tryb ekspresowy na stronie statusu.
 
 Ograniczenia techniczne:
 
@@ -668,3 +785,152 @@ Ograniczenia techniczne:
   logowania - i takie było założenie.
 - Token da się policzyć mając `data/tracking.key` i numer `id` zgłoszenia;
   dlatego klucz jest sekretem na tym samym poziomie co hasła w konfiguracji.
+- Zgłoszenie z aplikacji nie ma imienia klienta (aplikacja go nie przysyła),
+  więc w panelu i w SMS-ach `{imie}` jest puste.
+
+---
+
+## 11. Integracja z serwis.mati-it.pl
+
+Aplikacja warsztatowa (`serwis.mati-it.pl`, Laravel) jest **źródłem prawdy**
+o zleceniu. CMS nie pyta aplikacji o nic - dostaje podpisane żądanie i utrzymuje
+publiczną stronę statusu, token oraz kolejkę SMS. Plan integracji po stronie
+aplikacji: `serwis/docs/aegis/work/2026-11-26-servis-ui-status/plan.md`.
+
+### Kontrakt endpointu
+
+```
+POST https://sk.mati-it.pl/api/service-sync.php
+Content-Type: application/json
+X-SK-Timestamp: <unix, sekundy>
+X-SK-Signature: base64url(HMAC-SHA256(sekret, timestamp . "\n" . rawBody))
+```
+
+Ciało żądania (JSON, obiekt):
+
+| Pole | Wymagane | Zasady |
+|---|---|---|
+| `reference` | tak | numer zlecenia, `^SRV-\d{4}-\d{6}$` |
+| `phone` | tak | 9 cyfr (spacje/myślniki dozwolone), normalizowane do `+48XXXXXXXXX` |
+| `device` | tak | do 120 znaków po normalizacji |
+| `issue` | tak | do 2000 znaków, HTML usuwany |
+| `status` | tak | `pending`, `in_progress`, `awaiting_parts`, `ready_for_pickup`, `released`, `cancelled` |
+| `note` | nie | publiczna notatka dla klienta, do 500 znaków |
+| `event` | nie | nazwa zdarzenia z aplikacji, `[A-Za-z0-9_.:-]{1,64}`, trafia do historii statusów |
+| `accepted_at` | nie | **data przyjęcia sprzętu z aplikacji** (format `RRRR-MM-DD[ HH:MM[:SS]][Z|±HH:MM]`) - normalizowana do `Y-m-d H:i:s` (czas `Europe/Warsaw`) i zapisywana jako `tickets.created_at` oraz data pierwszego wpisu historii, więc przerwa w dostępie do CMS nie przesuwa etapu „Przyjęty”. Data z przyszłości (poza ±300 s) jest odrzucana |
+| `planned_at` | nie | data `RRRR-MM-DD[ HH:MM[:SS]][Z|±HH:MM]`, walidowana i **nie zapisywana** - termin nie jest pokazywany na stronie statusu (sekcja 10, punkt 9) |
+| `express` | nie | `true`/`false`/`1`/`0`; walidowane, ale **nie zapisywane** |
+
+Nieznane pola są **odrzucane** (400 `unknown_field`), a nie ignorowane - dzięki
+temu literówka w aplikacji nie ginie po cichu. Zbyt długie teksty i złe typy też
+dają 400.
+
+Odpowiedź 200:
+
+```json
+{"ok":true,"url":"https://status.mati-it.pl/5.tp47iu.uLI6Iou23tiCz5uGYRpMUA","number":"SRV-2026-000123","status":"new","sms_queued":["client_accepted"]}
+```
+
+`status` to status zgłoszenia w CMS (`new`, `in_progress`, `done`, `closed`,
+`cancelled`), a `sms_queued` wymienia **tylko** szablony faktycznie dopisane do
+kolejki w tym żądaniu (pusta lista przy powtórzeniu).
+
+Błędy (zawsze JSON `{"ok":false,"error":"..."}`):
+
+| Kod | `error` | Kiedy |
+|---|---|---|
+| 400 | `invalid_content_type` | brak `Content-Type: application/json` |
+| 400 | `payload_too_large` | ciało większe niż 20 kB |
+| 400 | `invalid_json` | treść nie jest obiektem JSON |
+| 400 | `unknown_field` / `invalid_reference` / `invalid_phone` / `invalid_device` / `invalid_issue` / `invalid_status` / `invalid_note` / `invalid_event` / `invalid_planned_at` / `invalid_accepted_at` / `invalid_express` / `invalid_field_type` | walidacja ładunku |
+| 401 | `invalid_signature` | podpis nie pasuje do ciała i sekretu |
+| 401 | `stale_timestamp` | znacznik czasu poza oknem ±300 s (replay) |
+| 405 | `method_not_allowed` | metoda inna niż POST (z nagłówkiem `Allow: POST`); w nginx `limit_except POST` daje 403, zanim żądanie dojdzie do PHP |
+| 429 | `rate_limited` | ponad 60 żądań/min z jednego IP-hash (z `Retry-After: 60`) |
+| 503 | `integration_disabled` | brak `service_sync_secret` w konfiguracji (integracja wyłączona) |
+| 503 | `service_unavailable` | błąd zapisu w bazie - aplikacja może ponowić |
+
+Kolejność sprawdzeń: metoda → sekret → `Content-Type`/rozmiar → znacznik czasu
+→ limit tempa → podpis → JSON → walidacja pól. Limit tempa liczy wszystkie
+żądania z poprawnym znacznikiem czasu (także te ze złym podpisem), żeby
+ograniczyć zgadywanie sekretu.
+
+Odpowiedź ma `Cache-Control: no-store` i `X-Content-Type-Options: nosniff`;
+endpoint nie uruchamia sesji panelu i nie wymaga CSRF (uwierzytelnia podpis).
+
+### Sekret
+
+- `service_sync_secret` w `/srv/studio-komp-cms/config.php` (CMS) i ten sam
+  sekret w konfiguracji aplikacji (`config/client-status.php` / `.env` -
+  nazwę zmiennej ustala strona Laravela, patrz plan integracji).
+- Generowanie: `php -r "echo bin2hex(random_bytes(32));"`.
+- Brak sekretu = integracja wyłączona (503, komunikat bez szczegółów
+  konfiguracji). Panel, formularz i strona statusu działają dalej.
+- Sekret nigdy nie trafia do repozytorium ani do logów.
+
+### Idempotencja i model danych
+
+- Klucz idempotencji: `reference` ↔ `tickets.external_ref` (unikalny indeks,
+  SQLite dopuszcza wiele `NULL`, więc zgłoszenia z formularza nie kolidują).
+- Pierwsze żądanie tworzy zgłoszenie w jednej transakcji: `number = reference`,
+  `source_page = 'serwis'`, `client_token = 'srvc-' . substr(sha256(reference), 0, 24)`,
+  `status` z mapowania, `public_note = note`, wpis historii, link
+  (`status_token_version` startuje od 0 i rośnie przy pierwszym tokenie).
+- `created_at` to **data przyjęcia z aplikacji** (`accepted_at`), a nie czas
+  synchronizacji - jeśli CMS był chwilę niedostępny, klient i tak widzi właściwą
+  datę „Przyjęty”. Bez `accepted_at` zostaje czas zapisu; `updated_at` zawsze
+  oznacza ostatnią synchronizację. Korekta `accepted_at` w kolejnych żądaniach
+  nie zmienia już daty przyjęcia (żeby nie rozjechała się z historią) - termin
+  przyjęcia ustala pierwsze żądanie.
+- Pierwszy wpis historii to zawsze `new` z datą `accepted_at`. Gdy zlecenie
+  przychodzi już w dalszym statusie (np. `ready_for_pickup`), powstaje drugi
+  wpis z bieżącym statusem i czasem synchronizacji - dzięki temu etap „Gotowy do
+  wydania” ma datę, a „Przyjęty” datę przyjęcia.
+- Kolejne żądania aktualizują telefon, sprzęt, status i publiczną notatkę, ale
+  **puste/nieobecne pole nie nadpisuje** zapisanej wartości (`issue` zostaje
+  z przyjęcia). Historia rośnie tylko przy zmianie statusu.
+- To samo żądanie powtórzone (np. retry po timeoucie) nie tworzy drugiego
+  zgłoszenia, nie dubluje SMS-a (`UNIQUE(ticket_id, channel, template)`) i nie
+  dopisuje historii; odpowiedź zawiera ten sam `number` i `url`.
+- SMS: `client_accepted` przy utworzeniu zgłoszenia w CMS, `client_ready` przy
+  pierwszym przejściu na `done`. Powiadomienia `new_ticket` do serwisu **nie**
+  powstają - o zleceniu wie aplikacja.
+- Anulowanie (`cancelled`) nie kasuje zgłoszenia: klient widzi etap „Anulowane”
+  bez „Gotowy do wydania” i „Odebrany”.
+
+### Przykład `curl`
+
+Podpis liczy się z **dokładnie tym samym** bajtem ciała, który leci w żądaniu -
+dlatego ciało zapisujemy do pliku:
+
+```bash
+SECRET='<sekret-z-configu>'
+BODY='{"reference":"SRV-2026-000123","phone":"600100200","device":"Lenovo ThinkPad T480","issue":"Nie laduje sie po podlaczeniu zasilacza","status":"pending","note":"Sprzet przyjety w serwisie."}'
+TS=$(date +%s)
+SIG=$(printf '%s' "$TS"$'\n'"$BODY" | openssl dgst -sha256 -hmac "$SECRET" -binary | openssl base64 -A | tr '+/' '-_' | tr -d '=')
+
+curl -sS -X POST https://sk.mati-it.pl/api/service-sync.php \
+  -H 'Content-Type: application/json' \
+  -H "X-SK-Timestamp: $TS" \
+  -H "X-SK-Signature: $SIG" \
+  --data-binary "$BODY"
+```
+
+Oczekiwane: `{"ok":true,"url":"https://status.mati-it.pl/<token>","number":"SRV-2026-000123","status":"new","sms_queued":["client_accepted"]}`.
+Powtórzenie tego samego polecenia (nowy `TS` i `SIG`) zwraca ten sam `number`
+i pustą listę `sms_queued`.
+
+### Ograniczenia integracji
+
+- Realna wysyłka SMS nadal jest w trybie testowym (wspólny przełącznik
+  `sms_test_mode`); kolejka rośnie, ale dostawca nie jest wołany.
+- `planned_at` i `express` są walidowane i ignorowane (brak kolumn) - patrz
+  sekcja 10. `accepted_at` jest używane jako data przyjęcia zgłoszenia.
+- Korekta `accepted_at` po pierwszej synchronizacji nie zmienia już daty
+  przyjęcia - termin ustala żądanie, które utworzyło zgłoszenie.
+- CMS nie wysyła nic do aplikacji: brak webhooków zwrotnych, brak statusu
+  doręczenia SMS-a. Link jest w odpowiedzi na żądanie i w panelu.
+- Błąd CMS nie blokuje pracy warsztatu: zlecenie zostaje w aplikacji, a link
+  można utworzyć ponownie kolejnym żądaniem (idempotencja).
+- Komunikat 503 nie ujawnia, czego brakuje w konfiguracji - to celowe; diagnozę
+  robi administrator na VPS (sekcja 9).
