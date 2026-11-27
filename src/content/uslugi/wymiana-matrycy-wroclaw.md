@@ -1,7 +1,7 @@
 ---
 title: "Wymiana matrycy laptopa we Wrocławiu - cena i czas"
 navLabel: "Wymiana matrycy"
-description: "Wymiana matrycy laptopa we Wrocławiu: dobór panelu pod model i złącze, demontaż, montaż i testy obrazu. Cena zwykle 600-700 zł, kwotę podajemy przed zamówieniem części."
+description: "Wymiana matrycy laptopa we Wrocławiu: dobór panelu pod model i złącze, demontaż, montaż i testy obrazu. Cena zwykle {{cena:wymiana-matrycy}}, kwotę podajemy przed zamówieniem części."
 h1: "Wymiana matrycy w laptopie - Wrocław"
 lead: "Pęknięty ekran, czarne plamy albo pasy na obrazie? Dobieramy matrycę pod Twój model, wymieniamy ją i testujemy obraz. Zwykle z dnia na dzień."
 teaser: "Dobór panelu pod model, wymiana i testy obrazu - bez wymiany całego laptopa."
@@ -10,8 +10,8 @@ order: 30
 featured: true
 tile: true
 tileText: "Sprawdzamy przekątną, rozdzielczość, typ panelu i złącze, potem dobieramy matrycę pod model. Rozbieramy pokrywę, wymieniamy panel, podłączamy taśmę i testujemy obraz, podświetlenie oraz jasność."
-priceFrom: "600-700 zł"
-priceNote: "Cena matrycy zależy od modelu, przekątnej i typu panelu. Typowo 600-700 zł, kwotę podajemy przed zamówieniem części."
+priceFrom: "{{cena:wymiana-matrycy}}"
+priceNote: "Cena matrycy zależy od modelu, przekątnej i typu panelu. Typowo {{cena:wymiana-matrycy}}, kwotę podajemy przed zamówieniem części."
 duration: "zwykle z dnia na dzień"
 includes:
   - "Dobór matrycy dopasowanej do modelu laptopa"
@@ -29,7 +29,7 @@ faq:
   - question: "Czy matryca musi być oryginalna?"
     answer: "Nie musi. Liczy się zgodność parametrów: przekątna, rozdzielczość, typ panelu, złącze i sposób mocowania. Na tej podstawie dobieramy panel dostępny na rynku, często w kilku wariantach cenowych, i przedstawiamy je przed zamówieniem. Przy ekranach dotykowych i OLED warto trzymać się numeru części, żeby zachować pełną funkcjonalność."
   - question: "Ile trwa wymiana matrycy?"
-    answer: "Zwykle jeden dzień, jeśli panel do Twojego modelu mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostępności i dostawy. Za dopłatą 150 zł możesz zamówić usługę ekspresową, czyli naprawę tego samego dnia, o ile część jest dostępna."
+    answer: "Zwykle jeden dzień, jeśli panel do Twojego modelu mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostępności i dostawy. Za dopłatą {{cena:ekspres}} możesz zamówić usługę ekspresową, czyli naprawę tego samego dnia, o ile część jest dostępna."
 related:
   - "naprawa-zawiasow"
   - "naprawa-laptopow-wroclaw"
@@ -68,7 +68,7 @@ Wymiana zaczyna się od rozbiórki pokrywy. Odkręcamy ramkę, odłączamy taśm
 
 ## Cena i czas wymiany we Wrocławiu
 
-Wymiana matrycy to zwykle 600-700 zł. Cena zależy od trzech rzeczy: modelu laptopa, przekątnej i typu panelu. Czternastocalowy panel IPS do popularnego modelu to inna kwota niż siedemnastocalowa matryca OLED do sprzętu premium. Dochodzi robocizna. Dlatego widełki 600-700 zł traktujemy jako punkt wyjścia: najpierw sprawdzamy, jaki panel jest w Twoim laptopie, a potem podajemy dokładną kwotę. Kwotę znasz przed zamówieniem części. Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest dostępna. Pełne stawki znajdziesz w [cenniku](/cennik/).
+Wymiana matrycy to zwykle {{cena:wymiana-matrycy}}. Cena zależy od trzech rzeczy: modelu laptopa, przekątnej i typu panelu. Czternastocalowy panel IPS do popularnego modelu to inna kwota niż siedemnastocalowa matryca OLED do sprzętu premium. Dochodzi robocizna. Dlatego widełki {{cena:wymiana-matrycy}} traktujemy jako punkt wyjścia: najpierw sprawdzamy, jaki panel jest w Twoim laptopie, a potem podajemy dokładną kwotę. Kwotę znasz przed zamówieniem części. Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą {{cena:ekspres}} skraca naprawę do tego samego dnia, o ile część jest dostępna. Pełne stawki znajdziesz w [cenniku](/cennik/).
 
 ## Kiedy naprawa ma sens
 

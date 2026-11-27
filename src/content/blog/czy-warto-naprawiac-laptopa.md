@@ -23,7 +23,7 @@ Wartość laptopa to nie cena zakupu sprzed lat, tylko kwota, za jaką dziś kup
 
 Jeśli naprawa to niewielka część wartości, zwykle ma sens. Przy połowie wartości trzeba się zastanowić, a powyżej wartości odpowiedź jest prosta: nie. Wyjątkiem są dane, o których niżej.
 
-Przykład. Czteroletni laptop wart około 1500 zł z uszkodzonym gniazdem zasilania: naprawa za 350 zł to rozsądny wydatek. Ten sam laptop z uszkodzoną płytą po zwarciu i rachunkiem 600-800 zł, bez pewności, czy to ostatnia usterka, wygląda już inaczej, zwłaszcza gdy nowy sprzęt kosztuje niewiele więcej.
+Przykład. Czteroletni laptop wart około 1500 zł z uszkodzonym gniazdem zasilania: naprawa za {{cena:wymiana-gniazda-zasilania}} to rozsądny wydatek. Ten sam laptop z uszkodzoną płytą po zwarciu i rachunkiem {{cena:naprawa-plyty-glownej}}, bez pewności, czy to ostatnia usterka, wygląda już inaczej, zwłaszcza gdy nowy sprzęt kosztuje niewiele więcej.
 
 Do rachunku dolicz dodatki: zasilacz, jeśli stary jest zużyty, etui, przeniesienie danych. Czasem to one przewracają wynik, choć sama usterka wyglądała tanio.
 
@@ -37,7 +37,7 @@ Liczy się też sposób używania. Laptop po latach lekkiej pracy biurowej ma zw
 
 ## Kiedy naprawa ma sens
 
-- Drobna usterka. Gniazdo zasilania, klawiatura, zawias, port USB albo zapchane chłodzenie nie dotykają najdroższych podzespołów. Czyszczenie z wymianą pasty to 200-250 zł, a nowy laptop to wydatek wielokrotnie większy.
+- Drobna usterka. Gniazdo zasilania, klawiatura, zawias, port USB albo zapchane chłodzenie nie dotykają najdroższych podzespołów. Czyszczenie z wymianą pasty to {{cena:czyszczenie-laptopa}}, a nowy laptop to wydatek wielokrotnie większy.
 - Sprawny procesor i matryca, zawodzi tylko dysk. Wymiana na SSD zmienia odczucie z pracy: system startuje szybciej, programy otwierają się bez czekania. To realna modernizacja, nie kosmetyka.
 - Uszkodzenie, które da się naprawić taniej niż wymiana całego podzespołu. Pęknięty zawias czy pojedynczy port przywracają sprawność bez wymiany płyty i matrycy.
 
@@ -45,7 +45,7 @@ Praktyczna reguła: naprawa ma sens, jeśli po niej laptop posłuży jeszcze co 
 
 ## Kiedy lepiej odpuścić
 
-Dwie drogie usterki naraz to zwykle koniec. Uszkodzona matryca i płyta główna w jednym laptopie rzadko mają pokrycie w wartości sprzętu. Podobnie przy zalaniu: naprawa to 450-800 zł, a ryzyko, że płyta nie da się uratować, jest realne. W starym, tanim laptopie rzadko się to opłaca.
+Dwie drogie usterki naraz to zwykle koniec. Uszkodzona matryca i płyta główna w jednym laptopie rzadko mają pokrycie w wartości sprzętu. Podobnie przy zalaniu: naprawa to {{cena:naprawa-po-zalaniu}}, a ryzyko, że płyta nie da się uratować, jest realne. W starym, tanim laptopie rzadko się to opłaca.
 
 Odpuść też, gdy cena naprawy przekracza wartość sprawnego egzemplarza. Nie ma sensu pakować w sprzęt więcej, niż jest wart, zwłaszcza gdy za rok pojawi się kolejna usterka. Lepiej powiedzieć to wprost niż ciągnąć naprawę za wszelką cenę.
 
@@ -53,13 +53,13 @@ Zanim odpuścisz, zapytaj o wartość złomową. Sprawna matryca, obudowa albo d
 
 ## Dane to osobna sprawa
 
-Jeśli dysk działa, a laptop nie wstaje z innego powodu, pliki nadal da się uratować przed utylizacją. Jeśli dysk padł, odzyskiwanie danych to 300-800 zł i bywa warte więcej niż sam laptop.
+Jeśli dysk działa, a laptop nie wstaje z innego powodu, pliki nadal da się uratować przed utylizacją. Jeśli dysk padł, odzyskiwanie danych to {{cena:odzyskiwanie-danych}} i bywa warte więcej niż sam laptop.
 
 Kopia zapasowa zdejmuje ten dylemat. Gdy regularnie kopiujesz pliki, decyzja o naprawie dotyczy tylko sprzętu. Trzymaj kopię poza laptopem i najlepiej w drugim miejscu: dysk w szufladzie chroni przed awarią, ale nie przed kradzieżą ani zalaniem.
 
 ## Zamiast zgadywać
 
-Po diagnozie dostajesz konkretną kwotę i decydujesz, czy naprawiasz. Diagnostyka jest bezpłatna, jeśli zlecasz naprawę; bez naprawy kosztuje 150-250 zł i wiemy o tym przed pomiarami. Jeśli naprawa się nie opłaca, usłyszysz to bez owijania w bawełnę.
+Po diagnozie dostajesz konkretną kwotę i decydujesz, czy naprawiasz. Diagnostyka jest bezpłatna, jeśli zlecasz naprawę; bez naprawy kosztuje {{cena:diagnostyka-bez-naprawy}} i wiemy o tym przed pomiarami. Jeśli naprawa się nie opłaca, usłyszysz to bez owijania w bawełnę.
 
 Zakres prac opisuje strona [naprawy laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/), a stawki znajdziesz w [cenniku](/cennik/). Jeśli myślisz o modernizacji zamiast wymiany sprzętu, przeczytaj o [przyspieszaniu laptopa](/przyspieszanie-laptopa-wroclaw/).
 

@@ -1,5 +1,8 @@
 ---
+import { applyPriceTokens, displayPrice } from '../lib/prices';
+
 interface PriceItem {
+  key?: string;
   name: string;
   price: string;
   note?: string;
@@ -18,7 +21,7 @@ const { groups, compactNames, showNotes = true } = Astro.props;
 const flat = groups.flatMap((g) => g.items);
 const compactItems = compactNames
   ? compactNames
-      .map((name) => flat.find((i) => i.name === name))
+      .map((name) => flat.find((i) => i.key === name || i.name === name))
       .filter((i): i is PriceItem => Boolean(i))
   : null;
 ---
@@ -28,8 +31,8 @@ const compactItems = compactNames
     <ul class="price price--compact">
       {compactItems.map((item) => (
         <li class="price__item">
-          <span class="price__name">{item.name}</span>
-          <span class="price__value mono">{item.price}</span>
+          <span class="price__name">{applyPriceTokens(item.name)}</span>
+          <span class="price__value mono">{displayPrice(item.price)}</span>
         </li>
       ))}
     </ul>
@@ -37,15 +40,15 @@ const compactItems = compactNames
     <div class="price-groups">
       {groups.map((group) => (
         <section class="price-group">
-          <h3 class="price-group__title">{group.title}</h3>
+          <h3 class="price-group__title">{applyPriceTokens(group.title)}</h3>
           <ul class="price">
             {group.items.map((item) => (
               <li class="price__item">
                 <span class="price__main">
-                  <span class="price__name">{item.name}</span>
-                  {showNotes && item.note && <span class="price__note">{item.note}</span>}
+                  <span class="price__name">{applyPriceTokens(item.name)}</span>
+                  {showNotes && item.note && <span class="price__note">{applyPriceTokens(item.note)}</span>}
                 </span>
-                <span class="price__value mono">{item.price}</span>
+                <span class="price__value mono">{displayPrice(item.price)}</span>
               </li>
             ))}
           </ul>

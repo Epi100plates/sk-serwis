@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { price } from '../lib/prices';
 ---
 
 <aside class="docket" aria-label="Tak wygląda przyjęcie laptopa do serwisu">
@@ -31,7 +32,7 @@ import Icon from './Icon.astro';
 
   <div class="docket__stamp" aria-hidden="true">
     <span class="docket__stamp-main">Ekspres</span>
-    <span class="docket__stamp-sub">ten sam dzień · +150 zł</span>
+    <span class="docket__stamp-sub">ten sam dzień · +{price('ekspres')}</span>
   </div>
 
   <div class="docket__foot">

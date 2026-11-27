@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import site from '../data/site.json';
+import { price } from '../lib/prices';
 ---
 
 <section class="section express" aria-labelledby="express-title">
@@ -14,7 +15,7 @@ import site from '../data/site.json';
         </p>
 
         <div class="express__price">
-          <span class="express__price-value">+{site.express.surcharge} zł</span>
+          <span class="express__price-value">+{price('ekspres')}</span>
           <span class="express__price-label">dopłata za usługę ekspresową</span>
         </div>
 

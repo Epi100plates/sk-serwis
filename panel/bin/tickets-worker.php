@@ -31,20 +31,26 @@ if (!flock($lock, LOCK_EX | LOCK_NB)) {
 try {
     $summary = tickets_process_queue(30);
     $rateRemoved = tickets_cleanup_rate();
+    // Dosyłanie zgłoszeń, które nie dotarły do aplikacji warsztatu przy zapisie.
+    $intake = service_intake_process(20);
     tickets_log(sprintf(
-        'worker: przetworzono %d, wyslano %d, test %d, pominieto %d, bledy %d, limity usunieto %d',
+        'worker: przetworzono %d, wyslano %d, test %d, pominieto %d, bledy %d, limity usunieto %d, intake %d/%d',
         $summary['processed'],
         $summary['sent'],
         $summary['test'],
         $summary['skipped'],
         $summary['failed'],
-        $rateRemoved
+        $rateRemoved,
+        $intake['sent'],
+        $intake['failed']
     ));
     echo 'Kolejka: przetworzono ' . $summary['processed']
         . ', wyslano ' . $summary['sent']
         . ', test ' . $summary['test']
         . ', pominieto ' . $summary['skipped']
         . ', bledy ' . $summary['failed'] . "\n";
+    echo 'Zgłoszenia do warsztatu: wysłano ' . $intake['sent']
+        . ', błędów ' . $intake['failed'] . "\n";
     echo "OK\n";
 } catch (Throwable $e) {
     tickets_log('worker: blad ' . get_class($e));

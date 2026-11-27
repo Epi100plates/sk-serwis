@@ -12,7 +12,7 @@ faq:
   - question: "Czy pęknięta matryca może sama się powiększyć?"
     answer: "Tak. Pajączek powiększa się pod wpływem nacisku i temperatury, a czarne plamy potrafią rosnąć. Dlatego przy pękniętym ekranie nie należy go dociskać ani zamykać klapy na siłę."
   - question: "Ile kosztuje wymiana matrycy w laptopie?"
-    answer: "600-700 zł. Cena zależy od przekątnej, rozdzielczości i typu panelu, a przy rzadszych modelach także od dostępności części. Dokładną kwotę podajemy przed zamówieniem matrycy."
+    answer: "{{cena:wymiana-matrycy}}. Cena zależy od przekątnej, rozdzielczości i typu panelu, a przy rzadszych modelach także od dostępności części. Dokładną kwotę podajemy przed zamówieniem matrycy."
 ---
 
 Ekran po upadku wygląda jak pajęczyna, a obraz w rogu wciąż działa. Albo szyba jest cała, a na matrycy pojawiła się czarna plama, która rośnie. W obu przypadkach pada to samo pytanie: czy da się to naprawić bez wymiany całego wyświetlacza. Odpowiedź zależy od tego, która warstwa panelu uległa uszkodzeniu.
@@ -55,7 +55,7 @@ Sama matryca to zwykle moduł bez taśmy. Sprawną taśmę przekłada się ze st
 
 Wymiana ma sens wtedy, gdy reszta laptopa jest sprawna: płyta działa, zawiasy nie są wyrwane, obudowa się nie rozpadła. Jeśli uszkodzenie ekranu to skutek upadku, sprawdź zawiasy i ramkę, bo wymiana matrycy w rozlatującej się pokrywie szybko kończy się kolejną awarią.
 
-Wymiana matrycy kosztuje 600-700 zł. Kwota zależy od panelu i dostępności części, dlatego podajemy ją po diagnozie i przed zamówieniem. Przy starszym, tanim laptopie koszt matrycy bywa bliski wartości całego sprzętu. Wtedy uczciwiej powiedzieć, że naprawa nie ma sensu.
+Wymiana matrycy kosztuje {{cena:wymiana-matrycy}}. Kwota zależy od panelu i dostępności części, dlatego podajemy ją po diagnozie i przed zamówieniem. Przy starszym, tanim laptopie koszt matrycy bywa bliski wartości całego sprzętu. Wtedy uczciwiej powiedzieć, że naprawa nie ma sensu.
 
 ## Jak nie pogorszyć uszkodzenia
 

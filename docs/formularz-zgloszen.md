@@ -370,3 +370,65 @@ sieciowego, status `failed` + `next_attempt_at`).
   takich zgłoszeń, ale ich nie usuwa - usuwanie danych klienta wymaga decyzji
   właściciela. Aby je włączyć, trzeba dodać do skryptu `DELETE` po
   `status = 'closed'` i `updated_at` starszym niż 365 dni (najpierw kopia bazy).
+
+---
+
+## 14. Przekazywanie zgłoszeń do aplikacji warsztatu (serwis.mati-it.pl)
+
+Zgłoszenie powstaje w CMS, ale praca nad nim (przyjęcie sprzętu, statusy,
+wydanie) dzieje się w aplikacji warsztatu. Po zapisaniu zgłoszenia CMS wysyła
+podpisane HMAC-em żądanie `POST /api/intake-tickets` do aplikacji
+(domyślnie `http://127.0.0.1:8090/api/intake-tickets` na VPS - ruch nie wychodzi
+przez Cloudflare).
+
+Konfiguracja `/srv/studio-komp-cms/config.php`:
+
+```php
+'service_intake_url' => 'http://127.0.0.1:8090/api/intake-tickets',
+'service_intake_secret' => '<64 znaki hex>', // ten sam sekret co INTAKE_SYNC_SECRET w /srv/sk-serwis/.env
+```
+
+Pusty sekret = integracja wyłączona; zgłoszenia zostają w panelu
+`Zgłoszenia` i nie są nigdzie wysyłane. Sekret generuje:
+
+```bash
+php -r "echo bin2hex(random_bytes(32));"
+```
+
+### Co się dzieje przy wysyłce
+
+1. `tickets_create()` zapisuje zgłoszenie i po commicie wywołuje
+   `service_intake_forward()` (timeout 4 s, formularz nie czeka dłużej).
+2. Wynik trafia do kolumn `tickets.service_intake_at`,
+   `service_intake_status`, `service_intake_error`,
+   `service_intake_attempts`; w panelu widać badge „Przekazane / Błąd /
+   Oczekuje” i przycisk „Przekaż ponownie”.
+3. Jeśli aplikacja nie odpowiada, `panel/bin/tickets-worker.php` (cron co
+   minutę) dosyła zaległe zgłoszenia z ostatnich 30 dni, maks. 8 prób.
+   Zgłoszenie nigdy nie ginie - zostaje w CMS i w kolejce.
+
+### Ładunek i podpis
+
+```json
+{"number":"SK-2026-000123","name":"Jan","phone":"600100200",
+ "device":"Lenovo IdeaPad 5","problem":"...","source_page":"/kontakt/",
+ "created_at":"2026-11-27 10:00:00"}
+```
+
+Nagłówki: `X-SK-Timestamp` (unix) i `X-SK-Signature`
+(`base64url(HMAC-SHA256(secret, timestamp."\n".rawBody))`). Aplikacja wymaga
+znacznika czasu w oknie ±300 s i jest idempotentna po numerze zgłoszenia.
+
+### Test ręczny na VPS
+
+```bash
+# 1. Sprawdź, czy sekret jest po obu stronach
+php -r "require '/srv/studio-komp/panel/bootstrap.php'; echo service_intake_enabled() ? 'CMS OK' : 'brak sekretu';"
+grep INTAKE_SYNC_SECRET /srv/sk-serwis/.env | sed 's/=.*/=***/'
+
+# 2. Wyślij ponownie dowolne zgłoszenie z panelu (Zgłoszenia -> szczegóły ->
+#    „Przekaż ponownie”) i sprawdź badge.
+```
+
+Do logów trafia wyłącznie numer zgłoszenia i wynik - bez imienia, telefonu ani
+treści usterki.

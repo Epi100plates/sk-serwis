@@ -11,7 +11,7 @@ faq:
   - question: "Czy wymiana gniazda zasilania w HP wymaga lutowania?"
     answer: "Zależy od serii i modelu. W części konstrukcji gniazdo jest wlutowane w płytę główną, w innych stanowi osobny moduł na taśmie lub osobnej płytce. Sprawdzamy to przed wyceną, bo od tego zależy czas naprawy."
   - question: "Ile trwa naprawa laptopa HP?"
-    answer: "Standardowo z dnia na dzień, jeśli część jest dostępna. Usługa ekspresowa z dopłatą 150 zł oznacza naprawę tego samego dnia, o ile usterka i dostępność części na to pozwalają. Sprawdzamy to przy przyjęciu."
+    answer: "Standardowo z dnia na dzień, jeśli część jest dostępna. Usługa ekspresowa z dopłatą {{cena:ekspres}} oznacza naprawę tego samego dnia, o ile usterka i dostępność części na to pozwalają. Sprawdzamy to przy przyjęciu."
 ---
 
 Laptopy HP dzielą się na kilka rodzin, które różnią się konstrukcją na tyle, że naprawa każdej z nich wygląda inaczej. Pavilion to sprzęt domowy, ProBook i EliteBook to modele firmowe, a Envy, Omen i Victus zajmują miejsce pomiędzy codzienną pracą a graniem. Wspólny jest schemat usterek i sposób diagnozy. Poniżej wyjaśniamy, co najczęściej psuje się w laptopach HP i jak wygląda naprawa we Wrocławiu.
@@ -50,7 +50,7 @@ Naprawy lutowane wykonujemy hot airem. Gniazdo po wymianie testujemy pod obcią�
 
 ## Cena, czas i ekspres
 
-Cenę podajemy po diagnozie, przed rozpoczęciem naprawy. Zależy od modelu i zakresu uszkodzenia. Standardowo naprawa jest gotowa z dnia na dzień, a przy części zamawianej czas zależy od dostawy. Usługa ekspresowa to dopłata 150 zł i naprawa tego samego dnia, o ile część jest na miejscu. Pełne widełki znajdziesz w [cenniku](/cennik/), a zakres prac na stronie [naprawa laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/).
+Cenę podajemy po diagnozie, przed rozpoczęciem naprawy. Zależy od modelu i zakresu uszkodzenia. Standardowo naprawa jest gotowa z dnia na dzień, a przy części zamawianej czas zależy od dostawy. Usługa ekspresowa to dopłata {{cena:ekspres}} i naprawa tego samego dnia, o ile część jest na miejscu. Pełne widełki znajdziesz w [cenniku](/cennik/), a zakres prac na stronie [naprawa laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/).
 
 ## Kiedy przyjechać na Kotlarską 14
 

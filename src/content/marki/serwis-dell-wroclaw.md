@@ -63,7 +63,7 @@ Diagnoza jest bezpłatna przy zleceniu naprawy. W przeciwnym razie jest płatna,
 
 Niemal wszystkie naprawy, dokładnie 99%, wykonujemy z dnia na dzień. Czyszczenie chłodzenia, wymiana baterii lub matrycy to zwykle jedna wizyta. Naprawa płyty głównej i modele wymagające zamówienia części trwają dłużej, o czym informujemy po diagnozie.
 
-Ekspres z dopłatą 150 zł oznacza naprawę tego samego dnia. Przy usterkach mechanicznych, które da się usunąć od razu, ma to sens. Przy zamówieniu matrycy do konkretnej wersji XPS nie skróci dostawy.
+Ekspres z dopłatą {{cena:ekspres}} oznacza naprawę tego samego dnia. Przy usterkach mechanicznych, które da się usunąć od razu, ma to sens. Przy zamówieniu matrycy do konkretnej wersji XPS nie skróci dostawy.
 
 Zdarza się, że część do XPS-a jest dostępna tylko w konkretnej wersji regionalnej i trzeba na nią poczekać. Wtedy klient decyduje, czy czeka, czy rezygnuje z naprawy, i nie ponosi z tego powodu dodatkowych kosztów poza diagnostyką.
 

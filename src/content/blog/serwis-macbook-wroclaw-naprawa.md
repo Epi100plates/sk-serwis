@@ -54,4 +54,4 @@ Jeśli danych nie ma na kopii, a dysk jest uszkodzony, możliwości są ogranicz
 
 Z MacBookiem przyjdź na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Nie musisz się umawiać, ale jeśli masz ładowarkę i kabel, przynieś je ze sobą - to skraca diagnostykę zasilania. Możesz też zadzwonić pod 500 613 500 i opisać objawy.
 
-Zakres napraw opisuje strona [naprawy laptopów](/naprawa-laptopow-wroclaw/), a szczegóły pierwszej wizyty - [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli laptop był zalany, przeczytaj najpierw tekst o [MacBooku po zalaniu](/poradnik/macbook-po-zalaniu/), żeby nie pogorszyć stanu przed przyjazdem. Ekspres z dopłatą 150 zł pozwala odebrać sprzęt tego samego dnia, jeśli część jest dostępna.
+Zakres napraw opisuje strona [naprawy laptopów](/naprawa-laptopow-wroclaw/), a szczegóły pierwszej wizyty - [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli laptop był zalany, przeczytaj najpierw tekst o [MacBooku po zalaniu](/poradnik/macbook-po-zalaniu/), żeby nie pogorszyć stanu przed przyjazdem. Ekspres z dopłatą {{cena:ekspres}} pozwala odebrać sprzęt tego samego dnia, jeśli część jest dostępna.

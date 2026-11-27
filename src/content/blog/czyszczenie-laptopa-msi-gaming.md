@@ -50,7 +50,7 @@ Z zewnątrz bezpiecznie jest odkurzyć kratki miękką końcówką odkurzacza i 
 
 ## Cena, czas i ekspres
 
-Czyszczenie i konserwacja kosztują 200-250 zł. Ostateczna kwota zależy od modelu i konstrukcji chłodzenia, a podajemy ją przed rozpoczęciem pracy. Standardowo konserwacja jest gotowa z dnia na dzień. Usługa ekspresowa to dopłata 150 zł, jeśli zależy Ci na czasie; dostępność sprawdzamy przy przyjęciu sprzętu.
+Czyszczenie i konserwacja kosztują {{cena:czyszczenie-laptopa}}. Ostateczna kwota zależy od modelu i konstrukcji chłodzenia, a podajemy ją przed rozpoczęciem pracy. Standardowo konserwacja jest gotowa z dnia na dzień. Usługa ekspresowa to dopłata {{cena:ekspres}}, jeśli zależy Ci na czasie; dostępność sprawdzamy przy przyjęciu sprzętu.
 
 Diagnostyka jest bezpłatna przy zlecanej naprawie. Jeśli po diagnozie nie zdecydujesz się na naprawę, diagnostyka jest płatna, o czym mówimy przed jej rozpoczęciem. Pełne stawki znajdziesz w [cenniku](/cennik/), a szczegóły usługi na stronie [czyszczenie laptopa we Wrocławiu](/czyszczenie-laptopa-wroclaw/).
 

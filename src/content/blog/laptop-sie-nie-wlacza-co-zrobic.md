@@ -69,7 +69,7 @@ Osobny sygnał to upadek. Laptop, który po upadku nie startuje, może mieć usz
 
 ## Kiedy przyjechać do serwisu
 
-Jeśli po sprawdzeniu zasilacza, resecie i teście z monitorem laptop nadal nie startuje, dalsze próby w domu niewiele dadzą. Diagnostyka jest bezpłatna przy naprawie, a bez naprawy kosztuje 150-250 zł. Przyjdź na Kotlarską 14 w godzinach 7:00-15:00 od poniedziałku do piątku albo zadzwoń pod 500 613 500.
+Jeśli po sprawdzeniu zasilacza, resecie i teście z monitorem laptop nadal nie startuje, dalsze próby w domu niewiele dadzą. Diagnostyka jest bezpłatna przy naprawie, a bez naprawy kosztuje {{cena:diagnostyka-bez-naprawy}}. Przyjdź na Kotlarską 14 w godzinach 7:00-15:00 od poniedziałku do piątku albo zadzwoń pod 500 613 500.
 
 Przygotuj krótką notatkę: kiedy problem się pojawił, czy poprzedzało go zdarzenie, czy laptop wydaje dźwięki i czy dioda świeci. Przynieś zasilacz i podaj hasło do systemu, jeśli laptop je ma.
 

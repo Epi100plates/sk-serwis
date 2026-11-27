@@ -11,7 +11,7 @@ faq:
   - question: "Czy da się wymienić samo gniazdo, bez modułu?"
     answer: "Przy module wymienia się cały zespół, bo gniazdo jest z nim scalone. Przy gnieździe lutowanym wymieniamy tylko element, ale wtedy dochodzi praca przy płycie i testy ładowania po wlutowaniu."
   - question: "Ile kosztuje naprawa gniazda zasilania w HP ProBook?"
-    answer: "Wymiana gniazda zasilania kosztuje 350 zł z nowym gniazdem i testem ładowania. Jeśli uszkodzenie objęło ścieżki lub układ ładowania, zakres i cenę ustalamy po diagnozie."
+    answer: "Wymiana gniazda zasilania kosztuje {{cena:wymiana-gniazda-zasilania}} z nowym gniazdem i testem ładowania. Jeśli uszkodzenie objęło ścieżki lub układ ładowania, zakres i cenę ustalamy po diagnozie."
 ---
 
 HP ProBook to laptop firmowy, który często pracuje w terenie i jeździ w torbie razem z zasilaczem. Wtyczka narażona jest na szarpnięcia, a gniazdo na siły, których nie widzi żaden użytkownik siedzący przy biurku. Efektem jest jedna z najczęstszych usterek mechanicznych: gniazdo, które przerywa ładowanie przy każdym ruchu kabla. Wymiana jest krótką naprawą, ale w ProBookach ma dwie różne wersje, zależnie od konstrukcji.
@@ -54,9 +54,9 @@ Po złożeniu testujemy ładowanie w kilku stanach: na wyłączonym laptopie, w 
 
 ## Cena, czas i ekspres
 
-Wymiana gniazda zasilania kosztuje 350 zł. Gdy uszkodzenie objęło płytę, zakres i cenę ustalamy po diagnozie. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli po diagnozie nie zdecydujesz się naprawiać, jest płatna, o czym informujemy przed jej rozpoczęciem.
+Wymiana gniazda zasilania kosztuje {{cena:wymiana-gniazda-zasilania}}. Gdy uszkodzenie objęło płytę, zakres i cenę ustalamy po diagnozie. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli po diagnozie nie zdecydujesz się naprawiać, jest płatna, o czym informujemy przed jej rozpoczęciem.
 
-Standardowo naprawa jest gotowa z dnia na dzień. Usługa ekspresowa z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile gniazdo jest dostępne i nie ma dodatkowych uszkodzeń. Stawki znajdziesz w [cenniku](/cennik/), a szczegóły usługi na stronie [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/).
+Standardowo naprawa jest gotowa z dnia na dzień. Usługa ekspresowa z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, o ile gniazdo jest dostępne i nie ma dodatkowych uszkodzeń. Stawki znajdziesz w [cenniku](/cennik/), a szczegóły usługi na stronie [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/).
 
 ## Profilaktyka i kontakt
 

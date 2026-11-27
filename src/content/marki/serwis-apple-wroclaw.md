@@ -61,7 +61,7 @@ Dopiero po tym podajemy zakres i cenę. Diagnoza jest bezpłatna, jeśli zdecydu
 
 Z dnia na dzień kończymy 99% napraw. Wymiana baterii, taśmy matrycy czy konserwacja chłodzenia w MacBooku Pro mieszczą się zwykle w jednej wizycie. Części do starszych modeli bywają jednak trudniej dostępne, a wtedy termin zależy od dostawy.
 
-Usługa ekspresowa kosztuje dodatkowe 150 zł i oznacza naprawę tego samego dnia. Sprawdza się, gdy usterkę można usunąć bez czekania na część. Przy zamówieniu matrycy do konkretnego modelu ekspres nie przyspieszy dostawy i mówimy o tym zawczasu. W modelach z procesorami Apple M1 i M2 części są droższe i rzadziej dostępne niż do starszych MacBooków, co również uwzględniamy w wycenie.
+Usługa ekspresowa kosztuje dodatkowe {{cena:ekspres}} i oznacza naprawę tego samego dnia. Sprawdza się, gdy usterkę można usunąć bez czekania na część. Przy zamówieniu matrycy do konkretnego modelu ekspres nie przyspieszy dostawy i mówimy o tym zawczasu. W modelach z procesorami Apple M1 i M2 części są droższe i rzadziej dostępne niż do starszych MacBooków, co również uwzględniamy w wycenie.
 
 ## Części i modele
 

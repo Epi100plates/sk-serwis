@@ -136,3 +136,33 @@ lokalny build `pnpm build` + `pnpm preview`).
 Łącznie **98/98 testów OK**. Formularz zgłoszeń: testy funkcji 133 OK,
 endpointów 31 OK, panelu 42 OK (raport agenta, lokalny PHP + php -S, tryb
 testowy, bez realnych SMS/e-maili).
+
+## 10. SEO: duplikat artykułu i strony long-tail (2026-11-27)
+
+Zmiany w treści (bez zmian wizualnych):
+
+- usunięty duplikat `src/content/blog/ile-kostuje-naprawa-laptopa.md` (literówka);
+  kanon: `/poradnik/ile-kosztuje-naprawa-laptopa/`,
+- 301 z `/poradnik/ile-kostuje-naprawa-laptopa/` na poprawny adres w
+  `panel/lib/redirects.php` (`redirects_defaults()`) oraz w wygenerowanych
+  `public/_redirects`, `public/.htaccess` i `deploy/nginx/sk-redirects.conf`,
+- nowe podstrony usług: `/naprawa-laptopow-gamingowych-wroclaw/`,
+  `/serwis-komputerowy-wroclaw/`,
+- nowe artykuły: `/poradnik/ile-kosztuje-naprawa-plyty-glownej-laptopa/`,
+  `/poradnik/laptop-nie-laduje-baterii-co-sprawdzic/`,
+- rozbudowane: gniazdo zasilania (gniazdo ładowania: lutowanie vs moduł),
+  płyty główne (co wpływa na cenę), czyszczenie (laptop gamingowy),
+  odzyskiwanie danych (dysk SSD: TRIM, NVMe, kontrolery, kiedy nie klonować).
+
+Weryfikacja (lokalny build, `SITE_URL` domyślny):
+
+| Test | Wynik |
+|---|---|
+| `pnpm build` | 70 stron, OK |
+| `node scripts/check-prices.mjs` | OK (bez cen na sztywno poza cennikiem) |
+| `node scripts/check-seo.mjs` | OK (bez duplikatów title/description, 1 H1, canonical + OG, bez surowych tokenów, nowe strony w sitemapie - 59 adresów) |
+| Stary adres artykułu | brak w `dist/`, brak linków w treści, 301 w `_redirects` i `.htaccess` |
+
+Reguła 301 działa z plików serwerowych publikowanych razem z buildem, niezależnie
+od bazy panelu. Jeśli wpis ma być widoczny także na liście przekierowań w panelu,
+dodaje się go tam ręcznie (Przekierowania) - wygeneruje te same pliki.

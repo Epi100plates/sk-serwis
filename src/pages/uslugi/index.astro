@@ -6,6 +6,7 @@ import ContactBlock from '../../components/ContactBlock.astro';
 import Icon from '../../components/Icon.astro';
 import { breadcrumbSchema } from '../../lib/schema';
 import { withBase } from '../../lib/url';
+import { applyPriceTokens, displayPrice } from '../../lib/prices';
 
 const services = (await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft)).sort(
   (a, b) => a.data.order - b.data.order
@@ -72,12 +73,12 @@ const schema = [
                   <li>
                     <a class="service-card" href={withBase(`/${s.id}/`)}>
                       <span class="service-card__body">
-                        <span class="service-card__title">{s.data.navLabel}</span>
-                        <span class="service-card__teaser">{s.data.teaser}</span>
+                        <span class="service-card__title">{applyPriceTokens(s.data.navLabel)}</span>
+                        <span class="service-card__teaser">{applyPriceTokens(s.data.teaser)}</span>
                       </span>
                       <span class="service-card__aside">
                         {s.data.priceFrom && (
-                          <span class="mono service-card__price">{s.data.priceFrom}</span>
+                          <span class="mono service-card__price">{displayPrice(s.data.priceFrom)}</span>
                         )}
                         <Icon name="arrow" size={18} />
                       </span>

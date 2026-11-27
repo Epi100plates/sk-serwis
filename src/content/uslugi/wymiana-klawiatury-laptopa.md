@@ -51,7 +51,7 @@ Zaczynamy od sprawdzenia, które klawisze nie działają i czy problem jest sprz
 
 ## Cena i czas wymiany we Wrocławiu
 
-Ceny nie da się podać bez modelu, bo klawiatura jest dobierana do konkretnego laptopa. Różnice wynikają z dostępności części, podświetlenia i konstrukcji obudowy. Przed zamówieniem części potwierdzamy układ klawiszy i wersję językową. Wycenę podajemy po obejrzeniu sprzętu, przed rozpoczęciem pracy. Większość wymian kończy się z dnia na dzień, a ekspres z dopłatą 150 zł jest możliwy po wcześniejszym telefonie.
+Ceny nie da się podać bez modelu, bo klawiatura jest dobierana do konkretnego laptopa. Różnice wynikają z dostępności części, podświetlenia i konstrukcji obudowy. Przed zamówieniem części potwierdzamy układ klawiszy i wersję językową. Wycenę podajemy po obejrzeniu sprzętu, przed rozpoczęciem pracy. Większość wymian kończy się z dnia na dzień, a ekspres z dopłatą {{cena:ekspres}} jest możliwy po wcześniejszym telefonie.
 
 ## Kiedy naprawa nie ma sensu
 

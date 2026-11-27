@@ -11,7 +11,7 @@ faq:
   - question: "Skąd wiadomo, że to matryca, a nie taśma lub płyta?"
     answer: "Podłączamy laptop do zewnętrznego monitora i oglądamy obraz. Jeśli na zewnętrznym ekranie wszystko jest poprawne, a na wbudowanym nie, przyczyny szukamy w panelu, taśmie lub podświetleniu. Dopiero pomiary pokazują, który element zawiódł."
   - question: "Ile trwa wymiana matrycy w Dell Latitude?"
-    answer: "Zwykle jeden dzień, jeśli panel jest dostępny. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest na miejscu."
+    answer: "Zwykle jeden dzień, jeśli panel jest dostępny. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą {{cena:ekspres}} skraca naprawę do tego samego dnia, o ile część jest na miejscu."
 ---
 
 Pęknięty ekran w Dell Latitude wygląda groźnie, ale zwykle kończy się wymianą jednego podzespołu. Laptop dalej pracuje, dysk i dane są nietknięte, a problem dotyczy tylko warstwy, przez którą patrzysz na ekran. Latitude to sprzęt firmowy, więc trafiają do nas egzemplarze po leasingu, z uszkodzeniami po transporcie albo po latach pracy w terenie. Zanim odłożysz pieniądze na nowy komputer, warto ustalić, jaki panel siedzi w Twoim modelu.
@@ -57,7 +57,7 @@ Przy matrycach sprowadzanych na zamówienie termin dostawy potwierdzamy przed za
 
 Cena zależy od trzech rzeczy: modelu laptopa, przekątnej i typu panelu. Czternastocalowy panel IPS do popularnego Latitude to inna kwota niż matryca dotykowa do modelu premium. Dochodzi robocizna. Dlatego nie podajemy jednej stawki - najpierw sprawdzamy, jaki panel jest w Twoim laptopie, a potem mówimy, ile kosztuje wymiana. Kwotę znasz przed zamówieniem części.
 
-Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest dostępna. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna i informujemy o tym przed jej rozpoczęciem. Stawki znajdziesz w [cenniku](/cennik/).
+Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą {{cena:ekspres}} skraca naprawę do tego samego dnia, o ile część jest dostępna. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna i informujemy o tym przed jej rozpoczęciem. Stawki znajdziesz w [cenniku](/cennik/).
 
 ## Kiedy przyjechać na Kotlarską 14
 

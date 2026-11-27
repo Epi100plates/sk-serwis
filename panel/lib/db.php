@@ -351,6 +351,12 @@ SQL);
     // Numer zlecenia w aplikacji serwisowej (SRV-ROK-000000) - klucz idempotencji
     // synchronizacji statusu. NULL dla zgłoszeń z formularza na stronie.
     db_ensure_column($pdo, 'tickets', 'external_ref', 'TEXT');
+    // Przekazanie zgłoszenia do aplikacji warsztatu (serwis.mati-it.pl).
+    // service_intake_at puste = jeszcze nie wysłano; worker ponawia wysyłkę.
+    db_ensure_column($pdo, 'tickets', 'service_intake_at', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'service_intake_status', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'service_intake_error', "TEXT NOT NULL DEFAULT ''");
+    db_ensure_column($pdo, 'tickets', 'service_intake_attempts', 'INTEGER NOT NULL DEFAULT 0');
     db_ensure_column($pdo, 'ticket_history', 'note', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'notifications', 'provider', "TEXT NOT NULL DEFAULT ''");
     db_ensure_column($pdo, 'notifications', 'delivery_status', "TEXT NOT NULL DEFAULT ''");

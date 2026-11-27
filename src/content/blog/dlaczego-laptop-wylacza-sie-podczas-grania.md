@@ -61,6 +61,6 @@ Nie rozkręcaj laptopa na gwarancji i nie przedmuchuj wentylatora sprężonym po
 
 ## Kiedy potrzebna konserwacja
 
-Jeśli temperatury są wysokie, a wentylator głośny, potrzebna jest rozbiórka, czyszczenie radiatora i wymiana pasty. [Czyszczenie laptopa we Wrocławiu](/czyszczenie-laptopa-wroclaw/) to koszt 200-250 zł, a sprzęt zwykle jest gotowy z dnia na dzień. Stawki innych prac są w [cenniku](/cennik/).
+Jeśli temperatury są wysokie, a wentylator głośny, potrzebna jest rozbiórka, czyszczenie radiatora i wymiana pasty. [Czyszczenie laptopa we Wrocławiu](/czyszczenie-laptopa-wroclaw/) to koszt {{cena:czyszczenie-laptopa}}, a sprzęt zwykle jest gotowy z dnia na dzień. Stawki innych prac są w [cenniku](/cennik/).
 
 Jeśli po czyszczeniu laptop nadal zwalnia, sprawdzamy dysk i pamięć w ramach [przyspieszania laptopa](/przyspieszanie-laptopa-wroclaw/). Zadzwoń pod 500 613 500, opisz objawy i zapytaj o termin. Kotlarska 14, poniedziałek-piątek 7:00-15:00.

@@ -48,6 +48,6 @@ Klawiatura w Acerze to zwykle cały moduł, a nie pojedyncze klawisze. Wymiana b
 
 ## Jak wygląda naprawa i wycena
 
-Przyjmujemy laptopy przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Jeśli po diagnozie nie zlecisz naprawy, diagnostyka jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Ekspres to dopłata 150 zł i naprawa tego samego dnia, o ile pozwalają na to rodzaj usterki i dostępność części.
+Przyjmujemy laptopy przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Jeśli po diagnozie nie zlecisz naprawy, diagnostyka jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Ekspres to dopłata {{cena:ekspres}} i naprawa tego samego dnia, o ile pozwalają na to rodzaj usterki i dostępność części.
 
 Kwotę podajemy przed rozpoczęciem pracy. Przy części zamawianej na konkretny model mówimy, ile trzeba czekać, i nie obiecujemy terminu bez pokrycia. Zakres usług opisuje strona [serwisu laptopów we Wrocławiu](/serwis-laptopow-wroclaw/), a stawki znajdziesz w [cenniku](/cennik/). Jeśli nie wiesz, co się dzieje, zadzwoń pod 500 613 500 albo przeczytaj o [diagnostyce laptopa](/diagnostyka-laptopa-wroclaw/).

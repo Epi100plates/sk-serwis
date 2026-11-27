@@ -141,7 +141,9 @@ function redirects_sync_files(): void
         $target = str_starts_with($row['target_url'], 'http')
             ? $row['target_url']
             : rtrim((string) cfg('site_url'), '/') . $row['target_url'];
-        $rules .= '  RewriteRule ^' . ltrim(str_replace('/', '', $row['old_path']), '^') . '$ ' . $target . ' [R=' . (int) $row['status_code'] . ',L]' . "\n";
+        // Zostawiamy ukosniki w sciezce (np. /poradnik/.../) - w .htaccess
+        // sciezka jest bez wiodacego ukosnika, ale z ukosnikami wewnatrz.
+        $rules .= '  RewriteRule ^' . ltrim((string) $row['old_path'], '/') . '$ ' . $target . ' [R=' . (int) $row['status_code'] . ',L]' . "\n";
     }
     file_put_contents(repo_path('public/.htaccess'), str_replace('{{REDIRECTS}}', $rules, $base));
 
@@ -174,6 +176,8 @@ function redirects_defaults(): array
         // Usunieta podstrona marki Microsoft Surface - 301 zachowuje link equity.
         ['/serwis-microsoft-surface-wroclaw/', '/uslugi/'],
         ['/serwis-microsoft-surface-wroclaw', '/uslugi/'],
+        // Literowka w adresie artykulu - 301 na poprawny slug.
+        ['/poradnik/ile-kostuje-naprawa-laptopa/', '/poradnik/ile-kosztuje-naprawa-laptopa/'],
     ];
 }
 

@@ -120,10 +120,6 @@ const schema = [
           }
         </dl>
 
-        <div class="hero__note desktop-only">
-          <DiagnosisNote variant="inline" compact />
-        </div>
-
         <p class="hero__note-mobile mobile-only">
           <strong>0 zł*</strong> - diagnoza bezpłatna przy naprawie. Jeśli
           zrezygnujesz z naprawy, diagnostyka jest płatna (cena przed pracą).
@@ -177,10 +173,6 @@ const schema = [
           <p class="mono pricing-teaser__note-label">Zasada, którą warto znać</p>
           <h3>{site.diagnosis.title}</h3>
           <p>{site.diagnosis.text}</p>
-          <p class="pricing-teaser__express">
-            <Icon name="bolt" size={16} />
-            Naprawa ekspresowa: <strong>+{site.express.surcharge} zł</strong> - tego samego dnia.
-          </p>
         </aside>
       </div>
     </div>
@@ -274,8 +266,12 @@ const schema = [
   }
 
   .hero__fact {
-    padding: 16px 18px 0 0;
+    padding: 16px 18px 0 18px;
     border-right: 1px solid var(--line);
+  }
+
+  .hero__fact:first-child {
+    padding-left: 0;
   }
 
   .hero__fact:last-child {
@@ -296,11 +292,6 @@ const schema = [
     letter-spacing: 0.01em;
     color: var(--muted);
     max-width: 15ch;
-  }
-
-  .hero__note {
-    margin-top: 14px;
-    max-width: 62ch;
   }
 
   .hero__object {
@@ -382,21 +373,6 @@ const schema = [
     color: var(--on-dark-muted);
   }
 
-  .pricing-teaser__express {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 4px;
-    padding-top: 16px;
-    border-top: 1px solid var(--dark-line);
-    width: 100%;
-    color: var(--on-dark) !important;
-  }
-
-  .pricing-teaser__express strong {
-    color: var(--yellow);
-  }
-
   @media (max-width: 1000px) {
     .hero__grid {
       grid-template-columns: 1fr;
@@ -452,10 +428,6 @@ const schema = [
 
     .hero__actions .btn {
       flex: 1 1 100%;
-    }
-
-    .hero__note {
-      margin-top: 12px;
     }
 
     .hero__note-mobile {

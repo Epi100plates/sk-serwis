@@ -8,11 +8,11 @@ service: "naprawa-gniazda-zasilania"
 readingTime: 4
 faq:
   - question: "Ile kosztuje wymiana gniazda zasilania we Wrocławiu?"
-    answer: "Wymiana gniazda zasilania kosztuje 350 zł. Jeśli uszkodzenie objęło również ścieżki lub układ ładowania na płycie, zakres i cenę ustalamy po diagnozie. Diagnostyka jest bezpłatna przy zleceniu naprawy."
+    answer: "Wymiana gniazda zasilania kosztuje {{cena:wymiana-gniazda-zasilania}}. Jeśli uszkodzenie objęło również ścieżki lub układ ładowania na płycie, zakres i cenę ustalamy po diagnozie. Diagnostyka jest bezpłatna przy zleceniu naprawy."
   - question: "Czy gniazdo można naprawić bez wymiany?"
     answer: "Pękniętych lutów i wyrobionych styków nie da się naprawić dociśnięciem wtyczki ani klejem. Takie próby zwiększają ryzyko zwarcia. Wymiana gniazda to standardowa naprawa i zwykle wystarcza."
   - question: "Ile trwa wymiana gniazda?"
-    answer: "Standardowo naprawa jest gotowa z dnia na dzień. Dzięki usłudze ekspresowej z dopłatą 150 zł można odebrać laptopa tego samego dnia, jeśli gniazdo jest dostępne i nie ma dodatkowych uszkodzeń."
+    answer: "Standardowo naprawa jest gotowa z dnia na dzień. Dzięki usłudze ekspresowej z dopłatą {{cena:ekspres}} można odebrać laptopa tego samego dnia, jeśli gniazdo jest dostępne i nie ma dodatkowych uszkodzeń."
 ---
 
 Wtyczka siedzi w gnieździe krzywo i ładowanie działa tylko wtedy, gdy kabel wisi pod odpowiednim kątem. Przy każdym ruchu laptopa dioda gaśnie. To klasyczny objaw uszkodzonego gniazda zasilania. Wymiana gniazda jest krótka, ale zwlekanie z nią może skończyć się uszkodzeniem płyty głównej.
@@ -55,7 +55,7 @@ Naprawa zaczyna się od rozbiórki laptopa i oględzin gniazda oraz miejsca, w k
 
 Przed wylutowaniem sprawdzamy, czy gniazdo nie jest zintegrowane z innym elementem. W niektórych konstrukcjach port USB-C jest na osobnej płytce połączonej taśmą, co upraszcza naprawę. W innych jest wlutowany w główną płytę i wymaga precyzyjnej pracy hot airem.
 
-Wymiana gniazda zasilania kosztuje 350 zł. Jeśli uszkodzenie objęło płytę, zakres i cenę ustalamy po diagnozie. Standardowo naprawa jest gotowa z dnia na dzień, a usługa ekspresowa z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile część jest dostępna.
+Wymiana gniazda zasilania kosztuje {{cena:wymiana-gniazda-zasilania}}. Jeśli uszkodzenie objęło płytę, zakres i cenę ustalamy po diagnozie. Standardowo naprawa jest gotowa z dnia na dzień, a usługa ekspresowa z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, o ile część jest dostępna.
 
 Po wymianie sprawdzamy pobór prądu, ładowanie pod obciążeniem i stabilność wtyczki. Jeśli laptop nadal nie ładuje, szukamy uszkodzenia w układzie ładowania, bo zwarcie w gnieździe potrafi uszkodzić elementy obok.
 
@@ -73,4 +73,4 @@ Tania ładowarka z luźną wtyczką potrafi wyrobić gniazdo szybciej niż orygi
 
 Gniazdo rzadko naprawia się samo, a zwlekanie zwiększa ryzyko uszkodzenia płyty. [Wymiana gniazda zasilania](/naprawa-gniazda-zasilania/) to najczęstsza naprawa mechaniczna, jaką wykonujemy. Jeśli podejrzewasz, że zwarcie poszło dalej, przeczytaj o [naprawie płyt głównych](/naprawa-plyt-glownych/).
 
-Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00-15:00 albo zadzwoń pod 500 613 500 i opisz objawy. Diagnostyka jest bezpłatna przy zleceniu naprawy, a bez naprawy kosztuje 150-250 zł. Stawki znajdziesz w [cenniku](/cennik/).
+Przyjdź bez umawiania na Kotlarską 14 w godzinach 7:00-15:00 albo zadzwoń pod 500 613 500 i opisz objawy. Diagnostyka jest bezpłatna przy zleceniu naprawy, a bez naprawy kosztuje {{cena:diagnostyka-bez-naprawy}}. Stawki znajdziesz w [cenniku](/cennik/).

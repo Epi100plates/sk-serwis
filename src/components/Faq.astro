@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import site from '../data/site.json';
+import { applyPriceTokens } from '../lib/prices';
 
 interface Props {
   items: { q: string; a: string }[];
@@ -15,11 +16,11 @@ const { items, title = 'Częste pytania', intro, id = 'faq', mobileLimit = 0 } =
 <section class="section faq-section" aria-labelledby={`${id}-title`} id={id}>
   <div class="container faq-layout">
     <div class="faq-head">
-      <h2 id={`${id}-title`}>{title}</h2>
+      <h2 id={`${id}-title`}>{applyPriceTokens(title)}</h2>
       {
         intro && (
           <p class="faq-intro">
-            {intro} Jeśli nie ma tu Twojego pytania - zadzwoń, odpowiemy od razu.
+            {applyPriceTokens(intro)} Jeśli nie ma tu Twojego pytania - zadzwoń, odpowiemy od razu.
           </p>
         )
       }
@@ -38,9 +39,9 @@ const { items, title = 'Częste pytania', intro, id = 'faq', mobileLimit = 0 } =
       {
         items.map((item) => (
           <details>
-            <summary>{item.q}</summary>
+            <summary>{applyPriceTokens(item.q)}</summary>
             <div class="faq__answer">
-              <p>{item.a}</p>
+              <p>{applyPriceTokens(item.a)}</p>
             </div>
           </details>
         ))

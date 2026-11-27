@@ -7,6 +7,7 @@ import Icon from '../../components/Icon.astro';
 import site from '../../data/site.json';
 import { breadcrumbSchema } from '../../lib/schema';
 import { withBase } from '../../lib/url';
+import { price } from '../../lib/prices';
 
 const stats = [
   { value: String(site.founded), label: 'rok, w którym zaczęliśmy' },
@@ -62,9 +63,9 @@ const schema = [
           <p>
             Nie obiecujemy, że każdą usterkę da się naprawić. Nie mówimy też, że
             każde uszkodzenie wymaga wymiany połowy podzespołów. Część problemów
-            rozwiązuje czyszczenie i nowa pasta, część wymiana gniazda za 350 zł,
-            a część naprawa płyty głównej, która i tak wychodzi taniej niż nowy
-            laptop.
+            rozwiązuje czyszczenie i nowa pasta, część wymiana gniazda za{' '}
+            {price('wymiana-gniazda-zasilania')}, a część naprawa płyty głównej,
+            która i tak wychodzi taniej niż nowy laptop.
           </p>
 
           <h2>Diagnoza, cena, naprawa - w tej kolejności</h2>
@@ -89,8 +90,8 @@ const schema = [
           </p>
           <p>
             Jeśli zależy Ci na czasie, jest usługa ekspresowa: dopłata{' '}
-            {site.express.surcharge} zł i naprawa tego samego dnia. Ekspres nie
-            zawsze jest możliwy - zależy od usterki i dostępności części.
+            {price('ekspres')} i naprawa tego samego dnia. Ekspres nie zawsze jest
+            możliwy - zależy od usterki i dostępności części.
           </p>
 
           <h2>Bez umawiania i bez korporacyjnego języka</h2>

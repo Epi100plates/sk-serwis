@@ -1,6 +1,6 @@
 # Studio-Komp - baza konfiguracji Apache/LiteSpeed (hosting klasyczny).
 # Panel CMS generuje z tego plik public/.htaccess, wstawiając przekierowania
-# w miejsce {{REDIRECTS}}. Ten plik leży poza public/, żeby nie trafił na hosting.
+# w miejscu znacznika. Ten plik leży poza public/, żeby nie trafił na hosting.
 
 Options -Indexes
 DirectoryIndex index.html

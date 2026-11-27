@@ -10,7 +10,7 @@
       "price": "Wycena po diagnozie",
       "bullets": [
         "99% napraw z dnia na dzień",
-        "Diagnoza bezpłatna przy zlecenej naprawie",
+        "Diagnoza bezpłatna przy naprawie",
         "Bez umawiania - przyjdź w godzinach pracy",
         "Ponad 550 opinii Google, działamy od 2013 roku"
       ],
@@ -18,11 +18,11 @@
     },
     {
       "slug": "czyszczenie-laptopow",
-      "metaTitle": "Czyszczenie laptopa Wrocław - 200-250 zł | Studio-Komp",
-      "metaDescription": "Czyszczenie laptopa we Wrocławiu: rozbiórka, czyszczenie chłodzenia, nowa pasta termoprzewodząca, testy temperatur. 200-250 zł, zwykle jeden dzień.",
+      "metaTitle": "Czyszczenie laptopa Wrocław - {{cena:czyszczenie-laptopa}} | Studio-Komp",
+      "metaDescription": "Czyszczenie laptopa we Wrocławiu: rozbiórka, czyszczenie chłodzenia, nowa pasta termoprzewodząca, testy temperatur. {{cena:czyszczenie-laptopa}}, zwykle jeden dzień.",
       "h1": "Czyszczenie laptopa we Wrocławiu",
-      "lead": "Laptop głośny, gorący i wolniejszy niż rok temu? Czyścimy układ chłodzenia razem z wymianą pasty i testami temperatur. 200-250 zł.",
-      "price": "200-250 zł",
+      "lead": "Laptop głośny, gorący i wolniejszy niż rok temu? Czyścimy układ chłodzenia razem z wymianą pasty i testami temperatur. {{cena:czyszczenie-laptopa}}.",
+      "price": "{{cena:czyszczenie-laptopa}}",
       "bullets": [
         "Czyszczenie radiatora i wentylatora",
         "Nowa pasta termoprzewodząca",
@@ -64,10 +64,10 @@
     {
       "slug": "naprawa-po-zalaniu",
       "metaTitle": "Naprawa laptopa po zalaniu Wrocław | Studio-Komp",
-      "metaDescription": "Zalany laptop? Naprawa po zalaniu we Wrocławiu: mycie płyty, usuwanie korozji, naprawa podzespołów. 450-800 zł. Kotlarska 14.",
+      "metaDescription": "Zalany laptop? Naprawa po zalaniu we Wrocławiu: mycie płyty, usuwanie korozji, naprawa podzespołów. {{cena:naprawa-po-zalaniu}}. Kotlarska 14.",
       "h1": "Naprawa laptopa po zalaniu",
       "lead": "Kawa, herbata, woda? Im szybciej laptop trafi do serwisu, tym większa szansa na uratowanie płyty i danych. Diagnozujemy i naprawiamy.",
-      "price": "450-800 zł",
+      "price": "{{cena:naprawa-po-zalaniu}}",
       "bullets": [
         "Rozbiórka i ocena szkód",
         "Mycie płyty głównej",
@@ -79,10 +79,10 @@
     {
       "slug": "naprawa-ekspresowa",
       "metaTitle": "Naprawa laptopa tego samego dnia Wrocław | Studio-Komp",
-      "metaDescription": "Naprawa ekspresowa laptopa we Wrocławiu - tego samego dnia, dopłata 150 zł. Zależy od usterki i dostępności części. Kotlarska 14.",
+      "metaDescription": "Naprawa ekspresowa laptopa we Wrocławiu - tego samego dnia, dopłata {{cena:ekspres}}. Zależy od usterki i dostępności części. Kotlarska 14.",
       "h1": "Naprawa laptopa tego samego dnia",
-      "lead": "Nie możesz czekać? Naprawa ekspresowa oznacza, że zajmujemy się laptopem poza kolejnością - tego samego dnia. Dopłata 150 zł.",
-      "price": "+150 zł do naprawy",
+      "lead": "Nie możesz czekać? Naprawa ekspresowa oznacza, że zajmujemy się laptopem poza kolejnością - tego samego dnia. Dopłata {{cena:ekspres}}.",
+      "price": "+{{cena:ekspres}} do naprawy",
       "bullets": [
         "Naprawa poza standardową kolejką",
         "Diagnoza i wycena od razu na miejscu",

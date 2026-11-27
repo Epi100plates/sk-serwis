@@ -8,6 +8,7 @@ import ContactBlock from '../../components/ContactBlock.astro';
 import Icon from '../../components/Icon.astro';
 import { articleSchema, breadcrumbSchema, faqSchema } from '../../lib/schema';
 import { withBase } from '../../lib/url';
+import { applyPriceTokens } from '../../lib/prices';
 import site from '../../data/site.json';
 
 export const getStaticPaths = (async () => {
@@ -18,6 +19,8 @@ export const getStaticPaths = (async () => {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
+const title = applyPriceTokens(data.title);
+const description = applyPriceTokens(data.description);
 
 const words = entry.body ? entry.body.trim().split(/\s+/).length : 0;
 const minutes = Math.max(3, Math.round(words / 200));
@@ -42,8 +45,8 @@ const relatedPosts = posts
 
 const schema = [
   articleSchema({
-    title: data.title,
-    description: data.description,
+    title,
+    description,
     path: `/poradnik/${entry.id}/`,
     published: data.pubDate.toISOString(),
     modified: (data.updatedDate ?? data.pubDate).toISOString(),
@@ -51,15 +54,15 @@ const schema = [
   breadcrumbSchema([
     { label: 'Start', path: '/' },
     { label: 'Poradnik', path: '/poradnik/' },
-    { label: data.title, path: `/poradnik/${entry.id}/` },
+    { label: title, path: `/poradnik/${entry.id}/` },
   ]),
   ...(data.faq.length ? [faqSchema(data.faq)] : []),
 ];
 ---
 
 <Base
-  title={`${data.title} | Studio-Komp`}
-  description={data.description}
+  title={`${title} | Studio-Komp`}
+  description={description}
   canonicalPath={`/poradnik/${entry.id}/`}
   type="article"
   schema={schema}
@@ -69,7 +72,7 @@ const schema = [
   <article class="post">
     <header class="post__header">
       <div class="container container--narrow">
-        <Breadcrumbs items={[{ label: 'Poradnik', href: '/poradnik/' }, { label: data.title }]} />
+        <Breadcrumbs items={[{ label: 'Poradnik', href: '/poradnik/' }, { label: title }]} />
         <p class="post__meta mono">
           <span>{data.category}</span>
           <span aria-hidden="true">·</span>
@@ -77,8 +80,8 @@ const schema = [
           <span aria-hidden="true">·</span>
           <span>{minutes} min czytania</span>
         </p>
-        <h1 class="post__title">{data.title}</h1>
-        <p class="lead post__lead">{data.description}</p>
+        <h1 class="post__title">{title}</h1>
+        <p class="lead post__lead">{description}</p>
       </div>
     </header>
 
@@ -130,7 +133,7 @@ const schema = [
     </div>
   </article>
 
-  {data.faq.length > 0 && <Faq items={data.faq.map((f) => ({ q: f.question, a: f.answer }))} title="Częste pytania" intro="Dopytujemy o to najczęściej po przeczytaniu tego artykułu." />}
+  {data.faq.length > 0 && <Faq items={data.faq.map((f) => ({ q: applyPriceTokens(f.question), a: applyPriceTokens(f.answer) }))} title="Częste pytania" intro="Dopytujemy o to najczęściej po przeczytaniu tego artykułu." />}
 
   {
     relatedPosts.length > 0 && (

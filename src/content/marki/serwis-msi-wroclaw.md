@@ -63,7 +63,7 @@ Diagnoza jest bezpłatna przy zleceniu naprawy. Jeśli klient rezygnuje, diagnos
 
 99% napraw robimy z dnia na dzień. Konserwacja chłodzenia z wymianą pasty i termopadów to zwykle jedna wizyta, podobnie wymiana matrycy czy gniazda zasilania. Naprawy płyty głównej i modele wymagające zamówienia części trwają dłużej.
 
-Za 150 zł można zamówić usługę ekspresową, czyli naprawę tego samego dnia. Przy konserwacji chłodzenia to realna opcja, o ile laptop trafi do nas rano. Konserwacja MSI wymaga dłuższego testu obciążeniowego niż laptop biurowy, więc odbiór bywa planowany na następny dzień, nawet gdy sama rozbiórka idzie sprawnie.
+Za {{cena:ekspres}} można zamówić usługę ekspresową, czyli naprawę tego samego dnia. Przy konserwacji chłodzenia to realna opcja, o ile laptop trafi do nas rano. Konserwacja MSI wymaga dłuższego testu obciążeniowego niż laptop biurowy, więc odbiór bywa planowany na następny dzień, nawet gdy sama rozbiórka idzie sprawnie.
 
 ## Części i dobór podzespołów
 

@@ -65,7 +65,7 @@ Diagnoza jest bezpłatna, jeśli zlecasz naprawę. Jeśli rezygnujesz, diagnosty
 
 Większość napraw, dla których części są na miejscu, wykonujemy z dnia na dzień. To zasada, która dotyczy 99% naszych zleceń, ale przy Samsungu bywa inaczej: jeżeli panel albo bateria wymaga zamówienia, czas oczekiwania zależy od dostawy i mówimy o tym otwarcie.
 
-Ekspres za dodatkowe 150 zł oznacza naprawę tego samego dnia. Ma sens wtedy, gdy część jest dostępna i usterka jest prosta do usunięcia. Jeśli nie, dopłata nic nie zmieni i nie proponujemy jej bez sensu.
+Ekspres za dodatkowe {{cena:ekspres}} oznacza naprawę tego samego dnia. Ma sens wtedy, gdy część jest dostępna i usterka jest prosta do usunięcia. Jeśli nie, dopłata nic nie zmieni i nie proponujemy jej bez sensu.
 
 ## Części i modele
 

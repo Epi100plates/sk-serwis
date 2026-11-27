@@ -46,9 +46,15 @@ Panel: **https://sk.mati-it.pl/panel/** (docelowo `https://studio-komp.pl/panel/
 
 ### Zmiana ceny / telefonu / godzin
 
-- Ceny: **Ustawienia → Cennik**.
+- Ceny: **Ustawienia → Cennik**. To jedyne miejsce, w którym zmieniasz ceny -
+  ta sama wartość trafia na stronę główną, cennik, podstrony usług, marki,
+  landingi, FAQ i do artykułów poradnika. Po publikacji zaktualizuje się wszędzie.
+- Jeśli nie znasz ceny, zostaw w polu ceny `… zł` albo puste pole. Na stronie
+  pokaże się wtedy „wycena po diagnozie” - nigdy wymyślona kwota.
+- Nie zmieniaj ukrytego klucza pozycji (widocznego jako `klucz: ...` w tabeli)
+  i nie usuwaj pozycji, do których odwołują się treści. Nową pozycję dodasz,
+  kopiując wpis w `src/data/cennik.json` i nadając jej nowy unikalny klucz.
 - Telefon, adres, godziny: **Ustawienia → Kontakt** (zmiana działa w całym serwisie).
-- Nie wymyślaj cen — jeśli nie znasz, zostaw „… zł” albo „wycena po diagnozie”.
 
 ### Publikacja
 1. Po zapisaniu zmian kliknij **Publikuj** (górny pasek) lub **Publikacja →
@@ -116,11 +122,26 @@ nadawca i odznaczony tryb testowy. Szczegóły techniczne:
   Usługi zaznacz **„Kafelek w sekcji Co najczęściej naprawiamy”**, uzupełnij
   „Tytuł kafelka” i „Opis kafelka”, wybierz zdjęcie (Media) oraz ustaw
   „Kolejność”. Opis jest widoczny po najechaniu myszą albo kliknięciu kafelka.
-- Ceny edytujesz w jednym miejscu: Ustawienia → Cennik. Ta sama wartość jest
-  używana na stronie głównej, w cenniku, na podstronach usług i w FAQ
-  (jeśli tekst FAQ podaje cenę, popraw ją też w Ustawienia → FAQ).
+- Ceny edytujesz w jednym miejscu: Ustawienia → Cennik. Cennik jest jedynym
+  źródłem cen: ta sama wartość jest używana na stronie głównej, w cenniku, na
+  podstronach usług i marek, w landingach, FAQ i artykułach poradnika. Teksty
+  nie mają już wpisanych kwot na sztywno, więc nie poprawiaj ich ręcznie.
+- Pozycja bez ceny (`… zł` albo puste pole) pokazuje na stronie
+  „wycena po diagnozie”. Nie wpisuj przybliżonej kwoty, jeśli nie jest ustalona.
 - Lista marek w stopce i na stronie głównej pochodzi z Treści → Marki.
   Marka Microsoft Surface została wycofana z oferty - nie dodawaj jej ponownie.
+
+## Ceny - szczegóły techniczne
+
+- `src/data/cennik.json` to jedno źródło cen. Każda pozycja ma stały `key`.
+- W Markdownie, frontmatterze, FAQ i landingach używaj tokenu
+  `{{cena:klucz}}` - przy buildzie zamienia się na cenę z cennika
+  (`src/lib/prices.ts`, plugin `scripts/rehype-prices.mjs`).
+- Kontrola spójności: `node scripts/check-prices.mjs`. Skrypt pilnuje
+  unikalnych kluczy, tokenów bez pozycji, starych kwot wpisanych na sztywno
+  oraz braku „… zł” i surowych tokenów w `dist/`.
+- Zmiana cennika czyści cache treści Astro (`scripts/prices-cache.mjs`), żeby
+  nowa kwota pojawiła się także w artykułach bez edycji plików `.md`.
 
 ## Zasady bezpieczeństwa treści
 

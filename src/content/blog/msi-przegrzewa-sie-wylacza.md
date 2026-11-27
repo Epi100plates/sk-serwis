@@ -11,7 +11,7 @@ faq:
   - question: "Dlaczego MSI wyłącza się w grach, a w Windows działa normalnie?"
     answer: "Pod obciążeniem rosną temperatury i pobór prądu, więc ujawniają się problemy, których nie widać w spoczynku: zapchany radiator, wyschnięta pasta, zużyty zasilacz albo uszkodzony układ zasilania na płycie. Wyłączenia pod obciążeniem wymagają sprawdzenia temperatur i poboru prądu."
   - question: "Ile kosztuje diagnostyka laptopa MSI?"
-    answer: "Diagnostyka jest bezpłatna, jeśli zlecisz naprawę. Jeśli nie zdecydujesz się naprawiać, jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Konserwacja chłodzenia kosztuje 200-250 zł, ekspres to dopłata 150 zł."
+    answer: "Diagnostyka jest bezpłatna, jeśli zlecisz naprawę. Jeśli nie zdecydujesz się naprawiać, jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Konserwacja chłodzenia kosztuje {{cena:czyszczenie-laptopa}}, ekspres to dopłata {{cena:ekspres}}."
 ---
 
 MSI Gaming, który po kilkunastu minutach gry zaczyna hałasować i nagle się wyłącza, ma zwykle jedną z kilku przewidywalnych przyczyn. W laptopach gamingowych ciepło jest normalną częścią pracy, więc nie każda wysoka temperatura oznacza usterkę. Problem zaczyna się wtedy, gdy układ chłodzenia nie odbiera ciepła z układów, a elektronika ratuje się wyłączeniem. Zanim zaczniesz szukać wadliwej części, warto przejść przez listę przyczyn od najprostszej.
@@ -56,4 +56,4 @@ Jeśli przyczyną jest chłodzenie, wykonujemy konserwację: rozbiórka, czyszcz
 
 ## Kiedy przyjechać na Kotlarską 14
 
-Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna, o czym informujemy przed jej rozpoczęciem. Usługa ekspresowa to dopłata 150 zł. Stawki znajdziesz w [cenniku](/cennik/). Jeśli chcesz najpierw porównać objawy, przeczytaj artykuł o [laptopie, który wyłącza się podczas grania](/poradnik/dlaczego-laptop-wylacza-sie-podczas-grania/).
+Przyjdź bez umawiania na Kotlarską 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna, o czym informujemy przed jej rozpoczęciem. Usługa ekspresowa to dopłata {{cena:ekspres}}. Stawki znajdziesz w [cenniku](/cennik/). Jeśli chcesz najpierw porównać objawy, przeczytaj artykuł o [laptopie, który wyłącza się podczas grania](/poradnik/dlaczego-laptop-wylacza-sie-podczas-grania/).

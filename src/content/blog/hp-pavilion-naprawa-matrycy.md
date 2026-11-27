@@ -11,7 +11,7 @@ faq:
   - question: "Czy do HP Pavilion wystarczy znać przekątną ekranu?"
     answer: "Nie. Trzeba znać model, rozdzielczość, typ panelu, złącze i liczbę pinów. Ten sam Pavilion występował z różnymi matrycami w zależności od partii i konfiguracji, a montaż panelu o innym układzie złącza może uszkodzić płytę."
   - question: "Ile trwa naprawa matrycy w HP Pavilion?"
-    answer: "Zwykle jeden dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest dostępna."
+    answer: "Zwykle jeden dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą {{cena:ekspres}} skraca naprawę do tego samego dnia, o ile część jest dostępna."
 ---
 
 Ekran w HP Pavilion pęka najczęściej po nacisku na pokrywę, po zamknięciu laptopa z przedmiotem na klawiaturze albo po upadku. Zdarza się też, że obraz gaśnie bez widocznego uszkodzenia - wtedy przyczyną bywa taśma albo podświetlenie. W obu przypadkach wymiana matrycy jest zwykle najprostszą drogą do sprawnego laptopa, ale wymaga doboru panelu pod konkretny model. Poniżej wyjaśniamy, jak to wygląda w praktyce.
@@ -54,7 +54,7 @@ Testy obejmują obraz w kilku rozdzielczościach, równomierność podświetleni
 
 Cena zależy od modelu laptopa, przekątnej i typu panelu. Piętnastocalowa matryca IPS do popularnego Pavilion to inna kwota niż panel dotykowy albo OLED do modelu z wyższej półki. Dochodzi robocizna. Dlatego nie podajemy jednej stawki: najpierw sprawdzamy, jaki panel jest w Twoim laptopie, a potem mówimy, ile kosztuje wymiana. Kwotę znasz przed zamówieniem części.
 
-Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile część jest dostępna. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna i informujemy o tym przed jej rozpoczęciem. Stawki znajdziesz w [cenniku](/cennik/).
+Standardowo wymiana jest gotowa z dnia na dzień, jeśli panel mamy na miejscu. Gdy trzeba go zamówić, czas zależy od dostawy. Usługa ekspresowa z dopłatą {{cena:ekspres}} skraca naprawę do tego samego dnia, o ile część jest dostępna. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli nie zdecydujesz się naprawiać, jest płatna i informujemy o tym przed jej rozpoczęciem. Stawki znajdziesz w [cenniku](/cennik/).
 
 ## Kiedy przyjechać
 

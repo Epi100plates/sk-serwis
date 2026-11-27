@@ -90,6 +90,25 @@ if (is_post()) {
         redirect_to(panel_url('zgloszenia', ['id' => $ticketIdForRedirect]));
     }
 
+    if ($action === 'forward_intake') {
+        $id = (int) post('ticket_id', 0);
+        $ticket = tickets_by_id($id);
+        if (!$ticket) {
+            flash('err', 'Nie znaleziono zgłoszenia.');
+            redirect_to(panel_url('zgloszenia'));
+        }
+        $result = service_intake_forward($id, true);
+        if ($result['ok']) {
+            audit('ticket_intake_forward', 'ticket:' . $id, ['number' => (string) $ticket['number']]);
+            flash('ok', 'Zgłoszenie przekazano do aplikacji warsztatu.');
+        } elseif ($result['status'] === 'disabled') {
+            flash('err', 'Integracja z aplikacją warsztatu jest wyłączona - uzupełnij service_intake_secret w konfiguracji panelu.');
+        } else {
+            flash('err', 'Nie udało się przekazać zgłoszenia: ' . ($result['error'] !== '' ? $result['error'] : 'nieznany błąd.'));
+        }
+        redirect_to(panel_url('zgloszenia', ['id' => $id]));
+    }
+
     if ($action === 'save_public_note') {
         $id = (int) post('ticket_id', 0);
         if (!$canManageTicket) {
@@ -283,6 +302,36 @@ if ($ticketId > 0) {
                 <tr><th>Strona źródłowa</th><td class="small"><?= e($ticket['source_page'] !== '' ? $ticket['source_page'] : '-') ?></td></tr>
                 <tr><th>Zgoda</th><td class="small"><?= e($ticket['consent_at'] !== '' ? format_date($ticket['consent_at']) : '-') ?> (wersja <?= e($ticket['consent_version'] !== '' ? $ticket['consent_version'] : '-') ?>)</td></tr>
                 <tr><th>Ostatnia zmiana</th><td class="small"><?= e(format_date($ticket['updated_at'])) ?></td></tr>
+                <?php
+                  $intakeAt = trim((string) ($ticket['service_intake_at'] ?? ''));
+                  $intakeError = trim((string) ($ticket['service_intake_error'] ?? ''));
+                  $intakeAttempts = (int) ($ticket['service_intake_attempts'] ?? 0);
+                ?>
+                <tr>
+                  <th>Aplikacja warsztatu</th>
+                  <td class="small">
+                    <?php if ($intakeAt !== ''): ?>
+                      <span class="badge badge--success">Przekazane</span>
+                      <span class="mono"><?= e(format_date($intakeAt)) ?></span>
+                      <?php if ((string) ($ticket['service_intake_status'] ?? '') !== ''): ?>
+                        <span class="muted">(<?= e((string) $ticket['service_intake_status']) ?>)</span>
+                      <?php endif; ?>
+                    <?php elseif ($intakeError !== ''): ?>
+                      <span class="badge badge--danger">Błąd</span>
+                      <?= e($intakeError) ?>
+                      <span class="muted">Próby: <?= $intakeAttempts ?></span>
+                    <?php else: ?>
+                      <span class="badge badge--warning">Oczekuje</span>
+                      Zgłoszenie zostanie dosłane automatycznie (worker co minutę).
+                    <?php endif; ?>
+                    <form method="post" style="margin-top:8px">
+                      <?= csrf_field() ?>
+                      <input type="hidden" name="action" value="forward_intake">
+                      <input type="hidden" name="ticket_id" value="<?= $ticketId ?>">
+                      <button class="btn btn--sm" type="submit">Przekaż ponownie</button>
+                    </form>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

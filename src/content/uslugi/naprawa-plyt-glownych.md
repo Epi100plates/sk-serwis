@@ -1,7 +1,7 @@
 ---
 title: "Naprawa płyt głównych Wrocław - zwarcia i zasilanie"
 navLabel: "Naprawa płyt głównych"
-description: "Naprawa płyt głównych we Wrocławiu: pomiary napięć, usuwanie zwarć, naprawa sekcji zasilania i uszkodzeń po zalaniu. Wycena po diagnozie."
+description: "Naprawa płyty głównej laptopa we Wrocławiu: pomiary napięć, usuwanie zwarć, naprawa sekcji zasilania i uszkodzeń po zalaniu. Wycena po diagnozie, przed rozpoczęciem pracy."
 h1: "Naprawa płyt głównych we Wrocławiu"
 lead: "Laptop nie włącza się, nie ładuje albo wyłącza się pod obciążeniem? Sprawdzamy płytę pomiarami i naprawiamy to, co faktycznie jest uszkodzone."
 teaser: "Pomiary, usuwanie zwarć i naprawa sekcji zasilania - bez wymiany całej płyty."
@@ -10,7 +10,7 @@ order: 60
 featured: true
 tile: true
 tileText: "Mierzymy napięcia i pobór prądu w kolejnych sekcjach płyty, szukamy zwarć i układów grzejących się ponad normę. Naprawiamy sekcję zasilania, układy ładowania, ścieżki oraz elementy uszkodzone korozją."
-priceNote: "Naprawa płyty głównej po zwarciu: 600-800 zł. Inne usterki wyceniamy po diagnostyce."
+priceNote: "Naprawa płyty głównej po zwarciu: {{cena:naprawa-plyty-glownej}}. Inne usterki wyceniamy po diagnostyce."
 duration: "zwykle z dnia na dzień"
 includes:
   - "Diagnostyka z pomiarami napięć"
@@ -62,10 +62,22 @@ Podłączamy płytę do zasilania z ograniczeniem prądu i mierzymy napięcia w 
 
 ## Cena
 
-Naprawa płyty głównej po zwarciu to 600-800 zł. Kwota zależy od zakresu uszkodzenia i tego, jakie elementy trzeba wymienić. Inne usterki wyceniamy indywidualnie po diagnostyce, bo trudno zgadywać z góry, co siedzi w środku. Cenę znasz przed rozpoczęciem pracy i decydujesz, czy naprawiamy. Przy prostszych usterkach możliwa jest usługa ekspresowa z dopłatą 150 zł, o ile nie trzeba zamawiać części. Zbiorcze stawki znajdziesz w [cenniku](/cennik/).
+Naprawa płyty głównej po zwarciu to {{cena:naprawa-plyty-glownej}}. Kwota zależy od zakresu uszkodzenia i tego, jakie elementy trzeba wymienić. Inne usterki wyceniamy indywidualnie po diagnostyce, bo trudno zgadywać z góry, co siedzi w środku. Cenę znasz przed rozpoczęciem pracy i decydujesz, czy naprawiamy. Przy prostszych usterkach możliwa jest usługa ekspresowa z dopłatą {{cena:ekspres}}, o ile nie trzeba zamawiać części. Zbiorcze stawki znajdziesz w [cenniku](/cennik/).
+
+## Co wpływa na cenę naprawy płyty głównej laptopa
+
+Cena nie zależy od marki laptopa, tylko od tego, co trzeba zrobić. Kilka czynników powtarza się przy każdej wycenie:
+
+- **Zakres uszkodzenia.** Pojedyncza ścieżka albo bezpiecznik to inna praca niż kilka uszkodzonych układów w różnych sekcjach płyty.
+- **Przyczyna.** Zwarcie po ładowarce zwykle zostawia ślady w jednym miejscu. Zalanie potrafi uszkodzić elementy pod układami scalonymi, gdzie czyszczenie i naprawa zajmują więcej czasu.
+- **Dostępność części i dokumentacji.** Do popularnego modelu łatwiej dobrać elementy i znaleźć schemat. Przy rzadkich konstrukcjach samo ustalenie, co jest uszkodzone, bywa dłuższe.
+- **To, czy naprawa jest w ogóle możliwa.** Jeśli uszkodzenie obejmuje wiele warstw laminatu, uczciwa wycena może oznaczać wymianę płyty, a nie naprawę.
+- **Czas diagnostyki.** Pomiary i testy to część pracy, której nie da się pominąć. Bez nich nie wiadomo, który fragment odpowiada za objawy.
+
+Dlatego widełki w cenniku traktujemy jako punkt wyjścia, a nie ostateczną kwotę. Po diagnozie dostajesz konkretną cenę i wiesz, co jest w niej zawarte. Jeśli naprawa okaże się nieopłacalna, usłyszysz to przed rozpoczęciem pracy.
 
 ## Dlaczego naprawa bywa tańsza niż wymiana płyty
 
 Nowa płyta to często koszt zbliżony do wartości całego używanego laptopa. Do starszych i mniej popularnych modeli trudno ją dostać, a szukanie zgodnej zajmuje czas. Naprawa konkretnego fragmentu zwykle kosztuje mniej i pozwala zachować wszystkie pozostałe podzespoły. Zdarza się jednak, że to wymiana jest lepszym wyborem i wtedy mówimy o tym bez owijania. Osobno sprawdzamy też elementy, które często udają awarię płyty, na przykład [gniazdo zasilania](/naprawa-gniazda-zasilania/) i [uszkodzenia po zalaniu](/naprawa-laptopa-po-zalaniu/).
 
-Przyjedź na Kotlarską 14 we Wrocławiu bez umawiania, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Wstępnie ocenimy, czy to sprawa dla elektronika, i umówimy termin. Jeśli laptop przestał się włączać, opisz to przez telefon - powiemy, co sprawdzić na początku.
+Przyjedź na Kotlarską 14 we Wrocławiu bez umawiania, od poniedziałku do piątku w godzinach 7:00-15:00, albo zadzwoń pod 500 613 500 i opisz objawy. Wstępnie ocenimy, czy to sprawa dla elektronika, i umówimy termin. Jeśli laptop przestał się włączać, opisz to przez telefon - powiemy, co sprawdzić na początku. Ile realnie kosztują takie naprawy, rozkładamy też w artykule [ile kosztuje naprawa płyty głównej laptopa](/poradnik/ile-kosztuje-naprawa-plyty-glownej-laptopa/).

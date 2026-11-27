@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import { breadcrumbSchema } from '../../lib/schema';
+import { applyPriceTokens } from '../../lib/prices';
 
 interface Props {
   entry: any;
@@ -11,26 +12,30 @@ interface Props {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
+const title = applyPriceTokens(data.title);
+const description = applyPriceTokens(data.description);
+const h1 = applyPriceTokens(data.h1);
+const lead = data.lead ? applyPriceTokens(data.lead) : description;
 
 const schema = [
   breadcrumbSchema([
     { label: 'Start', path: '/' },
-    { label: data.h1, path: `/${entry.id}/` },
+    { label: h1, path: `/${entry.id}/` },
   ]),
 ];
 ---
 
 <Base
-  title={`${data.title} | Studio-Komp`}
-  description={data.description}
+  title={`${title} | Studio-Komp`}
+  description={description}
   canonicalPath={`/${entry.id}/`}
   schema={schema}
   noindex={data.noindex}
 >
   <PageHero
-    h1={data.h1}
-    lead={data.lead ?? data.description}
-    crumbs={[{ label: data.h1 }]}
+    h1={h1}
+    lead={lead}
+    crumbs={[{ label: h1 }]}
     showActions={false}
   />
 

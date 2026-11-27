@@ -145,6 +145,7 @@ require_once __DIR__ . '/lib/analytics.php';
 require_once __DIR__ . '/lib/redirects.php';
 require_once __DIR__ . '/lib/reviews.php';
 require_once __DIR__ . '/lib/tickets.php';
+require_once __DIR__ . '/lib/service-intake.php';
 require_once __DIR__ . '/lib/sms.php';
 require_once __DIR__ . '/lib/mailer.php';
 

@@ -54,10 +54,10 @@ Po diagnozie dostajesz konkretną informację: co jest zepsute, ile potrwa napra
 
 ## Dlaczego szybkość ma znaczenie
 
-99% napraw wykonujemy z dnia na dzień. To nie slogan, tylko efekt tego, że części do najczęstszych usterek mamy na miejscu, a serwis pracuje codziennie przy laptopach. Jeśli zależy Ci na czasie, dostępna jest usługa ekspresowa: dopłata 150 zł i naprawa tego samego dnia - o ile pozwalają na to rodzaj usterki i dostępność części.
+99% napraw wykonujemy z dnia na dzień. To nie slogan, tylko efekt tego, że części do najczęstszych usterek mamy na miejscu, a serwis pracuje codziennie przy laptopach. Jeśli zależy Ci na czasie, dostępna jest usługa ekspresowa: dopłata {{cena:ekspres}} i naprawa tego samego dnia - o ile pozwalają na to rodzaj usterki i dostępność części.
 
 ## Gdzie nas znaleźć
 
 Serwis działa pod adresem Kotlarska 14 we Wrocławiu, od 2013 roku. Nie trzeba się umawiać - wystarczy przyjść w godzinach 7:00-15:00 od poniedziałku do piątku. Możesz też zadzwonić pod 500 613 500 i opisać problem; często już przez telefon da się ocenić, czy warto przywozić sprzęt.
 
-Jeśli szukasz konkretnej usługi, zajrzyj na podstrony: [naprawa po zalaniu](/naprawa-laptopa-po-zalaniu/), [naprawa płyt głównych](/naprawa-plyt-glownych/), [wymiana matrycy](/wymiana-matrycy-wroclaw/) lub [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/).
+Jeśli szukasz konkretnej usługi, zajrzyj na podstrony: [naprawa po zalaniu](/naprawa-laptopa-po-zalaniu/), [naprawa płyt głównych](/naprawa-plyt-glownych/), [wymiana matrycy](/wymiana-matrycy-wroclaw/) lub [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/). Laptopy do gier mają własne typowe usterki, dlatego osobno opisujemy [naprawę laptopów gamingowych](/naprawa-laptopow-gamingowych-wroclaw/). Jeśli nie wiesz, która usługa dotyczy Twojego problemu, zacznij od przeglądu [serwisu komputerowego we Wrocławiu](/serwis-komputerowy-wroclaw/), który obejmuje laptopy i komputery stacjonarne.

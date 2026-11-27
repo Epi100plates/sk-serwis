@@ -1,5 +1,6 @@
 import site from '../data/site.json';
 import { absoluteUrl, SITE_ORIGIN } from './url';
+import { applyPriceTokens } from './prices';
 
 type Crumb = { label: string; path?: string };
 
@@ -10,7 +11,7 @@ export function breadcrumbSchema(items: Crumb[]) {
     itemListElement: items.map((item, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      name: item.label,
+      name: applyPriceTokens(item.label),
       ...(item.path ? { item: absoluteUrl(item.path) } : {}),
     })),
   };
@@ -22,10 +23,10 @@ export function faqSchema(items: { q: string; a: string }[]) {
     '@type': 'FAQPage',
     mainEntity: items.map((item) => ({
       '@type': 'Question',
-      name: item.q,
+      name: applyPriceTokens(item.q),
       acceptedAnswer: {
         '@type': 'Answer',
-        text: item.a,
+        text: applyPriceTokens(item.a),
       },
     })),
   };
@@ -38,13 +39,14 @@ export function serviceSchema(opts: {
   priceFrom?: string;
   serviceType?: string;
 }) {
-  const numericPrice = opts.priceFrom?.match(/(\d+)/)?.[1];
+  const resolvedPriceFrom = opts.priceFrom ? applyPriceTokens(opts.priceFrom) : undefined;
+  const numericPrice = resolvedPriceFrom?.match(/(\d+)/)?.[1];
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: opts.name,
-    description: opts.description,
-    serviceType: opts.serviceType ?? opts.name,
+    name: applyPriceTokens(opts.name),
+    description: applyPriceTokens(opts.description),
+    serviceType: applyPriceTokens(opts.serviceType ?? opts.name),
     url: absoluteUrl(opts.path),
     areaServed: { '@type': 'City', name: 'Wrocław' },
     provider: {
@@ -85,8 +87,8 @@ export function articleSchema(opts: {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: opts.title,
-    description: opts.description,
+    headline: applyPriceTokens(opts.title),
+    description: applyPriceTokens(opts.description),
     url: absoluteUrl(opts.path),
     datePublished: opts.published,
     dateModified: opts.modified ?? opts.published,

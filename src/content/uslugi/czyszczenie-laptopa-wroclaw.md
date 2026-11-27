@@ -1,7 +1,7 @@
 ---
 title: "Czyszczenie laptopa Wrocław - cena i zakres"
 navLabel: "Czyszczenie i konserwacja"
-description: "Czyszczenie laptopa we Wrocławiu: rozbiórka, czyszczenie układu chłodzenia, wymiana pasty termoprzewodzącej i testy temperatur. 200-250 zł, zwykle z dnia na dzień."
+description: "Czyszczenie laptopa we Wrocławiu: rozbiórka, czyszczenie układu chłodzenia, wymiana pasty termoprzewodzącej i testy temperatur. {{cena:czyszczenie-laptopa}}, zwykle z dnia na dzień."
 h1: "Czyszczenie laptopa we Wrocławiu"
 lead: "Laptop głośny, gorący i wolniejszy niż rok temu? Najczęściej to zapchany układ chłodzenia. Czyścimy go u źródła - razem z wymianą pasty i testami temperatur."
 teaser: "Rozbiórka, czyszczenie chłodzenia, nowa pasta i testy temperatur - zwykle w jeden dzień."
@@ -10,7 +10,7 @@ order: 10
 featured: true
 tile: true
 tileText: "Rozbieramy laptopa, demontujemy radiator i wentylator, usuwamy kurz i osady. Nakładamy nową pastę termoprzewodzącą na procesor i kartę graficzną, składamy całość i testujemy temperatury pod obciążeniem."
-priceFrom: "200-250 zł"
+priceFrom: "{{cena:czyszczenie-laptopa}}"
 priceNote: "Cena zależy od modelu i konstrukcji chłodzenia."
 duration: "zwykle następnego dnia"
 includes:
@@ -28,7 +28,7 @@ faq:
   - question: "Jak często trzeba czyścić laptopa?"
     answer: "Przy codziennym użytkowaniu zwykle raz na rok do dwóch lat. Jeśli laptop pracuje w kurzu, przy zwierzętach albo w zamkniętym biurze - częściej, nawet co 12 miesięcy. Objawem jest rosnąca temperatura i głośna praca wentylatora."
   - question: "Ile kosztuje czyszczenie laptopa we Wrocławiu?"
-    answer: "200-250 zł. Dokładna cena zależy od modelu, konstrukcji chłodzenia i tego, czy trzeba wymienić dodatkowe elementy. Kwotę podajemy przed rozpoczęciem pracy."
+    answer: "{{cena:czyszczenie-laptopa}}. Dokładna cena zależy od modelu, konstrukcji chłodzenia i tego, czy trzeba wymienić dodatkowe elementy. Kwotę podajemy przed rozpoczęciem pracy."
   - question: "Czy czyszczenie wymaga zostawienia laptopa?"
     answer: "Zwykle tak - na jeden dzień. W przypadku prostych modeli często da się to zrobić na miejscu, po wcześniejszym telefonie. Jeśli zależy Ci na czasie, zapytaj o usługę ekspresową."
   - question: "Czy wymieniacie pastę termoprzewodzącą?"
@@ -59,11 +59,19 @@ Konserwacja to nie samo przedmuchanie wentylatora sprężonym powietrzem. Rozbie
 
 Konkretnie: rozbiórka urządzenia, demontaż radiatora i wentylatora, usunięcie kurzu i osadów z żeberek, oczyszczenie wirnika wentylatora, nałożenie nowej pasty termoprzewodzącej na procesor i kartę graficzną, złożenie całości, a na końcu testy temperatur i sprawdzenie, czy laptop pracuje stabilnie.
 
+## Czyszczenie laptopa gamingowego we Wrocławiu
+
+Laptop gamingowy wymaga innego podejścia niż biurowy. Ma zwykle dwa wentylatory, rozbudowany radiator i wyższe temperatury pracy, a przez obudowę przepływa więcej powietrza - razem z kurzem i sierścią. Dlatego rozbiórka jest dłuższa, a samo przedmuchanie kratek niczego nie załatwia.
+
+Przy takich modelach sprawdzamy też materiały termiczne na karcie graficznej i sekcji zasilania. Część konstrukcji używa padów termicznych zamiast pasty, a ich grubość ma znaczenie: zbyt cienki albo twardy pad nie odbiera ciepła z pamięci i układów zasilania. Przed czyszczeniem ustalamy, co przewidział producent, i nie zamieniamy sprawdzonego rozwiązania na inne tylko dlatego, że jest szybsze w montażu.
+
+Po złożeniu mierzymy temperatury procesora i karty w spoczynku oraz w grach, porównujemy z wartościami przed czyszczeniem i sprawdzamy, czy wentylatory wchodzą na wyższe obroty dopiero pod obciążeniem. Jeśli chcesz wiedzieć, jak nasze podejście wygląda przy sprzęcie do gier, zajrzyj na stronę [naprawy laptopów gamingowych](/naprawa-laptopow-gamingowych-wroclaw/).
+
 ## Ile trwa i ile kosztuje
 
-Standardowo konserwacja jest gotowa następnego dnia. Cena wynosi 200-250 zł i zależy od modelu - inne podejście wymaga smukły ultrabook, inne duży laptop gamingowy z dwoma wentylatorami. Dokładną kwotę podajemy przy przyjęciu sprzętu, przed rozpoczęciem pracy.
+Standardowo konserwacja jest gotowa następnego dnia. Cena wynosi {{cena:czyszczenie-laptopa}} i zależy od modelu - inne podejście wymaga smukły ultrabook, inne duży laptop gamingowy z dwoma wentylatorami. Dokładną kwotę podajemy przy przyjęciu sprzętu, przed rozpoczęciem pracy.
 
-Jeżeli zależy Ci na czasie, możesz zamówić usługę ekspresową. Dopłata wynosi 150 zł, a naprawa wykonywana jest tego samego dnia - o ile pozwalają na to dostępność części i rodzaj usterki.
+Jeżeli zależy Ci na czasie, możesz zamówić usługę ekspresową. Dopłata wynosi {{cena:ekspres}}, a naprawa wykonywana jest tego samego dnia - o ile pozwalają na to dostępność części i rodzaj usterki.
 
 ## Jak wygląda wizyta
 

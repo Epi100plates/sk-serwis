@@ -1,7 +1,7 @@
 ---
 title: "Naprawa laptopa po zalaniu we Wrocławiu - zakres i cena"
 navLabel: "Naprawa po zalaniu"
-description: "Naprawa laptopa po zalaniu we Wrocławiu: rozbiórka, mycie płyty głównej, usuwanie elektrokorozji i testy. 450-800 zł, cena zależy od cieczy i szkód."
+description: "Naprawa laptopa po zalaniu we Wrocławiu: rozbiórka, mycie płyty głównej, usuwanie elektrokorozji i testy. {{cena:naprawa-po-zalaniu}}, cena zależy od cieczy i szkód."
 h1: "Naprawa laptopa po zalaniu - Wrocław"
 lead: "Kawa wylana na klawiaturę, laptop wyłączony i pytanie, czy da się go uratować. Liczy się czas: im szybciej sprzęt trafi do serwisu, tym mniejsze szkody na płycie."
 teaser: "Rozbiórka, mycie płyty i usuwanie elektrokorozji - im szybciej, tym lepiej."
@@ -10,7 +10,7 @@ order: 50
 featured: true
 tile: true
 tileText: "Rozbieramy laptopa, oglądamy płytę pod kątem zacieków i nalotu, myjemy ją z resztek cieczy i usuwamy elektrokorozję. Uszkodzone elementy naprawiamy lub wymieniamy, a na końcu testujemy sprzęt pod obciążeniem."
-priceFrom: "450-800 zł"
+priceFrom: "{{cena:naprawa-po-zalaniu}}"
 priceNote: "Cena zależy od cieczy, zakresu uszkodzeń i koniecznych części."
 duration: "zwykle z dnia na dzień"
 includes:
@@ -61,7 +61,7 @@ Zaczynamy od rozmowy i rozbiórki. Ustalamy, jaka ciecz wylała się na laptopa,
 
 ## Cena i czas
 
-Naprawa po zalaniu kosztuje 450-800 zł. Cena zależy od tego, co wylało się na laptopa, jak długo ciecz działała i jakie części trzeba wymienić albo naprawić. Po obejrzeniu sprzętu podajemy konkretną kwotę i nie zaczynamy pracy bez Twojej zgody. Prostsze przypadki kończymy z dnia na dzień. Jeśli trzeba zamówić elementy, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile części są dostępne. Stawki zbiorcze znajdziesz w [cenniku](/cennik/).
+Naprawa po zalaniu kosztuje {{cena:naprawa-po-zalaniu}}. Cena zależy od tego, co wylało się na laptopa, jak długo ciecz działała i jakie części trzeba wymienić albo naprawić. Po obejrzeniu sprzętu podajemy konkretną kwotę i nie zaczynamy pracy bez Twojej zgody. Prostsze przypadki kończymy z dnia na dzień. Jeśli trzeba zamówić elementy, czas zależy od dostawy. Usługa ekspresowa z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, o ile części są dostępne. Stawki zbiorcze znajdziesz w [cenniku](/cennik/).
 
 ## Dane i kopie zapasowe
 

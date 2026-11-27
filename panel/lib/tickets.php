@@ -460,6 +460,18 @@ function tickets_create(array $data, string $clientToken): array
 
             $pdo->commit();
             tickets_log('formularz: utworzono zgłoszenie ' . $number);
+
+            // Przekazanie do aplikacji warsztatu po commicie: formularz nie może
+            // czekać na drugą aplikację, a nieudana wysyłka jest ponawiana przez
+            // worker (kolumny service_intake_* w tabeli tickets).
+            if (function_exists('service_intake_forward')) {
+                try {
+                    service_intake_forward($ticketId);
+                } catch (Throwable $e) {
+                    tickets_log('intake: wyjątek przy przekazywaniu zgłoszenia ' . $number . ' (' . get_class($e) . ')');
+                }
+            }
+
             return ['ok' => true, 'id' => $ticketId, 'number' => $number, 'duplicate' => false];
         } catch (Throwable $e) {
             if ($pdo->inTransaction()) {

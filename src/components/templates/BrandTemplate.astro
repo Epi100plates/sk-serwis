@@ -8,6 +8,7 @@ import DiagnosisNote from '../../components/DiagnosisNote.astro';
 import Icon from '../../components/Icon.astro';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '../../lib/schema';
 import { withBase } from '../../lib/url';
+import { applyPriceTokens, price } from '../../lib/prices';
 import site from '../../data/site.json';
 
 interface Props {
@@ -16,6 +17,11 @@ interface Props {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
+const title = applyPriceTokens(data.title);
+const description = applyPriceTokens(data.description);
+const h1 = applyPriceTokens(data.h1);
+const lead = applyPriceTokens(data.lead);
+const brand = applyPriceTokens(data.brand);
 
 const services = await getCollection('uslugi', ({ data: d }: any) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !d.draft);
 const related = data.services
@@ -26,44 +32,44 @@ const otherBrands = allBrands.filter((m: any) => m.id !== entry.id);
 
 const chips = [
   { label: 'Diagnostyka', value: '0 zł* przy naprawie' },
-  { label: 'Ekspres', value: `+${site.express.surcharge} zł` },
+  { label: 'Ekspres', value: `+${price('ekspres')}` },
   { label: 'Przyjęcie', value: 'Bez umawiania' },
 ];
 
-const faqItems = data.faq.map((f: any) => ({ q: f.question, a: f.answer }));
+const faqItems = data.faq.map((f: any) => ({ q: applyPriceTokens(f.question), a: applyPriceTokens(f.answer) }));
 
 const schema = [
   serviceSchema({
-    name: data.h1,
-    description: data.description,
+    name: h1,
+    description,
     path: `/${entry.id}/`,
   }),
   breadcrumbSchema([
     { label: 'Start', path: '/' },
     { label: 'Serwis marek', path: '/uslugi/' },
-    { label: data.brand, path: `/${entry.id}/` },
+    { label: brand, path: `/${entry.id}/` },
   ]),
   ...(faqItems.length ? [faqSchema(faqItems)] : []),
   {
     '@context': 'https://schema.org',
     '@type': 'Brand',
-    name: data.brand,
+    name: brand,
   },
 ];
 ---
 
 <Base
-  title={`${data.title} | Studio-Komp`}
-  description={data.description}
+  title={`${title} | Studio-Komp`}
+  description={description}
   canonicalPath={`/${entry.id}/`}
   schema={schema}
 >
   <section class="brand-hero">
     <div class="container">
-      <Breadcrumbs items={[{ label: 'Serwis marek', href: '/uslugi/' }, { label: data.brand }]} />
-      <p class="mono brand-hero__kicker">Serwis {data.brand} Wrocław</p>
-      <h1 class="brand-hero__title">{data.h1}</h1>
-      <p class="lead brand-hero__lead">{data.lead}</p>
+      <Breadcrumbs items={[{ label: 'Serwis marek', href: '/uslugi/' }, { label: brand }]} />
+      <p class="mono brand-hero__kicker">Serwis {brand} Wrocław</p>
+      <h1 class="brand-hero__title">{h1}</h1>
+      <p class="lead brand-hero__lead">{lead}</p>
 
       <dl class="brand-hero__chips">
         {chips.map((chip) => (
@@ -95,7 +101,7 @@ const schema = [
               <ul>
                 {data.problems.map((p: string) => (
                   <li>
-                    <Icon name="check" size={15} strokeWidth={2} /> {p}
+                    <Icon name="check" size={15} strokeWidth={2} /> {applyPriceTokens(p)}
                   </li>
                 ))}
               </ul>
@@ -110,10 +116,10 @@ const schema = [
         {
           data.repairs.length > 0 && (
             <section class="brand-repairs">
-              <h2>Najczęstsze naprawy {data.brand}</h2>
+              <h2>Najczęstsze naprawy {brand}</h2>
               <ul class="brand-repairs__list">
                 {data.repairs.map((r: string) => (
-                  <li>{r}</li>
+                  <li>{applyPriceTokens(r)}</li>
                 ))}
               </ul>
             </section>
@@ -161,7 +167,7 @@ const schema = [
         {
           related.length > 0 && (
             <div class="aside-box">
-              <p class="mono aside-box__label">Usługi dla {data.brand}</p>
+              <p class="mono aside-box__label">Usługi dla {brand}</p>
               <ul class="aside-list">
                 {related.map((s: any) => (
                   <li>
@@ -185,7 +191,7 @@ const schema = [
     </div>
   </section>
 
-  {faqItems.length > 0 && <Faq items={faqItems} title={`Pytania o serwis ${data.brand}`} intro="Najczęstsze pytania dotyczące napraw tej marki." />}
+  {faqItems.length > 0 && <Faq items={faqItems} title={`Pytania o serwis ${brand}`} intro="Najczęstsze pytania dotyczące napraw tej marki." />}
 
   <section class="section section--tight">
     <div class="container">

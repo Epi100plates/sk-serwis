@@ -8,6 +8,7 @@ import DiagnosisNote from '../../components/DiagnosisNote.astro';
 import Icon from '../../components/Icon.astro';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '../../lib/schema';
 import { withBase } from '../../lib/url';
+import { applyPriceTokens, displayPrice } from '../../lib/prices';
 import site from '../../data/site.json';
 
 interface Props {
@@ -17,42 +18,53 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const data = entry.data;
 
+// Ceny w frontmatterze to tokeny {{cena:KLUCZ}} albo gotowe kwoty - tu zamieniamy
+// je na wartości z cennika (placeholder => "wycena po diagnozie").
+const priceFrom = data.priceFrom ? displayPrice(data.priceFrom) : undefined;
+const priceNote = data.priceNote ? applyPriceTokens(data.priceNote) : undefined;
+const title = applyPriceTokens(data.title);
+const description = applyPriceTokens(data.description);
+const h1 = applyPriceTokens(data.h1);
+const lead = applyPriceTokens(data.lead);
+const navLabel = applyPriceTokens(data.navLabel);
+const faq = data.faq.map((f: any) => ({ q: applyPriceTokens(f.question), a: applyPriceTokens(f.answer) }));
+
 const all = await getCollection('uslugi', ({ data: d }: any) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !d.draft);
 const related = all.filter((s: any) => data.related.includes(s.id));
 
 const chips = [
-  ...(data.priceFrom ? [{ label: 'Cena', value: data.priceFrom }] : []),
-  ...(data.duration ? [{ label: 'Czas realizacji', value: data.duration }] : []),
+  ...(priceFrom ? [{ label: 'Cena', value: priceFrom }] : []),
+  ...(data.duration ? [{ label: 'Czas realizacji', value: applyPriceTokens(data.duration) }] : []),
   { label: 'Przyjęcie', value: 'Bez umawiania' },
   { label: 'Diagnostyka', value: '0 zł* przy naprawie' },
 ];
 
 const schema = [
   serviceSchema({
-    name: data.h1,
-    description: data.description,
+    name: h1,
+    description,
     path: `/${entry.id}/`,
-    priceFrom: data.priceFrom,
+    priceFrom,
   }),
   breadcrumbSchema([
     { label: 'Start', path: '/' },
     { label: 'Usługi', path: '/uslugi/' },
-    { label: data.navLabel, path: `/${entry.id}/` },
+    { label: navLabel, path: `/${entry.id}/` },
   ]),
-  ...(data.faq.length ? [faqSchema(data.faq)] : []),
+  ...(faq.length ? [faqSchema(faq)] : []),
 ];
 ---
 
 <Base
-  title={`${data.title} | Studio-Komp`}
-  description={data.description}
+  title={`${title} | Studio-Komp`}
+  description={description}
   canonicalPath={`/${entry.id}/`}
   schema={schema}
 >
   <PageHero
-    h1={data.h1}
-    lead={data.lead}
-    crumbs={[{ label: 'Usługi', href: '/uslugi/' }, { label: data.navLabel }]}
+    h1={h1}
+    lead={lead}
+    crumbs={[{ label: 'Usługi', href: '/uslugi/' }, { label: navLabel }]}
     chips={chips}
   />
 
@@ -67,7 +79,7 @@ const schema = [
                 {data.problems.map((p: string) => (
                   <li>
                     <Icon name="check" size={15} strokeWidth={2} />
-                    {p}
+                    {applyPriceTokens(p)}
                   </li>
                 ))}
               </ul>
@@ -93,11 +105,11 @@ const schema = [
 
       <aside class="service-aside">
         {
-          (data.priceFrom || data.priceNote) && (
+          (priceFrom || priceNote) && (
             <div class="aside-box aside-box--price">
               <p class="mono aside-box__label">Cena</p>
-              {data.priceFrom && <p class="aside-box__price">{data.priceFrom}</p>}
-              {data.priceNote && <p class="aside-box__note">{data.priceNote}</p>}
+              {priceFrom && <p class="aside-box__price">{priceFrom}</p>}
+              {priceNote && <p class="aside-box__note">{priceNote}</p>}
             </div>
           )
         }
@@ -110,7 +122,7 @@ const schema = [
                 {data.includes.map((item: string) => (
                   <li>
                     <Icon name="check" size={14} strokeWidth={2} />
-                    {item}
+                    {applyPriceTokens(item)}
                   </li>
                 ))}
               </ul>
@@ -158,7 +170,7 @@ const schema = [
     </div>
   </section>
 
-  {data.faq.length > 0 && <Faq items={data.faq.map((f: any) => ({ q: f.question, a: f.answer }))} title="Częste pytania" intro="Najczęściej pytacie nas o to przy przyjęciu sprzętu." />}
+  {faq.length > 0 && <Faq items={faq} title="Częste pytania" intro="Najczęściej pytacie nas o to przy przyjęciu sprzętu." />}
 
   {
     related.length > 0 && (
@@ -177,8 +189,8 @@ const schema = [
               <li>
                 <a class="related__item" href={withBase(`/${s.id}/`)}>
                   <span>
-                    <span class="related__title">{s.data.navLabel}</span>
-                    <span class="related__teaser">{s.data.teaser}</span>
+                    <span class="related__title">{applyPriceTokens(s.data.navLabel)}</span>
+                    <span class="related__teaser">{applyPriceTokens(s.data.teaser)}</span>
                   </span>
                   <Icon name="arrow" size={18} />
                 </a>

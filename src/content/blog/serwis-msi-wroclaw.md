@@ -11,7 +11,7 @@ faq:
   - question: "Czy czyścicie chłodzenie w laptopach MSI Gaming?"
     answer: "Tak, to nasza najczęstsza usługa przy tych modelach. Obejmuje rozbiórkę, czyszczenie radiatorów i wentylatorów, wymianę pasty termoprzewodzącej oraz sprawdzenie padów na sekcji zasilania i pamięciach."
   - question: "Ile trwa naprawa laptopa MSI?"
-    answer: "Standardowo z dnia na dzień, jeśli część jest dostępna. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, o ile usterka i dostępność części na to pozwalają."
+    answer: "Standardowo z dnia na dzień, jeśli część jest dostępna. Usługa ekspresowa z dopłatą {{cena:ekspres}} skraca naprawę do tego samego dnia, o ile usterka i dostępność części na to pozwalają."
 ---
 
 Laptopy MSI to najczęściej sprzęt gamingowy, który pracuje pod pełnym obciążeniem przez wiele godzin. To inny profil eksploatacji niż w laptopie biurowym: wyższe temperatury, szybsze zużycie pasty i kurz, który osiada w gęstym radiatorze. Do serwisu trafiają więc głównie modele z objawami przegrzewania i hałasu, a dopiero w drugiej kolejności z uszkodzeniami mechanicznymi. Poniżej wyjaśniamy, co najczęściej się psuje w MSI i jak wygląda naprawa we Wrocławiu.
@@ -50,7 +50,7 @@ Wentylatory do popularnych modeli gamingowych bywają dostępne od ręki, ale pr
 
 ## Cena, czas i ekspres
 
-Cenę podajemy po diagnozie, przed rozpoczęciem naprawy. Konserwacja kosztuje 200-250 zł i zależy od modelu oraz konstrukcji chłodzenia. Standardowo naprawa jest gotowa z dnia na dzień, a przy części zamawianej czas zależy od dostawy. Usługa ekspresowa to dopłata 150 zł i naprawa tego samego dnia, o ile część jest na miejscu. Pełne widełki znajdziesz w [cenniku](/cennik/), a zakres prac na stronie [serwis laptopów we Wrocławiu](/serwis-laptopow-wroclaw/).
+Cenę podajemy po diagnozie, przed rozpoczęciem naprawy. Konserwacja kosztuje {{cena:czyszczenie-laptopa}} i zależy od modelu oraz konstrukcji chłodzenia. Standardowo naprawa jest gotowa z dnia na dzień, a przy części zamawianej czas zależy od dostawy. Usługa ekspresowa to dopłata {{cena:ekspres}} i naprawa tego samego dnia, o ile część jest na miejscu. Pełne widełki znajdziesz w [cenniku](/cennik/), a zakres prac na stronie [serwis laptopów we Wrocławiu](/serwis-laptopow-wroclaw/).
 
 ## Kiedy przyjechać na Kotlarską 14
 

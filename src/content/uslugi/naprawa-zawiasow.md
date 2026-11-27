@@ -60,7 +60,7 @@ Po złożeniu ustawiamy klapę tak, żeby chodziła równo i domykała się do k
 
 ## Cena i czas naprawy we Wrocławiu
 
-Zawiasy to naprawa, której ceny nie da się podać z góry. Zależy od konstrukcji zawiasów i stopnia uszkodzenia, dlatego wyceniamy ją po obejrzeniu sprzętu. W większości przypadków naprawa jest gotowa z dnia na dzień. Jeśli trzeba zamówić zawiasy dopasowane do konkretnego modelu, czas może się wydłużyć. Ekspres z dopłatą 150 zł jest możliwy po wcześniejszym telefonie.
+Zawiasy to naprawa, której ceny nie da się podać z góry. Zależy od konstrukcji zawiasów i stopnia uszkodzenia, dlatego wyceniamy ją po obejrzeniu sprzętu. W większości przypadków naprawa jest gotowa z dnia na dzień. Jeśli trzeba zamówić zawiasy dopasowane do konkretnego modelu, czas może się wydłużyć. Ekspres z dopłatą {{cena:ekspres}} jest możliwy po wcześniejszym telefonie.
 
 ## Jak zapobiegać
 

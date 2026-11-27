@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Icon from './Icon.astro';
 import { withBase } from '../lib/url';
+import { displayPrice } from '../lib/prices';
 
 const services = (await getCollection('uslugi', ({ data }) => (typeof process !== "undefined" && process.env.PREVIEW === "1") || !data.draft))
   .filter((s) => s.data.featured)
@@ -35,7 +36,7 @@ const services = (await getCollection('uslugi', ({ data }) => (typeof process !=
               </span>
               <span class="service-row__meta">
                 {s.data.priceFrom && (
-                  <span class="service-row__price mono">{s.data.priceFrom}</span>
+                  <span class="service-row__price mono">{displayPrice(s.data.priceFrom)}</span>
                 )}
                 <Icon name="arrow" size={18} />
               </span>

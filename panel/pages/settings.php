@@ -9,6 +9,60 @@ $site = data_read('site');
 $cennik = data_read('cennik');
 $faq = data_read('faq');
 
+/**
+ * Klucz pozycji cennika: małe litery, cyfry i myślniki. Nowe pozycje dostają
+ * klucz z nazwy, istniejące zachowują klucz z ukrytego pola formularza.
+ */
+function cennik_slug_key(string $name): string
+{
+    $map = [
+        'ą' => 'a', 'ć' => 'c', 'ę' => 'e', 'ł' => 'l', 'ń' => 'n',
+        'ó' => 'o', 'ś' => 's', 'ź' => 'z', 'ż' => 'z',
+        'Ą' => 'A', 'Ć' => 'C', 'Ę' => 'E', 'Ł' => 'L', 'Ń' => 'N',
+        'Ó' => 'O', 'Ś' => 'S', 'Ź' => 'Z', 'Ż' => 'Z',
+    ];
+    $key = strtr($name, $map);
+    $key = strtolower($key);
+    $key = preg_replace('/[^a-z0-9]+/', '-', $key) ?? '';
+    $key = trim($key, '-');
+    return $key !== '' ? mb_substr($key, 0, 60, 'UTF-8') : 'pozycja';
+}
+
+/** Znajduje klucz istniejącej pozycji po nazwie (dla starszych formularzy). */
+function cennik_key_for_name(array $cennik, string $name): string
+{
+    foreach ((array) ($cennik['groups'] ?? []) as $group) {
+        foreach ((array) ($group['items'] ?? []) as $item) {
+            if (trim((string) ($item['name'] ?? '')) === $name && trim((string) ($item['key'] ?? '')) !== '') {
+                return trim((string) $item['key']);
+            }
+        }
+    }
+    return '';
+}
+
+/** Ustawia kwotę dopłaty ekspresowej w cenniku (i zwraca, czy się zmieniła). */
+function cennik_apply_express(array &$cennik, int $amount): bool
+{
+    if ($amount <= 0) {
+        return false;
+    }
+    $changed = false;
+    if ((int) ($cennik['expressSurcharge'] ?? 0) !== $amount) {
+        $cennik['expressSurcharge'] = $amount;
+        $changed = true;
+    }
+    foreach ((array) ($cennik['groups'] ?? []) as $gi => $group) {
+        foreach ((array) ($group['items'] ?? []) as $ii => $item) {
+            if (($item['key'] ?? '') === 'ekspres' && ($item['price'] ?? '') !== $amount . ' zł') {
+                $cennik['groups'][$gi]['items'][$ii]['price'] = $amount . ' zł';
+                $changed = true;
+            }
+        }
+    }
+    return $changed;
+}
+
 if (is_post()) {
     csrf_check();
     $action = (string) post('action');
@@ -27,6 +81,12 @@ if (is_post()) {
         $site['mapEmbedUrl'] = trim((string) post('mapEmbedUrl'));
         $site['founded'] = (int) post('founded');
         $site['express']['surcharge'] = (int) post('expressSurcharge');
+
+        // Dopłata ekspresowa jest pozycją cennika - trzymamy oba miejsca spójne,
+        // bo część starych szablonów czyta jeszcze site.json.
+        if (cennik_apply_express($cennik, (int) $site['express']['surcharge'])) {
+            data_write('cennik', $cennik, 'Panel: cennik - dopłata ekspres');
+        }
 
         $hours = [];
         foreach ((array) post('hours', []) as $row) {
@@ -264,6 +324,8 @@ if (is_post()) {
 
     if ($action === 'save_cennik') {
         $groups = [];
+        $seenKeys = [];
+        $errors = [];
         foreach ((array) post('groups', []) as $group) {
             $title = trim((string) ($group['title'] ?? ''));
             $items = [];
@@ -272,7 +334,26 @@ if (is_post()) {
                 if ($name === '') {
                     continue;
                 }
+                // Klucz z ukrytego pola zachowuje powiązanie treści stron z ceną.
+                // Starszy formularz bez pola klucza: szukamy po nazwie, potem slug.
+                $key = strtolower(trim((string) ($item['key'] ?? '')));
+                if ($key === '') {
+                    $key = cennik_key_for_name($cennik, $name);
+                }
+                if ($key === '') {
+                    $key = cennik_slug_key($name);
+                }
+                if (!preg_match('/^[a-z0-9-]{1,60}$/', $key)) {
+                    $errors[] = 'Nieprawidłowy klucz pozycji „' . $name . '”: ' . $key;
+                    continue;
+                }
+                if (isset($seenKeys[$key])) {
+                    $errors[] = 'Zduplikowany klucz „' . $key . '” (pozycje: ' . $seenKeys[$key] . ' i ' . $name . ').';
+                    continue;
+                }
+                $seenKeys[$key] = $name;
                 $items[] = [
+                    'key' => $key,
                     'name' => $name,
                     'price' => trim((string) ($item['price'] ?? '')),
                     'note' => trim((string) ($item['note'] ?? '')),
@@ -282,10 +363,28 @@ if (is_post()) {
                 $groups[] = ['title' => $title, 'items' => $items];
             }
         }
-        if ($groups) {
+
+        if ($errors) {
+            flash('err', 'Cennik nie został zapisany. ' . implode(' ', array_slice($errors, 0, 3)));
+        } elseif ($groups) {
             $cennik['groups'] = $groups;
+            $expressAmount = 0;
+            foreach ($groups as $group) {
+                foreach ($group['items'] as $item) {
+                    if ($item['key'] === 'ekspres' && preg_match('/(\d+)/', $item['price'], $match)) {
+                        $expressAmount = (int) $match[1];
+                    }
+                }
+            }
+            if ($expressAmount > 0) {
+                $cennik['expressSurcharge'] = $expressAmount;
+            }
             data_write('cennik', $cennik, 'Panel: cennik');
-            flash('ok', 'Zapisano cennik.');
+            if ($expressAmount > 0 && (int) ($site['express']['surcharge'] ?? 0) !== $expressAmount) {
+                $site['express']['surcharge'] = $expressAmount;
+                data_write('site', $site, 'Panel: cennik - dopłata ekspres');
+            }
+            flash('ok', 'Zapisano cennik. Ceny zaktualizują się na całej stronie po publikacji.');
         } else {
             flash('err', 'Cennik musi mieć co najmniej jedną grupę z pozycją.');
         }
@@ -382,7 +481,9 @@ layout_head('Ustawienia', 'settings');
             </div>
           <?php endforeach; ?>
 
-          <label class="field" style="max-width:280px"><span>Dopłata za ekspres (zł)</span><input type="number" name="expressSurcharge" value="<?= (int) ($site['express']['surcharge'] ?? 150) ?>"></label>
+          <label class="field" style="max-width:280px"><span>Dopłata za ekspres (zł)</span><input type="number" name="expressSurcharge" value="<?= (int) ($site['express']['surcharge'] ?? 150) ?>">
+            <span class="field__hint">Ta kwota jest jednocześnie pozycją cennika „Naprawa tego samego dnia”.</span>
+          </label>
 
           <div class="form-actions">
             <button class="btn btn--primary" type="submit">Zapisz dane kontaktowe</button>
@@ -560,7 +661,11 @@ layout_head('Ustawienia', 'settings');
                   <tbody>
                   <?php foreach ((array) ($group['items'] ?? []) as $ii => $item): ?>
                     <tr>
-                      <td><input type="text" name="groups[<?= $gi ?>][items][<?= $ii ?>][name]" value="<?= e($item['name'] ?? '') ?>" style="width:100%"></td>
+                      <td>
+                        <input type="hidden" name="groups[<?= $gi ?>][items][<?= $ii ?>][key]" value="<?= e($item['key'] ?? '') ?>">
+                        <input type="text" name="groups[<?= $gi ?>][items][<?= $ii ?>][name]" value="<?= e($item['name'] ?? '') ?>" style="width:100%">
+                        <span class="field__hint">klucz: <span class="code-inline"><?= e($item['key'] ?? '(brak)') ?></span></span>
+                      </td>
                       <td><input type="text" name="groups[<?= $gi ?>][items][<?= $ii ?>][price]" value="<?= e($item['price'] ?? '') ?>" style="width:110px"></td>
                       <td><input type="text" name="groups[<?= $gi ?>][items][<?= $ii ?>][note]" value="<?= e($item['note'] ?? '') ?>" style="width:100%"></td>
                     </tr>
@@ -572,9 +677,14 @@ layout_head('Ustawienia', 'settings');
           </div>
         <?php endforeach; ?>
         <div class="help-box">
-          Aby dodać nową pozycję, skopiuj w pliku <span class="code-inline">src/data/cennik.json</span> istniejący wpis
-          (panel obsługuje edycję istniejących pozycji; nowe grupy dodasz przez edytor JSON lub zgłoś to
-          programiście). Ceny nieznane zostaw jako „… zł” - strona nie wymyśla kwot.
+          <strong>Cennik jest jednym źródłem cen w całym serwisie.</strong> Ceny wpisane tutaj trafiają
+          na stronę cennika, główną, podstrony usług, marki, landingi, FAQ i do artykułów -
+          po publikacji zaktualizują się wszędzie. Nieznaną cenę zostaw jako
+          <span class="code-inline">… zł</span> lub puste pole - na stronie pokaże się
+          „wycena po diagnozie”, bez wymyślania kwoty. Klucze pozycji są zachowywane
+          automatycznie (ukryte pole) - nie zmieniaj ich, bo po nich treści znajdują cenę.
+          Nową pozycję dodasz, kopiując wpis w pliku <span class="code-inline">src/data/cennik.json</span>
+          (panel edytuje istniejące pozycje).
         </div>
         <div class="form-actions"><button class="btn btn--primary" type="submit">Zapisz cennik</button></div>
       </form>

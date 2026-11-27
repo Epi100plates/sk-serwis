@@ -90,24 +90,46 @@ const stars = [1, 2, 3, 4, 5];
     </div>
 
     <div class="reviews__mobile mobile-only">
-      <div class="reviews__mobile-score">
-        <p class="reviews__mobile-rating">{rating}<span>/5</span></p>
-        <div class="reviews__mobile-stars" role="img" aria-label={`Ocena ${rating} na 5`}>
-          {stars.map(() => <Icon name="star" size={13} />)}
+      <div class="reviews__mobile-main">
+        <div class="reviews__mobile-score">
+          <p class="reviews__mobile-rating">{rating}<span>/5</span></p>
+          <div class="reviews__mobile-stars" role="img" aria-label={`Ocena ${rating} na 5`}>
+            {stars.map(() => <Icon name="star" size={13} />)}
+          </div>
+          <p class="reviews__mobile-count">
+            Ponad <strong>{site.reviews.countLabel}</strong> opinii Google
+          </p>
         </div>
-        <p class="reviews__mobile-count">
-          Ponad <strong>{site.reviews.countLabel}</strong> opinii Google
-        </p>
+        <a
+          class="btn btn--primary reviews__mobile-cta"
+          href={site.reviews.url}
+          target="_blank"
+          rel="noopener"
+          data-track="review"
+          data-location="opinie-mobile"
+        >
+          Opinie Google <Icon name="arrow-up-right" size={15} />
+        </a>
       </div>
+
       <a
-        class="btn btn--primary reviews__mobile-cta"
+        class="reviews__mobile-quote"
         href={site.reviews.url}
         target="_blank"
         rel="noopener"
         data-track="review"
-        data-location="opinie-mobile"
+        data-location="opinie-mobile-cytat"
       >
-        Opinie Google <Icon name="arrow-up-right" size={15} />
+        <span class="reviews__mobile-quote-head">
+          <span class="reviews__mobile-quote-stars" aria-hidden="true">
+            {stars.map(() => <Icon name="star" size={11} />)}
+          </span>
+          <span class="reviews__mobile-quote-source">
+            <Icon name="google" size={11} /> Google
+          </span>
+        </span>
+        <blockquote class="reviews__mobile-quote-text">{reviews.items[0].text}</blockquote>
+        <span class="reviews__mobile-quote-author">{reviews.items[0].name}</span>
       </a>
     </div>
   </div>
@@ -242,6 +264,12 @@ const stars = [1, 2, 3, 4, 5];
   }
 
   .reviews__mobile {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .reviews__mobile-main {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -292,6 +320,63 @@ const stars = [1, 2, 3, 4, 5];
     white-space: nowrap;
   }
 
+  /* Jedna prawdziwa opinia na telefonie - reszta na desktopie i w Google. */
+  .reviews__mobile-quote {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 11px;
+    border-top: 1px solid var(--dark-line);
+    color: inherit;
+  }
+
+  .reviews__mobile-quote-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .reviews__mobile-quote-stars {
+    display: flex;
+    gap: 2px;
+    color: var(--yellow);
+  }
+
+  .reviews__mobile-quote-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a0a7a0;
+  }
+
+  .reviews__mobile-quote-text {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    color: #d8dcd6;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  .reviews__mobile-quote:hover .reviews__mobile-quote-text {
+    color: #fff;
+  }
+
+  .reviews__mobile-quote-author {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #a3aaa3;
+  }
+
   @media (max-width: 900px) {
     .reviews__grid {
       grid-template-columns: 1fr;
@@ -309,6 +394,10 @@ const stars = [1, 2, 3, 4, 5];
   @media (max-width: 899px) {
     .reviews.section {
       padding-block: 26px;
+    }
+
+    .reviews__mobile {
+      display: flex;
     }
   }
 </style>

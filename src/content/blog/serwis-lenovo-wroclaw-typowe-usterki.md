@@ -56,7 +56,7 @@ Zaczynamy od wywiadu i oględzin, potem mierzymy pobór prądu i sprawdzamy zasi
 
 Wiele usterek da się naprawić bez wymiany całej płyty: wymiana portu, gniazda, kontrolera ładowania, tranzystorów MOSFET, bezpieczników albo uszkodzonych ścieżek. Dzięki temu naprawa bywa tańsza niż zakup płyty, zwłaszcza w starszych modelach, gdzie nowa część jest niedostępna. Jeśli uszkodzenie jest rozległe, a naprawa nieopłacalna, mówimy to wprost po wycenie.
 
-Diagnostyka jest bezpłatna, jeśli zlecasz naprawę. Jeśli rezygnujesz, jest płatna - o koszcie informujemy przed rozpoczęciem. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile potrzebna część jest dostępna.
+Diagnostyka jest bezpłatna, jeśli zlecasz naprawę. Jeśli rezygnujesz, jest płatna - o koszcie informujemy przed rozpoczęciem. Ekspres z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, o ile potrzebna część jest dostępna.
 
 ## Kiedy przyjechać do serwisu we Wrocławiu
 

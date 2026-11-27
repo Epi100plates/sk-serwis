@@ -36,7 +36,7 @@ Warto zajrzeć w kratkę wlotową. Jeśli widać szary, zbity kożuch na żeberk
 
 Czyszczenie zaczyna się od rozbiórki dolnej pokrywy i odłączenia baterii. Następnie demontujemy wentylatory i radiatory, czyścimy żeberka oraz wirniki, usuwamy starą pastę z procesora i karty graficznej i nakładamy nową. Sprawdzamy też stan termopadów na sekcjach zasilania i pamięciach, bo wyschnięty pad potrafi podnieść temperatury mimo świeżej pasty.
 
-Po złożeniu laptop jest testowany pod obciążeniem. Sprawdzamy temperatury, obroty wentylatorów i to, czy nie pojawiają się spadki taktowania. Dopiero ten test potwierdza, że chłodzenie działa poprawnie, a nie tylko że laptop się włącza. Cena zależy od modelu i konstrukcji chłodzenia i wynosi 200-250 zł. Kwotę podajemy przed rozpoczęciem pracy.
+Po złożeniu laptop jest testowany pod obciążeniem. Sprawdzamy temperatury, obroty wentylatorów i to, czy nie pojawiają się spadki taktowania. Dopiero ten test potwierdza, że chłodzenie działa poprawnie, a nie tylko że laptop się włącza. Cena zależy od modelu i konstrukcji chłodzenia i wynosi {{cena:czyszczenie-laptopa}}. Kwotę podajemy przed rozpoczęciem pracy.
 
 ## Pasta termoprzewodząca: kiedy wymieniać
 
@@ -56,4 +56,4 @@ Rozbiórka Nitro nie jest skomplikowana, ale ma swoje pułapki: zatrzaski, śrub
 
 Termin zależy od sposobu użytkowania, nie od kalendarza. Przy graniu kilka razy w tygodniu czyszczenie raz w roku jest rozsądnym punktem wyjścia, przy codziennym, wielogodzinnym obciążeniu nawet częściej. Jeśli pojawiły się objawy z listy powyżej, nie czekaj do kolejnej rocznicy.
 
-Studio-Komp przyjmuje laptopy przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Diagnostyka jest bezpłatna, jeśli zlecasz naprawę; jeśli nie, jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Ekspres to dopłata 150 zł i tego samego dnia, o ile pozwalają na to usterka i dostępność części. Zakres usługi opisuje strona [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/), stawki znajdziesz w [cenniku](/cennik/), a jeśli podejrzewasz coś więcej niż kurz, przeczytaj o [naprawie laptopów](/naprawa-laptopow-wroclaw/). Zadzwoń pod 500 613 500 i podaj model oraz objawy.
+Studio-Komp przyjmuje laptopy przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Diagnostyka jest bezpłatna, jeśli zlecasz naprawę; jeśli nie, jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Ekspres to dopłata {{cena:ekspres}} i tego samego dnia, o ile pozwalają na to usterka i dostępność części. Zakres usługi opisuje strona [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/), stawki znajdziesz w [cenniku](/cennik/), a jeśli podejrzewasz coś więcej niż kurz, przeczytaj o [naprawie laptopów](/naprawa-laptopow-wroclaw/). Zadzwoń pod 500 613 500 i podaj model oraz objawy.

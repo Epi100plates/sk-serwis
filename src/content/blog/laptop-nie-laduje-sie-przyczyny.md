@@ -43,7 +43,7 @@ Inaczej wygląda awaria układu ładowania. Laptop pracuje z zasilacza, procent 
 
 Sprawdź jeszcze, czy bateria siedzi w złączu. W części modeli pakiet jest wypinany i po latach styki się utleniają. Wyjęcie i ponowne wpięcie baterii, po odłączeniu zasilacza, potrafi przywrócić ładowanie bez żadnej naprawy.
 
-Zanim uznasz to za awarię, zajrzyj do ustawień zasilania. Wiele laptopów ma tryb ochrony baterii, który zatrzymuje ładowanie na 60-80 procentach. To normalne zachowanie, nie usterka.
+Zanim uznasz to za awarię, zajrzyj do ustawień zasilania. Wiele laptopów ma tryb ochrony baterii, który zatrzymuje ładowanie na 60-80 procentach. To normalne zachowanie, nie usterka. Jeśli bateria stoi, a laptop działa, przejdź przez krótszą listę kontrolną: [laptop nie ładuje baterii - co sprawdzić](/poradnik/laptop-nie-laduje-baterii-co-sprawdzic/).
 
 ## Objawy i co z nich wynika
 
@@ -65,6 +65,6 @@ Zaczynamy od pomiaru napięcia zasilacza i sprawdzenia, czy laptop w ogóle pobi
 
 Gdy laptop nie reaguje wcale, szukamy zwarcia w obwodzie zasilania i sprawdzamy, czy płyta startuje. Gdy działa, ale nie ładuje, porównujemy napięcia w obwodzie ładowania i sprawdzamy komunikację kontrolera z baterią. Dzięki temu nie wymieniamy części na wyczucie.
 
-Uszkodzone gniazdo to najczęstsza przyczyna problemów z ładowaniem, a jego wymiana kosztuje 350 zł. Diagnostyka jest bezpłatna przy zleceniu naprawy, a bez naprawy kosztuje 150-250 zł. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, jeśli gniazdo jest na miejscu.
+Uszkodzone gniazdo to najczęstsza przyczyna problemów z ładowaniem, a jego wymiana kosztuje {{cena:wymiana-gniazda-zasilania}}. Diagnostyka jest bezpłatna przy zleceniu naprawy, a bez naprawy kosztuje {{cena:diagnostyka-bez-naprawy}}. Ekspres z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, jeśli gniazdo jest na miejscu.
 
 Jeśli po podmianie zasilacza i kabla problem zostaje, dalsze próby w domu nic nie dadzą. Usługę opisuje strona [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/), a przy laptopie, który w ogóle nie startuje, zajrzyj do tekstu o [naprawie laptopa, który się nie włącza](/naprawa-laptopa-ktory-sie-nie-wlacza/). Stawki znajdziesz w [cenniku](/cennik/). Zadzwoń pod 500 613 500 albo wpadnij na Kotlarską 14 w dni robocze między 7:00 a 15:00.

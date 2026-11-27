@@ -12,7 +12,7 @@ faq:
   - question: "Po czym poznać, że laptop nie tylko się grzeje, ale naprawdę przegrzewa?"
     answer: "Po spadku wydajności po kilkunastu minutach pracy, obniżaniu taktowania procesora i wyłączeniach pod obciążeniem. Wysoka temperatura samej obudowy nie musi oznaczać usterki, bo część modeli odprowadza ciepło przez klawiaturę."
   - question: "Ile kosztuje czyszczenie chłodzenia i wymiana pasty we Wrocławiu?"
-    answer: "Czyszczenie i konserwacja kosztuje 200-250 zł. Ostateczna kwota zależy od modelu i konstrukcji chłodzenia, a podajemy ją przed rozpoczęciem pracy. Usługa ekspresowa to dopłata 150 zł, jeśli zależy Ci na czasie."
+    answer: "Czyszczenie i konserwacja kosztuje {{cena:czyszczenie-laptopa}}. Ostateczna kwota zależy od modelu i konstrukcji chłodzenia, a podajemy ją przed rozpoczęciem pracy. Usługa ekspresowa to dopłata {{cena:ekspres}}, jeśli zależy Ci na czasie."
 ---
 
 Laptop po kilkunastu minutach pracy zaczyna wyć, a obudowa parzy w okolicy klawiatury. Przyczyn jest kilka i większość da się wskazać bez rozbierania sprzętu. Aplikacja do obniżania temperatury niczego tu nie naprawi, bo ciepło musi mieć gdzie uciekać.
@@ -59,7 +59,7 @@ Jeśli od zakupu minęły dwa lata, a laptop pracuje codziennie, prawdopodobnie 
 
 ## Jak wygląda czyszczenie chłodzenia
 
-W serwisie laptop jest rozbierany, układ chłodzenia wymontowany, a radiator i wentylator czyszczone osobno. Stara pasta zostaje usunięta z procesora i układu graficznego, na jej miejsce wchodzi nowa. Po złożeniu wykonujemy testy temperatur pod obciążeniem, żeby potwierdzić, że chłodzenie działa. Czyszczenie i konserwacja kosztuje 200-250 zł, a dokładną kwotę podajemy po obejrzeniu sprzętu. Szczegóły są na stronie [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/). Po konserwacji porównujemy temperatury z tymi sprzed naprawy i sprawdzamy, czy laptop nie obniża taktowania przy dłuższym obciążeniu.
+W serwisie laptop jest rozbierany, układ chłodzenia wymontowany, a radiator i wentylator czyszczone osobno. Stara pasta zostaje usunięta z procesora i układu graficznego, na jej miejsce wchodzi nowa. Po złożeniu wykonujemy testy temperatur pod obciążeniem, żeby potwierdzić, że chłodzenie działa. Czyszczenie i konserwacja kosztuje {{cena:czyszczenie-laptopa}}, a dokładną kwotę podajemy po obejrzeniu sprzętu. Szczegóły są na stronie [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/). Po konserwacji porównujemy temperatury z tymi sprzed naprawy i sprawdzamy, czy laptop nie obniża taktowania przy dłuższym obciążeniu.
 
 ## Kiedy przywieźć laptopa do serwisu we Wrocławiu
 

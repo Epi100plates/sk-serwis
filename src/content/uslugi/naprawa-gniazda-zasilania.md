@@ -1,7 +1,7 @@
 ---
 title: "Naprawa gniazda zasilania laptopa we Wrocławiu"
 navLabel: "Naprawa gniazda zasilania"
-description: "Gniazdo zasilania w laptopie lata, ładuje tylko po poruszeniu wtyczką? Wymieniamy gniazdo i odbudowujemy ścieżki. Wrocław, Kotlarska 14, 350 zł."
+description: "Gniazdo zasilania w laptopie lata, ładuje tylko po poruszeniu wtyczką? Wymieniamy gniazdo i odbudowujemy ścieżki. Wrocław, Kotlarska 14, {{cena:wymiana-gniazda-zasilania}}."
 h1: "Gniazdo zasilania w laptopie - naprawa we Wrocławiu"
 lead: "Laptop ładuje się tylko wtedy, gdy przytrzymasz wtyczkę pod odpowiednim kątem? To typowy objaw wyrwanego gniazda. Wymieniamy je razem z odbudową mocowań i ścieżek."
 teaser: "Wyrwane gniazdo, luźna wtyczka, brak ładowania. Odbudowa ścieżek i testy - zwykle z dnia na dzień."
@@ -10,7 +10,7 @@ order: 80
 featured: false
 tile: true
 tileText: "Wyjmujemy płytę, oceniamy stan padów i ścieżek, wylutowujemy uszkodzone gniazdo i wlutowujemy nowe, dopasowane do modelu. Odbudowujemy mocowania i testujemy ładowanie przy różnych kątach wtyczki."
-priceFrom: "350 zł"
+priceFrom: "{{cena:wymiana-gniazda-zasilania}}"
 duration: "zwykle z dnia na dzień"
 includes:
   - "Demontaż obudowy i wyjęcie płyty głównej"
@@ -26,7 +26,7 @@ faq:
   - question: "Czy wymiana gniazda zasilania jest trudna?"
     answer: "To zależy od modelu. W wielu laptopach gniazdo jest wlutowane bezpośrednio w płytę główną, więc trzeba zdjąć obudowę i pracować przy płycie. Dlatego traktujemy to jak naprawę płyty, a nie prostą wymianę części."
   - question: "Ile kosztuje wymiana gniazda zasilania we Wrocławiu?"
-    answer: "350 zł za standardową wymianę gniazda z odbudową mocowań. Jeśli uszkodzone są ścieżki albo płyta wymaga dodatkowej naprawy, kwotę ustalamy po diagnozie, przed rozpoczęciem pracy."
+    answer: "{{cena:wymiana-gniazda-zasilania}} za standardową wymianę gniazda z odbudową mocowań. Jeśli uszkodzone są ścieżki albo płyta wymaga dodatkowej naprawy, kwotę ustalamy po diagnozie, przed rozpoczęciem pracy."
   - question: "Czy można używać laptopa z uszkodzonym gniazdem?"
     answer: "Lepiej tego nie robić. Luźne gniazdo może zwierać styki, grzać się i obciążać układy ładowania na płycie. Odsunięcie naprawy zwykle zwiększa jej koszt."
 related:
@@ -55,6 +55,14 @@ Dostęp do gniazda wymaga zdjęcia obudowy i wyjęcia płyty głównej. W więks
 
 Dlatego wymiana gniazda to nie tylko wylutowanie starego elementu. Trzeba ocenić stan padów i ścieżek, czasem odbudować je cienkim drutem, a nowe gniazdo osadzić tak, żeby trzymało się pewnie przez kolejne lata. Uszkodzenia sięgające głębiej w płytę opisujemy osobno przy [naprawie płyt głównych](/naprawa-plyt-glownych/).
 
+## Wymiana gniazda ładowania laptopa we Wrocławiu - lutowanie czy moduł
+
+Sposób wymiany zależy od konstrukcji laptopa i to on decyduje o czasie oraz nakładzie pracy. W części modeli gniazdo jest osobnym modułem połączonym taśmą albo złączem - wymiana jest wtedy prostsza i szybsza, bo nie trzeba pracować przy płycie. W pozostałych konieczne jest rozebranie laptopa, wyjęcie płyty i wylutowanie elementu, tak jak opisaliśmy wyżej.
+
+Rozpoznanie zaczynamy od obejrzenia gniazda i dokumentacji modelu. To ważne, bo identycznie wyglądający luz może oznaczać zupełnie inną naprawę: w jednym laptopie wystarczy wymiana modułu, w innym trzeba odbudować pady i ścieżki. Standardowa wymiana gniazda z odbudową mocowań kosztuje {{cena:wymiana-gniazda-zasilania}}. Jeśli uszkodzenie sięga ścieżek, zakres prac rośnie i wyceniamy go po diagnostyce.
+
+Czas jest podobny jak przy innych naprawach: zwykle jeden dzień. Przy module często da się zrobić wszystko na miejscu, a przy gnieździe wlutowanym w płytę liczy się także to, czy odpowiednia część jest dostępna od ręki.
+
 ## Jak przebiega naprawa
 
 Naprawę zaczynamy od sprawdzenia ładowarki i baterii, żeby wykluczyć prostszą przyczynę. Potem rozbieramy laptop, wyjmujemy płytę i pod lupą oceniamy gniazdo oraz jego otoczenie. Uszkodzony element wylutowujemy, przygotowujemy pola lutownicze, a nowe gniazdo dobieramy do konkretnego modelu i wlutowujemy z użyciem topnika oraz odpowiedniej temperatury.
@@ -63,7 +71,7 @@ Po złożeniu testujemy ładowanie przy różnych kątach wtyczki, sprawdzamy pr
 
 ## Cena i czas naprawy we Wrocławiu
 
-Wymiana gniazda zasilania kosztuje 350 zł. Standardowy czas to jeden dzień, podobnie jak przy większości napraw w naszym serwisie. Jeśli zależy Ci na czasie, możesz zamówić usługę ekspresową z dopłatą 150 zł i odebrać laptopa tego samego dnia, o ile pozwala na to konstrukcja urządzenia i dostępność części. Inne naprawy elektroniki, jak [naprawa portów USB i HDMI](/naprawa-portow-usb-hdmi/), wyceniamy po sprawdzeniu płyty.
+Wymiana gniazda zasilania kosztuje {{cena:wymiana-gniazda-zasilania}}. Standardowy czas to jeden dzień, podobnie jak przy większości napraw w naszym serwisie. Jeśli zależy Ci na czasie, możesz zamówić usługę ekspresową z dopłatą {{cena:ekspres}} i odebrać laptopa tego samego dnia, o ile pozwala na to konstrukcja urządzenia i dostępność części. Inne naprawy elektroniki, jak [naprawa portów USB i HDMI](/naprawa-portow-usb-hdmi/), wyceniamy po sprawdzeniu płyty.
 
 ## Jak nie uszkodzić gniazda
 

@@ -8,6 +8,10 @@ import Icon from '../../components/Icon.astro';
 import cennik from '../../data/cennik.json';
 import site from '../../data/site.json';
 import { breadcrumbSchema, faqSchema } from '../../lib/schema';
+import { applyPriceTokens, price } from '../../lib/prices';
+
+// Meta description budowana z cennika - zmiana ceny w panelu aktualizuje też SEO.
+const description = `Cennik serwisu laptopów we Wrocławiu: czyszczenie ${price('czyszczenie-laptopa')}, wymiana gniazda zasilania ${price('wymiana-gniazda-zasilania')}, naprawa po zalaniu ${price('naprawa-po-zalaniu')}, ekspres +${price('ekspres')}. Wycena przed naprawą.`;
 
 const faq = [
   {
@@ -24,7 +28,7 @@ const faq = [
   },
   {
     q: 'Ile kosztuje usługa ekspresowa?',
-    a: `Dopłata wynosi ${site.express.surcharge} zł do standardowej ceny naprawy. Ekspres oznacza naprawę tego samego dnia, ale nie zawsze jest możliwy - zależy od rodzaju usterki i dostępności części. Sprawdzamy to przy przyjęciu sprzętu.`,
+    a: `Dopłata wynosi ${price('ekspres')} do standardowej ceny naprawy. Ekspres oznacza naprawę tego samego dnia, ale nie zawsze jest możliwy - zależy od rodzaju usterki i dostępności części. Sprawdzamy to przy przyjęciu sprzętu.`,
   },
 ];
 
@@ -39,17 +43,17 @@ const schema = [
 
 <Base
   title="Cennik napraw laptopów Wrocław | Studio-Komp"
-  description="Cennik serwisu laptopów we Wrocławiu: czyszczenie 200-250 zł, wymiana gniazda zasilania 350 zł, naprawa po zalaniu 450-800 zł, ekspres +150 zł. Wycena przed naprawą."
+  description={description}
   canonicalPath="/cennik/"
   schema={schema}
 >
   <PageHero
     h1="Cennik napraw laptopów"
-    lead={cennik.lead}
+    lead={applyPriceTokens(cennik.lead)}
     crumbs={[{ label: 'Cennik' }]}
     chips={[
       { label: 'Wycena', value: 'Przed naprawą' },
-      { label: 'Ekspres', value: `+${site.express.surcharge} zł` },
+      { label: 'Ekspres', value: `+${price('ekspres')}` },
       { label: 'Diagnostyka', value: '0 zł przy naprawie' },
     ]}
     showActions={false}
@@ -86,7 +90,7 @@ const schema = [
             <p class="mono cennik-box__label">Ekspres</p>
             <p class="cennik-box__title">Naprawa tego samego dnia</p>
             <p class="cennik-box__text">
-              Dopłata {site.express.surcharge} zł. Dostępność zależy od usterki
+              Dopłata {price('ekspres')}. Dostępność zależy od usterki
               i części na magazynie - sprawdzamy przy przyjęciu.
             </p>
           </div>

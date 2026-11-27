@@ -9,7 +9,7 @@ faq:
   - question: "Czy naprawiacie laptopy Dell kupione za granicą?"
     answer: "Tak. Jesteśmy niezależnym serwisem, więc nie ma znaczenia, gdzie sprzęt kupiono ani czy jest jeszcze na gwarancji producenta. Części dobieramy po numerze modelu i numerze części, a nie po nazwie z paragonu."
   - question: "Ile trwa naprawa laptopa Dell?"
-    answer: "Standardowo z dnia na dzień, jeśli potrzebna część jest dostępna. Usługa ekspresowa z dopłatą 150 zł skraca naprawę do tego samego dnia, ale nie przy każdej usterce - sprawdzamy to przy przyjęciu sprzętu."
+    answer: "Standardowo z dnia na dzień, jeśli potrzebna część jest dostępna. Usługa ekspresowa z dopłatą {{cena:ekspres}} skraca naprawę do tego samego dnia, ale nie przy każdej usterce - sprawdzamy to przy przyjęciu sprzętu."
   - question: "Czy wymiana gniazda zasilania w Dellu wymaga lutowania?"
     answer: "Zależy od modelu. W części konstrukcji gniazdo jest wlutowane bezpośrednio w płytę główną, w innych stanowi osobny moduł na taśmie, który wymienia się w całości. Sprawdzamy to po numerze modelu, jeszcze przed podaniem ceny."
 ---
@@ -48,7 +48,7 @@ Przy wymianie dysku albo modernizacji przenosimy system i dane. Nie oddajemy lap
 
 ## Cena, czas i ekspres
 
-Cenę podajemy po diagnozie, przed rozpoczęciem naprawy. Zależy od modelu i od tego, czy uszkodzenie obejmuje jeden element, czy kilka. Standardowo naprawa jest gotowa z dnia na dzień, a przy części zamawianej czas zależy od dostawy. Usługa ekspresowa to dopłata 150 zł - naprawa tego samego dnia, o ile część jest na miejscu i usterka na to pozwala. Sprawdzamy to przy przyjęciu sprzętu.
+Cenę podajemy po diagnozie, przed rozpoczęciem naprawy. Zależy od modelu i od tego, czy uszkodzenie obejmuje jeden element, czy kilka. Standardowo naprawa jest gotowa z dnia na dzień, a przy części zamawianej czas zależy od dostawy. Usługa ekspresowa to dopłata {{cena:ekspres}} - naprawa tego samego dnia, o ile część jest na miejscu i usterka na to pozwala. Sprawdzamy to przy przyjęciu sprzętu.
 
 Pełne widełki znajdziesz w [cenniku](/cennik/), a o ogólnym zakresie prac przeczytasz na stronie [naprawa laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/).
 

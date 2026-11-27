@@ -7,7 +7,7 @@
     },
     {
       "q": "Ile trwa naprawa laptopa?",
-      "a": "99% napraw wykonujemy z dnia na dzień. Jeśli zależy Ci na czasie, dostępna jest usługa ekspresowa - naprawa tego samego dnia za dopłatą 150 zł. Ekspres nie zawsze jest możliwy: zależy od usterki i dostępności części, dlatego ustalamy to od razu przy przyjęciu sprzętu."
+      "a": "99% napraw wykonujemy z dnia na dzień. Jeśli zależy Ci na czasie, dostępna jest usługa ekspresowa - naprawa tego samego dnia za dopłatą {{cena:ekspres}}. Ekspres nie zawsze jest możliwy: zależy od usterki i dostępności części, dlatego ustalamy to od razu przy przyjęciu sprzętu."
     },
     {
       "q": "Czy diagnostyka jest bezpłatna?",
@@ -15,11 +15,11 @@
     },
     {
       "q": "Ile kosztuje naprawa laptopa?",
-      "a": "Cena zależy od usterki i części. Czyszczenie i konserwacja to 200-250 zł, wymiana gniazda zasilania 350 zł, wymiana matrycy 600-700 zł, naprawa po zalaniu 450-800 zł, naprawa płyty głównej po zwarciu 600-800 zł. Instalacja i konfiguracja systemu to 250 zł. Dokładną kwotę podajemy po diagnozie, przed rozpoczęciem naprawy."
+      "a": "Cena zależy od usterki i części. Czyszczenie i konserwacja to {{cena:czyszczenie-laptopa}}, wymiana gniazda zasilania {{cena:wymiana-gniazda-zasilania}}, wymiana matrycy {{cena:wymiana-matrycy}}, naprawa po zalaniu {{cena:naprawa-po-zalaniu}}, naprawa płyty głównej po zwarciu {{cena:naprawa-plyty-glownej}}. Instalacja i konfiguracja systemu to {{cena:instalacja-systemu}}. Dokładną kwotę podajemy po diagnozie, przed rozpoczęciem naprawy."
     },
     {
       "q": "Czy odbierzesz laptopa tego samego dnia, jeśli przyjdę rano?",
-      "a": "W wielu przypadkach tak - to właśnie usługa ekspresowa (+150 zł). Przy przyjęciu sprawdzamy, czy dana naprawa jest możliwa do wykonania tego samego dnia i czy część jest dostępna."
+      "a": "W wielu przypadkach tak - to właśnie usługa ekspresowa (+{{cena:ekspres}}). Przy przyjęciu sprawdzamy, czy dana naprawa jest możliwa do wykonania tego samego dnia i czy część jest dostępna."
     },
     {
       "q": "Naprawiacie laptopy po zalaniu?",

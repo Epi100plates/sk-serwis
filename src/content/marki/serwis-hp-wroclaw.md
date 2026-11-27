@@ -65,7 +65,7 @@ Diagnostyka jest bezpłatna, gdy zlecasz naprawę. Jeśli rezygnujesz, diagnosty
 
 99% napraw kończymy z dnia na dzień. Wymiana klawiatury, naprawa zawiasów czy czyszczenie chłodzenia to zwykle jedna wizyta. Modele wymagające sprowadzenia części, a także naprawy płyty głównej, trwają dłużej.
 
-Usługa ekspresowa to dodatkowe 150 zł i odbiór tego samego dnia. Ekspres ma sens przy usterkach, które da się usunąć bez czekania na dostawę. Jeśli część trzeba zamówić, powiemy o tym od razu, zamiast obiecywać termin.
+Usługa ekspresowa to dodatkowe {{cena:ekspres}} i odbiór tego samego dnia. Ekspres ma sens przy usterkach, które da się usunąć bez czekania na dostawę. Jeśli część trzeba zamówić, powiemy o tym od razu, zamiast obiecywać termin.
 
 ## Części, modele i dobór podzespołów
 

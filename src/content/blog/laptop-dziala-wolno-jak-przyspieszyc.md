@@ -8,7 +8,7 @@ service: "przyspieszanie-laptopa-wroclaw"
 readingTime: 4
 faq:
   - question: "Czy instalacja systemu od nowa przyspieszy laptopa?"
-    answer: "Często tak, jeśli problemem jest zaśmiecony system, a nie sprzęt. Reinstalacja usuwa zbędne programy i konflikty, ale nie pomoże na wolny dysk HDD ani na przegrzewanie. Kosztuje 250 zł."
+    answer: "Często tak, jeśli problemem jest zaśmiecony system, a nie sprzęt. Reinstalacja usuwa zbędne programy i konflikty, ale nie pomoże na wolny dysk HDD ani na przegrzewanie. Kosztuje {{cena:instalacja-systemu}}."
   - question: "Czy wymiana dysku na SSD naprawdę daje efekt?"
     answer: "Tak, to najbardziej odczuwalna modernizacja w starszym laptopie. System uruchamia się szybciej, programy otwierają się bez czekania, a dysk przestaje być wąskim gardłem. Warunkiem jest sprawdzenie, czy model ma odpowiednie złącze."
   - question: "Czy da się dodać pamięć RAM do każdego laptopa?"
@@ -63,7 +63,7 @@ Wymiana dysku HDD na SSD to modernizacja, której nie zastąpi żaden program. W
 
 Czyszczenie chłodzenia daje często więcej niż wymiana podzespołów. Jeśli laptop zwalnia po kilkunastu minutach, winna jest temperatura. Konserwacja z wymianą pasty przywraca wydajność, którą laptop miał na początku. Szczegóły są na stronie [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/).
 
-Czasem potrzebna jest reinstalacja systemu. Instalacja i konfiguracja to 250 zł i ma sens wtedy, gdy system jest zaśmiecony latami instalacji. Jeśli problemem jest sprzęt, nowa instalacja nic nie zmieni.
+Czasem potrzebna jest reinstalacja systemu. Instalacja i konfiguracja to {{cena:instalacja-systemu}} i ma sens wtedy, gdy system jest zaśmiecony latami instalacji. Jeśli problemem jest sprzęt, nowa instalacja nic nie zmieni.
 
 ## Realne oczekiwania
 

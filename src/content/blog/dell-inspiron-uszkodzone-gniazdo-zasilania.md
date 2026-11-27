@@ -11,7 +11,7 @@ faq:
   - question: "Po czym poznać, że problemem jest gniazdo, a nie zasilacz?"
     answer: "Najprostszy test to drugi zasilacz o tych samych parametrach i inna wtyczka. Jeśli ładowanie nadal przerywa się przy ruchu kabla, a dioda gaśnie przy poruszaniu wtyczką, uszkodzone jest gniazdo albo jego luty, a nie zasilacz."
   - question: "Ile kosztuje wymiana gniazda zasilania?"
-    answer: "Wymiana gniazda zasilania kosztuje 350 zł z nowym gniazdem i testem ładowania. Jeśli uszkodzenie objęło ścieżki lub układ ładowania, zakres i cenę ustalamy po diagnozie."
+    answer: "Wymiana gniazda zasilania kosztuje {{cena:wymiana-gniazda-zasilania}} z nowym gniazdem i testem ładowania. Jeśli uszkodzenie objęło ścieżki lub układ ładowania, zakres i cenę ustalamy po diagnozie."
 ---
 
 Kabel ładowania działa tylko wtedy, gdy wtyczka wisi pod odpowiednim kątem, a dioda gaśnie przy każdym ruchu laptopa. To najczęstszy obraz uszkodzonego gniazda zasilania w Dell Inspiron. Gniazdo jest elementem mechanicznym, który przenosi całą siłę szarpania kablem, więc z czasem pęka - a wraz z nim luty i ścieżki na płycie. Wymiana jest krótką naprawą, ale odwlekanie jej zwiększa ryzyko droższego uszkodzenia płyty.
@@ -54,9 +54,9 @@ Jeśli po wymianie laptop nadal nie ładuje, szukamy przyczyny dalej: w układzi
 
 ## Cena, czas i ekspres
 
-Wymiana gniazda zasilania kosztuje 350 zł. Gdy uszkodzenie objęło płytę, zakres i cenę ustalamy po diagnozie. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli po diagnozie nie zdecydujesz się naprawiać, jest płatna, o czym informujemy przed jej rozpoczęciem.
+Wymiana gniazda zasilania kosztuje {{cena:wymiana-gniazda-zasilania}}. Gdy uszkodzenie objęło płytę, zakres i cenę ustalamy po diagnozie. Diagnostyka jest bezpłatna przy zlecanej naprawie; jeśli po diagnozie nie zdecydujesz się naprawiać, jest płatna, o czym informujemy przed jej rozpoczęciem.
 
-Standardowo naprawa jest gotowa z dnia na dzień. Usługa ekspresowa z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile gniazdo jest dostępne i nie ma dodatkowych uszkodzeń. Aktualne stawki znajdziesz w [cenniku](/cennik/), a szczegóły usługi na stronie [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/).
+Standardowo naprawa jest gotowa z dnia na dzień. Usługa ekspresowa z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, o ile gniazdo jest dostępne i nie ma dodatkowych uszkodzeń. Aktualne stawki znajdziesz w [cenniku](/cennik/), a szczegóły usługi na stronie [naprawa gniazda zasilania](/naprawa-gniazda-zasilania/).
 
 ## Jak dbać o gniazdo i kiedy przyjechać
 

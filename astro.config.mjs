@@ -1,5 +1,12 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import rehypePrices from './scripts/rehype-prices.mjs';
+import { invalidateContentCacheIfPricesChanged } from './scripts/prices-cache.mjs';
+
+// Cache treści trzyma wyrenderowany Markdown z podstawionymi cenami, więc po
+// zmianie cennika trzeba go wyczyścić - inaczej stare kwoty zostałyby w blogu
+// i podstronach usług. Robimy to przed startem content layer.
+invalidateContentCacheIfPricesChanged();
 
 // BASE_PATH lets us build a preview copy under a subdirectory of the current
 // hosting (e.g. https://studio-komp.pl/nowa/) without touching DNS.
@@ -31,6 +38,10 @@ export default defineConfig({
   },
   devToolbar: {
     enabled: false,
+  },
+  markdown: {
+    // Tokeny {{cena:KLUCZ}} w treściach Markdown rozwiązywane z cennika.
+    rehypePlugins: [rehypePrices],
   },
   integrations: [
     sitemap({

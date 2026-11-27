@@ -29,7 +29,7 @@ faq:
   - question: "Czy to zawsze płyta główna?"
     answer: "Nie. Płyta jest ostatnim podejrzanym, nie pierwszym. Najpierw sprawdzamy zasilacz pod obciążeniem, gniazdo ładowania, baterię, przycisk zasilania i pamięć RAM. Dopiero gdy te elementy są sprawne, mierzymy sekcje płyty. Taka kolejność chroni Cię przed wymianą najdroższego podzespołu bez potrzeby."
   - question: "Ile trwa naprawa?"
-    answer: "Prostsze usterki, jak zasilacz czy gniazdo, kończymy z dnia na dzień. Jeśli konieczna jest naprawa płyty głównej i trzeba zamówić elementy, czas zależy od dostawy. Za dopłatą 150 zł możesz zamówić usługę ekspresową, czyli naprawę tego samego dnia, o ile pozwalają na to części."
+    answer: "Prostsze usterki, jak zasilacz czy gniazdo, kończymy z dnia na dzień. Jeśli konieczna jest naprawa płyty głównej i trzeba zamówić elementy, czas zależy od dostawy. Za dopłatą {{cena:ekspres}} możesz zamówić usługę ekspresową, czyli naprawę tego samego dnia, o ile pozwalają na to części."
 related:
   - "naprawa-plyt-glownych"
   - "naprawa-gniazda-zasilania"
@@ -61,7 +61,7 @@ Podłączamy laptopa do zasilania serwisowego i mierzymy napięcia oraz pobór p
 
 ## Naprawa i koszt
 
-Koszt zależy od przyczyny, dlatego nie podajemy ceny przed diagnozą. Wymiana zasilacza, naprawa gniazda i naprawa płyty to trzy różne prace i trzy różne kwoty. Po pomiarach dostajesz wycenę i decydujesz, czy naprawiamy. Diagnostyka jest bezpłatna, jeśli zlecasz naprawę. Standardowo kończymy naprawy z dnia na dzień. Jeśli trzeba zamówić elementy albo płyta wymaga wieloetapowej naprawy, czas może się wydłużyć. Usługa ekspresowa z dopłatą 150 zł skraca oczekiwanie do tego samego dnia, o ile części są dostępne.
+Koszt zależy od przyczyny, dlatego nie podajemy ceny przed diagnozą. Wymiana zasilacza, naprawa gniazda i naprawa płyty to trzy różne prace i trzy różne kwoty. Po pomiarach dostajesz wycenę i decydujesz, czy naprawiamy. Diagnostyka jest bezpłatna, jeśli zlecasz naprawę. Standardowo kończymy naprawy z dnia na dzień. Jeśli trzeba zamówić elementy albo płyta wymaga wieloetapowej naprawy, czas może się wydłużyć. Usługa ekspresowa z dopłatą {{cena:ekspres}} skraca oczekiwanie do tego samego dnia, o ile części są dostępne.
 
 ## Dane, kiedy warto je zabezpieczyć
 

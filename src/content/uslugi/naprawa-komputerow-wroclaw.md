@@ -61,6 +61,6 @@ Przy okazji naprawy czyścimy wnętrze obudowy, wymieniamy pastę termoprzewodz�
 
 ## Cena i czas naprawy komputera we Wrocławiu
 
-Naprawę wyceniamy po diagnozie, bo dopiero ona pokazuje, co wymaga wymiany. Przy prostych usterkach komputer jest gotowy z dnia na dzień. Modernizacja i składanie zależą od dostępności części. Jeśli zależy Ci na czasie, zapytaj o ekspres z dopłatą 150 zł. Diagnostyka jest bezpłatna, gdy zlecasz naprawę; bez naprawy jest płatna, o kwocie informujemy przed rozpoczęciem. Aktualne widełki znajdziesz w [cenniku](/cennik/).
+Naprawę wyceniamy po diagnozie, bo dopiero ona pokazuje, co wymaga wymiany. Przy prostych usterkach komputer jest gotowy z dnia na dzień. Modernizacja i składanie zależą od dostępności części. Jeśli zależy Ci na czasie, zapytaj o ekspres z dopłatą {{cena:ekspres}}. Diagnostyka jest bezpłatna, gdy zlecasz naprawę; bez naprawy jest płatna, o kwocie informujemy przed rozpoczęciem. Aktualne widełki znajdziesz w [cenniku](/cennik/).
 
 Przynieś komputer na Kotlarską 14 bez umawiania, od poniedziałku do piątku między 7:00 a 15:00. Możesz też zadzwonić pod 500 613 500 i opisać, co się dzieje. Powiemy, czy warto przywozić zestaw. Naprawiamy też laptopy - szczegóły na stronie [naprawa laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/).

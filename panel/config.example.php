@@ -32,6 +32,15 @@ return [
     // Wygenerowanie: php -r "echo bin2hex(random_bytes(32));"
     'service_sync_secret' => '',
 
+    // Przekazywanie zgłoszeń z formularza do aplikacji warsztatu
+    // (serwis.mati-it.pl). Zgłoszenie powstaje w CMS, ale praca nad nim dzieje
+    // się w aplikacji serwisowej; ten sam sekret ustawiasz jako INTAKE_SYNC_SECRET
+    // w /srv/sk-serwis/.env. Pusty = integracja wyłączona (zgłoszenia zostają
+    // w panelu Zgłoszenia i nie są nigdzie wysyłane).
+    // Wygenerowanie: php -r "echo bin2hex(random_bytes(32));"
+    'service_intake_url' => 'http://127.0.0.1:8090/api/intake-tickets',
+    'service_intake_secret' => '',
+
     // Bezpieczeństwo
     'session_name'        => 'sk_panel',
     'idle_timeout'        => 1800,  // sekundy bezczynności

@@ -63,7 +63,7 @@ Diagnostyka jest bezpłatna przy zleceniu naprawy. Jeśli klient rezygnuje, diag
 
 99% napraw realizujemy z dnia na dzień. Wymiana klawiatury, zawiasów czy konserwacja chłodzenia to zwykle jedna wizyta. Dłużej trwa naprawa płyty głównej oraz modele, do których część trzeba zamówić.
 
-Za 150 zł można zamówić ekspres, czyli naprawę tego samego dnia. Ekspres nie zastępuje kolejki: jeśli usterka wymaga części na zamówienie, żadna dopłata nie przyspieszy jej dostawy. Mówimy o tym od razu, a nie po fakcie.
+Za {{cena:ekspres}} można zamówić ekspres, czyli naprawę tego samego dnia. Ekspres nie zastępuje kolejki: jeśli usterka wymaga części na zamówienie, żadna dopłata nie przyspieszy jej dostawy. Mówimy o tym od razu, a nie po fakcie.
 
 ## Części, modele i dostępność podzespołów
 

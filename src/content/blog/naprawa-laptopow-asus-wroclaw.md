@@ -8,7 +8,7 @@ faq:
   - question: "Czy naprawiacie laptopy ASUS kupione za granicą?"
     answer: "Tak. Jesteśmy niezależnym serwisem, więc miejsce zakupu ani gwarancja producenta nie blokują naprawy. Jeśli laptop jest jeszcze na gwarancji ASUS, warto najpierw sprawdzić, czy uszkodzenie jest nią objęte."
   - question: "Ile trwa naprawa laptopa ASUS?"
-    answer: "Proste naprawy, jak wymiana gniazda zasilania czy czyszczenie chłodzenia, zwykle kończymy z dnia na dzień. Przy zamawianiu części czas zależy od dostawy. Ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, jeśli część jest dostępna."
+    answer: "Proste naprawy, jak wymiana gniazda zasilania czy czyszczenie chłodzenia, zwykle kończymy z dnia na dzień. Przy zamawianiu części czas zależy od dostawy. Ekspres z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, jeśli część jest dostępna."
   - question: "Czy diagnostyka jest płatna?"
     answer: "Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę. Jeśli nie, jest płatna, a o koszcie informujemy przed jej rozpoczęciem."
 draft: true
@@ -54,4 +54,4 @@ Nie odblokowujemy haseł BIOS ani haseł firmware bez potwierdzenia własności 
 
 Jeśli ASUS nie ładuje się, nie włącza, przegrzewa albo ma uszkodzoną obudowę, przyjdź z laptopem i zasilaczem na Kotlarską 14 we Wrocławiu. Pracujemy od poniedziałku do piątku w godzinach 7:00-15:00, bez umawiania. Możesz też zadzwonić pod 500 613 500 i opisać objawy - podpowiemy, czy warto przywozić sprzęt od razu.
 
-Zakres napraw opisuje strona [naprawy laptopów](/naprawa-laptopow-wroclaw/), a diagnostyki - [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli zależy Ci na czasie, ekspres z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile potrzebna część jest dostępna. Przynieś zasilacz i podaj hasło do systemu, jeśli laptop je ma.
+Zakres napraw opisuje strona [naprawy laptopów](/naprawa-laptopow-wroclaw/), a diagnostyki - [diagnostyka laptopa](/diagnostyka-laptopa-wroclaw/). Jeśli zależy Ci na czasie, ekspres z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, o ile potrzebna część jest dostępna. Przynieś zasilacz i podaj hasło do systemu, jeśli laptop je ma.

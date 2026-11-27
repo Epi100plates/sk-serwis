@@ -12,7 +12,7 @@ faq:
   - question: "Jak poznać, że pasta wyschła, a nie że radiator jest zapchany?"
     answer: "Bez rozbiórki nie da się tego rozdzielić. Wysoka temperatura przy czystych kratkach równie dobrze wskazuje na kurz w żeberkach. Diagnostyka i oględziny wnętrza pokazują, czy problemem jest pasta, czy osad."
   - question: "Ile kosztuje wymiana pasty termoprzewodzącej?"
-    answer: "Wymiana pasty jest częścią czyszczenia i konserwacji, która kosztuje 200-250 zł. Kwota zależy od modelu i konstrukcji chłodzenia. Sama wymiana bez czyszczenia zwykle nie ma sensu, bo dostęp do radiatora i tak wymaga rozbiórki."
+    answer: "Wymiana pasty jest częścią czyszczenia i konserwacji, która kosztuje {{cena:czyszczenie-laptopa}}. Kwota zależy od modelu i konstrukcji chłodzenia. Sama wymiana bez czyszczenia zwykle nie ma sensu, bo dostęp do radiatora i tak wymaga rozbiórki."
 ---
 
 Laptop ma trzy albo cztery lata, wentylator pracuje głośniej niż w dniu zakupu, a temperatury pod obciążeniem są wyższe o kilkanaście stopni. Kratki wyglądają czysto, kurz nie sypie się z wylotu, a mimo to komputer obniża taktowanie. Pierwszym podejrzanym jest wtedy pasta termoprzewodząca. Zanim zlecisz jej wymianę, sprawdź, czy naprawdę o nią chodzi.
@@ -63,6 +63,6 @@ W praktyce decyduje stan wnętrza. Po rozbiórce widać, czy pasta jest sucha i 
 
 ## Konserwacja we Wrocławiu
 
-Jeśli laptop jest głośny, gorący i traci wydajność pod obciążeniem, przynieś go do nas. Rozbiórka i oględziny pokażą, czy wystarczy czyszczenie, czy potrzebna jest nowa pasta. Konserwacja z pastą to 200-250 zł i zwykle jest gotowa następnego dnia.
+Jeśli laptop jest głośny, gorący i traci wydajność pod obciążeniem, przynieś go do nas. Rozbiórka i oględziny pokażą, czy wystarczy czyszczenie, czy potrzebna jest nowa pasta. Konserwacja z pastą to {{cena:czyszczenie-laptopa}} i zwykle jest gotowa następnego dnia.
 
 Zakres prac opisuje strona [czyszczenia laptopa](/czyszczenie-laptopa-wroclaw/), stawki są w [cenniku](/cennik/). Termin ustalisz pod numerem 500 613 500. Przyjmujemy sprzęt przy Kotlarskiej 14, od poniedziałku do piątku między 7:00 a 15:00.

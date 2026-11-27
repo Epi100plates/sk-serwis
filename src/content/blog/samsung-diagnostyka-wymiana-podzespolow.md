@@ -28,7 +28,7 @@ W Samsungach starszych generacji zdarza się, że objaw jest skutkiem zużytej b
 
 Zasilanie to najczęściej diagnozowany obszar i jednocześnie ten, w którym łatwo o pomyłkę. Zaczynamy od zmierzenia napięcia zasilacza bez obciążenia i pod obciążeniem. Sam woltomierz bez obciążenia pokazuje napięcie, ale nie mówi, czy zasilacz utrzymuje je, gdy laptop pobiera prąd. Dopiero obciążenie pokazuje, czy jednostka jest sprawna.
 
-Drugi pomiar to pobór prądu przez laptop. Jeśli po podłączeniu zasilacza pobór jest zerowy, problem może być w gnieździe, kablu albo zabezpieczeniu na płycie. Jeśli pobór jest, a laptop nie startuje, sprawdzamy dalsze sekcje zasilania. Gniazdo w Samsungach jest wlutowane w płytę, więc jego wymiana to 350 zł i wymaga rozbiórki oraz lutowania.
+Drugi pomiar to pobór prądu przez laptop. Jeśli po podłączeniu zasilacza pobór jest zerowy, problem może być w gnieździe, kablu albo zabezpieczeniu na płycie. Jeśli pobór jest, a laptop nie startuje, sprawdzamy dalsze sekcje zasilania. Gniazdo w Samsungach jest wlutowane w płytę, więc jego wymiana to {{cena:wymiana-gniazda-zasilania}} i wymaga rozbiórki oraz lutowania.
 
 Osobno sprawdzamy baterię. Wbudowany akumulator po kilku latach traci pojemność i pod obciążeniem potrafi gwałtownie spaść z wysokiego poziomu do zera. To objaw zużycia ogniw, nie usterki ładowania. Rozróżnienie ma znaczenie, bo wymiana baterii i naprawa układu ładowania to dwie różne prace.
 
@@ -52,6 +52,6 @@ W Samsungach ultrabookach dochodzi ograniczenie konstrukcyjne: pamięć RAM bywa
 
 ## Wycena i kontakt
 
-Diagnostyka jest bezpłatna, jeśli decydujesz się na naprawę. Jeśli nie, jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Po diagnozie dostajesz konkretną kwotę i wiesz, co jest w niej zawarte oraz skąd pochodzi część. Ekspres to dopłata 150 zł i naprawa tego samego dnia, jeśli pozwalają na to usterka i dostępność podzespołów.
+Diagnostyka jest bezpłatna, jeśli decydujesz się na naprawę. Jeśli nie, jest płatna, a o kwocie informujemy przed jej rozpoczęciem. Po diagnozie dostajesz konkretną kwotę i wiesz, co jest w niej zawarte oraz skąd pochodzi część. Ekspres to dopłata {{cena:ekspres}} i naprawa tego samego dnia, jeśli pozwalają na to usterka i dostępność podzespołów.
 
 Studio-Komp pracuje przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Zakres diagnostyki opisuje strona [diagnostyki laptopa](/diagnostyka-laptopa-wroclaw/), a stawki znajdziesz w [cenniku](/cennik/). Jeśli chcesz najpierw ocenić, czy naprawa ma sens, zadzwoń pod 500 613 500 i opisz objawy. Przy [naprawie laptopów](/naprawa-laptopow-wroclaw/) sprawdzimy też, czy usterka nie dotyczy przypadkiem innego podzespołu niż ten, który podejrzewasz.

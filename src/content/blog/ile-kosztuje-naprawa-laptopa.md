@@ -10,7 +10,7 @@ faq:
   - question: "Dlaczego cena naprawy różni się między serwisami?"
     answer: "Bo inna może być część, zakres pracy i to, co mieści się w kwocie. Jedna oferta obejmuje tylko wymianę elementu, inna również diagnostykę i testy po naprawie. Porównuj zakres, nie samą liczbę."
   - question: "Czy diagnostyka jest płatna?"
-    answer: "Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Bez naprawy kosztuje 150-250 zł, a kwotę podajemy przed rozpoczęciem pomiarów."
+    answer: "Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę w naszym serwisie. Bez naprawy kosztuje {{cena:diagnostyka-bez-naprawy}}, a kwotę podajemy przed rozpoczęciem pomiarów."
   - question: "Czy da się wycenić naprawę przez telefon?"
     answer: "Przez telefon można ocenić rząd wielkości, ale nie da się podać wiążącej kwoty. Ten sam objaw może oznaczać gniazdo, układ ładowania albo płytę główną, a każda z tych napraw kosztuje inaczej."
 ---
@@ -33,25 +33,25 @@ Bywa, że przy jednej usterce wychodzi druga. Przy wymianie gniazda można zauwa
 
 ### Czas i dostępność części
 
-Czas pracy to jedno, oczekiwanie na część to drugie. Jeśli element jest na miejscu, naprawa często kończy się z dnia na dzień. Gdy trzeba go zamówić, dochodzi kilka dni. Usługa ekspresowa to dopłata 150 zł i naprawa tego samego dnia, o ile pozwalają na to rodzaj usterki i dostępność części.
+Czas pracy to jedno, oczekiwanie na część to drugie. Jeśli element jest na miejscu, naprawa często kończy się z dnia na dzień. Gdy trzeba go zamówić, dochodzi kilka dni. Usługa ekspresowa to dopłata {{cena:ekspres}} i naprawa tego samego dnia, o ile pozwalają na to rodzaj usterki i dostępność części.
 
 ## Stawki z cennika
 
-- czyszczenie i konserwacja laptopa: 200-250 zł,
-- wymiana gniazda zasilania: 350 zł,
-- wymiana matrycy: 600-700 zł,
-- naprawa laptopa po zalaniu: 450-800 zł,
-- naprawa płyty głównej po zwarciu: 600-800 zł,
-- instalacja i konfiguracja systemu: 250 zł,
-- odzyskiwanie danych: 300-800 zł.
+- czyszczenie i konserwacja laptopa: {{cena:czyszczenie-laptopa}},
+- wymiana gniazda zasilania: {{cena:wymiana-gniazda-zasilania}},
+- wymiana matrycy: {{cena:wymiana-matrycy}},
+- naprawa laptopa po zalaniu: {{cena:naprawa-po-zalaniu}},
+- naprawa płyty głównej po zwarciu: {{cena:naprawa-plyty-glownej}},
+- instalacja i konfiguracja systemu: {{cena:instalacja-systemu}},
+- odzyskiwanie danych: {{cena:odzyskiwanie-danych}}.
 
 To stawki wyjściowe lub widełki, a nie obietnica ceny dla każdego modelu. Pozostałe naprawy wyceniamy po diagnozie i zawsze przed rozpoczęciem pracy. Nie podajemy zaniżonej kwoty na start, żeby przyciągnąć telefon.
 
-Widełki przy zalaniu i odzyskiwaniu danych nie są przypadkowe. Przy zalaniu cena zależy od tego, co się wylało, jak długo płyn działał i jakie elementy wymagają wymiany. Przy danych liczy się stan nośnika i to, czy da się go odczytać.
+Widełki przy zalaniu i odzyskiwaniu danych nie są przypadkowe. Przy zalaniu cena zależy od tego, co się wylało, jak długo płyn działał i jakie elementy wymagają wymiany. Przy danych liczy się stan nośnika i to, czy da się go odczytać. Osobno rozkładamy, co składa się na [koszt naprawy płyty głównej laptopa](/poradnik/ile-kosztuje-naprawa-plyty-glownej-laptopa/).
 
 ## Dlaczego wycena bez oględzin jest niewiarygodna
 
-Weźmy najczęstszy przykład: laptop nie ładuje. Przyczyną może być zasilacz, gniazdo, kabel, układ ładowania na płycie albo bateria. Wymiana gniazda to 350 zł, naprawa płyty inna kwota, nowy zasilacz jeszcze inna. Bez sprawdzenia, co dokładnie jest uszkodzone, każda cena jest loterią.
+Weźmy najczęstszy przykład: laptop nie ładuje. Przyczyną może być zasilacz, gniazdo, kabel, układ ładowania na płycie albo bateria. Wymiana gniazda to {{cena:wymiana-gniazda-zasilania}}, naprawa płyty inna kwota, nowy zasilacz jeszcze inna. Bez sprawdzenia, co dokładnie jest uszkodzone, każda cena jest loterią.
 
 Objawy bywają mylące. Komputer, który się przegrzewa i wyłącza, może mieć zapchane chłodzenie albo uszkodzony układ zasilania. Laptop, który nie wstaje, może wymagać resetu, a nie wymiany części. Dopiero pomiary pokazują, czy naprawa to 200 zł, czy 800 zł.
 
@@ -59,7 +59,7 @@ Diagnostyka nie kończy się na włączeniu laptopa i stwierdzeniu, że nie dzia
 
 ## Jak porównywać oferty
 
-Nie porównuj samej kwoty, bo dwie oferty po 350 zł mogą dotyczyć czego innego. Zapytaj, co obejmuje cena: część, robociznę, testy po naprawie i diagnostykę. Sprawdź, jaka część zostanie użyta. Jeśli oferta jest znacznie tańsza od pozostałych, zapytaj dlaczego. Często odpowiedź brzmi: bo część jest przypadkowa albo zakres węższy.
+Nie porównuj samej kwoty, bo dwie oferty po {{cena:wymiana-gniazda-zasilania}} mogą dotyczyć czego innego. Zapytaj, co obejmuje cena: część, robociznę, testy po naprawie i diagnostykę. Sprawdź, jaka część zostanie użyta. Jeśli oferta jest znacznie tańsza od pozostałych, zapytaj dlaczego. Często odpowiedź brzmi: bo część jest przypadkowa albo zakres węższy.
 
 Zwróć uwagę na to, co dzieje się po naprawie. Laptop powinien zostać przetestowany pod obciążeniem, a nie tylko włączony. Zapytaj też o czas, bo naprawa tego samego dnia ma inną wartość niż tydzień oczekiwania. Uczciwy serwis powie od razu, czy zdąży.
 
@@ -67,10 +67,10 @@ Zwróć uwagę na to, co dzieje się po naprawie. Laptop powinien zostać przete
 
 Granica jest prosta do policzenia. Jeśli koszt naprawy zbliża się do wartości sprawnego laptopa albo do ceny nowego sprzętu o podobnych możliwościach, naprawa przestaje mieć sens. Dotyczy to zwłaszcza starszych modeli z uszkodzoną matrycą i płytą jednocześnie.
 
-Osobna sytuacja to dane. Jeśli dysk padł, a w środku są dokumenty i zdjęcia, odzyskiwanie za 300-800 zł może być warte więcej niż sam laptop.
+Osobna sytuacja to dane. Jeśli dysk padł, a w środku są dokumenty i zdjęcia, odzyskiwanie za {{cena:odzyskiwanie-danych}} może być warte więcej niż sam laptop.
 
 ## Wycena we Wrocławiu
 
-Przyjdź z laptopem na Kotlarską 14, od poniedziałku do piątku między 7:00 a 15:00, bez umawiania. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę, a bez naprawy kosztuje 150-250 zł. Przed rozpoczęciem pracy dostajesz konkretną kwotę i wiesz, co jest w niej zawarte. Jeśli naprawa okaże się nieopłacalna, usłyszysz to od razu.
+Przyjdź z laptopem na Kotlarską 14, od poniedziałku do piątku między 7:00 a 15:00, bez umawiania. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę, a bez naprawy kosztuje {{cena:diagnostyka-bez-naprawy}}. Przed rozpoczęciem pracy dostajesz konkretną kwotę i wiesz, co jest w niej zawarte. Jeśli naprawa okaże się nieopłacalna, usłyszysz to od razu.
 
 Zakres usług opisuje strona [naprawy laptopów we Wrocławiu](/naprawa-laptopow-wroclaw/), a pełne stawki znajdziesz w [cenniku](/cennik/). Jeśli nie wiesz, od czego zacząć, zadzwoń pod 500 613 500 i opisz objawy albo przeczytaj o [diagnostyce laptopa](/diagnostyka-laptopa-wroclaw/).

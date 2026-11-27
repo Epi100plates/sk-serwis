@@ -30,7 +30,7 @@ Drugi typowy problem to temperatura. Aspire zwykle ma jeden wentylator i radiato
 
 Objawy zapchanego chłodzenia łatwo pomylić z czymś innym. Zanim uznasz, że laptop jest po prostu wolny, sprawdź, czy nie wyłącza się pod obciążeniem i czy wentylator nie wchodzi na wysokie obroty bez powodu. Kurz na żeberkach radiatora widać przez kratkę, jeśli poświecisz latarką.
 
-Rozwiązaniem jest czyszczenie z rozbiórką i wymiana pasty termoprzewodzącej. Sprężone powietrze w aerozolu nie usuwa osadu z żeberek, a potrafi wepchnąć kurz głębiej i rozkręcić wirnik powyżej jego normalnych obrotów. Czyszczenie w serwisie kosztuje 200-250 zł i obejmuje testy temperatur po złożeniu. Więcej o samym procesie i cenie piszę na stronie [czyszczenia laptopa we Wrocławiu](/czyszczenie-laptopa-wroclaw/).
+Rozwiązaniem jest czyszczenie z rozbiórką i wymiana pasty termoprzewodzącej. Sprężone powietrze w aerozolu nie usuwa osadu z żeberek, a potrafi wepchnąć kurz głębiej i rozkręcić wirnik powyżej jego normalnych obrotów. Czyszczenie w serwisie kosztuje {{cena:czyszczenie-laptopa}} i obejmuje testy temperatur po złożeniu. Więcej o samym procesie i cenie piszę na stronie [czyszczenia laptopa we Wrocławiu](/czyszczenie-laptopa-wroclaw/).
 
 ## Zasilanie: gniazdo, zasilacz, bateria
 
@@ -56,4 +56,4 @@ Granica jest prosta rachunkowa: jeśli koszt naprawy zbliża się do wartości s
 
 Osobna sytuacja to dane. Jeśli dysk padł, a w środku są dokumenty i zdjęcia, priorytetem jest kopia, a nie stan obudowy. W takich przypadkach najpierw zabezpieczamy dane, a potem rozmawiamy o naprawie sprzętu.
 
-Przyjmujemy laptopy przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę; jeśli nie, jest płatna, a kwotę podajemy przed jej rozpoczęciem. Ekspres to dopłata 150 zł i naprawa tego samego dnia, jeśli pozwalają na to usterka i dostępność części. Stawki i zasady znajdziesz w [cenniku](/cennik/), a szerszy opis napraw znajdziesz na stronie [naprawy laptopów](/naprawa-laptopow-wroclaw/). Zadzwoń pod 500 613 500 i opisz objawy, żebyśmy mogli powiedzieć, czego się spodziewać.
+Przyjmujemy laptopy przy Kotlarskiej 14 we Wrocławiu, od poniedziałku do piątku w godzinach 7:00-15:00. Diagnostyka jest bezpłatna, jeśli zdecydujesz się na naprawę; jeśli nie, jest płatna, a kwotę podajemy przed jej rozpoczęciem. Ekspres to dopłata {{cena:ekspres}} i naprawa tego samego dnia, jeśli pozwalają na to usterka i dostępność części. Stawki i zasady znajdziesz w [cenniku](/cennik/), a szerszy opis napraw znajdziesz na stronie [naprawy laptopów](/naprawa-laptopow-wroclaw/). Zadzwoń pod 500 613 500 i opisz objawy, żebyśmy mogli powiedzieć, czego się spodziewać.

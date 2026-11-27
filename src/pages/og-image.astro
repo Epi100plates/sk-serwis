@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import '@fontsource-variable/schibsted-grotesk';
 import '@fontsource/ibm-plex-mono/500.css';
+import { price } from '../lib/prices';
 ---
 
 <!doctype html>
@@ -198,7 +199,7 @@ import '@fontsource/ibm-plex-mono/500.css';
         <div class="og__ticket">
           <div class="og__ticket-row"><span>Przyjęcie</span><b>Dziś</b></div>
           <div class="og__ticket-row"><span>Naprawa</span><b>Jutro</b></div>
-          <div class="og__ticket-row"><span>Ekspres</span><b>+150 zł</b></div>
+          <div class="og__ticket-row"><span>Ekspres</span><b>+{price('ekspres')}</b></div>
         </div>
       </div>
 

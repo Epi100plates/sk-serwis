@@ -63,7 +63,7 @@ Diagnoza jest bezpłatna przy zleceniu naprawy. Jeśli się nie decydujesz, diag
 
 99% napraw trafia do odbioru następnego dnia. Wymiana gniazda, matrycy czy konserwacja chłodzenia to zwykle jedna wizyta w serwisie. Dłużej trwają naprawy płyty głównej oraz modele, do których część trzeba zamówić.
 
-Ekspres oznacza dopłatę 150 zł i odbiór tego samego dnia. Sprawdza się przy usterkach, które można usunąć bez zamawiania części. Przy starszych modelach bywa, że części trzeba szukać wśród elementów z rozbiórki, a wtedy termin zależy od dostawy, o czym mówimy od razu.
+Ekspres oznacza dopłatę {{cena:ekspres}} i odbiór tego samego dnia. Sprawdza się przy usterkach, które można usunąć bez zamawiania części. Przy starszych modelach bywa, że części trzeba szukać wśród elementów z rozbiórki, a wtedy termin zależy od dostawy, o czym mówimy od razu.
 
 ## Części, modele i dobór podzespołów
 

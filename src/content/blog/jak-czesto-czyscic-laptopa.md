@@ -47,7 +47,7 @@ Do tego dochodzi ryzyko. Przy przedmuchiwaniu bez rozbiórki nie widzisz, co dzi
 
 Konserwacja obejmuje rozbiórkę obudowy i wymontowanie układu chłodzenia. Radiator i wentylator są czyszczone osobno, z usunięciem kurzu i osadów z żeberek oraz wirnika. Stara pasta schodzi z procesora i układu graficznego, na jej miejsce wchodzi nowa. Na koniec laptop jest składany, a temperatury sprawdzane pod obciążeniem.
 
-Cena to 200-250 zł i zależy od modelu oraz konstrukcji chłodzenia. Smukły ultrabook z jednym wentylatorem wymaga innego podejścia niż duży laptop gamingowy z dwoma. Kwotę podajemy przed rozpoczęciem pracy. Konserwacja zwykle jest gotowa następnego dnia.
+Cena to {{cena:czyszczenie-laptopa}} i zależy od modelu oraz konstrukcji chłodzenia. Smukły ultrabook z jednym wentylatorem wymaga innego podejścia niż duży laptop gamingowy z dwoma. Kwotę podajemy przed rozpoczęciem pracy. Konserwacja zwykle jest gotowa następnego dnia.
 
 ## Jak dbać na co dzień
 

@@ -12,7 +12,7 @@ faq:
   - question: "Czy ryż wysuszy zalany laptop?"
     answer: "Nie. Ryż nie osusza wnętrza obudowy, a pył i skrobia mogą dostać się do środka. Płyn z dodatkami pozostawia osad, który po wyschnięciu nadal przewodzi i koroduje. Potrzebne jest czyszczenie płyty, nie suszenie."
   - question: "Ile kosztuje naprawa laptopa po zalaniu?"
-    answer: "450-800 zł. Kwota zależy od tego, co się wylało, jak szybko laptop trafił do serwisu i jakie elementy wymagają wymiany. Diagnostyka jest bezpłatna, jeśli decydujesz się na naprawę."
+    answer: "{{cena:naprawa-po-zalaniu}}. Kwota zależy od tego, co się wylało, jak szybko laptop trafił do serwisu i jakie elementy wymagają wymiany. Diagnostyka jest bezpłatna, jeśli decydujesz się na naprawę."
 ---
 
 Kawa albo szklanka wody postawiona zbyt blisko klawiatury. Płyn wylewa się w sekundę, a pierwsza myśl to sprawdzić, czy laptop jeszcze działa. To najgorsza decyzja, jaką można wtedy podjąć. Płyn w środku obudowy plus napięcie na płycie dają zwarcie i korozję, a każda minuta pracy w takim stanie zmniejsza szansę na uratowanie sprzętu i danych. Poniżej lista rzeczy, których nie wolno robić, i kolejność działań, która pomaga.
@@ -54,11 +54,11 @@ W serwisie pierwszy krok to ocena, czy płyta ma szansę. Widzimy ślady korozji
 
 Dane na dysku są zagrożone wtedy, gdy płyn dotarł do dysku lub gdy laptop po zalaniu był uruchamiany. Kolejnym sygnałem jest dysk, który po wyschnięciu zaczyna wydawać dziwne dźwięki albo nie jest widoczny w systemie. Nie próbuj wtedy wielokrotnie uruchamiać komputera.
 
-Jeśli laptop nie wstaje, a w środku są dokumenty i zdjęcia, priorytetem jest zabezpieczenie danych. Odzyskiwanie danych kosztuje 300-800 zł i zależy od stanu dysku. W serwisie najpierw oceniamy, czy dane da się bezpiecznie odczytać, a dopiero potem zajmujemy się płytą. Szczegóły są na stronie [odzyskiwania danych](/odzyskiwanie-danych-wroclaw/).
+Jeśli laptop nie wstaje, a w środku są dokumenty i zdjęcia, priorytetem jest zabezpieczenie danych. Odzyskiwanie danych kosztuje {{cena:odzyskiwanie-danych}} i zależy od stanu dysku. W serwisie najpierw oceniamy, czy dane da się bezpiecznie odczytać, a dopiero potem zajmujemy się płytą. Szczegóły są na stronie [odzyskiwania danych](/odzyskiwanie-danych-wroclaw/).
 
 ## Kiedy przyjechać z zalanym laptopem we Wrocławiu
 
-Zalany laptop powinien trafić do serwisu jak najszybciej, najlepiej tego samego dnia. Czyścimy płytę z osadu, sprawdzamy ścieżki i elementy zasilania. Naprawa po zalaniu kosztuje 450-800 zł, a dokładną kwotę podajemy po diagnozie. Nie musisz się umawiać, wystarczy przyjść w godzinach 7:00-15:00 od poniedziałku do piątku.
+Zalany laptop powinien trafić do serwisu jak najszybciej, najlepiej tego samego dnia. Czyścimy płytę z osadu, sprawdzamy ścieżki i elementy zasilania. Naprawa po zalaniu kosztuje {{cena:naprawa-po-zalaniu}}, a dokładną kwotę podajemy po diagnozie. Nie musisz się umawiać, wystarczy przyjść w godzinach 7:00-15:00 od poniedziałku do piątku.
 
 Przygotuj krótką notatkę: co się wylało, kiedy, czy laptop był po zalaniu włączany i czy próbowałeś go suszyć. Jeśli laptop jest firmowy, uprzedź, że dane mogą wymagać zabezpieczenia przed naprawą. Przynieś laptop razem z zasilaczem.
 

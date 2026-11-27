@@ -1,14 +1,14 @@
 ---
 title: "Instalacja i konfiguracja systemu we Wrocławiu - cena i czas"
 navLabel: "Instalacja Windows"
-description: "Instalacja Windows we Wrocławiu: system, sterowniki, aktualizacje i podstawowa konfiguracja. 250 zł, zwykle z dnia na dzień. Kotlarska 14."
+description: "Instalacja Windows we Wrocławiu: system, sterowniki, aktualizacje i podstawowa konfiguracja. {{cena:instalacja-systemu}}, zwykle z dnia na dzień. Kotlarska 14."
 h1: "Instalacja i konfiguracja systemu we Wrocławiu"
 lead: "Komputer startuje coraz dłużej, wyskakują błędy, a programy działają opornie? Instalacja Windows od zera bywa najszybszą drogą do sprawnego sprzętu. Sprawdzamy też, czy problem nie leży w podzespołach."
 teaser: "Instalacja Windows, sterowniki, aktualizacje i konfiguracja po instalacji - zwykle w jeden dzień."
 group: "System i dane"
 order: 140
 featured: false
-priceFrom: "250 zł"
+priceFrom: "{{cena:instalacja-systemu}}"
 priceNote: "Instalacja systemu ze sterownikami, aktualizacjami i podstawową konfiguracją."
 duration: "zwykle z dnia na dzień"
 includes:
@@ -27,7 +27,7 @@ faq:
   - question: "Czy potrzebuję licencji Windows?"
     answer: "Tak, potrzebujesz działającej licencji. Jeśli komputer miał system fabrycznie, klucz często jest zapisany w firmware i aktywuje się sam. W innym przypadku licencję trzeba mieć przygotowaną."
   - question: "Ile trwa instalacja Windows?"
-    answer: "Z aktualizacjami i sterownikami zwykle jeden dzień. O terminie informujemy po sprawdzeniu sprzętu. Jeśli zależy Ci na czasie, zapytaj o usługę ekspresową z dopłatą 150 zł."
+    answer: "Z aktualizacjami i sterownikami zwykle jeden dzień. O terminie informujemy po sprawdzeniu sprzętu. Jeśli zależy Ci na czasie, zapytaj o usługę ekspresową z dopłatą {{cena:ekspres}}."
 related:
   - "przyspieszanie-laptopa-wroclaw"
   - "odzyskiwanie-danych-wroclaw"
@@ -63,4 +63,4 @@ Potrzebujesz działającej licencji Windows. Jeśli komputer miał system fabryc
 
 Instalacja z aktualizacjami i sterownikami zajmuje zwykle jeden dzień. Po zakończeniu sprawdzamy działanie systemu, sieci, dźwięku i portów. Po instalacji sprawdzamy też, czy system pobiera aktualizacje bez błędów i czy nie brakuje sterownika do drukarki lub kamery. Ustawiamy to, co potrzebne do codziennej pracy, i pokazujemy, gdzie szukać kopii zapasowej. Jeśli komputer ma zwalniać, a nie tylko dostać nowy system, zobacz [przyspieszanie laptopa](/przyspieszanie-laptopa-wroclaw/).
 
-Instalacja i konfiguracja systemu kosztuje 250 zł. Cena obejmuje system, sterowniki, aktualizacje i podstawową konfigurację. Przynieś komputer na Kotlarską 14 bez umawiania albo zadzwoń pod 500 613 500. Jeśli dane są zagrożone, najpierw zobacz [odzyskiwanie danych](/odzyskiwanie-danych-wroclaw/).
+Instalacja i konfiguracja systemu kosztuje {{cena:instalacja-systemu}}. Cena obejmuje system, sterowniki, aktualizacje i podstawową konfigurację. Przynieś komputer na Kotlarską 14 bez umawiania albo zadzwoń pod 500 613 500. Jeśli dane są zagrożone, najpierw zobacz [odzyskiwanie danych](/odzyskiwanie-danych-wroclaw/).

@@ -9,25 +9,33 @@ import reviews from '../../data/opinie.json';
 import site from '../../data/site.json';
 import { faqSchema, serviceSchema } from '../../lib/schema';
 import { withBase } from '../../lib/url';
+import { applyPriceTokens, displayPrice } from '../../lib/prices';
 
 export const getStaticPaths = (async () => {
   return landing.items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }) satisfies GetStaticPaths;
 
 const { item } = Astro.props;
+const metaTitle = applyPriceTokens(item.metaTitle);
+const metaDescription = applyPriceTokens(item.metaDescription);
+const h1 = applyPriceTokens(item.h1);
+const lead = applyPriceTokens(item.lead);
+const priceLabel = displayPrice(item.price);
+const bullets = item.bullets.map((b) => applyPriceTokens(b));
 
 const lpFaq = faq.items
   .filter((f) =>
     ['Czy muszę się umawiać na naprawę?', 'Ile trwa naprawa laptopa?', 'Czy diagnostyka jest bezpłatna?'].includes(f.q)
   )
-  .slice(0, 3);
+  .slice(0, 3)
+  .map((f) => ({ q: applyPriceTokens(f.q), a: applyPriceTokens(f.a) }));
 
 const schema = [
   serviceSchema({
-    name: item.h1,
-    description: item.metaDescription,
+    name: h1,
+    description: metaDescription,
     path: `/lp/${item.slug}/`,
-    serviceType: item.h1,
+    serviceType: h1,
   }),
   faqSchema(lpFaq),
 ];
@@ -40,8 +48,8 @@ const steps = [
 ---
 
 <LandingLayout
-  title={item.metaTitle}
-  description={item.metaDescription}
+  title={metaTitle}
+  description={metaDescription}
   canonicalPath={`/lp/${item.slug}/`}
   schema={schema}
   noindex={true}
@@ -50,12 +58,12 @@ const steps = [
     <div class="container lp-hero__grid">
       <div class="lp-hero__copy">
         <p class="lp-hero__badge mono">Studio-Komp · Wrocław · od {site.founded}</p>
-        <h1>{item.h1}</h1>
-        <p class="lead lp-hero__lead">{item.lead}</p>
+        <h1>{h1}</h1>
+        <p class="lead lp-hero__lead">{lead}</p>
 
         <div class="lp-hero__price">
           <span class="mono lp-hero__price-label">Cena</span>
-          <span class="lp-hero__price-value">{item.price}</span>
+          <span class="lp-hero__price-value">{priceLabel}</span>
         </div>
 
         <div class="lp-hero__actions">
@@ -73,7 +81,7 @@ const steps = [
         </div>
 
         <ul class="lp-hero__bullets">
-          {item.bullets.map((b) => (
+          {bullets.map((b) => (
             <li>
               <Icon name="check" size={15} strokeWidth={2} />
               {b}

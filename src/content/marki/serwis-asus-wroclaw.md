@@ -63,7 +63,7 @@ Diagnoza jest bezpłatna, jeśli zlecasz naprawę. Jeśli się na nią nie decyd
 
 Dzień na naprawę wystarcza w 99% przypadków. Wymiana gniazda, matrycy czy konserwacja chłodzenia to zwykle jedna wizyta. Dłużej trwa naprawa płyty głównej i modele, do których trzeba zamówić konkretną część: wtedy czas zależy od jej dostępności, o czym informujemy po diagnozie.
 
-Jeśli zależy Ci na czasie, dostępna jest usługa ekspresowa: dopłata 150 zł i naprawa tego samego dnia. Ekspres ma sens przy usterkach, które da się usunąć od razu, na przykład przy czyszczeniu chłodzenia lub wymianie matrycy, którą mamy na miejscu.
+Jeśli zależy Ci na czasie, dostępna jest usługa ekspresowa: dopłata {{cena:ekspres}} i naprawa tego samego dnia. Ekspres ma sens przy usterkach, które da się usunąć od razu, na przykład przy czyszczeniu chłodzenia lub wymianie matrycy, którą mamy na miejscu.
 
 ## Części, modele i dostępność podzespołów
 

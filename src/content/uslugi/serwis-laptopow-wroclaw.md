@@ -61,7 +61,7 @@ Cała procedura jest krótka i przewidywalna:
 - dostajesz wycenę i decydujesz, czy naprawiamy,
 - odbierasz sprzęt, zwykle następnego dnia po naprawie.
 
-Jeśli zależy Ci na czasie, zapytaj o usługę ekspresową z dopłatą 150 zł. Naprawa jest wtedy wykonywana tego samego dnia, o ile pozwalają na to rodzaj usterki i dostępność części. Odbierając laptopa, dostajesz informację, co zostało zrobione i na co zwrócić uwagę w codziennym użytkowaniu.
+Jeśli zależy Ci na czasie, zapytaj o usługę ekspresową z dopłatą {{cena:ekspres}}. Naprawa jest wtedy wykonywana tego samego dnia, o ile pozwalają na to rodzaj usterki i dostępność części. Odbierając laptopa, dostajesz informację, co zostało zrobione i na co zwrócić uwagę w codziennym użytkowaniu.
 
 ## Marki i typy sprzętu
 

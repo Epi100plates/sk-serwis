@@ -61,7 +61,7 @@ Przy każdym zgłoszeniu zadajemy pytanie o dane. Jeśli dysk jest uszkodzony, a
 
 99% napraw, do których mamy części, wykonujemy z dnia na dzień. Wymiana dysku na SSD, gniazda zasilania czy konserwacja chłodzenia to zwykle jedna wizyta. Przy Toshibie bywa jednak tak, że część trzeba znaleźć, a wtedy termin może się wydłużyć.
 
-Za ekspres dopłacasz 150 zł i odbierasz laptopa tego samego dnia. Przy starszych modelach często odradzamy ekspres, jeśli nie wiemy jeszcze, czy dana część jest dostępna, bo dopłata nie powinna być płacona za oczekiwanie.
+Za ekspres dopłacasz {{cena:ekspres}} i odbierasz laptopa tego samego dnia. Przy starszych modelach często odradzamy ekspres, jeśli nie wiemy jeszcze, czy dana część jest dostępna, bo dopłata nie powinna być płacona za oczekiwanie.
 
 ## Części i modele
 

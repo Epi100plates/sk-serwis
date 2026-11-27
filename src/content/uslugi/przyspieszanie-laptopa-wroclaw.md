@@ -28,7 +28,7 @@ faq:
   - question: "Czy warto dołożyć pamięć RAM?"
     answer: "To zależy od tego, co robisz i co siedzi w laptopie. Przy kilkunastu kartach w przeglądarce i programach biurowych dodatkowa pamięć zwykle daje wyraźny efekt. Jeśli pamięć jest wlutowana w płytę albo brakuje wolnego slotu, dołożenie jej nie jest możliwe i wtedy szukamy innych rozwiązań."
   - question: "Ile trwa modernizacja?"
-    answer: "Standardowo z dnia na dzień, bo wymiana dysku z klonowaniem danych to zwykle jedna wizyta. Jeśli trzeba zamówić konkretny model dysku lub pamięci, czas zależy od dostawy. Usługa ekspresowa z dopłatą 150 zł pozwala odebrać laptopa tego samego dnia, o ile części są dostępne."
+    answer: "Standardowo z dnia na dzień, bo wymiana dysku z klonowaniem danych to zwykle jedna wizyta. Jeśli trzeba zamówić konkretny model dysku lub pamięci, czas zależy od dostawy. Usługa ekspresowa z dopłatą {{cena:ekspres}} pozwala odebrać laptopa tego samego dnia, o ile części są dostępne."
 related:
   - "czyszczenie-laptopa-wroclaw"
   - "instalacja-windows-wroclaw"
@@ -60,7 +60,7 @@ Wymiana dysku na SSD daje największą różnicę w codziennej pracy. System i p
 
 ## Czyszczenie jako część przyspieszania
 
-Nowy dysk nie pomoże, jeśli procesor dławi się z powodu temperatur. Dlatego przy modernizacji sprawdzamy też chłodzenie. Czyszczenie układu chłodzenia z wymianą pasty termoprzewodzącej wynosi 200-250 zł i często jest tym elementem, który przywraca laptopowi dawną kulturę pracy. Więcej o tym zakresie przeczytasz na stronie [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/).
+Nowy dysk nie pomoże, jeśli procesor dławi się z powodu temperatur. Dlatego przy modernizacji sprawdzamy też chłodzenie. Czyszczenie układu chłodzenia z wymianą pasty termoprzewodzącej wynosi {{cena:czyszczenie-laptopa}} i często jest tym elementem, który przywraca laptopowi dawną kulturę pracy. Więcej o tym zakresie przeczytasz na stronie [czyszczenie laptopa](/czyszczenie-laptopa-wroclaw/).
 
 ## Realne efekty
 
