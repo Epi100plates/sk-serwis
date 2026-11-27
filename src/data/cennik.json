@@ -1,122 +1,122 @@
 {
-  "lead": "Każdą usterkę wyceniamy indywidualnie po diagnozie. Poniżej ceny najczęstszych napraw - dokładną kwotę podajemy przed rozpoczęciem pracy, bez zaskoczeń na koniec.",
-  "expressSurcharge": 150,
-  "groups": [
-    {
-      "title": "Diagnostyka",
-      "items": [
+    "lead": "Każdą usterkę wyceniamy indywidualnie po diagnozie. Poniżej ceny najczęstszych napraw - dokładną kwotę podajemy przed rozpoczęciem pracy, bez zaskoczeń na koniec.",
+    "expressSurcharge": 150,
+    "groups": [
         {
-          "key": "diagnostyka-z-naprawa",
-          "name": "Diagnostyka przy zleconej naprawie",
-          "price": "0 zł",
-          "note": "Bezpłatna, jeśli zdecydujesz się naprawić sprzęt w naszym serwisie."
+            "title": "Diagnostyka",
+            "items": [
+                {
+                    "key": "diagnostyka-z-naprawa",
+                    "name": "Diagnostyka przy zleconej naprawie",
+                    "price": "0 zł",
+                    "note": "Bezpłatna, jeśli zdecydujesz się naprawić sprzęt w naszym serwisie."
+                },
+                {
+                    "key": "diagnostyka-bez-naprawy",
+                    "name": "Diagnostyka bez naprawy",
+                    "price": "150-250 zł",
+                    "note": "Płatna, jeśli nie zlecasz naprawy. Kwotę podajemy przed rozpoczęciem diagnostyki."
+                }
+            ]
         },
         {
-          "key": "diagnostyka-bez-naprawy",
-          "name": "Diagnostyka bez naprawy",
-          "price": "150-250 zł",
-          "note": "Płatna, jeśli nie zlecasz naprawy. Kwotę podajemy przed rozpoczęciem diagnostyki."
+            "title": "Czyszczenie i konserwacja",
+            "items": [
+                {
+                    "key": "czyszczenie-laptopa",
+                    "name": "Czyszczenie i konserwacja laptopa",
+                    "price": "200-250 zł",
+                    "note": "Rozbiórka, czyszczenie chłodzenia, wymiana pasty termoprzewodzącej, testy temperatur."
+                },
+                {
+                    "key": "czyszczenie-komputera",
+                    "name": "Czyszczenie komputera stacjonarnego",
+                    "price": "200-250 zł",
+                    "note": "Cena zależy od obudowy i układu chłodzenia."
+                }
+            ]
+        },
+        {
+            "title": "System i dane",
+            "items": [
+                {
+                    "key": "instalacja-systemu",
+                    "name": "Instalacja i konfiguracja systemu",
+                    "price": "250 zł",
+                    "note": "Instalacja systemu ze sterownikami, aktualizacjami i podstawową konfiguracją."
+                },
+                {
+                    "key": "odzyskiwanie-danych",
+                    "name": "Odzyskiwanie danych",
+                    "price": "300-800 zł",
+                    "note": "Zależy od nośnika i stopnia uszkodzenia. Wyceniamy po sprawdzeniu dysku."
+                },
+                {
+                    "key": "modernizacja",
+                    "name": "Modernizacja: SSD, RAM, klonowanie systemu",
+                    "price": "… zł",
+                    "note": "Dobór podzespołów i przeniesienie systemu bez utraty danych."
+                }
+            ]
+        },
+        {
+            "title": "Naprawy podzespołów",
+            "items": [
+                {
+                    "key": "naprawa-po-zalaniu",
+                    "name": "Naprawa laptopa po zalaniu",
+                    "price": "450-800 zł",
+                    "note": "Cena zależy od cieczy, zakresu uszkodzeń i koniecznych części."
+                },
+                {
+                    "key": "naprawa-plyty-glownej",
+                    "name": "Naprawa płyty głównej po zwarciu",
+                    "price": "600-800 zł",
+                    "note": "Diagnostyka z pomiarami i naprawa na poziomie elementów."
+                },
+                {
+                    "key": "wymiana-gniazda-zasilania",
+                    "name": "Wymiana gniazda zasilania",
+                    "price": "350 zł",
+                    "note": "Z nowym gniazdem i testem ładowania."
+                },
+                {
+                    "key": "wymiana-matrycy",
+                    "name": "Wymiana matrycy",
+                    "price": "600-700 zł",
+                    "note": "Cena matrycy zależy od modelu, przekątnej i typu panelu - podajemy przed zamówieniem."
+                },
+                {
+                    "key": "wymiana-klawiatury",
+                    "name": "Wymiana klawiatury",
+                    "price": "… zł",
+                    "note": "Część dobierana do konkretnego modelu laptopa."
+                },
+                {
+                    "key": "naprawa-zawiasow",
+                    "name": "Naprawa zawiasów i obudowy",
+                    "price": "… zł",
+                    "note": "Zależy od konstrukcji zawiasów i stopnia uszkodzenia plastiku."
+                },
+                {
+                    "key": "wymiana-portow",
+                    "name": "Wymiana portów USB / HDMI / audio",
+                    "price": "… zł",
+                    "note": "Wycena po sprawdzeniu płyty głównej."
+                }
+            ]
+        },
+        {
+            "title": "Usługa ekspresowa",
+            "items": [
+                {
+                    "key": "ekspres",
+                    "name": "Naprawa tego samego dnia",
+                    "price": "150 zł",
+                    "note": "Dopłata do naprawy wykonywanej poza kolejnością. Dostępność zależy od usterki i części na magazynie."
+                }
+            ]
         }
-      ]
-    },
-    {
-      "title": "Czyszczenie i konserwacja",
-      "items": [
-        {
-          "key": "czyszczenie-laptopa",
-          "name": "Czyszczenie i konserwacja laptopa",
-          "price": "200-250 zł",
-          "note": "Rozbiórka, czyszczenie chłodzenia, wymiana pasty termoprzewodzącej, testy temperatur."
-        },
-        {
-          "key": "czyszczenie-komputera",
-          "name": "Czyszczenie komputera stacjonarnego",
-          "price": "200-250 zł",
-          "note": "Cena zależy od obudowy i układu chłodzenia."
-        }
-      ]
-    },
-    {
-      "title": "System i dane",
-      "items": [
-        {
-          "key": "instalacja-systemu",
-          "name": "Instalacja i konfiguracja systemu",
-          "price": "250 zł",
-          "note": "Instalacja systemu ze sterownikami, aktualizacjami i podstawową konfiguracją."
-        },
-        {
-          "key": "odzyskiwanie-danych",
-          "name": "Odzyskiwanie danych",
-          "price": "300-800 zł",
-          "note": "Zależy od nośnika i stopnia uszkodzenia. Wyceniamy po sprawdzeniu dysku."
-        },
-        {
-          "key": "modernizacja",
-          "name": "Modernizacja: SSD, RAM, klonowanie systemu",
-          "price": "… zł",
-          "note": "Dobór podzespołów i przeniesienie systemu bez utraty danych."
-        }
-      ]
-    },
-    {
-      "title": "Naprawy podzespołów",
-      "items": [
-        {
-          "key": "naprawa-po-zalaniu",
-          "name": "Naprawa laptopa po zalaniu",
-          "price": "450-800 zł",
-          "note": "Cena zależy od cieczy, zakresu uszkodzeń i koniecznych części."
-        },
-        {
-          "key": "naprawa-plyty-glownej",
-          "name": "Naprawa płyty głównej po zwarciu",
-          "price": "600-800 zł",
-          "note": "Diagnostyka z pomiarami i naprawa na poziomie elementów."
-        },
-        {
-          "key": "wymiana-gniazda-zasilania",
-          "name": "Wymiana gniazda zasilania",
-          "price": "350 zł",
-          "note": "Z nowym gniazdem i testem ładowania."
-        },
-        {
-          "key": "wymiana-matrycy",
-          "name": "Wymiana matrycy",
-          "price": "600-700 zł",
-          "note": "Cena matrycy zależy od modelu, przekątnej i typu panelu - podajemy przed zamówieniem."
-        },
-        {
-          "key": "wymiana-klawiatury",
-          "name": "Wymiana klawiatury",
-          "price": "… zł",
-          "note": "Część dobierana do konkretnego modelu laptopa."
-        },
-        {
-          "key": "naprawa-zawiasow",
-          "name": "Naprawa zawiasów i obudowy",
-          "price": "… zł",
-          "note": "Zależy od konstrukcji zawiasów i stopnia uszkodzenia plastiku."
-        },
-        {
-          "key": "wymiana-portow",
-          "name": "Wymiana portów USB / HDMI / audio",
-          "price": "… zł",
-          "note": "Wycena po sprawdzeniu płyty głównej."
-        }
-      ]
-    },
-    {
-      "title": "Usługa ekspresowa",
-      "items": [
-        {
-          "key": "ekspres",
-          "name": "Naprawa tego samego dnia",
-          "price": "150 zł",
-          "note": "Dopłata do naprawy wykonywanej poza kolejnością. Dostępność zależy od usterki i części na magazynie."
-        }
-      ]
-    }
-  ],
-  "_note": "Cennik do samodzielnej edycji. Ceny nieznane zostaw jako '… zł' - na stronie pokażą się jako 'wycena po diagnozie' (bez wymyślania kwoty). 'od' oznacza cenę minimalną. Klucz 'key' jest stały - po nim treść stron znajduje cenę, więc go nie zmieniaj."
+    ],
+    "_note": "Cennik do samodzielnej edycji. Ceny nieznane zostaw jako '… zł' - na stronie pokażą się jako 'wycena po diagnozie' (bez wymyślania kwoty). 'od' oznacza cenę minimalną. Klucz 'key' jest stały - po nim treść stron znajduje cenę, więc go nie zmieniaj."
 }
