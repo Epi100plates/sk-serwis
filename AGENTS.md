@@ -751,3 +751,11 @@ starej bazy i prawdziwe HTTP na wbudowanym serwerze PHP).
 8. **Kopie bazy panelu** — dodać backup SQLite (np. cron + kopia poza VPS).
 9. **2FA** — zalecane włączenie po pierwszym logowaniu.
 10. **SMS i SMTP formularza** — powiadomienia działają w trybie testowym (bez wysyłki); aby włączyć prawdziwe SMS-y: konto u dostawcy, token, numer odbiorcy i wyłączenie trybu testowego w Ustawieniach → Formularz. E-mail opcjonalny (dane SMTP).
+11. **Panel warsztatu (serwis.mati-it.pl)** — konto `admin` ma rolę **Szef** (`owner`)
+    i zatwierdza wydanie. Kolejne konto dla serwisanta tworzy się w panelu
+    Użytkownicy jako „Serwisant admin” (pełne uprawnienia warsztatowe, bez
+    akceptacji wydania). Jeśli aktywnego Szefa brak, aplikacja pokazuje
+    ostrzeżenie; rolę nadaje `php artisan users:owner <login>`.
+12. **Powiadomienia o akceptacji wydania** — na razie tylko w aplikacji (badge,
+    licznik, znacznik w tytule). E-mail/push wymagają osobnej integracji
+    (kolejka/driver); szczegóły w README aplikacji warsztatu.
