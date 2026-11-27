@@ -2,7 +2,7 @@
 
 Dokument dla agentów AI, programistów i właściciela. Opisuje **rzeczywisty**
 stan projektu, architekturę, decyzje i ograniczenia. Ostatnia aktualizacja:
-**2026-11-26**.
+**2026-11-27**.
 
 ---
 
@@ -59,15 +59,15 @@ src/
                          CaseGrid, BeforeAfter, ServicesShowcase, DiagnosisNote, ...)
   components/templates/  szablony: ServiceTemplate, BrandTemplate, PageTemplate
   content/
-    uslugi/              16 podstron usług (Markdown + frontmatter)
-    blog/                15 opublikowanych + 25 szkiców artykułów (draft: true)
+    uslugi/              18 podstron usług (Markdown + frontmatter)
+    blog/                17 opublikowanych + 25 szkiców artykułów (draft: true)
     marki/               9 podstron marek (ASUS, Lenovo, Apple, Dell, HP, Acer, MSI,
                          Samsung, Toshiba)
     strony/              dowolne podstrony tworzone z panelu (na start brak)
   data/                  site.json, cennik.json, opinie.json, faq.json,
                          realizacje.json (generowany z panelu), landing.json, wideo.json
   layouts/               Base.astro, LandingLayout.astro
-  lib/                   url.ts, schema.ts
+  lib/                   url.ts, schema.ts, prices.ts (jedno źródło cen)
   pages/                 trasy: /, /[slug]/ (usługi+marki+podstrony), /uslugi/,
                          /poradnik/, /cennik/, /opinie/, /realizacje/[slug]/,
                          /kontakt/, /o-serwisie/, /polityka-prywatnosci/,
@@ -107,7 +107,8 @@ deploy/
   install-publisher-task.ps1  rejestracja zadania Windows co 5 min
   nginx/sk.mati-it.pl.conf    konfiguracja nginx-sk
 scripts/                 QA: shot, measure, qa-panel, qa-panel-write, qa-events,
-                         qa-inst2, check-live, check-portable, relativize, pack-www
+                         qa-inst2, check-live, check-portable, relativize, pack-www,
+                         rehype-prices, prices-cache, check-prices, check-seo
 docs/                    dokumentacja wdrożeń, designu, QA; ten plik
 ```
 
@@ -123,10 +124,12 @@ Kolejność sekcji: hero → pasek marek → opinie → (desktop) ekspres → ka
 
 - **Hero**: H1 „Twój laptop w dobrych rękach.”, lead, przyciski „Zadzwoń: 500 613 500”
   i „Sprawdź usługi”, pod nimi adres i godziny; 4 statystyki
-  (99%, 550+, 2013, 0 zł*). Treści konfigurowalne w `site.home`.
+  (99%, 550+, 2013 / rok założenia, 0 zł*). Treści konfigurowalne w `site.home`.
 - **Diagnoza 0 zł**: komunikat „Diagnoza 0 zł przy naprawie*” + pełne
-  wyjaśnienie w `site.diagnosis`; powtarzany w hero (desktop), cenniku, FAQ,
+  wyjaśnienie w `site.diagnosis`; powtarzany w hero (mobile), cenniku, FAQ,
   podstronach usług i markach. Nigdy samo „0 zł” bez gwiazdki i wyjaśnienia.
+  Powtórzenia na stronie głównej ograniczono 2026-11-27 (usunięto zdublowaną
+  notkę w hero desktop, wiersz o ekspresie w cenniku i drugi telefon w kontakcie).
 - **Usługi**: `ServicesShowcase` — siatka prostokątnych kafelków: 3 kolumny
   (≥1024 px), 2 (641-1023 px), 2 lub 1 na telefonie (poniżej 380 px jedna).
   Kafelek domyślnie pokazuje zdjęcie i tytuł; po najechaniu (hover) lub
@@ -135,7 +138,8 @@ Kolejność sekcji: hero → pasek marek → opinie → (desktop) ekspres → ka
   Usługi na kafelki wybiera się w panelu (pole `tile`, opis `tileText`).
 - **Marki**: `BrandStrip` — linki do 9 podstron marek.
 - **Opinie**: `Reviews` — na desktopie 3 prawdziwe cytaty z Google i ocena;
-  na mobile kompaktowy pasek (ocena + „Opinie Google”).
+  na mobile kompaktowy pasek z oceną i **jedną prawdziwą opinią** (2026-11-27).
+  Element mobilny jest ukryty na desktopie (poprawka `display`).
 - **Mapa**: `MapCard` — Google Maps osadzone **automatycznie** (bez klucza API,
   `output=embed`), pinezka Kotlarska 14, przycisk „Wyznacz trasę” i link do
   wizytówki z dokładnym URL.
@@ -200,10 +204,13 @@ Kolejność sekcji: hero → pasek marek → opinie → (desktop) ekspres → ka
 
 ### Poradnik
 
-- 15 artykułów publicznych + 25 szkiców markowych (`draft: true`). Szkice nie
+- 17 artykułów publicznych + 25 szkiców markowych (`draft: true`). Szkice nie
   trafiają na produkcję; są widoczne w podglądzie `/podglad/`.
-- Wszystkie 15 opublikowanych artykułów przeszło audyt językowy (2026-11-25),
-  ceny w tekstach są zgodne z `src/data/cennik.json`.
+- Wszystkie opublikowane artykuły przeszły audyt językowy (2026-11-25 i
+  2026-11-27), ceny w tekstach nie są wpisane na sztywno - pochodzą z
+  `src/data/cennik.json` przez tokeny `{{cena:klucz}}`.
+- Duplikat artykułu o cenach naprawy (slug z literówką `ile-kostuje-...`) został
+  usunięty, a stary adres ma 301 na poprawny `/poradnik/ile-kosztuje-naprawa-laptopa/`.
 
 ---
 
@@ -396,6 +403,20 @@ obejmują tylko użytkowników z zgodą analityczną i że GA4/Ads nie są podł
   aktualnosci, googleads, mapa, oferta/…) → 301 na właściwe podstrony.
 - **Meta**: title/description per podstrona; OG/Twitter; geo meta; brak duplikacji.
 - **Zdjęcia**: ALT wymagany w panelu; ilustracje SVG; upload konwertuje miniatury.
+- **Cennik jako jedno źródło**: każda pozycja `src/data/cennik.json` ma stały
+  `key`; treści używają tokenów `{{cena:klucz}}`, a `scripts/rehype-prices.mjs`
+  podmienia je przy buildzie. `scripts/prices-cache.mjs` czyści cache treści
+  Astro, gdy zmieni się sam cennik. Panel -> Ustawienia -> Cennik zachowuje
+  klucze i po publikacji aktualizuje cenę na stronie głównej, w cenniku,
+  usługach, markach, FAQ, landingach i poradniku. Brak ceny (`… zł`) pokazuje
+  „wycena po diagnozie” - bez wymyślania kwoty.
+- **Long-tail (2026-11-27)**: dodane podstrony `naprawa-laptopow-gamingowych-wroclaw`
+  i `serwis-komputerowy-wroclaw`; rozbudowane sekcje o gniazdo ładowania,
+  płytę główną laptopa, czyszczenie laptopa gamingowego i odzyskiwanie danych
+  z SSD; nowe artykuły o cenie naprawy płyty głównej i ładowaniu baterii.
+- **Audyt**: `node scripts/check-prices.mjs` (ceny/tokeny) i
+  `node scripts/check-seo.mjs` (duplikaty title/description, H1, canonical, OG,
+  sitemap, linki wewnętrzne).
 
 ---
 
@@ -617,6 +638,18 @@ strony statusu i kolejkuje SMS-y (`client_accepted` przy utworzeniu,
 - Dokumentacja i diagnostyka: `docs/status-klienta.md` §11; test regresyjny
   `panel/bin/self-check-service-sync.php` (151 warunków).
 
+#### L.7.1 Zgłoszenia z formularza -> aplikacja warsztatu (kierunek odwrotny)
+
+Formularz na stronie tworzy zgłoszenie `SK-...` w CMS. CMS wysyła je podpisanym
+HMAC-em żądaniem `POST /api/intake-tickets` do aplikacji warsztatu (na VPS
+`http://127.0.0.1:8090`), która pokazuje je w lewym menu pod „Wydane” jako
+„Zgłoszenia”. Sekret `service_intake_secret` w CMS musi być ten sam co
+`INTAKE_SYNC_SECRET` w `/srv/sk-serwis/.env`; pusty = integracja wyłączona.
+Nieudana wysyłka jest ponawiana przez `tickets-worker.php` (max 8 prób, ostatnie
+30 dni). Do skrzynki trafiają wyłącznie formularze (`external_ref` puste);
+zlecenia `SRV-...` z aplikacji nie są dublowane. Szczegóły:
+`docs/formularz-zgloszen.md` §14.
+
 ---
 
 ## M. Historia zmian
@@ -647,6 +680,11 @@ strony statusu i kolejkuje SMS-y (`client_accepted` przy utworzeniu,
 | 2026-11-25 | Numeracja zgłoszeń bez powtórek: tabela `ticket_counters` (licznik roczny podnoszony w transakcji zapisu); usunięcie zgłoszenia nie oddaje już jego numeru. Test w `panel/bin/self-check-status.php` (56 warunków). |
 | 2026-11-25 | Trzecie repozytorium GitHub `sk-core` - kod źródłowy aplikacji dla serwisantów (Laravel 12, katalog główny projektu `D:\Deepseekapp\serwis`); 295 plików, bez `vendor/`, `.env` i danych z `storage/app/data`. `docs/github-repozytoria.md` opisuje trzy repozytoria i komendy push. |
 | 2026-11-26 | Aplikacja warsztatu (`sk-core`, serwis.mati-it.pl): kreator przyjęcia z presetami terminu 1/2/3/7 dni, własną liczbą dni i inną datą, sekcje formularza, przebudowany protokół wydania (2 kolumny, 1366×768 bez przewijania), większe chipy filtrów kolejki, przycisk „Przyjmij” → „Kolejka”, karta „Status dla klienta” z kopiowaniem linku. Synchronizacja zleceń do CMS przez podpisany HMAC endpoint `POST /api/service-sync.php` (`external_ref`, `client_status_url`, komenda `services:sync-status`); w panelu zgłoszenia z badge „Z serwisu”, status `cancelled`, krótsze tokeny i `status_base_url`. |
+| 2026-11-27 | Cennik jako jedno źródło: stałe `key` w `cennik.json`, tokeny `{{cena:klucz}}` w treściach, rehype plugin, czyszczenie cache po zmianie cennika, zachowanie kluczy w panelu. Braki cen pokazują „wycena po diagnozie” zamiast „… zł”. |
+| 2026-11-27 | Strona główna: statystyka „2013 / rok założenia”, wcięcie etykiet statystyk na desktopie, jedna prawdziwa opinia Google na mobile, mniej powtórzeń (diagnoza, ekspres, telefon). Poprawione „problema”, „zlecenej” i inne literówki. |
+| 2026-11-27 | SEO: usunięty duplikat artykułu o cenach (301), nowe strony „naprawa laptopów gamingowych Wrocław” i „serwis komputerowy Wrocław”, rozbudowane usługi (gniazdo ładowania, płyta główna, czyszczenie gamingowe, SSD), dwa nowe artykuły, `scripts/check-seo.mjs`. |
+| 2026-11-27 | Formularz -> panel warsztatu: podpisany HMAC endpoint `POST /api/intake-tickets`, skrzynka „Zgłoszenia” pod „Wydane”, przekazywanie/przyjęcie/odrzucenie, retry w workerze; `.env`/config po obu stronach. |
+| 2026-11-27 | Aplikacja warsztatu: akceptacja wydania (statusy `awaiting_approval` i `with_remarks`, rola Szef, powiadomienia w panelu, „Potwierdź”/„Zwróć z uwagami”), kompaktowy kafelek „Status klienta”, usunięty podpis o 15:00 w formularzu przyjęcia. |
 
 ---
 
@@ -702,7 +740,10 @@ starej bazy i prawdziwe HTTP na wbudowanym serwerze PHP).
 1. **ID analityki** — GA4/GTM/Ads/Clarity puste; wpisać w panelu.
 2. **Formularz zgłoszeń** — działa bez zewnętrznych kluczy (zapis w bazie panelu); do włączenia prawdziwych powiadomień SMS/e-mail patrz punkt 10.
 3. **Klucz Google Places API** — opcjonalny; bez niego ocena/liczba opinii ręczna.
-4. **Ceny „… zł”** w cenniku — uzupełnić po ustaleniu.
+4. **Ceny „… zł”** w cenniku — cztery pozycje (modernizacja, wymiana klawiatury,
+   naprawa zawiasów, wymiana portów) nie mają jeszcze ustalonej kwoty; pokazują
+   „wycena po diagnozie”. Właściciel wpisuje cenę w Ustawienia -> Cennik i po
+   publikacji zaktualizuje się na całej stronie.
 5. **Zdjęcia realizacji/usług** — obecnie ilustracje techniczne; wgrać prawdziwe
    zdjęcia przez panel Media i przypisać.
 6. **Artykuły markowe** — 25 szkiców do przeglądu i publikacji w panelu.

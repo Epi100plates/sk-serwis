@@ -302,6 +302,7 @@ if ($ticketId > 0) {
                 <tr><th>Strona źródłowa</th><td class="small"><?= e($ticket['source_page'] !== '' ? $ticket['source_page'] : '-') ?></td></tr>
                 <tr><th>Zgoda</th><td class="small"><?= e($ticket['consent_at'] !== '' ? format_date($ticket['consent_at']) : '-') ?> (wersja <?= e($ticket['consent_version'] !== '' ? $ticket['consent_version'] : '-') ?>)</td></tr>
                 <tr><th>Ostatnia zmiana</th><td class="small"><?= e(format_date($ticket['updated_at'])) ?></td></tr>
+                <?php if ($externalRef === ''): ?>
                 <?php
                   $intakeAt = trim((string) ($ticket['service_intake_at'] ?? ''));
                   $intakeError = trim((string) ($ticket['service_intake_error'] ?? ''));
@@ -332,6 +333,7 @@ if ($ticketId > 0) {
                     </form>
                   </td>
                 </tr>
+                <?php endif; ?>
               </tbody>
             </table>
           </div>

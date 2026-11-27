@@ -153,6 +153,12 @@ function service_intake_forward(int $ticketId, bool $force = false): array
         return ['ok' => false, 'status' => 'missing', 'error' => 'Zgłoszenie nie istnieje.', 'attempts' => 0];
     }
 
+    // Zlecenia z aplikacji warsztatu (external_ref = SRV-...) są już w panelu
+    // serwisowym. Do skrzynki Zgłoszenia trafiają wyłącznie formularze z www.
+    if (trim((string) ($ticket['external_ref'] ?? '')) !== '') {
+        return ['ok' => false, 'status' => 'skipped', 'error' => '', 'attempts' => 0];
+    }
+
     $pdo = db();
     $current = $pdo->prepare('SELECT service_intake_at, service_intake_attempts FROM tickets WHERE id = ?');
     $current->execute([$ticketId]);
@@ -224,6 +230,7 @@ function service_intake_process(int $limit = 20): array
         "SELECT id FROM tickets
          WHERE COALESCE(service_intake_at, '') = ''
            AND archived = 0
+           AND (external_ref IS NULL OR external_ref = '')
            AND service_intake_attempts < ?
            AND created_at >= ?
          ORDER BY id ASC

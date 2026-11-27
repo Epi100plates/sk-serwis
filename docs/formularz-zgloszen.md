@@ -379,7 +379,9 @@ Zgłoszenie powstaje w CMS, ale praca nad nim (przyjęcie sprzętu, statusy,
 wydanie) dzieje się w aplikacji warsztatu. Po zapisaniu zgłoszenia CMS wysyła
 podpisane HMAC-em żądanie `POST /api/intake-tickets` do aplikacji
 (domyślnie `http://127.0.0.1:8090/api/intake-tickets` na VPS - ruch nie wychodzi
-przez Cloudflare).
+przez Cloudflare). Do skrzynki trafiają **wyłącznie zgłoszenia z formularza**
+(`external_ref` puste); zlecenia zsynchronizowane z aplikacji (`SRV-...`) są
+już w kolejce warsztatu i nie są dublowane.
 
 Konfiguracja `/srv/studio-komp-cms/config.php`:
 
