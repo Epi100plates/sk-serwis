@@ -145,6 +145,13 @@ const schema = [
   .cennik-box--yellow {
     background: var(--yellow);
     border-color: var(--yellow);
+    color: var(--on-yellow);
+  }
+
+  /* W trybie ciemnym obramowanie --line jest zbyt subtelne - karta dostaje powierzchnię. */
+  :global(html[data-theme='dark']) .cennik-box:not(.cennik-box--yellow) {
+    background: var(--surface);
+    border-color: var(--line-strong);
   }
 
   .cennik-box__label {

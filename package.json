@@ -24,7 +24,8 @@
     "publisher:install": "powershell -NoProfile -ExecutionPolicy Bypass -File deploy/install-publisher-task.ps1",
     "measure": "node scripts/measure.mjs",
     "audit": "node scripts/audit.mjs",
-    "interactions": "node scripts/interactions.mjs"
+    "interactions": "node scripts/interactions.mjs",
+    "theme:qa": "node scripts/theme-qa.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.6",

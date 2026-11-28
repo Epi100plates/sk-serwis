@@ -145,6 +145,14 @@ const schema = [
     color: var(--on-dark);
   }
 
+  /* W trybie ciemnym grafit zlewa się z tłem strony - aktywny filtr dostaje
+     wyraźną powierzchnię i obramowanie. */
+  :global(html[data-theme='dark']) .cases-filter__btn.is-active {
+    background: var(--surface-2);
+    border-color: var(--line-strong);
+    color: var(--ink);
+  }
+
   .cases-note {
     margin-top: 28px;
     font-size: 13px;

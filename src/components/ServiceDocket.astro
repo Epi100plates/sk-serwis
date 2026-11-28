@@ -37,7 +37,7 @@ import { price } from '../lib/prices';
 
   <div class="docket__foot">
     <svg class="docket__barcode" viewBox="0 0 180 28" aria-hidden="true" focusable="false">
-      <g fill="var(--ink)">
+      <g fill="var(--on-yellow)">
         <rect x="0" y="0" width="3" height="28" /><rect x="6" y="0" width="1.5" height="28" />
         <rect x="10" y="0" width="4" height="28" /><rect x="17" y="0" width="2" height="28" />
         <rect x="22" y="0" width="1" height="28" /><rect x="26" y="0" width="5" height="28" />
@@ -66,7 +66,7 @@ import { price } from '../lib/prices';
     width: min(430px, 100%);
     margin-left: auto;
     background: var(--yellow);
-    color: var(--ink);
+    color: var(--on-yellow);
     padding: 26px 28px 22px;
     border: 1px solid rgba(14, 16, 15, 0.18);
     transform: rotate(-1.4deg);
@@ -104,7 +104,8 @@ import { price } from '../lib/prices';
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.06em;
-    opacity: 0.65;
+    /* min. 4.5:1 na żółtym tle również przy 11 px */
+    opacity: 0.75;
   }
 
   .docket__perf {
@@ -141,7 +142,7 @@ import { price } from '../lib/prices';
     font-size: 10.5px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    opacity: 0.62;
+    opacity: 0.75;
   }
 
   .docket__row dd {
@@ -161,7 +162,7 @@ import { price } from '../lib/prices';
     align-items: center;
     gap: 2px;
     padding: 7px 12px 6px;
-    border: 1.5px solid var(--ink);
+    border: 1.5px solid var(--on-yellow);
     background: color-mix(in srgb, var(--yellow) 88%, transparent);
     transform: rotate(-7deg);
     animation: stamp-in 520ms var(--ease-out) 720ms both;
@@ -192,7 +193,7 @@ import { price } from '../lib/prices';
     font-size: 9px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    opacity: 0.8;
+    opacity: 0.85;
     line-height: 1.4;
   }
 
@@ -216,7 +217,7 @@ import { price } from '../lib/prices';
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.05em;
-    opacity: 0.7;
+    opacity: 0.8;
     text-align: right;
   }
 

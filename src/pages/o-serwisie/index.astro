@@ -226,7 +226,7 @@ const schema = [
   .about-copy p {
     font-size: clamp(15.5px, 1.15vw, 17px);
     line-height: 1.65;
-    color: #2a2e2b;
+    color: var(--ink);
     margin-bottom: 14px;
   }
 
@@ -248,8 +248,8 @@ const schema = [
   }
 
   .about-box--dark {
-    background: var(--ink);
-    border-color: var(--ink);
+    background: var(--graphite);
+    border-color: var(--graphite);
     color: var(--on-dark);
   }
 
@@ -299,7 +299,13 @@ const schema = [
 
   .about-box--dark .btn--outline {
     --btn-fg: var(--on-dark);
-    --btn-border: #3a3f3a;
+    --btn-border: var(--dark-line);
+  }
+
+  .about-box--dark .btn--outline:hover {
+    --btn-bg: var(--yellow);
+    --btn-fg: var(--on-yellow);
+    --btn-border: var(--yellow);
   }
 
   @media (max-width: 900px) {

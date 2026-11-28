@@ -386,6 +386,11 @@ const sourcePage = Astro.url.pathname;
     accent-color: var(--ink);
   }
 
+  /* Tryb ciemny: --ink jest jasny, więc checkbox dostaje akcent marki. */
+  :global(html[data-theme='dark']) .check input {
+    accent-color: var(--yellow);
+  }
+
   .check a {
     color: var(--ink);
     text-decoration: underline;

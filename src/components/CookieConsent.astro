@@ -529,6 +529,21 @@ const privacyUrl = withBase('/polityka-prywatnosci/');
     color: var(--ink);
   }
 
+  /* Tryb ciemny: obramowanie paneli z tokenu linii (w ciemnym motywie --ink
+     jest jasny i dawałby białą ramkę), checkboxy w kolorze akcentu marki. */
+  :global(html[data-theme='dark']) .cookie-bar__inner,
+  :global(html[data-theme='dark']) .cookie-modal__panel {
+    border-color: var(--line-strong);
+  }
+
+  :global(html[data-theme='dark']) .cookie-cat__head input {
+    accent-color: var(--yellow);
+  }
+
+  :global(html[data-theme='dark']) .cookie-cat__head input:disabled {
+    accent-color: var(--muted-2);
+  }
+
   @media (max-width: 899px) {
     .cookie-bar {
       bottom: calc(74px + env(safe-area-inset-bottom, 0px));

@@ -5,6 +5,8 @@
    ========================================================================= */
 
 :root {
+  color-scheme: light;
+
   /* Colour - grafit pochodzi z tła logo (#2d343a), nie używamy czystej czerni */
   --ink: #242a30;
   --graphite: #2d343a;
@@ -25,6 +27,13 @@
   --error: #b42318;
   --ok: #1f7a3f;
 
+  /* Kolory o stałym znaczeniu - nie zmieniają się w trybie ciemnym */
+  --header-bg: #2d343a;
+  --on-yellow: #242a30; /* tekst/ikona na żółtej powierzchni */
+  --on-light: #242a30; /* tekst na jasnej powierzchni (np. hover na ciemnym tle) */
+  --grid-line: rgba(36, 42, 48, 0.07);
+  --grid-size: 28px;
+
   /* Type */
   --font-sans: 'Schibsted Grotesk Variable', 'Schibsted Grotesk', -apple-system,
     BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -43,6 +52,38 @@
   --ease-out: cubic-bezier(0.16, 0.84, 0.44, 1);
   --fast: 180ms;
   --slow: 620ms;
+}
+
+/* ------------------------------------------------------------ tryb ciemny */
+/*
+   Paleta wzorowana na wizytówce serwisu: prawie czarny grafit, mikro-siatka,
+   żółty akcent i białe, ciasno wiązane nagłówki. Ciemny motyw odwraca tylko
+   kolory powierzchni i tekstu - nie zmienia hierarchii ani układu.
+   Motyw ustawia skrypt w <head> (atrybut data-theme na <html>), więc brak
+   migotania przed pierwszym malowaniem.
+*/
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --ink: #f3f5f2;
+  --graphite: #1a2126;
+  --graphite-2: #232c32;
+  --paper: #101417;
+  --surface: #151a1e;
+  --surface-2: #1b2227;
+  --line: #242c31;
+  --line-strong: #364048;
+  --muted: #a7aea9;
+  --muted-2: #8d958f;
+  --yellow-soft: rgba(255, 212, 0, 0.16);
+  --on-dark: #f5f6f3;
+  --on-dark-muted: #b0b8b3;
+  --dark-line: #313a41;
+  --error: #ff9a91;
+  --ok: #6ccf95;
+
+  --header-bg: #0c1012;
+  --grid-line: rgba(255, 255, 255, 0.05);
 }
 
 /* ---------------------------------------------------------------- reset */
@@ -71,6 +112,7 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: clip;
   font-synthesis-weight: none;
+  transition: background-color var(--fast) var(--ease-out), color var(--fast) var(--ease-out);
 }
 
 img,
@@ -103,7 +145,7 @@ ol {
 
 ::selection {
   background: var(--yellow);
-  color: var(--ink);
+  color: var(--on-yellow);
 }
 
 /* ------------------------------------------------------------ typography */
@@ -155,7 +197,8 @@ b {
 }
 
 .section--dark :focus-visible,
-.site-footer :focus-visible {
+.site-footer :focus-visible,
+.site-header :focus-visible {
   outline-color: var(--yellow);
 }
 
@@ -267,6 +310,13 @@ b {
   }
 }
 
+/* Mikro-siatka z wizytówki - dekoracja powierzchni, nigdy pod tekstem o niskim kontraście */
+.grid-surface {
+  background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+}
+
 .visually-hidden {
   position: absolute !important;
   width: 1px;
@@ -339,7 +389,7 @@ b {
 
 .btn--primary {
   --btn-bg: var(--yellow);
-  --btn-fg: var(--ink);
+  --btn-fg: var(--on-yellow);
 }
 
 .btn--primary:hover {
@@ -396,7 +446,7 @@ b {
 .section--dark .btn--outline:hover,
 .site-footer .btn--outline:hover {
   --btn-bg: var(--yellow);
-  --btn-fg: var(--ink);
+  --btn-fg: var(--on-yellow);
   --btn-border: var(--yellow);
 }
 
@@ -408,7 +458,7 @@ b {
 .section--dark .btn--primary:hover,
 .site-footer .btn--primary:hover {
   --btn-bg: var(--on-dark);
-  --btn-fg: var(--ink);
+  --btn-fg: var(--on-light);
   --btn-border: var(--on-dark);
 }
 
@@ -508,7 +558,7 @@ b {
 
 .prose p,
 .prose li {
-  color: #2a2e2b;
+  color: var(--ink);
 }
 
 .prose p {

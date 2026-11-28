@@ -2,7 +2,7 @@
 
 Dokument dla agentów AI, programistów i właściciela. Opisuje **rzeczywisty**
 stan projektu, architekturę, decyzje i ograniczenia. Ostatnia aktualizacja:
-**2026-11-27**.
+**2026-11-28**.
 
 ---
 
@@ -106,9 +106,9 @@ deploy/
   setup-cms.sh           konfiguracja VPS (PHP-FPM, nginx, cron, konto admina)
   install-publisher-task.ps1  rejestracja zadania Windows co 5 min
   nginx/sk.mati-it.pl.conf    konfiguracja nginx-sk
-scripts/                 QA: shot, measure, qa-panel, qa-panel-write, qa-events,
-                         qa-inst2, check-live, check-portable, relativize, pack-www,
-                         rehype-prices, prices-cache, check-prices, check-seo
+scripts/                 QA: shot, measure, theme-qa, qa-panel, qa-panel-write,
+                         qa-events, qa-inst2, check-live, check-portable, relativize,
+                         pack-www, rehype-prices, prices-cache, check-prices, check-seo
 docs/                    dokumentacja wdrożeń, designu, QA; ten plik
 ```
 
@@ -176,6 +176,30 @@ Kolejność sekcji: hero → pasek marek → opinie → (desktop) ekspres → ka
   `brand/sk-mark.png` (1024). W HTML linki mają `?v=2` (cache-busting).
 - Tokeny: `--graphite: #2d343a`, `--yellow: #ffd400`, `--ink: #242a30`.
   Nie używać czystej czerni jako głównego ciemnego koloru.
+
+### Tryb ciemny
+
+- Przełącznik w nagłówku (desktop i mobile) oraz na landingach `/lp/`. Zapis
+  wyboru w `localStorage` (`sk-theme`), domyślnie obowiązuje preferencja
+  systemowa; `ThemeInit.astro` ustawia `data-theme` na `<html>` przed
+  pierwszym malowaniem (brak migotania), `ThemeToggle.astro` obsługuje klik,
+  `aria-pressed`, kolor paska przeglądarki i zmianę preferencji systemowej.
+- Paleta ciemna jest wzorowana na wizytówce serwisu (prawie czarny grafit,
+  mikro-siatka, żółty akcent): `--paper #101417`, `--surface #151a1e`,
+  `--surface-2 #1b2227`, `--graphite #1a2126`, `--header-bg #0c1012`,
+  `--line #242c31`, `--line-strong #364048`, `--muted #a7aea9`,
+  `--muted-2 #8d958f`, `--ink #f3f5f2`, `--on-dark-muted #b0b8b3`,
+  `--dark-line #313a41`. Żółty `#ffd400` bez zmian.
+- Tokeny o stałym znaczeniu (nie zmieniają się między motywami):
+  `--on-yellow` (tekst/ikona na żółtym tle), `--on-light` (tekst na jasnej
+  powierzchni), `--header-bg`, `--grid-line`, `--grid-size`.
+- Zasady: tekst na żółtym zawsze `var(--on-yellow)` (`--ink` w trybie
+  ciemnym jest jasny), ciemne panele przez `var(--graphite)` (nie
+  `var(--ink)`), żadnych nowych twardych kolorów w komponentach - tylko
+  tokeny. Dekoracyjna mikro-siatka: utility `.grid-surface` albo reguły
+  `:global(html[data-theme='dark'])` w stylach strony (hero strony głównej).
+- Test: `pnpm theme:qa` (zrzuty w `shots/theme`, kontrast axe, overflow,
+  błędy konsoli) dla obu motywów.
 
 ### Realizacje
 
@@ -685,6 +709,7 @@ zlecenia `SRV-...` z aplikacji nie są dublowane. Szczegóły:
 | 2026-11-27 | SEO: usunięty duplikat artykułu o cenach (301), nowe strony „naprawa laptopów gamingowych Wrocław” i „serwis komputerowy Wrocław”, rozbudowane usługi (gniazdo ładowania, płyta główna, czyszczenie gamingowe, SSD), dwa nowe artykuły, `scripts/check-seo.mjs`. |
 | 2026-11-27 | Formularz -> panel warsztatu: podpisany HMAC endpoint `POST /api/intake-tickets`, skrzynka „Zgłoszenia” pod „Wydane”, przekazywanie/przyjęcie/odrzucenie, retry w workerze; `.env`/config po obu stronach. |
 | 2026-11-27 | Aplikacja warsztatu: akceptacja wydania (statusy `awaiting_approval` i `with_remarks`, rola Szef, powiadomienia w panelu, „Potwierdź”/„Zwróć z uwagami”), kompaktowy kafelek „Status klienta”, usunięty podpis o 15:00 w formularzu przyjęcia. |
+| 2026-11-28 | Tryb ciemny wzorowany na wizytówce serwisu (grafit `#101417`, mikro-siatka, żółty akcent): tokeny `data-theme`, przełącznik w nagłówku i na LP z zapisem wyboru, domyślnie preferencja systemowa, brak migotania; stałe tokeny `--on-yellow`/`--on-light`, audyt kontrastu komponentów i stron, `scripts/theme-qa.mjs` (`pnpm theme:qa`). |
 
 ---
 
@@ -697,6 +722,7 @@ pnpm build                   # dist/
 pnpm preview                 # podgląd builda
 pnpm measure                 # pomiar mobile (liczba ekranów)
 pnpm qa                      # axe/CLS/LCP (jeśli skonfigurowane)
+pnpm theme:qa                # oba motywy: zrzuty, kontrast, overflow (shots/theme)
 ```
 
 Testy panelu (na żywo, wymagają konta):

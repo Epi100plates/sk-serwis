@@ -148,6 +148,11 @@ import { price } from '../lib/prices';
     border: 1px solid var(--ink);
   }
 
+  /* W trybie ciemnym --ink jest jasny - obrys znacznika wracałby do grafitu. */
+  :global(html[data-theme='dark']) .express__step::before {
+    border-color: var(--graphite);
+  }
+
   .express__step:not(:last-child)::after {
     content: '';
     position: absolute;

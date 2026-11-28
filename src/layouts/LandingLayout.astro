@@ -5,6 +5,8 @@ import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import Logo from '../components/Logo.astro';
 import Seo from '../components/Seo.astro';
+import ThemeInit from '../components/ThemeInit.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import MobileBar from '../components/MobileBar.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import Analytics from '../components/Analytics.astro';
@@ -26,7 +28,7 @@ const props = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0e100f" />
+    <ThemeInit lightColor="#0e100f" darkColor="#0c1012" />
     <Seo {...props} />
     <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
@@ -37,7 +39,28 @@ const props = Astro.props;
 
     <header class="lp-header">
       <div class="container lp-header__inner">
-        <Logo size={30} />
+        <a
+          class="lp-logo"
+          href={withBase('/')}
+          aria-label="Studio-Komp - serwis laptopów we Wrocławiu"
+        >
+          <img
+            class="lp-logo__img lp-logo__img--on-light"
+            src={withBase('/brand/studio-komp-logo.svg')}
+            alt=""
+            width="161"
+            height="30"
+            decoding="async"
+          />
+          <img
+            class="lp-logo__img lp-logo__img--on-dark"
+            src={withBase('/brand/studio-komp-logo-light.svg')}
+            alt=""
+            width="161"
+            height="30"
+            decoding="async"
+          />
+        </a>
         <div class="lp-header__right">
           <span class="lp-header__hours mono">pon-pt 7:00-15:00</span>
           <a
@@ -49,6 +72,7 @@ const props = Astro.props;
             <Icon name="phone" size={17} />
             {site.phoneDisplay}
           </a>
+          <ThemeToggle tone="light" />
         </div>
       </div>
     </header>
@@ -109,6 +133,36 @@ const props = Astro.props;
     gap: 18px;
   }
 
+  /*
+     LP ma jasny nagłówek w motywie jasnym, a logo marki jest w wersji jasnej
+     (na grafit). Dlatego podmieniamy plik: ciemne logo na jasnym pasku,
+     jasne logo na ciemnym pasku.
+  */
+  .lp-logo {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    line-height: 0;
+  }
+
+  .lp-logo__img {
+    display: block;
+    width: auto;
+    height: 30px;
+  }
+
+  .lp-logo__img--on-dark {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .lp-logo__img--on-light {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .lp-logo__img--on-dark {
+    display: block;
+  }
+
   .lp-header__hours {
     color: var(--muted);
     font-size: 10.5px;
@@ -131,7 +185,7 @@ const props = Astro.props;
   }
 
   .lp-footer {
-    background: var(--ink);
+    background: var(--graphite);
     color: var(--on-dark-muted);
     padding-block: 32px;
     font-size: 13px;

@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
 import Icon from './Icon.astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../lib/url';
@@ -85,6 +86,7 @@ const extraNav = site.nav.secondary;
           <span class="header-call__number">{site.phoneDisplay}</span>
         </span>
       </a>
+      <ThemeToggle />
       <button
         class="burger"
         type="button"
@@ -213,7 +215,7 @@ const extraNav = site.nav.secondary;
     position: sticky;
     top: 0;
     z-index: 90;
-    background: var(--graphite);
+    background: var(--header-bg);
     color: var(--on-dark);
     border-bottom: 1px solid transparent;
     transition: border-color var(--fast) var(--ease-out);
@@ -276,7 +278,7 @@ const extraNav = site.nav.secondary;
     left: 0;
     right: 0;
     top: 100%;
-    background: var(--graphite);
+    background: var(--header-bg);
     border-top: 1px solid var(--dark-line);
     border-bottom: 1px solid var(--dark-line);
     box-shadow: 0 24px 40px -32px rgba(0, 0, 0, 0.6);
@@ -432,7 +434,7 @@ const extraNav = site.nav.secondary;
   .mobile-menu {
     position: fixed;
     inset: var(--header-h) 0 0;
-    background: var(--graphite);
+    background: var(--header-bg);
     color: var(--on-dark);
     z-index: 89;
     overflow-y: auto;

@@ -211,10 +211,6 @@ const stars = [1, 2, 3, 4, 5];
     color: inherit;
   }
 
-  .review__link:hover .review__text {
-    color: #fff;
-  }
-
   .review__top {
     display: flex;
     align-items: center;
@@ -236,7 +232,7 @@ const stars = [1, 2, 3, 4, 5];
     font-size: 10px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #a0a7a0;
+    color: var(--on-dark-muted);
   }
 
   .review__text {
@@ -244,7 +240,7 @@ const stars = [1, 2, 3, 4, 5];
     font-size: clamp(16px, 1.3vw, 18px);
     line-height: 1.55;
     letter-spacing: -0.008em;
-    color: #e4e7e2;
+    color: var(--on-dark);
     max-width: 62ch;
   }
 
@@ -260,7 +256,7 @@ const stars = [1, 2, 3, 4, 5];
     font-size: 11px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #a3aaa3;
+    color: var(--on-dark-muted);
   }
 
   .reviews__mobile {
@@ -350,7 +346,7 @@ const stars = [1, 2, 3, 4, 5];
     font-size: 9.5px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #a0a7a0;
+    color: var(--on-dark-muted);
   }
 
   .reviews__mobile-quote-text {
@@ -358,15 +354,11 @@ const stars = [1, 2, 3, 4, 5];
     font-size: 12.5px;
     line-height: 1.5;
     letter-spacing: -0.005em;
-    color: #d8dcd6;
+    color: var(--on-dark);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
-  }
-
-  .reviews__mobile-quote:hover .reviews__mobile-quote-text {
-    color: #fff;
   }
 
   .reviews__mobile-quote-author {
@@ -374,7 +366,7 @@ const stars = [1, 2, 3, 4, 5];
     font-size: 10px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #a3aaa3;
+    color: var(--on-dark-muted);
   }
 
   @media (max-width: 900px) {

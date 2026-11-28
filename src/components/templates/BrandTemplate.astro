@@ -398,6 +398,11 @@ const schema = [
     background: var(--paper);
   }
 
+  /* W trybie ciemnym tło strony jest prawie czarne - karta dostaje powierzchnię. */
+  :global(html[data-theme='dark']) .aside-box:not(.aside-box--cta) {
+    background: var(--surface);
+  }
+
   .aside-box--cta {
     background: var(--graphite);
     border-color: var(--graphite);

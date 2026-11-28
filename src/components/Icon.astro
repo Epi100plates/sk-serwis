@@ -26,7 +26,9 @@ type IconName =
   | 'external'
   | 'bolt'
   | 'info'
-  | 'quote';
+  | 'quote'
+  | 'sun'
+  | 'moon';
 
 interface Props {
   name: IconName;
@@ -67,6 +69,8 @@ const paths: Record<IconName, string> = {
   bolt: 'M13.5 2.5 5 13.5h5.5L9.5 21.5 18 10.5h-5.5l1-8Z',
   info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 10.5V16M12 7.6v.1',
   quote: 'M9.5 6.5c-3 1.4-4.5 3.8-4.5 7.2V18h5.5v-5.5H7.8c.1-1.6.8-2.8 2.4-3.6l-.7-2.4ZM19.5 6.5c-3 1.4-4.5 3.8-4.5 7.2V18h5.5v-5.5h-2.7c.1-1.6.8-2.8 2.4-3.6l-.7-2.4Z',
+  sun: 'M12 16.2a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4Z M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6',
+  moon: 'M20 14.6A8.4 8.4 0 0 1 9.4 4a8.4 8.4 0 1 0 10.6 10.6Z',
 };
 
 const fillIcons: IconName[] = ['play', 'star', 'quote', 'bolt', 'google'];

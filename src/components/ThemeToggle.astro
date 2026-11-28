@@ -1,0 +1,113 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  /** "dark" = przycisk na ciemnym pasku, "light" = na jasnej powierzchni */
+  tone?: 'dark' | 'light';
+}
+
+const { tone = 'dark' } = Astro.props;
+---
+
+<button
+  class:list={['theme-toggle', tone === 'light' && 'theme-toggle--light']}
+  type="button"
+  data-theme-toggle
+  aria-pressed="false"
+  aria-label="Włącz tryb ciemny"
+  title="Tryb ciemny"
+>
+  <span class="theme-toggle__icon theme-toggle__icon--moon"><Icon name="moon" size={18} /></span>
+  <span class="theme-toggle__icon theme-toggle__icon--sun"><Icon name="sun" size={18} /></span>
+</button>
+
+<script>
+  const STORAGE_KEY = 'sk-theme';
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+
+  function readStored(): 'dark' | 'light' | null {
+    try {
+      const value = localStorage.getItem(STORAGE_KEY);
+      return value === 'dark' || value === 'light' ? value : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function applyTheme(theme: 'dark' | 'light') {
+    root.dataset.theme = theme;
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (meta) {
+      const color = theme === 'dark' ? meta.dataset.themeColorDark : meta.dataset.themeColorLight;
+      if (color) meta.content = color;
+    }
+    if (toggle) {
+      const dark = theme === 'dark';
+      toggle.setAttribute('aria-pressed', String(dark));
+      toggle.setAttribute('aria-label', dark ? 'Włącz tryb jasny' : 'Włącz tryb ciemny');
+      toggle.title = dark ? 'Tryb jasny' : 'Tryb ciemny';
+    }
+  }
+
+  applyTheme(root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+  toggle?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      /* brak dostępu do localStorage - motyw działa do końca sesji */
+    }
+    applyTheme(next);
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+    if (readStored()) return;
+    applyTheme(event.matches ? 'dark' : 'light');
+  });
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex: none;
+    color: var(--on-dark);
+    border: 1px solid var(--dark-line);
+    border-radius: 50%;
+    transition: background var(--fast) var(--ease-out), color var(--fast) var(--ease-out),
+      border-color var(--fast) var(--ease-out);
+  }
+
+  .theme-toggle--light {
+    color: var(--ink);
+    border-color: var(--line-strong);
+  }
+
+  .theme-toggle:hover {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--on-yellow);
+  }
+
+  .theme-toggle__icon {
+    grid-area: 1 / 1;
+    display: grid;
+    place-items: center;
+  }
+
+  .theme-toggle__icon--sun {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .theme-toggle__icon--moon {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .theme-toggle__icon--sun {
+    display: grid;
+  }
+</style>

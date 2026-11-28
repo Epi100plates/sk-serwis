@@ -269,9 +269,16 @@ const schema = [
     background: var(--paper);
   }
 
+  /* W trybie ciemnym tło strony jest prawie czarne - karta dostaje powierzchnię. */
+  :global(html[data-theme='dark']) .aside-box:not(.aside-box--price):not(.aside-box--cta) {
+    background: var(--surface);
+  }
+
   .aside-box--price {
     background: var(--yellow);
     border-color: var(--yellow);
+    /* Tekst na żółtej powierzchni - --ink w trybie ciemnym jest jasny. */
+    color: var(--on-yellow);
   }
 
   .aside-box__label {

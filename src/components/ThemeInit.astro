@@ -1,0 +1,39 @@
+---
+/**
+ * Motyw (jasny/ciemny) ustawiany przed pierwszym malowaniem, żeby nie było
+ * migotania. Wybór użytkownika (localStorage) ma pierwszeństwo przed
+ * preferencją systemową; bez zapisanego wyboru obowiązuje system.
+ * Przełącznik i reakcję na zmianę preferencji systemowej obsługuje ThemeToggle.
+ */
+interface Props {
+  lightColor?: string;
+  darkColor?: string;
+}
+
+const { lightColor = '#2d343a', darkColor = '#0c1012' } = Astro.props;
+---
+
+<meta
+  name="theme-color"
+  content={lightColor}
+  data-theme-color-light={lightColor}
+  data-theme-color-dark={darkColor}
+/>
+<script is:inline>
+  (() => {
+    let saved = null;
+    try {
+      saved = localStorage.getItem('sk-theme');
+    } catch (e) {
+      saved = null;
+    }
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved === 'dark' || saved === 'light' ? saved : prefersDark ? 'dark' : 'light';
+    document.documentElement.dataset.theme = theme;
+
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta && theme === 'dark') {
+      meta.setAttribute('content', meta.getAttribute('data-theme-color-dark'));
+    }
+  })();
+</script>

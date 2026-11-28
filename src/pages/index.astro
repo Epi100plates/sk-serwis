@@ -211,6 +211,14 @@ const schema = [
     padding-block: clamp(24px, 3.6vw, 52px) clamp(40px, 5vw, 72px);
   }
 
+  /* Ciemny motyw przejmuje mikro-siatkę z wizytówki serwisu */
+  :global(html[data-theme='dark']) .hero {
+    background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+    border-bottom: 1px solid var(--line);
+  }
+
   .hero__grid {
     display: grid;
     grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
